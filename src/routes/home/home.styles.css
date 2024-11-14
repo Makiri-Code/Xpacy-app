@@ -3,6 +3,7 @@
     --Base-Base-White: #FFF;
     --Base-Base-Black: #333;
     --Neutrals-Neutrals900: #585858;
+    --Secondary-Secondary500: #C2A269;
     --Spacing-xl: 48px;
     --Spacing-m: 16px;
     --Spacing-l: 32px;
@@ -33,3 +34,58 @@ select, option {
     width: 19.108px;
     height: 21.814px;
 }
+.featured {
+    padding: 120px;
+}
+.featured h1, h5 {
+    color: var(--Base-Base-Black);
+}
+
+.card {
+    border-radius: 8px;
+}
+.divider{
+    border: 1px solid black;
+}
+.card-text {
+    font-family: 'Unitext Regular';
+}
+.card-title{
+    color: var(--Base-Base-Black);
+}
+.card-footer-icon, .naira-icon{
+    width: 26px;
+    height: 26px;
+    color: var(--Secondary-Secondary500);
+}
+.location-icon{
+    width: 30px;
+    height: 30px;
+    color: var(--Primary-Primary);
+}
+
+.price{
+    font-family: 'Unitext Regular';
+    font-size: 24px;
+    color: var(--Secondary-Secondary500);
+}
+.featured-card{
+    position: relative;
+}
+.left-arrow {
+    background-color: var(--Base-Base-White);
+    border: 1px solid var(--Base-Base-Black);
+    border-radius: 50%;
+    /* width: 48px;
+    height: 48px; */
+    position: static;
+    left: 30px;
+    top: 50%;
+    z-index: 1;
+}
+.left-arrow, .left-arrow-icon{
+    width: 50px;
+    height: 50px;
+    
+}
+
