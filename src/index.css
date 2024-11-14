@@ -2,15 +2,9 @@
 body {
   margin: 0;
   font-family: 'Florencesans Exp', sans-serif;
+  background-color: #FCFCFC;
 }
-:root{
-  --Primary-Primary: #203645;
-  --Base-Base-White: #FFF;
-  --Base-Base-Black: #333;
-  --Spacing-xl: 48px;
-  --Spacing-m: 16px;
-  --Spacing-l: 32px;
-}
+
 * {
   margin: 0;
   padding: 0;

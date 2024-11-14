@@ -1,0 +1,59 @@
+.card-container {
+    padding: 20px 8px;    
+
+}
+.card {
+    border: 1px solid #ECECEC;
+    border-radius: 8px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+}
+.divider{
+    border: 1px solid #DADADA;
+}
+.card-text {
+    font-family: 'Unitext Regular';
+}
+.card-title{
+    color: var(--Base-Base-Black);
+}
+.card-footer-icon, .naira-icon{
+    width: 26px;
+    height: 26px;
+    color: var(--Secondary-Secondary500);
+}
+.location-icon{
+    width: 30px;
+    height: 30px;
+    color: var(--Primary-Primary);
+}
+
+.price{
+    font-family: 'Unitext Regular';
+    font-size: 24px;
+    color: var(--Secondary-Secondary500);
+}
+.card-btn {
+    top: 15px;
+    padding: 12px;
+    transform: translate(-50% -50%);
+    z-index: 1;
+}
+.card-btn button{
+    background-color: #203645;
+    color: #fff;
+    border: none;
+    width: 59px;
+    height: 33px;
+    font-family: 'Unitext Regular';
+    font-size: 14px;
+}
+.heart-icon-container{
+    background-color: #E3ECF2;
+    width: 40px;
+    height: 40px;
+}
+.heart-icon{
+    width: 20px;
+    height: 20px;
+}
+
