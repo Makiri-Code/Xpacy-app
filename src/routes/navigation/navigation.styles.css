@@ -5,7 +5,7 @@ nav {
     height: auto;
     width: 100%;
     display: flex;
-    padding: 5px 50px;
+    padding: 15px 2.22%;
     justify-content: space-between;
     align-items: center;
     align-self: stretch;
@@ -38,7 +38,7 @@ nav {
     font-weight: 400;
     line-height: 120%; /* 21.6px */
     padding: 10px;
-    gap: 10px;
+    gap: 20px;
 }
 .active{
     border-bottom: 2px solid var(--Primary-Primary);
@@ -54,13 +54,19 @@ nav {
     border-radius: 8px;
     background: var(--Base-Base-White);
     height: 36px;
-    padding: var(--Spacing-m);
+    padding: var(--Spacing-m) 0px;
     color: var(--Base-Base-Black);
     font-family: 'Unitext Regular';
     font-size: 14px;
     font-style: normal;
     font-weight: 700;
     line-height: 120%; /* 16.8px */
+}
+.nav-btns {
+    padding: var(--Spacing-m);
+}
+.nav-btns:nth-of-type(1){
+    border: solid black 1.5px;
 }
 .nav-btns:nth-of-type(2) {
     background: var(--Primary-Primary);

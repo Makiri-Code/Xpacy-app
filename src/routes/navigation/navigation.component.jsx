@@ -14,93 +14,66 @@ const Navigation = () => {
     }
     const [className, setClassName] = useState(classNames);
     const {home, buy, rent, management, blog, contact} = className;
-    const homeClickHandler = () => {
-        setClassName({
-            ...classNames,
-            home: "nav-item active"
-        })
+    const navClickHandler = (e) => {
+        const name = e.target.getAttribute('name')
+        if (name) {
+            setClassName({
+                ...classNames, [name]:'nav-item active'
+            })
+        }
     }
-    const buyClickHandler = () => {
-        setClassName({
-            ...classNames,
-            buy: "nav-item active"
-        })
-    }
-    const rentClickHandler = () => {
-        setClassName({
-            ...classNames,
-            rent: "nav-item active"
-        })
-    }
-    const blogClickHandler = () => {
-        setClassName({
-            ...classNames,
-            blog: "nav-item active"
-        })
-    }
-    const contactClickHandler = () => {
-        setClassName({
-            ...classNames,
-            contact: "nav-item active"
-        })
-    }
-    const managementClickHandler = () => {
-        setClassName({
-            ...classNames,
-            management: "nav-item active"
-        })
-    }
+
     return(
         <>
             <nav>
                 <Link className="logo-container" to='/'>
                     <Logo className='logo'/>
                 </Link>
-                <div className="nav-item-container" >
+                <div className="nav-item-container" onClick={navClickHandler}>
                     <Link 
                         className= {home}  
-                        onClick={homeClickHandler} 
                         to='/'
+                        name='home'
                     >
                         Home
                     </Link>
 
                     <Link 
                         className= {buy}   
-                        onClick={buyClickHandler}
                         to='/shop'
+                        name='buy'
                     >
                         Buy
                     </Link>
 
                     <Link 
                         className={rent}  
-                        onClick={rentClickHandler}
                         to='/rent'
+                        name='rent'
                     >
                         Rent
                     </Link>
 
                     <Link 
                         className={management}  
-                        onClick={managementClickHandler} 
                         to='/admin'
+                        name='management'
                     >
                         Management
                     </Link>
 
                     <Link 
                         className={blog} 
-                        onClick={blogClickHandler} 
                         to='/blog'
+                        name='blog'
                     >
                         Blog
                     </Link>
 
                     <Link 
                         className={contact} 
-                        onClick={contactClickHandler} 
                         to='/contact'
+                        name='contact'
                     >
                         Contact
                     </Link>
