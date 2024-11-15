@@ -4,6 +4,7 @@
     --Base-Base-Black: #333;
     --Neutrals-Neutrals900: #585858;
     --Secondary-Secondary500: #C2A269;
+    --negative-margin: -10%;
     --Spacing-xl: 48px;
     --Spacing-m: 16px;
     --Spacing-l: 32px;
@@ -62,3 +63,24 @@ select, option {
     height: 45px;
 }
 
+.services-img{
+    width: 331px;
+    height: 435px;
+}
+
+.sercices-img-container, .col:nth-of-type(2) {
+    margin-left: var(--negative-margin);
+    z-index: -1;
+}
+.sercices-img-container, .col:nth-of-type(3) {
+    margin-left: var(--negative-margin);
+    z-index: -2;
+}
+.sercices-img-container, .col:nth-of-type(4) {
+    margin-left: var(--negative-margin);
+    z-index: -3;
+}
+.sercices-img-container, .col:nth-of-type(5) {
+    margin-left: var(--negative-margin);
+    z-index: -4;
+}

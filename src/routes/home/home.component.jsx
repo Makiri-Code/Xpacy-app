@@ -3,6 +3,7 @@ import { Button, Carousel, CarouselItem, Form } from 'react-bootstrap';
 import { IoIosSearch } from "react-icons/io";
 import { GoArrowLeft } from "react-icons/go";
 import { GoArrowRight } from "react-icons/go";
+import Services01 from '../../assets/service-1.png'
 import './home.styles.css';
 import Card from '../../components/card/card.component'
 const Home = () => {
@@ -102,12 +103,50 @@ const Home = () => {
                     <Card/>
                 </div>
             </div>
+            {/* Services section */}
             <div className="container services">
                 <div className="row text-center">
                     <h1 className='lh-lg'>Our Services</h1>
-                    <h5 className='fw-normal fs-6'>Tailored Property Services to Meet Your Unique Needs</h5>
+                    <h5 className='fw-normal fs-6 mb-5'>Tailored Property Services to Meet Your Unique Needs</h5>
                 </div>
-                <div className="row"></div>
+                <div className="row mx-0 sercices-img-container">   
+                        <div className="col">
+                            <div className="hover-container">
+                            
+                            </div>
+                            <img src={Services01} alt="services" className='services-img'/>
+                        </div>
+                        <div className="col ">
+                            <div className="hover-container">
+                            
+                            </div>
+                            <img src={Services01} alt="services" className='services-img'/>
+                        </div>
+                        <div className="col">
+                            <div className="hover-container">
+                            
+                            </div>
+                            <img src={Services01} alt="services" className='services-img'/>
+                        </div>
+                        <div className="col">
+                            <div className="hover-container">
+                            
+                            </div>
+                            <img src={Services01} alt="services" className='services-img'/>
+                        </div>
+                        <div className="col">
+                            <div className="hover-container">
+                            
+                            </div>
+                            <img src={Services01} alt="services" className='services-img'/>
+                        </div>
+                        {/* <div className="col sercices-img-container">
+                            <div className="hover-container">
+                            
+                            </div>
+                            <img src={Services01} alt="services" className='services-img'/>
+                        </div> */}
+                    </div>
             </div>
         </>
     );
