@@ -9,14 +9,57 @@ import { GoArrowLeft } from "react-icons/go";
 import './home.styles.css';
 const Home = () => {
     const featuredCard = useRef(null)
+    const featuredProperties = [
+        {
+            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            'cardText':'Terrace',
+            'cardTitle':'Luxury 4-Bedroom Terrace Home with BQ',
+            'location': 'Ikoyi, Lagos',
+            'amount': 1000000000,
+            'beds':4,
+            'baths':5
+        },
+        {
+            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            'cardText':'Terrace',
+            'cardTitle':'Luxury 4-Bedroom Terrace Home with BQ',
+            'location': 'Ikoyi, Lagos',
+            'amount': 1000000000,
+            'beds':4,
+            'baths':5
+        },
+        {
+            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            'cardText':'Terrace',
+            'cardTitle':'Luxury 4-Bedroom Terrace Home with BQ',
+            'location': 'Ikoyi, Lagos',
+            'amount': 1000000000,
+            'beds':4,
+            'baths':5
+        },
+        {
+            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            'cardText':'Terrace',
+            'cardTitle':'Luxury 4-Bedroom Terrace Home with BQ',
+            'location': 'Ikoyi, Lagos',
+            'amount': 1000000000,
+            'beds':4,
+            'baths':5
+        },
+        {
+            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            'cardText':'Terrace',
+            'cardTitle':'Luxury 4-Bedroom Terrace Home with BQ',
+            'location': 'Ikoyi, Lagos',
+            'amount': 1000000000,
+            'beds':4,
+            'baths':5
+        },
+    ]
     return (
         <>
-<<<<<<< HEAD
-            <Carousel className='position-relative' controls={false} wrap={true} indicators={false} interval={5000}>
-=======
         {/* Hero Section */}
             <Carousel className='position-relative' controls={false} wrap={true} indicators={false}>
->>>>>>> 6badbae3fad5553cb14fd4277cb2cb48057e5428
                 <CarouselItem>
                     <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Hero"
                     classNme = "d-block w-100"
@@ -85,21 +128,11 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-            <section className='featured'>
-                <div className="col d-flex flex-column justify-content-center align-items-center">
-                    <div className="brow mb-3">
-                        <h1 className='feature-main-heading'>Featured Properties</h1>
-                        <h3 className='feature-sub-heading'>Discover Exceptional Spaces Curated Just for You</h3>
-                    </div>
-                </div>
-            </section>
-=======
             {/* Featured Section */}
-            <div className="container featured gap-5">
-                <div className="row text-center">
-                    <h1 className='lh-lg'>Featured Properties</h1>
-                    <h5 className='fw-normal fs-6'>Discover Exceptional Spaces Curated Just for You</h5>
+            <div className="featured gap-5 text-center">
+                <div className="brow">
+                    <h1 className='lh-lg feature-main-heading'>Featured Properties</h1>
+                    <h5 className='fw-normal fs-6 feature-sub-heading'>Discover Exceptional Spaces Curated Just for You</h5>
                 </div>
                 <div className="row overflow-x-auto flex-nowrap featured-card position-relative mt-5" ref={featuredCard}>
                     {/* Horizontal Scroll Buttons */}
@@ -112,93 +145,45 @@ const Home = () => {
                         </div>
                     </div>
                     {/* Featured Cards */}
-                    <div className="col">
-                        <div className="card p-0" style={{width: "373px"}}>
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="featured" className='img-fluid rounded-top' />
-                        <div className="card-body">
-                            <p className='card-text'>Terrace</p>
-                            <h5 className="card-title">Luxury 4-Bedroom Terrace Home with BQ</h5>
-                            <p className="card-text fs-6 fw-lighter d-flex align-items-end">
-                                <IoLocationOutline className="location-icon" />
-                                Ikoyi, Lagos
-                            </p>
-                            <h4 className="card-title d-flex align-items-end fw-bold price">
-                                <NairaIcon className='naira-icon' />
-                                 1,000,000,000
-                            </h4>
-                            <div className="divider"></div>
-                            <div className="card-body d-flex justify-content-between align-items-center pt-3 p-0 pt-3">
-                                <p className="card-text m-0">
-                                    <TbBed className='card-footer-icon me-2 '/>
-                                    Bed: 4
-                                </p>
-                                <p className="card-text m-0">
-                                        <LuBath className='card-footer-icon me-2 '/>
-                                    Baths: 5
-                                </p>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="card p-0" style={{width: "373px"}}>
-                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="featured" className='img-fluid rounded-top' />
-                            <div className="card-body">
-                                <p className='card-text'>Terrace</p>
-                                <h5 className="card-title">Luxury 4-Bedroom Terrace Home with BQ</h5>
-                                <p className="card-text fs-6 fw-lighter d-flex align-items-end">
-                                <IoLocationOutline className="location-icon" />
-                                Ikoyi, Lagos
-                                </p>
-                                <h4 className="card-title d-flex align-items-end fw-bold price">
-                                <NairaIcon className='naira-icon' />
-                                 1,000,000,000
-                                </h4>
-                                <div className="divider"></div>
-                                <div className="card-body d-flex justify-content-between align-items-center pt-3 p-0 pt-3">
-                                    <p className="card-text m-0">
-                                    <TbBed className='card-footer-icon me-2 '/>
-                                    Bed: 4
-                                    </p>
-                                    <p className="card-text m-0">
-                                        <LuBath className='card-footer-icon me-2 '/>
-                                    Baths: 5
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="card p-0" style={{width: "373px"}}>
-                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="featured" className='img-fluid rounded-top' />
-                            <div className="card-body">
-                                <p className='card-text'>Terrace</p>
-                                <h5 className="card-title">Luxury 4-Bedroom Terrace Home with BQ</h5>
-                                <p className="card-text fs-6 fw-lighter d-flex align-items-end">
-                                <IoLocationOutline className="location-icon" />
-                                Ikoyi, Lagos
-                                </p>
-                                <h4 className="card-title d-flex align-items-end fw-bold price">
-                                <NairaIcon className='naira-icon' />
-                                 1,000,000,000
-                                </h4>
-                                <div className="divider"></div>
-                                <div className="card-body d-flex justify-content-between align-items-center pt-3 p-0 pt-3">
-                                    <p className="card-text m-0">
-                                    <TbBed className='card-footer-icon me-2 '/>
-                                    Bed: 4
-                                    </p>
-                                    <p className="card-text m-0">
-                                        <LuBath className='card-footer-icon me-2 '/>
-                                    Baths: 5
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {
+                        featuredProperties.map((properties, id)=>{
+                            const itemWidth = featuredCard.current?.getBoundingClientRect().width
+                            console.log(itemWidth)
+                            const {src, cardText, cardTitle, location, amount, beds, baths} = properties
+                            return (
+                                <div className="col featured-item" key={id}>
+                                    <div className="card p-0" style={{width: "373px"}}>
+                                    <img src={src} alt="featured" className='img-fluid rounded-top' />
+                                    <div className="card-body">
+                                        <p className='card-text'>{cardText}</p>
+                                        <h5 className="card-title">{cardTitle}</h5>
+                                        <p className="card-text fs-6 fw-lighter d-flex align-items-end">
+                                            <IoLocationOutline className="location-icon" />
+                                            {location}
+                                        </p>
+                                        <h4 className="card-title d-flex align-items-end fw-bold price">
+                                            <NairaIcon className='naira-icon' />
+                                            {amount.toLocaleString()}
+                                        </h4>
+                                        <div className="divider"></div>
+                                        <div className="card-body d-flex justify-content-between align-items-center pt-3 p-0 pt-3">
+                                            <p className="card-text m-0">
+                                                <TbBed className='card-footer-icon me-2 '/>
+                                                Bed: {beds}
+                                            </p>
+                                            <p className="card-text m-0">
+                                                    <LuBath className='card-footer-icon me-2 '/>
+                                                Baths: {baths}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>                    
+                            )
+                        })
+                    }
                 </div>
             </div>
->>>>>>> 6badbae3fad5553cb14fd4277cb2cb48057e5428
         </>
     );
 };

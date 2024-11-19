@@ -10,6 +10,7 @@ body {
   --Spacing-xl: 48px;
   --Spacing-m: 16px;
   --Spacing-l: 32px;
+  --content-width: 96.88%;
 }
 * {
   margin: 0;
