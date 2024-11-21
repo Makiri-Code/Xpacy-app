@@ -1,0 +1,22 @@
+.faq{
+    width: 768px;
+    gap: 24px;
+}
+.faq-heading{
+    color: var(--Base-Base-Black);
+    font-family: "Unitext Regular";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 21.6px */
+}
+.minus-icon{
+    width: 24px;
+    height: 24px;
+}
+.no-show-faq{
+    display: none;
+}
+.show-faq {
+    display: block;
+}

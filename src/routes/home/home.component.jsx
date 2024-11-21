@@ -22,17 +22,15 @@ import './home.styles.css';
 
 const Home = () => {
     const showFaqs = {
-        // faq1: false,
-        // faq2: false,
-        // faq3: false,
-        // faq4: false,
-        // faq5: false,
-        faq: false
+        faq1: false,
+        faq2: false,
+        faq3: false,
+        faq4: false,
+        faq5: false,
     }
     const featuredCard = useRef(null);
     const [showFaq, setShowFaq] = useState(showFaqs);
-    const {faq} = showFaq;
-    console.log(faq)
+    const {faq1, faq2} = showFaqs
 
     return (
         <>
@@ -335,9 +333,7 @@ const Home = () => {
                         </p>
                     </div> */}
                     <Faq 
-                        faq={faq}
-                        setShowFaq={setShowFaq}
-                        showFaq={showFaq}
+                        showFaqs={showFaqs}
                         heading={"How do I list my property?"}
                         answer={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."}
                     />
