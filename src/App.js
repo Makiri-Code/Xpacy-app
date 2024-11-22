@@ -5,7 +5,7 @@ import Blog from "./routes/blog/blog.component";
 import Contacts from "./routes/contacts/contacts.component";
 import Home from "./routes/home/home.component";
 import Rent from "./routes/rent/rent.component";
-import Shop from "./routes/shop/shop.component";
+import Buy from "./routes/buy/buy.component";
 
 
 const App = () => {
@@ -14,10 +14,10 @@ const App = () => {
       <Route path = "/" element = {<Navigation/>}>
         {/* <Route index element = {<Home/>} /> */}
         <Route path="/admin" element = {<Admin/>} />
-        <Route path="/contact" element = {<Contacts/>} />
-        <Route path="/rent" element = {<Rent/>} />/
-        <Route path="/shop" element = {<Shop/>} />
-        <Route path="/blog" element = {<Blog/>} />
+        <Route path="contact" element = {<Contacts/>} />
+        <Route path="rent/*" element = {<Rent/>} />/
+        <Route path="buy/*" element = {<Buy/>} />
+        <Route path="blog" element = {<Blog/>} />
       </Route>
     </Routes>
   )

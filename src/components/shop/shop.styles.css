@@ -1,12 +1,12 @@
 :root{
     --Base-Base-White: #FFF;
     --Base-Base-Black: #333;
-    --Spacing-xl: 48px;
-    --Spacing-ml: 24px;
     --Neutrals-Neutrals200: #DADADA;
     --Neutrals-Neutrals900: #585858;
     --Primary-Primary: #203645;
     --Secondary-Secondary500: #C2A269;
+    --Spacing-xl: 48px;
+    --Spacing-ml: 24px;
 }
 
 
@@ -268,4 +268,8 @@
     font-weight: 400;
     line-height: 141.4%; /* 16.968px */
     letter-spacing: 0.12px;
+}
+
+.propertises-container{
+    gap: 30px;
 }

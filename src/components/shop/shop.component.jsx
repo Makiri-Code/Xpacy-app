@@ -1,16 +1,18 @@
 import { IoChevronForward } from "react-icons/io5";
-import {Button, Form} from 'react-bootstrap';
+import {Form} from 'react-bootstrap';
 import LatestImage from '../../assets/shop-page-assets/latest-img.jpeg'
 import { IoLocationOutline } from "react-icons/io5";
 import {ReactComponent as Naira} from '../../assets/mdi_naira.svg'
 import { TbBed } from "react-icons/tb";
 import { LuBath } from "react-icons/lu";
+import Card from '../card/card.component'
 import './shop.styles.css';
+import { Link } from "react-router-dom";
 
 const Shop = () => {
     const latestPropertises = [
         {
-            src: LatestImage,
+            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             title: 'Duplex',
             heading: '4-Bedroom Semi-detached Duplex with BQ',
             location: 'Ikoyi, Lagos',
@@ -68,7 +70,9 @@ const Shop = () => {
                     </div>
                 </div>
                 <div className="main-container d-flex justify-content-center align-items-start ">
+                    {/* Sidebar */}
                     <div className="sidebar-container d-flex flex-column align-items-start">
+                        {/* Fileter sidebar */}
                         <div className="filter-options d-flex flex-column align-items-start">
                             <h1 className="sidebar-header">Filter Options</h1>
                             <div className="input d-flex flex-column align-items-center">
@@ -110,8 +114,10 @@ const Shop = () => {
                                 </div>
                             </div>
                         </div>
+                        {/* Latest side bar */}
                         <div className="latest-propertises d-flex flex-column">
                             <h1 className="latest-propertises-header">Latest Propertises</h1>
+                            {/* Latest Sidebar Card */}
                             <div className="latest-propertises-card d-flex flex-column">
                                 {
                                     latestPropertises.map((propertises) => {
@@ -150,21 +156,37 @@ const Shop = () => {
                         </div>
                     </div>
                     <div className="main-content-container d-flex flex-column align-items-start">
-                                <div className="results-header d-flex justify-content-center align-items-center">
-                                    <div className="reults-summary">
-                                        <p>Showing 1 - 10 of 67 results</p>
-                                    </div>
-                                    <div className="sort-label-container d-flex justify-content-center align-items-center">
-                                        <p className="sort">Sort by: </p>
-                                        <Form className="default-input">
-                                            <Form.Select className="select-input">
-                                            <option>Default</option>
-                                            <option value={"buy"}>Buy</option>
-                                            <option value={"rent"}>Rent</option>
-                                            </Form.Select>
-                                        </Form>
-                                    </div>
-                                </div>
+                        <div className="results-header d-flex justify-content-center align-items-center">
+                            <div className="reults-summary">
+                                <p>Showing 1 - 10 of 67 results</p>
+                            </div>
+                            <div className="sort-label-container d-flex justify-content-center align-items-center">
+                                <p className="sort">Sort by: </p>
+                                <Form className="default-input">
+                                    <Form.Select className="select-input">
+                                    <option>Default</option>
+                                    <option value={"buy"}>Buy</option>
+                                    <option value={"rent"}>Rent</option>
+                                    </Form.Select>
+                                </Form>
+                            </div>
+                        </div>
+                        <div className="propertises-container d-flex align-items-start flex-wrap">
+                        {
+                                    latestPropertises.map((propertise) => {
+                                        
+                                        return(
+                                            <Link to='property'>
+                                                <Card
+                                                    cardWith = {"415px"}
+                                                    propertise = {propertise}
+
+                                                />
+                                            </Link>
+                                        )
+                                    })
+                                }  
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import {ReactComponent as Logo } from '../../assets/x-pacy-logo.svg'
 import './navigation.styles.css';
@@ -14,42 +14,17 @@ const Navigation = () => {
     }
     const [className, setClassName] = useState(classNames);
     const {home, buy, rent, management, blog, contact} = className;
-    const homeClickHandler = () => {
+    const clickHandler = (e) => {
+        const name = e.target.name
         setClassName({
             ...classNames,
-            home: "nav-item active"
+            [name]: "nav-item active"
         })
+
     }
-    const buyClickHandler = () => {
-        setClassName({
-            ...classNames,
-            buy: "nav-item active"
-        })
-    }
-    const rentClickHandler = () => {
-        setClassName({
-            ...classNames,
-            rent: "nav-item active"
-        })
-    }
-    const blogClickHandler = () => {
-        setClassName({
-            ...classNames,
-            blog: "nav-item active"
-        })
-    }
-    const contactClickHandler = () => {
-        setClassName({
-            ...classNames,
-            contact: "nav-item active"
-        })
-    }
-    const managementClickHandler = () => {
-        setClassName({
-            ...classNames,
-            management: "nav-item active"
-        })
-    }
+
+
+
     return(
         <>
             <nav>
@@ -59,48 +34,54 @@ const Navigation = () => {
                 <div className="nav-item-container" >
                     <Link 
                         className= {home}  
-                        onClick={homeClickHandler} 
+                        onClick={clickHandler} 
                         to='/'
+                        name = 'home'
                     >
                         Home
                     </Link>
 
                     <Link 
                         className= {buy}   
-                        onClick={buyClickHandler}
-                        to='/shop'
+                        onClick={clickHandler}
+                        to='/buy'
+                        name = 'buy'
                     >
                         Buy
                     </Link>
 
                     <Link 
                         className={rent}  
-                        onClick={rentClickHandler}
+                        onClick={clickHandler}
                         to='/rent'
+                        name = 'rent'
                     >
                         Rent
                     </Link>
 
                     <Link 
                         className={management}  
-                        onClick={managementClickHandler} 
+                        onClick={clickHandler} 
                         to='/admin'
+                        name = 'management'
                     >
                         Management
                     </Link>
 
                     <Link 
                         className={blog} 
-                        onClick={blogClickHandler} 
+                        onClick={clickHandler} 
                         to='/blog'
+                        name = 'blog'
                     >
                         Blog
                     </Link>
 
                     <Link 
                         className={contact} 
-                        onClick={contactClickHandler} 
+                        onClick={clickHandler} 
                         to='/contact'
+                        name = 'contact'
                     >
                         Contact
                     </Link>
