@@ -1,0 +1,95 @@
+
+.card-container {
+    border-radius: 8px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+    margin: 10px 0px;
+}
+.card-img{
+    width: 100%;
+    height: 280px;
+}
+.card-body{
+    padding: 16px;
+    text-align: left;
+}
+.card-text, .card-loc, .card-price {
+    display: flex;
+    font-family: 'Unitext Regular';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    margin: 5px 0px;
+    color: #585858;
+}
+.card-text-location{
+    font-size: 16px;
+    line-height: 150%;
+    color: #585858;
+    letter-spacing: 0.16px;
+}
+.card-title{
+    color: #333;
+    font-family: "Florencesans Exp";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+}
+.card-footer-icon, .naira-icon{
+    width: 26px;
+    height: 26px;
+    color: var(--Secondary-Secondary500);
+}
+.divider1{
+    width: 341px;
+    height: 1px;
+    background: #DADADA;
+}
+.loc-icon{
+    margin: auto 0px;
+    width: 25px;
+    height: 25px;
+    color: var(--Primary-Primary);
+}
+
+.price-text{
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--Secondary-Secondary500);
+}
+.card-btn {
+    top: 15px;
+    padding: 12px;
+    transform: translate(-50% -50%);
+    z-index: 1;
+}
+.card-btn button{
+    background-color: #203645;
+    color: #fff;
+    border: none;
+    width: 59px;
+    height: 33px;
+    font-family: 'Unitext Regular';
+    font-size: 14px;
+}
+.heart-icon-container{
+    background-color: #E3ECF2;
+    width: 40px;
+    height: 40px;
+}
+.heart-icon{
+    width: 20px;
+    height: 20px;
+}
+
+.card-footer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0px;
+    margin-bottom: 0px;
+}
+.card-footer-item{
+    display: flex;
+}

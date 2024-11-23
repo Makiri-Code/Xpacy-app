@@ -1,14 +1,16 @@
 :root{
+    --Background-Color: #FCFCFC;
     --Primary-Primary: #203645;
     --Base-Base-White: #FFF;
     --Base-Base-Black: #333;
+    --Neutrals-Neutrals200: #DADADA;
     --Neutrals-Neutrals900: #585858;
     --Secondary-Secondary500: #C2A269;
+    --negative-margin: -100px;
     --Spacing-xl: 48px;
     --Spacing-m: 16px;
     --Spacing-l: 32px;
   }
-
 .carousel{
     width: 100%;
     overflow: hidden;
@@ -44,6 +46,7 @@
     width: var(--content-width);
     justify-content: center;
     text-align: center;
+    margin-bottom: 50px;
 }
 .align-search-container{
     display: flex;
@@ -80,7 +83,8 @@
 }
 
 .featured{
-    width: 100%;
+    width: 93.88%;
+    margin: auto;
     padding: 120px 0px;
     .feature-main-heading{
         color: var(--Primary-Primary);
@@ -94,13 +98,9 @@
         line-height: 21.6px;
     }
 }
-/* .featured {
-    padding: 120px;
+.featured-container {
+    gap: 24px;
 }
-.featured h1, h5 {
-    color: var(--Base-Base-Black);
-} */
-
 .card {
     border-radius: 8px;
 }
@@ -141,20 +141,435 @@
     border-radius: 8px;
 
 }
+
+.row > h1{
+    font-size: 36px;
+}
+.row > h5 {
+    font-size: 18px;
+}
+/* Card Styles */
+
 .left-arrow {
     background-color: var(--Base-Base-White);
     border: 1px solid var(--Base-Base-Black);
     border-radius: 50%;
-    /* width: 48px;
-    height: 48px; */
-    position: static;
-    left: 30px;
-    top: 50%;
+    top: 43%;
+    left: 0px;
+    width: 45px;
+    height: 45px;
     z-index: 1;
 }
-.left-arrow, .left-arrow-icon{
-    width: 50px;
-    height: 50px;
-    
+.right-arrow {
+    background-color: var(--Base-Base-White);
+    border: 1px solid var(--Base-Base-Black);
+    border-radius: 50%;
+    top: 43%;
+    right: 0px;
+    width: 45px;
+    height: 45px;
+    z-index: 1;
+}
+.arrow-icon{
+    width: 20px;
+    height: 20px;
+}
+/* Services Section */
+.services{
+    width: 95.88%;
+    padding-bottom: 120px;
+    margin: auto;
+}
+.text-center > h5{
+    margin-bottom: 64px;
 }
 
+.services-img{
+    width: 280px;
+    height: 400px;
+}
+.services-img-container > .col:nth-of-type(1){
+    filter: drop-shadow(5px 0px 40px #FFF);
+    padding: 0px;
+    /* margin-left: -11px; */
+}
+.services-img-container > .col:nth-of-type(2) {
+    margin-left: var(--negative-margin);
+    z-index: -1;
+    filter: drop-shadow(5px 0px 40px #FFF);
+    padding: 0px;
+}
+.services-img-container > .col:nth-of-type(3) {
+    margin-left: var(--negative-margin);
+    filter: drop-shadow(5px 0px 40px #FFF);
+    z-index: -2;
+    padding: 0px;
+}
+.services-img-container > .col:nth-of-type(4) {
+    margin-left: var(--negative-margin);
+    filter: drop-shadow(5px 0px 40px #FFF);
+    z-index: -3;
+    padding: 0px;
+}
+.services-img-container > .col:nth-of-type(5) {
+    margin-left: var(--negative-margin);
+    filter: drop-shadow(5px 0px 40px #FFF);
+    z-index: -4;
+    padding: 0px;
+}
+
+/* Testimonial Styles */
+.reviews{
+    width: 95.88%;
+    padding-bottom: 120px;
+    gap: 64px;
+    margin: auto;
+    background: var(--Background-Color);
+}
+.testimonial-card-container{
+    display: flex;
+    width: 1232px;
+    height: 394px;
+    padding: 48px 0px;
+    align-items: center;
+}
+.testimonial {
+    width: 547px;
+    padding: 24px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+.testimonial-txt, p {
+    font-family: "Unitext Regular";
+    font-size: 16px;
+    color: var(--Base-Base-Black);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; 
+    letter-spacing: 0.16px;
+}
+p > span{
+    font-family: "Unitext Regular";
+    font-size: 15px;
+}
+
+.star-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.customer-card-container{
+    width: 200px;
+    height: 250px;
+    border: 1px solid var(--Neutrals-Neutrals200);
+    padding: 0px;
+}
+.customer-card-container > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.testimonial-scroll{
+    gap: 60px;
+}
+
+.question{
+    display: flex;
+    padding: 120px 0px;
+    flex-direction: column;
+    align-items: center;
+    gap: 64px;
+    align-self: stretch;
+    background: linear-gradient(180deg, #E3ECF2 0%, #FCFCFC 100%);
+}
+.heading {
+    color: var(--Primary-Primary, #203645);
+    text-align: center;
+    font-family: "Florencesans Exp";
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 43.2px */
+}
+
+.sub-heading {
+    color: var(--Base-Base-Black, #333);
+    text-align: center;
+    font-family: "Florencesans Exp";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 21.6px */
+}
+/* FAQ Section */
+.faqs{
+    background: linear-gradient(180deg, #E3ECF2 0%, #FCFCFC 100%);
+    width: 100%;
+    margin: auto;
+    padding: 120px 0px;
+    gap: 64px;
+}
+.getintch{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 95.88%;
+    height: 290px;
+    gap: 32px;
+    border-radius: 16px;
+    padding: 32px;
+    background: var(--Primary-Primary);
+    margin-bottom: 120px;
+}
+.gtintch-img-cover{
+    position: relative;
+    width: fit-content;
+    margin: auto;
+    width: 120px;
+    height: 56px;
+    display: flex;
+}
+
+.gtintch-img-src1{
+    position: absolute;
+    left: -0.5px;
+    top: 8px;
+    img{
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+    }
+}
+.gtintch-img-src2{
+    position: absolute;
+    left: 31.5px;
+    top: 0px;
+    img{
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+    }
+    z-index: 1
+}
+.gtintch-img-src3{
+    position: absolute;
+    left: 71.5px;
+    top: 8px;
+    img{
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+    }
+}
+.gtintch-text{
+    width: 768px;
+    gap: 8px;
+    text-align: center;
+    margin: auto;
+    color: white;
+}
+.gtintch-text-title{
+    font-family: "Florencesans Exp";
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26.4px;
+    margin: 8px auto;
+}
+.gtintch-text-subtext{
+    font-family: "Unitext Regular";
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 1%;
+}
+.gtintch-button{
+    width: fit-content;
+    margin: auto;
+    font-family: "Unitext Regular";
+    background: var(--Secondary-Secondary500);
+    height: 48px;
+    width: 137px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.gtintch-button:hover{
+    /* translate: ; */
+}
+
+/*list  my proerties*/
+
+.lmp{
+    width: 95.88%;
+    margin: auto;
+    display: flex;
+    margin: 240px auto;
+}
+.lmp-img{
+    width: 50%;
+    height: 459px;
+    border-radius: 9.46px;
+}
+.lmp-content{
+    width:448px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    gap: 32px;
+}
+.lmp-content-title{
+    font-family: "Florencesans Exp";
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 43.2px;
+    color: var(--Primary-Primary);
+}
+.lmp-content-subtext{
+    font-family: "Unitext Regular";
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 1%;
+
+}
+.lmp-button{
+    width: 167px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Unitext Regular";
+    font-weight: 700;
+    font-size: 16px;
+    border-radius: 8px;
+    line-height: 19.2px;
+    color: var(--Base-Base-White);
+    background: var(--Primary-Primary);
+    cursor: pointer;
+}
+
+.download{
+    width: 95.88%;
+    height: 733px;
+    padding: 48px 120px;
+    display: flex;
+    margin: auto;
+    gap: 88px;
+    background: var(--Primary-Primary);
+    margin-bottom: 120px;
+    color: var(--Base-Base-White);
+}
+.download-content{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    width:446px;
+    align-items: center;
+    gap: 32px;
+}
+.download-content-title{
+    font-family: "Florencesans Exp";
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 43.2px;
+}
+.download-content-subtext{
+    font-family: "Unitext Regular";
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 1%;
+
+}
+.download-img{
+    width: 328.5px;
+    height: 637px;
+}
+
+.insight{
+    width: 100%;
+    background: linear-gradient(180deg, #E3ECF2 0%, #FCFCFC 100%);
+}
+.insight-cover{
+    width: 95.88%;
+    margin: 120px auto;
+    padding-top: 120px;
+}
+.insight-content{
+    display: flex;
+    flex-direction: column;
+    width: 768px;
+    height: 83px;
+    margin: auto;
+    gap:16px;
+    justify-content: space-between;
+    text-align: center;
+}
+.insight-content-title{
+    font-family: "Florencesans Exp";
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 43.2px;
+}
+.insight-content-subtext{
+    font-family: "Unitext Regular";
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 1%;
+}
+.insight-card-view{
+    width: 100%;
+    margin: 50px auto;
+    display: flex;
+    justify-content: space-between;
+}
+.insight-card{
+    text-align: center;
+}
+.insight-card-img{
+    width: 377px;
+    height: 267px;
+    border-radius: 8px;
+}
+.insight-card-title{
+    padding: 10px;
+    font-family: "Unitext Regular";
+    font-size: 18px;
+    line-height: 21.6px;
+    font-weight: 700;
+    text-align: left;
+}
+.insight-bottom{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 70px;
+    justify-content: space-between;
+    text-align: left;
+}
+.insight-card-name{
+    font-family: 'Unitext Regular';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16.8px;
+    color: var(--Primary-Primary);
+}
+.insight-card-bottom{
+    font-family: 'Unitext Regular';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16.8px;
+    color: var(--Neutrals-Neutrals900);
+}

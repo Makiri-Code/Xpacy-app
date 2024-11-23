@@ -2,6 +2,7 @@
 body {
   margin: 0;
   font-family: 'Florencesans Exp', sans-serif;
+  background-color: #FCFCFC;
 }
 :root{
   --Primary-Primary: #203645;
