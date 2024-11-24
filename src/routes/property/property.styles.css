@@ -1,0 +1,183 @@
+.property-title-container{
+    padding: 24px 104px;
+    gap: var(--Spacing-xl, 48px);
+    align-self: stretch;
+}
+
+.property-info-container {
+    gap: 16px;
+    align-self: stretch;
+}
+
+.property-heading, .location-text{
+    color: var(--Base-Base-Black, #333);
+    font-family: "Florencesans Exp";
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 43.2px */
+}
+
+.location-text {
+    color: var(--Primary-Primary700, #477899);
+    font-size: 18px;
+    font-weight: 400;
+}
+.actions-container{
+    gap: 8px;
+}
+.actions-icon{
+    width: 16px;
+    height: 16px;
+}
+.actions-container button {
+    height: 28px;
+    gap: var(--Spacing-xxs, 4px);
+    border-radius: 8px;
+    border: 1px solid var(--Primary-Primary200, #C7D9E5);
+    color: var(--Base-Base-Black, #333);
+    font-family: "Unitext Regular";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 141.4%; /* 16.968px */
+    letter-spacing: 0.12px;
+}
+
+/* Property Photos Section */
+.property-photos{
+    padding: 0 104px;
+    gap: 24px;
+}
+.property-img-container img{
+    border-radius: 8px;
+}
+.property-other-images{
+    width: 294px;
+    gap: 24px;
+    button{
+        width: 130.667px;
+        height: 28px;
+        border-radius: 8px;
+        gap: var(--Spacing-xxs, 4px);
+        flex-shrink: 0;
+        border: 1px solid var(--Neutrals-Neutrals200, #DADADA);
+        background: var(--Base-Base-White, #FFF);
+        color: var(--Base-Base-Black, #333);
+        font-family: "Unitext Regular";
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 141.4%; /* 16.968px */
+        letter-spacing: 0.12px;
+        z-index: 2;
+        bottom: 10px;
+        right: 15px;
+    }
+    img{
+        border-radius: 8px;
+        height: 189px;
+    }
+}
+.property-details-heading{
+    color: var(--Primary-Primary900, #2D4C61);
+    font-family: "Florencesans Exp";
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 26.4px */
+}
+.features-text{
+    color: var(--Neutrals-Neutrals900, #585858);
+    font-family: "Unitext Regular";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 19.2px */
+}
+.property-details{
+    padding: var(--Spacing-xl, 48px) 104px 0px 104px;
+    gap: 64px;
+    align-self: stretch;
+    .property-main-content{
+        /* width: 1232px; */
+        gap: var(--Spacing-xl, 48px);
+        .left-panel{
+            width: 914px;
+            gap: 72px;
+            flex-shrink: 0;
+            .property-specs{
+                gap: 16px;
+                .specs-container{
+                    padding: 24px var(--Spacing-xl, 48px);
+                    border-radius: 8px;
+                    background: var(--Base-Base-White, #FFF);
+                    box-shadow: 0px 46px 13px 0px rgba(0, 0, 0, 0.00), 0px 30px 12px 0px rgba(0, 0, 0, 0.01), 0px 17px 10px 0px rgba(0, 0, 0, 0.05), 0px 7px 7px 0px rgba(0, 0, 0, 0.09), 0px 2px 4px 0px rgba(0, 0, 0, 0.10);
+                    .specs{
+                        gap: 8px;
+                        .specs-details{
+                            gap: 8px;
+                            align-self: stretch;
+                        }
+                        .specs-text, .property-details-text, .spec-icon-text{
+                            color: var(--Base-Base-Black, #333);
+                            text-align: center;
+                            font-family: "Unitext Regular";
+                            font-size: 18px;
+                            font-style: normal;
+                            font-weight: 700;
+                            line-height: 120%; /* 21.6px */
+                        }
+                        .spec-icon-text, .property-details-text{
+                            margin: 0;
+                            font-size: 16px;
+                            font-weight: 400;
+                            letter-spacing: 0.16px;
+                        }
+                    }
+                }
+            }
+            .divider{
+                height: 1px;
+                width: 914px;
+                border: 1px solid #C7C7C7;
+            }
+            .property-description, .property-features {
+                gap: 16px;
+            }
+            .property-features{
+                .features{
+                    gap: 80px;
+                    .left-features{
+                        width: 417.2px;
+                        gap: 24px;
+
+                    }
+                }
+            }
+            .amenities{
+                gap: 16px;
+                .amenities-container{
+                    .amenities-items{
+                        width: 166px;
+                        gap: 24px;
+                        .amenities-item{
+                            gap: 16px;
+                            .amenities-text{
+                                color: var(--Base-Base-Black, #333);
+                                text-align: right;
+                                font-family: "Unitext Regular";
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: 150%; /* 24px */
+                                letter-spacing: 0.16px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+}

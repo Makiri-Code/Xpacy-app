@@ -62,7 +62,7 @@ const Shop = () => {
             <div className="shop-container d-flex flex-column align-items-center align-self-stretch">
                 <div className="header d-flex flex-column align-items-start">
                     <div className="header-navigation">
-                     Home <span><IoChevronForward/></span> <span className="header-navigation">Buy</span>
+                     <Link to={'/'} className="header-nav-text">Home</Link> <span><IoChevronForward/></span> <span className="header-nav-text" style={{color:  "#007BFF"}}>Buy</span>
                     </div>
                     <div className="header-text-container">
                         <h1 className="header-heading">Properties For Sale</h1>

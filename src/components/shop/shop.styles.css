@@ -9,6 +9,9 @@
     --Spacing-ml: 24px;
 }
 
+a{
+    color: var(--Base-Base-Black);
+}
 
 .shop-container {
     padding: 24px 0px 72px 0px;
@@ -21,8 +24,9 @@
 }
 
 .header-navigation{
-    width: 1200px;
     height: 21px;
+}
+.header-nav-text{
     color: #333;
     font-family: "Unitext Regular";
     font-size: 16px;
@@ -31,6 +35,7 @@
     line-height: 150%; /* 24px */
     letter-spacing: 0.16px;
 }
+
 .header-heading {
     color: var(--Base-Base-Black);
     font-family: "Florencesans Exp";
@@ -271,5 +276,5 @@
 }
 
 .propertises-container{
-    gap: 30px;
+    gap: 24px;
 }
