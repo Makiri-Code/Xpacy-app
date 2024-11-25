@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IoChevronForward, IoLocationOutline, IoSearchOutline   } from "react-icons/io5";
 import { FaRegSquareFull, FaCheck } from "react-icons/fa6";
@@ -5,13 +6,17 @@ import { CiHeart } from "react-icons/ci";
 import { LuBath } from "react-icons/lu";
 import { TbBed } from "react-icons/tb";
 import { BiSearchAlt } from "react-icons/bi";
+import { IoIosArrowDown } from "react-icons/io";
+import { MdOutlineLocalPhone } from "react-icons/md";
+import {ReactComponent as Calender} from '../../assets/Calendar.svg'
 import {ReactComponent as Naira} from '../../assets/mdi_naira.svg';
 import { ReactComponent as ToiletIcon} from '../../assets/Toilets-icon.svg'
 import { MdOutlineShare, MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import image01 from '../../assets/property-details/property-image-01.png';
+import DatePicker from 'react-datepicker';
 import './property.styles.css';
 const Property = () => {
-
+    const [selectedDate, setSelectedDate] = useState('Select tour date');
     return(
        <>
             {/* Property Title and info */}
@@ -233,7 +238,42 @@ const Property = () => {
                                 </div>
                             </div>
                         </div>
+                        <div className="book-tour d-flex justify-content-center align-items-center">
+                            <div className="book-tour-content d-flex justify-content-center flex-column align-items-center">
+                                <h5>Book In-person Property Tour</h5>
+                                <div className="tour-date-container d-flex justify-content-between align-items-center">
+                                    <div className="calender-picker d-flex align-items-center">
+                                        <div className="calender-container position-relative" style={{width: '15px', height:'16.667px'}}>
+                                            <Calender className='calender position-absolute' style={{width: '100%', height:'100%'}}/>
+                                            <input type='date' className='position-absolute' onChange={(e) => {
+                                                console.log(e.target.value)
+                                                setSelectedDate(e.target.value)
+                                            }}/>
+                                        </div>
+                                        <p>{selectedDate}</p>
+                                    </div>
+                                    <IoIosArrowDown style={{width: '20px', height: '20px'}}/>
+                            </div>
+                            <button className='d-flex justify-content-center align-items-center'>Book Tour</button>
+                            </div>
+                        </div>
+                        <div className="enquires d-flex justify-content-center align-items-center">
+                            <div className="request-tour d-flex flex-column justify-content-center align-items-center">
+                                <h5>For Enquires</h5>
+                                <div className="call d-flex justify-content-center align-items-center">
+                                    <MdOutlineLocalPhone style={{width: '16px', height: '16px'}}/>
+                                    <span>Call +234 80 00000000 </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            </div>
+            {/* Map Section */}
+            <div className="map">
+                <div className="map-container">
+                    <h2 className="property-details-heading">Map</h2>
+
                 </div>
             </div>
        </>
