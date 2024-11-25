@@ -4,6 +4,8 @@ import { FaRegSquareFull, FaCheck } from "react-icons/fa6";
 import { CiHeart } from "react-icons/ci";
 import { LuBath } from "react-icons/lu";
 import { TbBed } from "react-icons/tb";
+import { BiSearchAlt } from "react-icons/bi";
+import {ReactComponent as Naira} from '../../assets/mdi_naira.svg';
 import { ReactComponent as ToiletIcon} from '../../assets/Toilets-icon.svg'
 import { MdOutlineShare, MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import image01 from '../../assets/property-details/property-image-01.png';
@@ -217,7 +219,21 @@ const Property = () => {
                         </div>
                         <div className="divider"/>
                     </div>
-                    <div className="right-panel"></div>
+                    <div className="right-panel d-flex flex-column justify-content-center align-items-center">
+                        <div className="price d-flex justify-content-center align-items-center">
+                            <div className="price-content">
+                                <div className="d-flex justify-content-center align-items-center">
+                                    <Naira style={{width: '26px', height: '26px'}}/>
+                                    <h5 className='m-0'>1,000,000,000</h5>
+                                </div>
+                                <button className='d-flex justify-content-center align-items-center'>Get This Property</button>
+                                <div className="virtual-tour d-flex align-items-center">
+                                    <BiSearchAlt style={{width: '70px', height: '70px'}}/>
+                                    <p>Take a <br/> virtual tour <br/> now!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
        </>
