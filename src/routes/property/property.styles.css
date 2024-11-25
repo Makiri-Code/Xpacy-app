@@ -352,14 +352,40 @@
 .map{
     display: flex;
     padding: 72px 0px;
-    flex-direction: column;
-    align-items: center;
-    align-self: stretch;
     .map-container{
         display: flex;
         width: 1232px;
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
+    }
+}
+.reviews{
+    display: flex;
+    padding: 72px 0px;
+    .reviews-container{
+        display: flex;
+        width: 1232px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+}
+.related{
+    display: flex;
+    padding: 72px 0px;
+    .related-container{
+        display: flex;
+        width: 1232px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        .related-cards{
+            display: flex;
+            flex-wrap: wrap;
+            width: 1229px;
+            align-items: flex-start;
+            gap: 22px;
+        }
     }
 }

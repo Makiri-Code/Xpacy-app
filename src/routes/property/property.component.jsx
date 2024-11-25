@@ -14,9 +14,66 @@ import { ReactComponent as ToiletIcon} from '../../assets/Toilets-icon.svg'
 import { MdOutlineShare, MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import image01 from '../../assets/property-details/property-image-01.png';
 import DatePicker from 'react-datepicker';
+import Card from '../../components/card/card.component';
 import './property.styles.css';
 const Property = () => {
     const [selectedDate, setSelectedDate] = useState('Select tour date');
+    const latestPropertises = [
+        {
+            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            title: 'Duplex',
+            heading: '4-Bedroom Semi-detached Duplex with BQ',
+            location: 'Ikoyi, Lagos',
+            price: '1,000,000', 
+            bedrooms: 4,
+            bathrooms: 4,
+        },
+        {
+            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            title: 'Duplex',
+            heading: '4-Bedroom Semi-detached Duplex with BQ',
+            location: 'Ikoyi, Lagos',
+            price: '1,000,000', 
+            bedrooms: 4,
+            bathrooms: 4,
+        },
+        {
+            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            title: 'Duplex',
+            heading: '4-Bedroom Semi-detached Duplex with BQ',
+            location: 'Ikoyi, Lagos',
+            price: '1,000,000', 
+            bedrooms: 4,
+            bathrooms: 4,
+        },
+        {
+            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            title: 'Duplex',
+            heading: '4-Bedroom Semi-detached Duplex with BQ',
+            location: 'Ikoyi, Lagos',
+            price: '1,000,000', 
+            bedrooms: 4,
+            bathrooms: 4,
+        },
+        {
+            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            title: 'Duplex',
+            heading: '4-Bedroom Semi-detached Duplex with BQ',
+            location: 'Ikoyi, Lagos',
+            price: '1,000,000', 
+            bedrooms: 4,
+            bathrooms: 4,
+        },
+        {
+            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            title: 'Duplex',
+            heading: '4-Bedroom Semi-detached Duplex with BQ',
+            location: 'Ikoyi, Lagos',
+            price: '1,000,000', 
+            bedrooms: 4,
+            bathrooms: 4,
+        }
+    ]
     return(
        <>
             {/* Property Title and info */}
@@ -270,10 +327,35 @@ const Property = () => {
                 </div>
             </div>
             {/* Map Section */}
-            <div className="map">
+            <div className="map d-flex flex-column align-items-center align-self-stretch">
                 <div className="map-container">
-                    <h2 className="property-details-heading">Map</h2>
+                    <h2 className="property-details-heading m-0">Map</h2>
 
+                </div>
+            </div>
+            {/* Reviews Section */}
+            <div className="reviews d-flex flex-column align-items-center align-self-stretch">
+                <div className="reviews-container">
+                    <h2 className="property-details-heading m-0">Reviews</h2>
+
+                </div>
+            </div>
+            {/* Related properties */}
+            <div className="related d-flex flex-column align-items-center align-self-stretch">
+                <div className="related-container">
+                    <h2 className="property-details-heading m-0">You many also like these properties</h2>
+                    <div className="related-cards">
+                        {
+                            latestPropertises.map((propertise) => {
+                                return(
+                                    <Card 
+                                        propertise={propertise}
+                                        cardWith={'395px'}
+                                    />
+                                )
+                            })
+                        }
+                    </div>
                 </div>
             </div>
        </>
