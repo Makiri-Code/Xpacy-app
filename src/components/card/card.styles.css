@@ -1,95 +1,122 @@
+/* Card Styles */
 
-.card-container {
+.propertises-card-container{
+    gap: 24px;
+}
+
+.propertise-card{
+    flex-wrap: wrap;
     border-radius: 8px;
+    border: 1px solid var(--Neutrals-Neutrals100, #ECECEC);
+    background: var(--Base-Base-White, #FFF);
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
     margin: 10px 0px;
+    margin-left: 24px;
 }
-.card-img{
-    width: 100%;
+/* Card-stlyes */
+.card-image{
     height: 280px;
-}
-.card-body{
-    padding: 16px;
-    text-align: left;
-}
-.card-text, .card-loc, .card-price {
-    display: flex;
-    font-family: 'Unitext Regular';
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 120%;
-    margin: 5px 0px;
-    color: #585858;
-}
-.card-text-location{
-    font-size: 16px;
-    line-height: 150%;
-    color: #585858;
-    letter-spacing: 0.16px;
-}
-.card-title{
-    color: #333;
-    font-family: "Florencesans Exp";
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 120%;
-}
-.card-footer-icon, .naira-icon{
-    width: 26px;
-    height: 26px;
-    color: var(--Secondary-Secondary500);
-}
-.divider1{
-    width: 341px;
-    height: 1px;
-    background: #DADADA;
-}
-.loc-icon{
-    margin: auto 0px;
-    width: 25px;
-    height: 25px;
-    color: var(--Primary-Primary);
-}
+    border-radius: 8px 8px var(--Radius-Sharp, 0px) var(--Radius-Sharp, 0px);
+    border: 1px solid var(--Neutrals-Neutrals200, #DADADA);
 
-.price-text{
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--Secondary-Secondary500);
 }
-.card-btn {
+.card-image-btns{
+    width: 100%;
     top: 15px;
     padding: 12px;
     transform: translate(-50% -50%);
-    z-index: 1;
+    z-index: 2;
 }
-.card-btn button{
-    background-color: #203645;
-    color: #fff;
-    border: none;
+.card-image-btns button {
     width: 59px;
     height: 33px;
-    font-family: 'Unitext Regular';
+    background: var(--Primary-Primary, #203645);
+    color: var(--Base-Base-White, #FFF);
+    font-family: "Unitext Regular";
     font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 16.8px */
 }
 .heart-icon-container{
+    width: 48px;
+    height: 48px;
     background-color: #E3ECF2;
-    width: 40px;
-    height: 40px;
-}
-.heart-icon{
-    width: 20px;
-    height: 20px;
+    border-radius: 50%;
 }
 
-.card-footer{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0px;
-    margin-bottom: 0px;
+.heart-icon{
+    width: 24px;
+    height: 24px;
+    color: #203645;
 }
-.card-footer-item{
-    display: flex;
+
+.card-body-container {
+    height: 242px;
+    gap: 16px;
+    padding: 16px;
+}
+
+.card-header {
+    gap: 8px;
+    /* padding: 16px; */
+}
+
+.card-title, .card-heading, .location-text, .price-text, .card-footer-text{
+    color: var(--Neutrals-Neutrals900);
+    font-family: "Unitext Regular";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.card-heading {
+    color: var(--Base-Base-Black, #333);
+    font-family: "Florencesans Exp";
+    font-size: 18px;
+}
+.location{
+    gap: 4px;
+}
+.location-text{
+    margin: 0;
+    font-size: 16px;
+    line-height: 150%; /* 24px */
+    letter-spacing: 0.16px;
+}
+
+.location-icon{
+    width: 24px;
+    height: 24px;
+}
+
+.price-icon{
+    width: 26px;
+    height: 26px;
+}
+.price-text{
+    color: var(--Secondary-Secondary500, #C2A269);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.card-divider {
+    width: 100%;
+    border: 1px solid var(--Neutrals-Neutrals200);
+}
+.card-footer-content{
+    gap: 4px;
+}
+.card-footer-icon {
+    width: 24px;
+    height: 24px;
+    color: #C2A269;
+}
+
+.card-footer-text{
+    margin: 0;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0.16px;
 }

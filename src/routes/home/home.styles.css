@@ -10,7 +10,8 @@
     --Spacing-xl: 48px;
     --Spacing-m: 16px;
     --Spacing-l: 32px;
-  }
+}
+
 .carousel{
     width: 100%;
     overflow: hidden;
@@ -35,12 +36,14 @@
         margin: auto;
     }
 }
+
 .search-container{
     padding: 0px;
     width: 100%;
     background-color: red;
     border-radius: 8px;
 }
+
 .brow{
     /* gap: 16px; */
     width: var(--content-width);
@@ -99,7 +102,19 @@
     }
 }
 .featured-container {
-    gap: 24px;
+    /* flex-wrap: wrap; */
+    /* width: 95.88vw; */
+}
+.featured-inner-container{
+    width: 1985px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.scroll-container::-webkit-scrollbar {
+    display: none; /* Hides scrollbar in Chrome/Safari */
 }
 .card {
     border-radius: 8px;
@@ -123,7 +138,6 @@
     height: 30px;
     color: var(--Primary-Primary);
 }
-
 .price{
     font-family: 'Unitext Regular';
     font-size: 24px;
@@ -141,7 +155,6 @@
     border-radius: 8px;
 
 }
-
 .row > h1{
     font-size: 36px;
 }
@@ -221,6 +234,7 @@
 /* Testimonial Styles */
 .reviews{
     width: 95.88%;
+    flex-direction: column;
     padding-bottom: 120px;
     gap: 64px;
     margin: auto;
@@ -309,6 +323,9 @@ p > span{
     margin: auto;
     padding: 120px 0px;
     gap: 64px;
+}
+.faq-scroll{
+    width: 95.88%;
 }
 .getintch{
     margin: auto;

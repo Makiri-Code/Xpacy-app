@@ -24,6 +24,8 @@ import Image2 from '../../assets/homepage-assets/getintouch-section-images/image
 import Image3 from '../../assets/homepage-assets/getintouch-section-images/image3.png'
 import lmpimg from '../../assets/homepage-assets/listproperty-section-images/listproperty-image.png'
 import mobileimg from '../../assets/homepage-assets/download-section-images/mobile-img.png'
+import { FaApple } from "react-icons/fa";
+import FaPlayStore from '../../assets/homepage-assets/download-section-images/play-store.png'
 import insightimg1 from '../../assets/homepage-assets/insights-section-images/insight-image1.png'
 import insightimg2 from '../../assets/homepage-assets/insights-section-images/insight-image2.png'
 import insightimg3 from '../../assets/homepage-assets/insights-section-images/insight-image3.png'
@@ -44,48 +46,48 @@ const Home = () => {
     const featuredProperties = [
         {
             'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'cardText':'Terrace',
-            'cardTitle':'Luxury 4-Bedroom Terrace Home with BQ',
+            'title':'Terrace',
+            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
             'location': 'Ikoyi, Lagos',
-            'amount': 1000000000,
-            'beds':4,
-            'baths':5
+            'price': 1000000000,
+            'bedrooms':4,
+            'bathrooms':5
         },
         {
             'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'cardText':'Terrace',
-            'cardTitle':'Luxury 4-Bedroom Terrace Home with BQ',
+            'title':'Terrace',
+            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
             'location': 'Ikoyi, Lagos',
-            'amount': 1000000000,
-            'beds':4,
-            'baths':5
+            'price': 1000000000,
+            'bedrooms':4,
+            'bathrooms':5
         },
         {
             'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'cardText':'Terrace',
-            'cardTitle':'Luxury 4-Bedroom Terrace Home with BQ',
+            'title':'Terrace',
+            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
             'location': 'Ikoyi, Lagos',
-            'amount': 1000000000,
-            'beds':4,
-            'baths':5
+            'price': 1000000000,
+            'bedrooms':4,
+            'bathrooms':5
         },
         {
             'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'cardText':'Terrace',
-            'cardTitle':'Luxury 4-Bedroom Terrace Home with BQ',
+            'title':'Terrace',
+            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
             'location': 'Ikoyi, Lagos',
-            'amount': 1000000000,
-            'beds':4,
-            'baths':5
+            'price': 1000000000,
+            'bedrooms':4,
+            'bathrooms':5
         },
         {
             'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'cardText':'Terrace',
-            'cardTitle':'Luxury 4-Bedroom Terrace Home with BQ',
+            'title':'Terrace',
+            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
             'location': 'Ikoyi, Lagos',
-            'amount': 1000000000,
-            'beds':4,
-            'baths':5
+            'price': 1000000000,
+            'bedrooms':4,
+            'bathrooms':5
         },
     ]
 
@@ -116,6 +118,23 @@ const Home = () => {
             rating: 5
         },
     ]
+
+    const handleFeatureClick = (e)=>{
+        const name = e.target.getAttribute('name')
+        if (name && featuredCard.current){
+            if (name==='fclickleft'){                
+                featuredCard.current.scrollBy({
+                    left: -397, 
+                    behavior: 'smooth',
+                })
+            }else{
+                featuredCard.current.scrollBy({
+                    left: 397, 
+                    behavior: 'smooth',
+                })
+            }
+        }
+    }
 
     return (
         <>
@@ -196,25 +215,27 @@ const Home = () => {
                     <h1 className='lh-lg feature-main-heading'>Featured Properties</h1>
                     <h5 className='fw-normal fs-6 feature-sub-heading'>Discover Exceptional Spaces Curated Just for You</h5>
                 </div>
-                <div className="featured-container d-flex overflow-x-hidden flex-nowrap position-relative" ref={featuredCard}>
+                <div className="featured-container d-flex flex-nowrap position-relative">
+                    <div className='featured-inner-container' ref={featuredCard} onClick={handleFeatureClick}>
                         {/* Horizontal Scroll Buttons */}
-                    <div className="left-arrow d-flex justify-content-center align-items-center position-absolute">
-                        <GoArrowLeft className='arrow-icon'/>
+                        <div name='fclickleft' className="left-arrow d-flex justify-content-center align-items-center position-absolute">
+                            <GoArrowLeft name='fclickleft' className='arrow-icon'/>
+                        </div>                        
+                        <div name='fclickright' className="right-arrow d-flex justify-content-center align-items-center position-absolute">
+                            <GoArrowRight name='fclickright' className='arrow-icon'/>
+                        </div>
+                        {/* Featured Cards */}
+                        {
+                            featuredProperties.map((properties, id)=>{
+                                return (                                
+                                    <Card
+                                        cardWidth='373px'
+                                        propertise={properties}
+                                    />                    
+                                )
+                            })
+                        }
                     </div>
-                    <div className="right-arrow d-flex justify-content-center align-items-center position-absolute">
-                        <GoArrowRight className='arrow-icon'/>
-                    </div>
-                    {/* Featured Cards */}
-                    {
-                        featuredProperties.map((properties, id)=>{
-                            return (                                
-                                <Card
-                                    width='373px'
-                                    properties={properties}
-                                />                    
-                            )
-                        })
-                    }
                 </div>
             </div>
             <div className="services">
@@ -297,7 +318,7 @@ const Home = () => {
                         </h5>
                     </div>
                 </div>
-                <div className="justify-content-center align-items-center">
+                <div className=" faq-scroll justify-content-center align-items-center">
                     
                     <Faq 
                         showFaqs={showFaqs}
@@ -341,6 +362,7 @@ const Home = () => {
                 <div className='download-content'>
                     <div className='download-content-title'>Take Xpacy with you Anywhere!</div>
                     <div className='download-content-subtext'>Downlaod our mobile app and enjoy seamless property mangement at a go.</div>
+                    <div className='download-content-icondiv'></div>                    
                 </div>
                 <img className='download-img' alt='download-img' src={mobileimg}/>                
             </div>

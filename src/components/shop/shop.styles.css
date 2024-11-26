@@ -268,3 +268,6 @@
         letter-spacing: 0.12px;
     }
 }
+.propertises-container{
+    gap: 24px;
+}
