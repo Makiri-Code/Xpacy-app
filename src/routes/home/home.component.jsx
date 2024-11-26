@@ -33,6 +33,14 @@ import './home.styles.css';
 const Home = () => {
     const featuredCard = useRef(null)
     const [showFaq, setShowFaq] = useState(false)
+    const showFaqs = {
+        faq1: false,
+        faq2: false,
+        faq3: false,
+        faq4: false,
+        faq5: false,
+    }
+    const {faq1, faq2} = showFaqs
     const featuredProperties = [
         {
             'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -292,9 +300,7 @@ const Home = () => {
                 <div className="justify-content-center align-items-center">
                     
                     <Faq 
-                        faq={faq}
-                        setShowFaq={setShowFaq}
-                        showFaq={showFaq}
+                        showFaqs={showFaqs}
                         heading={"How do I list my property?"}
                         answer={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."}
                     />

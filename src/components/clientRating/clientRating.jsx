@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import './clientRating.css'
+import { IoIosStarHalf } from "react-icons/io";
 import {ReactComponent as FaStar} from '../../assets/homepage-assets/testimonial-section-images/star-Icons.svg';
+import { IoStar, IoStarHalf } from 'react-icons/io5';
 
 const ClientRating = ({Review, name, title, comment, rating})=>{
     const [ratingStars, setRatingStars] = useState([])
@@ -37,7 +39,11 @@ const ClientRating = ({Review, name, title, comment, rating})=>{
                             {ratingStars.map((starRate,index)=>{
                                 if (starRate===1){
                                     return (
-                                        <FaStar key={index} className='star-icon'/>
+                                        <IoStar key={index} className='star-icon'/>
+                                    )
+                                }else if (starRate === .5){
+                                    return (
+                                        <IoStarHalf key={index} className='star-icon'/>
                                     )
                                 }
                             })}                            

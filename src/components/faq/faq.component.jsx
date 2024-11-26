@@ -3,7 +3,8 @@ import {ReactComponent as PlusIcon} from '../../assets/plus-circle.svg';
 import './faq.styles.css';
 import { useState } from "react";
 const Faq = ({faq, showFaqs, heading, answer}) => {
-    const [showFaq, setShowFaq] = useState(showFaqs)
+    const [showFaq, setShowFaq] = useState(showFaqs);
+    // const {faq1, faq2, faq3, faq4} = showFaq
     return (
         <div className="row faq">
             <div className="divider"></div>
