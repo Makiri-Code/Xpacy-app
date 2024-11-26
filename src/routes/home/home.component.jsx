@@ -353,7 +353,7 @@ const Home = () => {
             <div className='lmp'>
                 <img className='lmp-img' alt='lmp' src={lmpimg}/>
                 <div className='lmp-content'>
-                    <div className='lmp-content-title'>Want to list your property?</div>
+                    <div className='lmp-content-title'>Want to list your property ?</div>
                     <div className='lmp-content-subtext'>At Xpacy, we manage your property listings from start to finish, ensuring you enjoy peace of mind while maximizing your returns.</div>
                     <div className='lmp-button'>List My Property</div>
                 </div>
