@@ -6,9 +6,10 @@ import { CiHeart } from "react-icons/ci";
 
 import './card.styles.css';
 const Card = ({propertise, cardWidth}) => {
+
     const {src, title, heading, location, price, bedrooms, bathrooms} = propertise
     return (
-        <div className="propertise-card d-flex flex-column align-items-start" style={{minWidth: cardWidth}} >
+        <div className="propertise-card d-flex flex-column align-items-start" style={{width: cardWidth, height: "522px"}} >
             <div className="card-img-container position-relative">
                 <img className="card-image" src={src} alt="house image"/>
                 <div className="card-image-btns d-flex justify-content-between align-items-center position-absolute">
@@ -35,7 +36,7 @@ const Card = ({propertise, cardWidth}) => {
                     <div className="d-flex justify-content-center align-items-center">
                         <Naira className='price-icon' />
                         <h5 className="price-text m-0">
-                            {price.toLocaleString()}
+                            {price}
                         </h5>
                     </div>
                 </div>

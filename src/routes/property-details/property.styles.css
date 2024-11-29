@@ -360,15 +360,23 @@
         gap: 16px;
     }
 }
-.reviews{
+.property-reviews{
     display: flex;
     padding: 72px 0px;
-    .reviews-container{
+    .property-reviews-container{
         display: flex;
         width: 1232px;
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
+        .testimonial-scroll{
+            display: flex;
+            width: 2332px;
+            height: 298px;
+            flex-wrap: nowrap;
+            gap: 16px;
+            padding-bottom: 18px;
+        }
     }
 }
 .related{

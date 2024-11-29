@@ -178,7 +178,7 @@ const Shop = () => {
                                         return(
                                             <Link to='property'>
                                                 <Card
-                                                    cardWith = {"415px"}
+                                                    cardWidth = {"415px"}
                                                     propertise = {propertise}
 
                                                 />

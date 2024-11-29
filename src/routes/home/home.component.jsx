@@ -121,17 +121,13 @@ const Home = () => {
 
     const handleFeatureClick = (e)=>{
         const name = e.target.getAttribute('name')
+        console.log(name)
         if (name && featuredCard.current){
             if (name==='fclickleft'){                
-                featuredCard.current.scrollBy({
-                    left: -397, 
-                    behavior: 'smooth',
-                })
+                featuredCard.current.scrollBy(-397, 0)
+                console.log(featuredCard.current.scrollBy)
             }else{
-                featuredCard.current.scrollBy({
-                    left: 397, 
-                    behavior: 'smooth',
-                })
+                featuredCard.current.scrollBy(397, 0)
             }
         }
     }
@@ -210,20 +206,22 @@ const Home = () => {
             </div>
             
             {/* Featured Section */}
-            <div className="featured gap-5 text-center">
+            <div className="featured">
                 <div className="brow">
                     <h1 className='lh-lg feature-main-heading'>Featured Properties</h1>
                     <h5 className='fw-normal fs-6 feature-sub-heading'>Discover Exceptional Spaces Curated Just for You</h5>
                 </div>
-                <div className="featured-container d-flex flex-nowrap position-relative">
-                    <div className='featured-inner-container' ref={featuredCard} onClick={handleFeatureClick}>
+                <div className="featured-container d-flex flex-nowrap position-relative" >
                         {/* Horizontal Scroll Buttons */}
-                        <div name='fclickleft' className="left-arrow d-flex justify-content-center align-items-center position-absolute">
-                            <GoArrowLeft name='fclickleft' className='arrow-icon'/>
-                        </div>                        
-                        <div name='fclickright' className="right-arrow d-flex justify-content-center align-items-center position-absolute">
-                            <GoArrowRight name='fclickright' className='arrow-icon'/>
+                        <div className="horizontal-scroll-btn" onClick={handleFeatureClick}>
+                            <div name='fclickleft' className="left-arrow d-flex justify-content-center align-items-center position-absolute">
+                                <GoArrowLeft name='fclickleft' className='arrow-icon'/>
+                            </div>                        
+                            <div name='fclickright' className="right-arrow d-flex justify-content-center align-items-center position-absolute">
+                                <GoArrowRight name='fclickright' className='arrow-icon'/>
+                            </div>
                         </div>
+                    <div className='featured-inner-container' ref={featuredCard}  >
                         {/* Featured Cards */}
                         {
                             featuredProperties.map((properties, id)=>{
@@ -288,7 +286,7 @@ const Home = () => {
                 </div>
                
                 <div className="testimonial-card-container overflow-hidden">
-                    <div className="row flex-nowrap testimonial-scroll p-5">
+                    <div className="testimonial-scroll">
                         {clientRatings.map((clientRating, index)=>{
                             const {Reviewer, comment, name, title, rating} = clientRating
                             return (

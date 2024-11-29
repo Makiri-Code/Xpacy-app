@@ -104,10 +104,24 @@
 .featured-container {
     /* flex-wrap: wrap; */
     /* width: 95.88vw; */
+    width: 95vw;
+    overflow: hidden;
+    
+
+    .horizontal-scroll-btn{
+        width: 95vw;
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        top: 50%;
+        /* right: -6px; */
+    }
 }
 .featured-inner-container{
-    width: 1985px;
+    min-width: 1985px;
     display: flex;
+    gap: 24px;
+    padding: 20px 10px;
     flex-wrap: nowrap;
     overflow-x: scroll;
     scrollbar-width: none;
@@ -245,48 +259,17 @@
     width: 1232px;
     height: 394px;
     padding: 48px 0px;
+    justify-content: flex-end;
     align-items: center;
-}
-.testimonial {
-    width: 547px;
-    padding: 24px;
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
-}
-
-.testimonial-txt, p {
-    font-family: "Unitext Regular";
-    font-size: 16px;
-    color: var(--Base-Base-Black);
-    font-style: normal;
-    font-weight: 400;
-    line-height: 24px; 
-    letter-spacing: 0.16px;
-}
-p > span{
-    font-family: "Unitext Regular";
-    font-size: 15px;
+    .testimonial-scroll{
+        display: flex;
+        width: 2332px;
+        height: 298px;
+        flex-wrap: nowrap;
+        gap: 16px;
+    }
 }
 
-.star-icon {
-    width: 20px;
-    height: 20px;
-}
-
-.customer-card-container{
-    width: 200px;
-    height: 250px;
-    border: 1px solid var(--Neutrals-Neutrals200);
-    padding: 0px;
-}
-.customer-card-container > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.testimonial-scroll{
-    gap: 60px;
-}
 
 .question{
     display: flex;

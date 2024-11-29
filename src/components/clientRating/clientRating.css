@@ -1,0 +1,88 @@
+
+p, span{
+    color: var(--Base-Base-Black, #333);
+    font-family: "Unitext Regular";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 24px */
+    letter-spacing: 0.16px;
+    margin: 0;
+}
+.testimonial {
+    display: flex;
+    width: 547px;
+    padding: 24px;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--Base-Base-White, #FFF);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+    .reviews-image{
+        width: 200px;
+        height: 250px;
+        border-radius: 10px;
+    }
+    .reviews-text-container{
+        display: flex;
+        height: 250px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+        flex: 1 0 0;
+        .testimonial-txt{
+            color: var(--Base-Base-Black, #333);
+            font-family: "Unitext Regular";
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 150%; /* 24px */
+            letter-spacing: 0.16px;
+            margin: 0;
+        }
+        .testimonial-name{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            p{
+                color: var(--Base-Base-Black, #333);
+                font-family: "Unitext Regular";
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 150%; /* 24px */
+                letter-spacing: 0.16px;
+                margin: 0;
+                span {
+                    color: var(--Base-Base-Black, #333);
+                    font-family: "Unitext Regualr";
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 141.4%;
+                    letter-spacing: 0.12px;
+                }
+            }
+        }
+        .star-icon-container {
+            gap: 5px;
+            .star-icon {
+                width: 20px;
+                height: 20px;
+                color: #CDB385;
+            }
+        }
+    }
+}
+
+
+
+.star-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.customer-card-container > 
+
+.testimonial-scroll{
+    gap: 60px;
+}
