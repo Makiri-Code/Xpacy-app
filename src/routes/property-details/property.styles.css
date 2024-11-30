@@ -3,46 +3,55 @@
     gap: var(--Spacing-xl, 48px);
     align-self: stretch;
 }
-
+.header-nav-text{
+    color: var(--Basse-Base-Black, #333);
+    font-family: "Unitext Regular";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 24px */
+    letter-spacing: 0.16px;
+}
 .property-info-container {
     gap: 16px;
     align-self: stretch;
+    .property-heading, .location-text{
+        color: var(--Base-Base-Black, #333);
+        font-family: "Florencesans Exp";
+        font-size: 36px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%; /* 43.2px */
+    }
+    
+    .location-text {
+        color: var(--Primary-Primary700, #477899);
+        font-size: 18px;
+        font-weight: 400;
+    }
 }
 
-.property-heading, .location-text{
-    color: var(--Base-Base-Black, #333);
-    font-family: "Florencesans Exp";
-    font-size: 36px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%; /* 43.2px */
-}
-
-.location-text {
-    color: var(--Primary-Primary700, #477899);
-    font-size: 18px;
-    font-weight: 400;
-}
 .actions-container{
     gap: 8px;
+    .actions-icon{
+        width: 16px;
+        height: 16px;
+    }
+    button {
+        height: 28px;
+        gap: var(--Spacing-xxs, 4px);
+        border-radius: 8px;
+        border: 1px solid var(--Primary-Primary200, #C7D9E5);
+        color: var(--Base-Base-Black, #333);
+        font-family: "Unitext Regular";
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 141.4%; /* 16.968px */
+        letter-spacing: 0.12px;
+    }
 }
-.actions-icon{
-    width: 16px;
-    height: 16px;
-}
-.actions-container button {
-    height: 28px;
-    gap: var(--Spacing-xxs, 4px);
-    border-radius: 8px;
-    border: 1px solid var(--Primary-Primary200, #C7D9E5);
-    color: var(--Base-Base-Black, #333);
-    font-family: "Unitext Regular";
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 141.4%; /* 16.968px */
-    letter-spacing: 0.12px;
-}
+
 
 /* Property Photos Section */
 .property-photos{
@@ -55,7 +64,7 @@
 .property-other-images{
     width: 294px;
     gap: 24px;
-    button{
+    a{
         width: 130.667px;
         height: 28px;
         border-radius: 8px;

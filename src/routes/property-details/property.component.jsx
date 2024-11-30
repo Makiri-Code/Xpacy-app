@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { IoChevronForward, IoLocationOutline, IoSearchOutline   } from "react-icons/io5";
 import { FaRegSquareFull, FaCheck } from "react-icons/fa6";
@@ -102,13 +101,10 @@ const Property = () => {
     ]
     return(
        <>
-            {/* <Routes>
-                <Route path=':all-photos' element={<Photos/>} />
-            </Routes> */}
             {/* Property Title and info */}
             <div className="property-title-container d-flex flex-column align-items-start">
                 <div className="property-title">
-                    <div className="header-navigation">
+                    <div className="property-header-navigation">
                         <Link to={'/'} className="header-nav-text">Home</Link> 
                             <span><IoChevronForward/></span>
                             <Link to={'/buy'} className="header-nav-text">Buy</Link>
@@ -151,10 +147,10 @@ const Property = () => {
                     <img src={image01} alt="" style={{width: '914px', height: '615px'}}/>
                 </div>
                 <div className="property-other-images d-flex flex-column align-items-start position-relative">
-                    <button className="d-flex justify-content-center align-items-center position-absolute">
+                    <Link to={'property-photos'} className="d-flex justify-content-center align-items-center position-absolute">
                         <MdOutlinePhotoSizeSelectActual style={{width: '16px', height: '16px'}} />
                         View All Photos
-                    </button>
+                    </Link>
                     <img src={image01} alt=""/>
                     <img src={image01} alt=""/>
                     <img src={image01} alt=""/>

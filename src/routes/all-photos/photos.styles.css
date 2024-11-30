@@ -1,0 +1,32 @@
+.property-title{
+    gap: 16px;
+    .property-back-navigation{
+        gap: 8px;
+    }
+}
+
+.view-photos-container{
+    padding: 0px 0px 120px 0px;
+    .view-photos{
+        display: flex;
+        width: 1232.503px;
+        height: 844px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 24px;
+    }
+    .prevIcon-container{
+        width: 48px;
+        height: 48px;
+        padding: 0 12px;
+        border-radius: 50%;
+        border: 1px solid var(--Neutrals-Neutrals200, #DADADA);
+        background: var(--Base-Base-White, #FFF);
+    }
+    .view-photos-carousel{
+        img{
+            filter: brightness(90%);
+        }
+    }
+}
