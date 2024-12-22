@@ -355,7 +355,7 @@ const Property = () => {
             <div className="map d-flex flex-column align-items-center align-self-stretch">
                 <div className="map-container">
                     <h2 className="property-details-heading m-0">Map</h2>
-
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.4799799652396!2d3.4302829736896436!3d6.460710223892519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103bf4b89ac3fa9b%3A0x62d618ff7a5c486c!2s12%20Osborne%20Rd%2C%20Ikoyi%2C%20Lagos%20106104%2C%20Lagos!5e0!3m2!1sen!2sng!4v1733204254918!5m2!1sen!2sng" style={{border: '0px'}} width="100%" height="455" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
             {/* Reviews Section */}

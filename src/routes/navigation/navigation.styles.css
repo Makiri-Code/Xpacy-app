@@ -1,5 +1,12 @@
 
-  
+.auth-nav{
+    display: flex;
+    width: 673px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 64px;
+    margin: 0px 0px 24px 0px;
+}
 nav {
     /* position: fixed; */
     height: auto;

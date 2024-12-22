@@ -1,7 +1,8 @@
 import { useRef, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import {ReactComponent as Logo } from '../../assets/x-pacy-logo.svg'
+import {ReactComponent as Logo } from '../../assets/x-pacy-logo.svg';
 import './navigation.styles.css';
+import Footer from '../footer/footer.component';
 
 const Navigation = () => {
     const classNames = {
@@ -13,7 +14,9 @@ const Navigation = () => {
         contact: 'nav-item',
     }
     const [className, setClassName] = useState(classNames);
+    
     const {home, buy, rent, management, blog, contact} = className;
+
     const clickHandler = (e) => {
         const name = e.target.name
         setClassName({
@@ -22,8 +25,6 @@ const Navigation = () => {
         })
 
     }
-
-
 
     return(
         <>
@@ -87,11 +88,16 @@ const Navigation = () => {
                     </Link>
                 </div>
                 <div className="nav-btns-container">
-                    <button className='nav-btns'>Log In</button>
-                    <button className='nav-btns'>Sign Up</button>
+                    <Link to='auth/log-in' >
+                        <button className='nav-btns'>Log In</button>
+                    </Link>
+                    <Link to='auth/sign-up' >
+                        <button className='nav-btns'>Sign Up</button>
+                    </Link>
                 </div>
             </nav>
             <Outlet/>
+            <Footer/>
         </>
     );
 }

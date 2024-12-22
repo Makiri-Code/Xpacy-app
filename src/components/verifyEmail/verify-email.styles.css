@@ -1,0 +1,8 @@
+.verify-container {
+    width: 504px;
+    display: flex;
+    gap: 64px;
+    padding: 72px 32px;
+    flex-direction: column;
+    text-align: center;
+}

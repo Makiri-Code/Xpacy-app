@@ -171,7 +171,7 @@ const Shop = () => {
                                 </Form>
                             </div>
                         </div>
-                        <div className="propertises-container d-flex align-items-start flex-wrap">
+                        <div className="propertises-container">
                         {
                                     latestPropertises.map((propertise) => {
                                         

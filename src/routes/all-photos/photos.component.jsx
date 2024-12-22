@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import { IoChevronForward, IoLocationOutline, IoSearchOutline, IoArrowBack, IoArrowForward } from "react-icons/io5";
 import { CiHeart } from "react-icons/ci";
 import { MdOutlineShare } from "react-icons/md";
@@ -7,6 +8,11 @@ import { Carousel, CarouselItem } from "react-bootstrap";
 import './photos.styles.css';
 
 const Photos = () => {
+    const [index, setIndex] = useState(0);
+    const handleSelect = (selectedIndex) => {
+        setIndex(selectedIndex);
+    }
+    console.log(index)
     return (
         <>
             <div className="property-title-container d-flex flex-column align-items-start">
@@ -57,7 +63,10 @@ const Photos = () => {
                 <div className="view-photos">
                     <Carousel 
                         controls={true} 
-                        touch={true} 
+                        touch={true}
+                        onSelect={handleSelect}
+                        activeIndex={index}
+                        slide={false}
                         prevIcon={
                             <div className="prevIcon-container d-flex justify-content-center align-items-center">
                                 <IoArrowBack style={{width: '24px', height: '24px', color: '#333333'}}/> 
@@ -74,9 +83,72 @@ const Photos = () => {
                                 className="d-block w-100"
                                 src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                 alt="Second slide"
+                            />
+                        </CarouselItem>
+                        <CarouselItem className="view-photos-carousel">
+                            <img
+                                className="d-block w-100"
+                                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                alt="Hero"
+                            />
+                        </CarouselItem>
+                        <CarouselItem className="view-photos-carousel">
+                            <img
+                                className="d-block w-100"
+                                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                alt="Second slide"
+                                />
+                        </CarouselItem>
+                        <CarouselItem className="view-photos-carousel">
+                            <img
+                                className="d-block w-100"
+                                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            />
+                        </CarouselItem>
+                        <CarouselItem className="view-photos-carousel">
+                            <img
+                                className="d-block w-100"
+                                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            />
+                        </CarouselItem>
+                        <CarouselItem className="view-photos-carousel">
+                            <img
+                                className="d-block w-100"
+                                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                alt="Second slide"
                                 />
                         </CarouselItem>
                     </Carousel>
+                    <div className="other-photos d-flex ">
+                        <img
+                            className={index == 0 ? 'active-carousel' : ''}
+                            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Second slide"
+                        />
+                        <img
+                            className={index == 1 ? 'active-carousel' : ''}
+                            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Hero"
+                        />
+                        <img
+                            className={index == 2 ? 'active-carousel' : ''}
+                            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Second slide"
+                        />
+                        <img
+                            className={index == 3 ? 'active-carousel' : ''}
+                            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        />
+                        <img
+                            className={index == 4 ? 'active-carousel' : ''}
+                            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        />
+                        <img
+                            className={index == 5 ? 'active-carousel' : ''}
+                            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Second slide"
+                        />
+                    </div>
                 </div>
             </div>
         </>
