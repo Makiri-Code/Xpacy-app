@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Navigation from "./routes/navigation/navigation.component";
 import Admin from "./routes/admin/admin.component";
 import Blog from "./routes/blog/blog.component";
@@ -17,11 +17,16 @@ import Dashboards from "./routes/dashboards/dashboards";
 import ForgotPassword from "./routes/forgot-password/ForgotPassword";
 import ResetPassword from "./routes/reset-password/ResetPassword";
 import { UserContext } from "./contexts/userContext";
+import Cookies from "js-cookie";
+
 const App = () => {
-  const {userdata, userToken} = useContext(UserContext);
-  useEffect(() => {
-    localStorage.setItem('token', JSON.stringify(userdata.token));
-  }, [])
+  const {userdata, userToken, setUserToken} = useContext(UserContext);
+  const navigate = useNavigate()
+  // useEffect(() =>{
+  //   if(!userToken){
+  //     navigate('auth/log-in')
+  //   }
+  // }, [])
   
   return(
     <>
@@ -42,9 +47,14 @@ const App = () => {
           <Route path="forgot-password" element={<ForgotPassword/>} />
           <Route path="reset-password" element={<ResetPassword/>} />
         </Route>
-        <Route path= 'dashboard/' element={<Dashboards/>}>
-          <Route path="user" element={<UserDashboard/>}/>
-        </Route>
+        {
+          userToken && 
+          (
+            <Route path= 'dashboard/' element={<Dashboards/>}>
+              <Route path="user/*" element={<UserDashboard/>}/>
+            </Route>
+          )
+        }
       </Routes>
     </>
   )

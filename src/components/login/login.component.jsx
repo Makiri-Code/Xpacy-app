@@ -8,8 +8,9 @@ import './login.styles.css';
 import FormInput from '../form-input/formInput.component';
 import fetchServer from '../../utils/serverutils/fetchServer';
 import { UserContext } from '../../contexts/userContext';
+import Cookies from "js-cookie";
 const LogIn = () => {
-    const {userdata, setUserdata, userToken, setUserToken} = useContext(UserContext);
+    const {userdata, setUserdata, getUserProfile, setUserToken, server} = useContext(UserContext);
     const navigate =  useNavigate();
     const defaultFormFields = {
         email: '',
@@ -18,9 +19,9 @@ const LogIn = () => {
     const [isUserValid, setIsUserValid] = useState(null);
     const [formFields, setFormFields] =useState(defaultFormFields);
     const {email, password} = formFields;
-     useEffect(()=>{
-        localStorage.setItem('user_token', JSON.stringify(userdata.token) )
-    }, [userdata])
+    //  useEffect(()=>{
+    //     localStorage.setItem('user_token', JSON.stringify(userdata.token) )
+    // }, [userdata])
 
     const handleChange = (e) => {
         const {name, value} = e.target
@@ -32,18 +33,20 @@ const LogIn = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const server = "https://app.xpacy.com"
         const body = {
             email: email,
             password: password
         }
-        const userData = await fetchServer('POST', body, 'user/login', server, );
+        const userData = await fetchServer('POST', body, '', 'user/login', server, );
         setIsUserValid(!userData.success)
         setFormFields(defaultFormFields);
         setUserdata(userData);
-        console.log(userData)
-        console.log(userdata)
+        // console.log(userData)
+        // console.log(userData.token)
         if(userData.success){
+            Cookies.set('gt-jwt-br', userData.token)
+            setUserToken(userData.token)
+            getUserProfile()
             navigate("/dashboard/user")
         }
     }

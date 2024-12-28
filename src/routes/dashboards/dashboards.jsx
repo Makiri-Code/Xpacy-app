@@ -6,7 +6,7 @@ const Dashboards = () => {
     const {userdata} = useContext(UserContext);
     useEffect(() => {
         if(!userdata){
-            navigate('/auth/log-in')
+            navigate('/auth/log-in');
         }
     }, [])
     return (

@@ -51,7 +51,7 @@
 }
 
 .card-body-container {
-    height: 242px;
+    /* height: 242px; */
     gap: 16px;
     padding: 16px;
 }

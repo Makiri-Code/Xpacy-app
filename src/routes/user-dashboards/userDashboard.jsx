@@ -1,21 +1,31 @@
-import { useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import { UserContext } from '../../contexts/userContext';
-import './user-dashboard.styles.css';
 import { useNavigate } from 'react-router-dom';
+import fetchServer from '../../utils/serverutils/fetchServer';
+import SideBarNav from '../../components/side-bar-nav/sideBarNav';
+import DashboardPage from '../../components/user-dashboard/userDashboard';
+
 
 const UserDashboard = () => {
     const navigate = useNavigate()
-    const {userdata} = useContext(UserContext);
-    // useEffect(() => {
-    //     if(!userdata.success) {
-    //         console.log(userdata)
-    //         // navigate('/auth/log-in');
-    //     }
-    // }, [])
-    console.log(userdata)
+    const {userdata, server, userToken, userProfile, getUserProfile} = useContext(UserContext);
+    // console.log(userToken)
+    // Cookies.remove('gt-jwt-br')
+    useEffect(()=>{
+        getUserProfile();
+    }, [])
+
+    console.log(userProfile)
     return(
-        <h1>This is the user dashboard route</h1>
+        <>
+            <Routes  >
+                <Route path='/' element= <SideBarNav /> >
+                    <Route index element=<DashboardPage userProfile={userProfile}/> />
+
+                </Route>
+            </Routes>     
+        </>
     )
 }
-
-export default UserDashboard;
+export default UserDashboard

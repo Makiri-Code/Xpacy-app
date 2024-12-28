@@ -33,7 +33,11 @@ import './home.styles.css';
 
 
 const Home = () => {
-    const featuredCard = useRef(null)
+    const featuredCard = useRef(null);
+    const cardStyles = {
+        cardWidth: '373px',
+        // cardHeight: '',
+    }
     const [showFaq, setShowFaq] = useState(false)
     const showFaqs = {
         faq1: false,
@@ -227,7 +231,7 @@ const Home = () => {
                             featuredProperties.map((properties, id)=>{
                                 return (                                
                                     <Card
-                                        cardWidth='373px'
+                                        cardStyles={cardStyles}
                                         propertise={properties}
                                     />                    
                                 )
