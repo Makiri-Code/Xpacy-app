@@ -1,0 +1,38 @@
+.product-list-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    .results-sort-container{
+        padding: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-self: stretch;
+        background: var(--Background-Color, #FCFEFF);
+        .result{
+            color: var(--Base-Base-Black, #333);
+            font-family: "Unitext Regular";
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 150%; /* 1.5rem */
+            letter-spacing: 0.01rem;
+                }
+    }
+    .product-card-list{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 64px;
+        .product-card-container{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 20px;
+            align-self: stretch;
+            padding: 0px 5px;
+        }
+    }
+}

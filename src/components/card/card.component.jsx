@@ -1,12 +1,13 @@
+import { Link } from "react-router-dom";
 import { IoLocationOutline } from "react-icons/io5";
 import {ReactComponent as Naira}  from '../../assets/mdi_naira.svg'
 import { TbBed } from "react-icons/tb";
 import { LuBath } from "react-icons/lu";
 import { CiHeart } from "react-icons/ci";
-
+import { IoCloseSharp } from "react-icons/io5";
 import './card.styles.css';
 const Card = ({propertise,  cardStyles}) => {
-    const {cardWidth, cardHeight, titleSize, headingSize, iconWidth, iconHeight, imgHeight, likeIconSize, bodyGap, bodyPadding, headerGap, showDivider} = cardStyles
+    const {cardWidth, cardHeight, titleSize, headingSize, iconWidth, iconHeight, imgHeight, likeIconSize, bodyGap, bodyPadding, headerGap, showDivider, priceSize, showButtons} = cardStyles
     const {src, title, heading, location, price, bedrooms, bathrooms} = propertise
     return (
         <div className="propertise-card d-flex flex-column align-items-start" style={{width: cardWidth, height: cardHeight}} >
@@ -35,7 +36,7 @@ const Card = ({propertise,  cardStyles}) => {
                     </div>
                     <div className="d-flex justify-content-center align-items-center">
                         <Naira className='price-icon' style={{width: iconWidth, height: iconHeight}}/>
-                        <h5 className="price-text m-0" style={{fontSize: headingSize}}>
+                        <h5 className="price-text m-0" style={{fontSize: priceSize}}>
                             {price}
                         </h5>
                     </div>
@@ -57,6 +58,21 @@ const Card = ({propertise,  cardStyles}) => {
                         </p>
                     </div>
                 </div>
+                {
+                    showButtons && 
+                    (
+                        <>
+                            <div className="card-divider"/>
+                            <div className="card-footer-buttons">
+                                <Link>View Details</Link>
+                                <div className="remove-btn">
+                                    <IoCloseSharp style={{width: iconWidth, height: iconHeight}}/>
+                                    <span>Remove</span>
+                                </div>
+                            </div>
+                        </>
+                    )
+                }
             </div>
         </div>
     )

@@ -18,22 +18,22 @@ const SideBarNav = () => {
         {
             link: 'Go To Home Page',
             icon: RiHome2Line,
-            to: ''
+            to: '/'
         },
         {
             link: 'Dashboard',
             icon: RxDashboard,
-            to: ''
+            to: '/dashboard/user/'
         },
         {
             link: 'Notification',
             icon: IoNotificationsOutline,
-            to: ''
+            to: '/dashboard/user/notification'
         },
         {
             link: 'Saved Properties',
             icon: CiHeart,
-            to: ''
+            to: '/dashboard/user/saved-properties'
         },
         {
             link: 'Booked Services',
@@ -68,7 +68,7 @@ const SideBarNav = () => {
                             {
                                 sideBarContent.map((content) => {
                                     return(
-                                        <Link className="nav-link" key={content.link}><content.icon style={{width: '24px', height: '24px', color: '#fff'}}/> <span className='nav-link-item'>{content.link}</span> </Link>
+                                        <Link className="nav-link" key={content.link} to={content.to}><content.icon style={{width: '24px', height: '24px', color: '#fff'}}/> <span className='nav-link-item'>{content.link}</span> </Link>
                                     )
                                 })
                             }

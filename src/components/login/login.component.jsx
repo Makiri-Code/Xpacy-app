@@ -8,20 +8,35 @@ import './login.styles.css';
 import FormInput from '../form-input/formInput.component';
 import fetchServer from '../../utils/serverutils/fetchServer';
 import { UserContext } from '../../contexts/userContext';
+import ClipLoader from "react-spinners/ClipLoader";
 import Cookies from "js-cookie";
 const LogIn = () => {
-    const {userdata, setUserdata, getUserProfile, setUserToken, server} = useContext(UserContext);
-    const navigate =  useNavigate();
     const defaultFormFields = {
         email: '',
         password: '',
     }
-    const [isUserValid, setIsUserValid] = useState(null);
+    const [isUserValid, setIsUserValid] = useState(false);
     const [formFields, setFormFields] =useState(defaultFormFields);
     const {email, password} = formFields;
-    //  useEffect(()=>{
-    //     localStorage.setItem('user_token', JSON.stringify(userdata.token) )
-    // }, [userdata])
+    const [showLoader, setShowLoader] = useState(false)
+    const {userProfile, setUserData, setUserToken, server, userToken, setUserProfile} = useContext(UserContext);
+    const navigate =  useNavigate();
+
+    useEffect(() => {
+        if(userToken){
+            const getUserProfile = async () => {
+                try{
+                    const resp = await fetchServer('GET', {},  userToken, 'user/fetch-profile', server);
+                    setUserProfile(resp.user);
+                } catch(error) {
+                    console.log(error)
+                }
+            }
+            getUserProfile()
+            console.log(userProfile)
+            console.log(userToken)
+        }
+    }, [userToken]);
 
     const handleChange = (e) => {
         const {name, value} = e.target
@@ -31,8 +46,10 @@ const LogIn = () => {
             [name]: value,
         })
     }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setShowLoader(true)
         const body = {
             email: email,
             password: password
@@ -40,14 +57,15 @@ const LogIn = () => {
         const userData = await fetchServer('POST', body, '', 'user/login', server, );
         setIsUserValid(!userData.success)
         setFormFields(defaultFormFields);
-        setUserdata(userData);
-        // console.log(userData)
-        // console.log(userData.token)
+        setUserData(userData);
+        setShowLoader(false);
+
         if(userData.success){
             Cookies.set('gt-jwt-br', userData.token)
             setUserToken(userData.token)
-            getUserProfile()
-            navigate("/dashboard/user")
+            setTimeout(() => {
+                navigate("/dashboard/user")
+            }, 2000)
         }
     }
     return(
@@ -105,7 +123,11 @@ const LogIn = () => {
                                     </div>
                                     <Link to={'/auth/forgot-password'}>Forgot password?</Link>
                                 </div>
-                                <button type="submit">Log In</button>
+                                <button type="submit">
+                                    {
+                                        showLoader ? (<ClipLoader size={25} color='#fff'/>) : 'Log In'
+                                    }
+                                </button>
                             </form>
                             <p>Don't have an account? <Link to={'/auth/sign-up'}>Sign Up</Link></p>
                         </main>

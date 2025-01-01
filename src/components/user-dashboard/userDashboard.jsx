@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { MdOutlineManageAccounts } from "react-icons/md";
 import DashboardTopNav from '../../routes/dashoard-top-nav/dashboardTopNav';
@@ -8,14 +9,17 @@ import { LuCalendarCheck } from "react-icons/lu";
 import { CiHeart } from "react-icons/ci";
 import { IoCardOutline } from "react-icons/io5";
 import Card from '../card/card.component';
+import { PulseLoader } from 'react-spinners';
 import './user-dashboard.styles.css';
 
 const DashboardPage = ({userProfile}) => {
+    const navigate = useNavigate();
     const cardStytles = {
         cardWidth: '209px',
         cardHeight: '294px',
         titleSize: '12px',
         headingSize: '14px',
+        priceSize: '14px',
         iconWidth: '16px',
         iconHeight: '16px',
         imgHeight: '140px',
@@ -23,6 +27,7 @@ const DashboardPage = ({userProfile}) => {
         bodyGap: '8px',
         headerGap: '4px',
         showDivider: false,
+        showButtons: false,
         bodyPadding: '8px 10px',
 
     }
@@ -109,116 +114,114 @@ const DashboardPage = ({userProfile}) => {
             message: '3-bedroom in Abuja'
         },
     ]
-    const navigate = useNavigate();
-
-    if(!userProfile){
-        navigate('/auth/log-in')
-        return;
-    }
-
+    
     return (
-        <div className='user-dashboard-container'>
-            <DashboardTopNav dashboardRoute={'Dashboard Overview'}/>
-            <div className="user-dashboard-main-content">
-                <h2>Welcome {userProfile.firstname},</h2>
-                <div className="content-layout">
-                    <div className="property-services-container">
-                        <div className="property-section">
-                            <div className="property-section-title">
-                                <h3>Saved Properties</h3>
-                                <Link>View All</Link>
+            <div className='user-dashboard-container'>
+                <DashboardTopNav dashboardRoute={'Dashboard Overview'}/>
+                <div className="user-dashboard-main-content">
+                    <h2>Welcome {userProfile.firstname},</h2>
+                    <div className="content-layout">
+                        <div className="property-services-container">
+                            <div className="property-section">
+                                <div className="property-section-title">
+                                    <h3>Saved Properties</h3>
+                                    <Link>View All</Link>
+                                </div>
+                                <div className="property-list">
+                                    {latestPropertises.map((properties) => {
+                                        return(
+                                            <Card propertise={properties} cardStyles={cardStytles}/>
+                                        )
+                                    })}
+                                </div>
                             </div>
-                            <div className="property-list">
-                                {latestPropertises.map((properties) => {
-                                    return(
-                                        <Card propertise={properties} cardStyles={cardStytles}/>
-                                    )
-                                })}
+                            <div className="services-section">
+                                <div className="property-section-title">
+                                    <h3>Booked Services</h3>
+                                    <Link>View All</Link>
+                                </div>
+                                <table className="booked-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Services Type</th>
+                                            <th>Property</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    {
+                                        bookedServicesTable.map((tableData) => {
+                                            const {serviceType, property, date, status,} = tableData
+                                            return(
+                                                <tbody>
+                                                    <tr>
+                                                        <td>{serviceType}</td>
+                                                        <td>{property}</td>
+                                                        <td>{date}</td>
+                                                        <td ><span className={status}>{status}</span></td>
+                                                    </tr>
+                                                </tbody>
+                                            )
+                                        })
+                                    }
+                                </table>
                             </div>
                         </div>
-                        <div className="services-section">
-                            <div className="property-section-title">
-                                <h3>Booked Services</h3>
-                                <Link>View All</Link>
-                            </div>
-                            <table className="booked-table">
-                                <tr>
-                                    <th>Services Type</th>
-                                    <th>Property</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                </tr>
+                        <div className="notifications-payment-container">
+                            <div className="notification-section">
+                                <div className="property-section-title">
+                                    <h3>Notification</h3>
+                                    <Link>View All</Link>
+                                </div>
                                 {
-                                    bookedServicesTable.map((tableData) => {
-                                        const {serviceType, property, date, status,} = tableData
+                                    notificationLists.map((item, index) => {
+                                        const { title, time, message} = item;
                                         return(
-                                            <tr>
-                                                <td>{serviceType}</td>
-                                                <td>{property}</td>
-                                                <td>{date}</td>
-                                                <td ><span className={status}>{status}</span></td>
-                                            </tr>
+                                            <div className="notification-list" key={index}>
+                                                <div className="notification-icon">
+                                                    <item.icon style={{width:'24px', height:'24px'}}/>
+                                                </div> 
+                                                <div className="notification-content">
+                                                    <div className="notification-title">
+                                                        <p>{title}</p>
+                                                        <span>{time} ago</span>
+                                                    </div>
+                                                    <p>{message}</p>
+                                                </div>
+                                            </div>
                                         )
                                     })
                                 }
-                            </table>
-                        </div>
-                    </div>
-                    <div className="notifications-payment-container">
-                        <div className="notification-section">
-                            <div className="property-section-title">
-                                <h3>Notification</h3>
-                                <Link>View All</Link>
                             </div>
-                            {
-                                notificationLists.map((item, index) => {
-                                    const { title, time, message} = item;
-                                    return(
-                                        <div className="notification-list" key={index}>
-                                            <div className="notification-icon">
-                                                <item.icon style={{width:'24px', height:'24px'}}/>
-                                            </div> 
-                                            <div className="notification-content">
-                                                <div className="notification-title">
-                                                    <p>{title}</p>
-                                                    <span>{time} ago</span>
+                            <div className="payment-section">
+                                <div className="property-section-title">
+                                    <h3>Payment</h3>
+                                    <Link>View All</Link>
+                                </div>
+                                {
+                                    paymentLists.map((item, index) => {
+                                        const {title, status, message} = item
+                                        return(
+                                            <div className="notification-list" key={index}>
+                                                <div className="notification-icon">
+                                                    <item.icon style={{width:'24px', height:'24px'}}/>
+                                                </div> 
+                                                <div className="notification-content">
+                                                    <div className="notification-title">
+                                                        <p>{title}</p>
+                                                        <span className={status}>{status}</span>
+                                                    </div>
+                                                    <p>{message}</p>
                                                 </div>
-                                                <p>{message}</p>
                                             </div>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                        <div className="payment-section">
-                            <div className="property-section-title">
-                                <h3>Payment</h3>
-                                <Link>View All</Link>
+                                        )
+                                    })
+                                }
                             </div>
-                            {
-                                paymentLists.map((item, index) => {
-                                    const {title, status, message} = item
-                                    return(
-                                        <div className="notification-list" key={index}>
-                                            <div className="notification-icon">
-                                                <item.icon style={{width:'24px', height:'24px'}}/>
-                                            </div> 
-                                            <div className="notification-content">
-                                                <div className="notification-title">
-                                                    <p>{title}</p>
-                                                    <span className={status}>{status}</span>
-                                                </div>
-                                                <p>{message}</p>
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     );
 }
 

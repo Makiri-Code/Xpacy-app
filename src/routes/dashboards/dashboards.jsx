@@ -3,12 +3,8 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/userContext";
 const Dashboards = () => {
     const navigate = useNavigate()
-    const {userdata} = useContext(UserContext);
-    useEffect(() => {
-        if(!userdata){
-            navigate('/auth/log-in');
-        }
-    }, [])
+    const {userProfile} = useContext(UserContext);
+    
     return (
         <>
             <Outlet/>

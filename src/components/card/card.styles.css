@@ -71,6 +71,7 @@
 }
 
 .card-heading {
+    margin: 0;
     color: var(--Base-Base-Black, #333);
     font-family: "Florencesans Exp";
     font-size: 18px;
@@ -118,4 +119,46 @@
     font-size: 16px;
     line-height: 150%;
     letter-spacing: 0.16px;
+}
+
+.card-footer-buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    a{
+        display: flex;
+        height: 36px;
+        padding: var(--Spacing-m, 16px);
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        background: var(--Primary-Primary, #203645);
+        color: var(--Base-Base-White, #FFF);
+        font-family: "Unitext Regular";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%; /* 16.8px */
+    }
+    .remove-btn{
+        display: flex;
+        height: 36px;
+        padding: 16px;
+        justify-content: center;
+        align-items: center;
+        gap: var(--Spacing-s, 8px);
+        border-radius: 8px;
+        border: 1px solid var(--Primary-Primary, #203645);
+        background: var(--Base-Base-White, #FFF);
+        span{
+            color: var(--Base-Base-Black, #333);
+            font-family: "Unitext Regular";
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 120%; /* 19.2px */
+        }
+    }
+
 }

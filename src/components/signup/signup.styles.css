@@ -6,7 +6,7 @@
         padding: 64px 0px 0px 0px;
         gap: 20px;
         .signup-content{
-            padding: 24px;
+            /* padding: 24px; */
             gap: 42px;
             .signup-header{
                 text-align: center;
@@ -161,17 +161,22 @@
     }
     .signup-carousel{
         width: 50%;
-        height: 970px;
         .carousel{
+            height: unset;
             .carousel-inner{
                 .carousel-item{
                     .carousel-caption{
                         top: 1.25rem;
+                        right: unset; 
+                        bottom: unset;
+                        left: unset;
+                        padding-top: unset;
+                        padding-bottom: unset;
                     }
                 }
             }
             .signup-carousel-img{
-                height: 975px;
+                height: 917px;
                 filter:unset;
                 object-fit:unset;
             }
@@ -183,7 +188,7 @@
             font-size: 28px;
             font-style: normal;
             font-weight: 700;
-            line-height: 120%; /* 33.6px */
+            line-height: 120%; /*33.6px */
         }
     }
 }
