@@ -6,15 +6,15 @@ import { LuBath } from "react-icons/lu";
 import { CiHeart } from "react-icons/ci";
 import { IoCloseSharp } from "react-icons/io5";
 import './card.styles.css';
-const Card = ({propertise,  cardStyles}) => {
+const Card = ({propertise,  cardStyles, propType}) => {
     const {cardWidth, cardHeight, titleSize, headingSize, iconWidth, iconHeight, imgHeight, likeIconSize, bodyGap, bodyPadding, headerGap, showDivider, priceSize, showButtons} = cardStyles
     const {src, title, heading, location, price, bedrooms, bathrooms} = propertise
     return (
         <div className="propertise-card d-flex flex-column align-items-start" style={{width: cardWidth, height: cardHeight}} >
-            <div className="card-img-container position-relative">
+            <div className="card-img-container position-relative align-self-stretch">
                 <img className="card-image" src={src} alt="house image" style={{height: imgHeight}}/>
                 <div className="card-image-btns d-flex justify-content-between align-items-center position-absolute">
-                    <button className="btn rounded-pill d-flex justify-content-center align-items-center">Sale</button>
+                    <button className="btn rounded-pill d-flex justify-content-center align-items-center">{propType ? propType : 'Sale'}</button>
                     <div className="heart-icon-container d-flex justify-content-center align-items-center" style={{width: likeIconSize, height: likeIconSize}}>
                         <CiHeart className="heart-icon" />
                     </div>

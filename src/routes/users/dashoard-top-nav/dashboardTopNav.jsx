@@ -4,8 +4,8 @@ import { IoIosSearch } from "react-icons/io";
 import { GoBell } from "react-icons/go";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { RiUserSettingsLine } from "react-icons/ri";
-import {ReactComponent as LogOutIcon} from '../../assets/log-out-icon.svg'
-import Profile from '../../assets/profile-picture.png';
+import {ReactComponent as LogOutIcon} from '../../../assets/log-out-icon.svg'
+import Profile from '../../../assets/profile-picture.png';
 import './dashboard-top-nav.styles.css';
 
 const DashboardTopNav = ({dashboardRoute}) => {

@@ -1,11 +1,13 @@
 .dashboard-nav-wrapper {
     position: sticky;
+    top: 0;
     height: 80px;
     padding: 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #E3ECF2;
+    z-index: 100;
     .dashboard-nav-title > h2{
         margin: 0;
         color: var(--Base-Base-Black, #333);

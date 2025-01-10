@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import './clientRating.css'
 import { IoIosStarHalf } from "react-icons/io";
 import {ReactComponent as FaStar} from '../../assets/homepage-assets/testimonial-section-images/star-Icons.svg';
 import { IoStar, IoStarHalf } from 'react-icons/io5';
+import { motion } from 'framer-motion';
+import './clientRating.css'
 
-const ClientRating = ({Review, name, title, comment, rating})=>{
+const ClientRating = ({image, name, title, comment, rating, index})=>{
     const [ratingStars, setRatingStars] = useState([])
     useEffect(()=>{
         var initratingStars = []
@@ -19,11 +20,20 @@ const ClientRating = ({Review, name, title, comment, rating})=>{
             initratingStars = initratingStars.concat(rateDiff)
         }
         setRatingStars(initratingStars)
-    },[rating])
+    },[rating]);
+
     return (
         <>
-            <div className="testimonial">
-                <img src={Review} alt="customer profile" className='reviews-image'/>
+            <motion.div 
+                className="testimonial"
+                animate={{ x: ["0%", "-100%"] }} // Moves the track to the left infinitely
+                transition={{
+                repeat: Infinity, // Infinite loop
+                duration: 10, // Adjust speed (lower = faster)
+                ease: "linear", // Smooth scrolling
+                }}
+            >
+                <img src={image} alt="customer profile" className='reviews-image'/>
                 <div className="reviews-text-container">
                     <p className='testimonial-txt'>{comment}</p>
                     <div className="testimonial-name">
@@ -46,7 +56,7 @@ const ClientRating = ({Review, name, title, comment, rating})=>{
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </>
     )
 }

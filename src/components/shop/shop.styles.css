@@ -11,12 +11,14 @@
 
 
 .shop-container {
-    padding: 24px 0px 72px 0px;
+    padding: 24px 32px;
+    margin: 0 auto;
+    width: 100%;
     gap: 64px;
 }
 
 .header{
-    width: 1232px;
+    align-self: stretch;
     gap: 48px;
 }
 
@@ -51,7 +53,7 @@
 
 .main-container {
     gap: 24px;
-    width: 1232px;
+    align-self: stretch;
 }
 
 .sidebar-container {

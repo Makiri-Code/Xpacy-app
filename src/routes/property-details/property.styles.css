@@ -58,11 +58,18 @@
     padding: 0 104px;
     gap: 24px;
 }
+.property-img-container{
+    width: 70%;
+    height: 615px;
+}
 .property-img-container img{
     border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 .property-other-images{
-    width: 294px;
+    width: 30%;
     gap: 24px;
     a{
         width: 130.667px;
@@ -85,6 +92,8 @@
     }
     img{
         border-radius: 8px;
+        width: 100%;
+        object-fit: cover;
         height: 189px;
     }
 }
@@ -111,9 +120,9 @@
     .property-main-content{
         gap: var(--Spacing-xl, 48px);
         .left-panel{
-            width: 914px;
+            
             gap: 72px;
-            flex-shrink: 0;
+            /* flex-shrink: 0; */
             .property-specs{
                 gap: 16px;
                 .specs-container{
@@ -147,7 +156,7 @@
             }
             .divider{
                 height: 1px;
-                width: 914px;
+                align-self: stretch;
                 border: 1px solid #C7C7C7;
             }
             .property-description, .property-features {
@@ -187,10 +196,10 @@
             }
         }
         .right-panel{
-            width: 270px;
+            /* width: 270px; */
             padding: 38px 0px;
             gap: var(--Spacing-xl, 48px);
-            flex-shrink: 0;
+            /* flex-shrink: 0; */
             border-radius: 10px;
             background: var(--Background-Color, #FCFCFC);
             .price{
@@ -360,10 +369,12 @@
 /* Map Container */
 .map{
     display: flex;
-    padding: 72px 0px;
+    padding: 72px 48px;
+    margin: 0 auto;
+    width: 100%;
     .map-container{
         display: flex;
-        width: 1232px;
+        align-self: stretch;
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
@@ -371,10 +382,15 @@
 }
 .property-reviews{
     display: flex;
-    padding: 72px 0px;
+    padding: 72px 48px;
+    .divider{
+        height: 1px;
+        align-self: stretch;
+        border: 1px solid #C7C7C7;
+    }
     .property-reviews-container{
         display: flex;
-        width: 1232px;
+        align-self: stretch;
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
@@ -384,25 +400,26 @@
             height: 298px;
             flex-wrap: nowrap;
             gap: 16px;
-            padding-bottom: 18px;
+            padding: 18px 0px 10px 0px;
         }
     }
 }
 .related{
     display: flex;
-    padding: 72px 0px;
+    padding: 48px 10px 48px 20px;
     .related-container{
         display: flex;
-        width: 1232px;
+        align-self: stretch;
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
         .related-cards{
             display: flex;
             flex-wrap: wrap;
-            width: 1229px;
             align-items: flex-start;
-            gap: 22px;
+            column-gap: 24px;
+            row-gap: 64px;
+            align-self: stretch;
         }
     }
 }

@@ -1,0 +1,43 @@
+.client-reviews{
+    width: 95.88%;
+    display: flex;
+    flex-direction: column;
+    padding: 120px 0px;
+    gap: 64px;
+    margin: 0  auto;
+    background: var(--Background-Color);
+    .text-center{
+        h1{
+            color: var(--Primary-Primary, #203645);
+            text-align: center;
+            font-size: 36px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 120%; /* 2.1rem */
+        }
+        h5{
+            color: var(--Base-Base-Black, #333);
+            text-align: center;
+            font-size: 1.125rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%; /* 1.35rem */
+            margin-bottom: unset;
+        }
+    }
+}
+.testimonial-card-container{
+    display: flex;
+    width: 85.9%;
+    margin: 0 auto;
+    height: 394px;
+    padding: 48px;
+    align-items: center;
+    .testimonial-scroll{
+        display: flex;
+        /* width: 2332px; */
+        height: 298px;
+        flex-wrap: nowrap;
+        gap: 16px;
+    }
+}

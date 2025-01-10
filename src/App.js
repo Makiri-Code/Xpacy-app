@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Navigation from "./routes/navigation/navigation.component";
-import Admin from "./routes/admin/admin.component";
+import Mangement from "./routes/admin/management";
 import Blog from "./routes/blog/blog.component";
 import Contacts from "./routes/contacts/contacts.component";
 import Home from "./routes/home/home.component";
@@ -12,7 +12,7 @@ import Authentication from "./routes/authentication/auth.component";
 import LogIn from "./components/login/login.component";
 import SignUp from "./components/signup/signup.component";
 import VerifyEmail from "./components/verifyEmail/verifyEmail";
-import UserDashboard from "./routes/user-dashboards/userDashboard";
+import UserDashboard from './routes/users/user-dashboards/userDashboard'
 import Dashboards from "./routes/dashboards/dashboards";
 import ForgotPassword from "./routes/forgot-password/ForgotPassword";
 import ResetPassword from "./routes/reset-password/ResetPassword";
@@ -33,9 +33,8 @@ const App = () => {
       <Routes>
         <Route path = "/" element = {<Navigation/>}>
           <Route index element = {<Home/>} />
-          <Route path="/admin" element = {<Admin/>} />
+          <Route path="admin/*" element = {<Mangement/>} />
           <Route path="contact" element = {<Contacts/>} />
-          <Route path="auth/*" element = {<Authentication/>} />
           <Route path="rent/*" element = {<Rent/>} />/
           <Route path="buy/*" element = {<Buy/>} />
           <Route path="blog" element = {<Blog/>} />
@@ -48,7 +47,7 @@ const App = () => {
           <Route path="reset-password" element={<ResetPassword/>} />
         </Route>
         {
-          userToken && 
+          // userToken && 
           (
             <Route path= 'dashboard/' element={<Dashboards/>}>
               <Route path="user/*" element={<UserDashboard/>}/>

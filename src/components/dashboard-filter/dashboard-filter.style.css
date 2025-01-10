@@ -1,0 +1,38 @@
+.filter-icon-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    border: 1px solid var(--Primary-Primary200, #C7D9E5);
+    .dropdown-hover{
+        position: absolute;
+        width: 138px;
+        top: 45px;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-shrink: 0;
+        border-radius: 8px;
+        border: 1px solid var(--Primary-Primary200, #C7D9E5);
+        span{
+            cursor: pointer;
+            text-align: center;
+            width: 80%;
+            color: var(--Base-Base-Black, #333);
+            font-family: "Unitext Regular";
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 400;
+            padding: 10px;
+            border-bottom: 1px solid #C7D9E5;
+        }
+        span:hover{
+            width: 100%;
+            background-color: #C7D9E5;
+        }
+    }
+}

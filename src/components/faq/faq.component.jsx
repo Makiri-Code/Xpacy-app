@@ -2,21 +2,31 @@ import { FiMinusCircle } from "react-icons/fi";
 import {ReactComponent as PlusIcon} from '../../assets/plus-circle.svg';
 import './faq.styles.css';
 import { useState } from "react";
-const Faq = ({faq, showFaqs, heading, answer}) => {
-    const [showFaq, setShowFaq] = useState(showFaqs);
-    // const {faq1, faq2, faq3, faq4} = showFaq
+const Faq = ({ heading, answer, showDivider}) => {
+    const [showFaq, setShowFaq] = useState(false);
+    const handleClick = () => {
+        setShowFaq(!showFaq);
+    }
     return (
         <div className="row faq">
-            <div className="divider"></div>
-            <div className="col d-flex justify-content-between">
+            {
+                showDivider && 
+                (
+                    <div className="faq-divider"/>
+                )
+            }
+            <div className='col d-flex justify-content-between' onClick={handleClick}>
                 <h5 className='faq-heading'>{heading}</h5>
-                {faq ? <FiMinusCircle className='minus-icon' onClick={() => (setShowFaq({...showFaq, faq: !faq}))}/> : <PlusIcon className='plus-icon' onClick={() => setShowFaq({...showFaq, faq: !faq})}/>}
+                {showFaq ? (<FiMinusCircle className='minus-icon' onClick={handleClick}/>) : (<PlusIcon className='plus-icon' onClick={handleClick}/>)}
             </div>
-            <p 
-            className = {faq ? 'show-faq': 'no-show-faq'
-            }>
-                {answer}
-            </p>
+            {
+                showFaq && 
+                (
+                    <p>
+                        {answer}
+                    </p>
+                )
+            }
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { MdOutlineManageAccounts } from "react-icons/md";
-import DashboardTopNav from '../../routes/dashoard-top-nav/dashboardTopNav';
+import DashboardTopNav from '../../routes/users/dashoard-top-nav/dashboardTopNav';
 import { BiBuildings } from "react-icons/bi";
 import { FaBuildingUser } from "react-icons/fa6";
 import { TbUsersGroup } from "react-icons/tb";
@@ -150,10 +150,10 @@ const DashboardPage = ({userProfile}) => {
                                         </tr>
                                     </thead>
                                     {
-                                        bookedServicesTable.map((tableData) => {
+                                        bookedServicesTable.map((tableData, index) => {
                                             const {serviceType, property, date, status,} = tableData
                                             return(
-                                                <tbody>
+                                                <tbody key={index}>
                                                     <tr>
                                                         <td>{serviceType}</td>
                                                         <td>{property}</td>

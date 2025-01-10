@@ -1,0 +1,107 @@
+.support-container{
+    width: 65%;
+    margin: 24px auto;
+    display: flex;
+    /* padding: 0px 24px; */
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    .form-container{
+        display: flex;
+        padding: 24px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 48px;
+        align-self: stretch;
+        border-radius: 8px;
+        border: 1.5px solid var(--Primary-Primary200, #C7D9E5);
+        background: var(--Base-Base-White, #FFF);
+        .form-header{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+            align-self: stretch;
+            h5{
+                margin: 0;
+                color: var(--Base-Base-Black, #333);
+                font-family: "Florencesans Exp";
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 120%; /* 21.6px */
+            }
+            p{
+                color: var(--Neutrals-Neutrals900, #585858);
+                font-family: "Unitext Regular";
+                font-size: 1rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 150%; /* 24px */
+                letter-spacing: 0.16px;
+            }
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 24px;
+            align-self: stretch;
+            .personal-info-name{
+                gap: 24px;
+            }
+            .text-area{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                align-self: stretch;
+                gap: 16px;
+                label, textarea{
+                    color: var(--Base-Base-Black, #333);
+                    font-family: "Unitext Regular";
+                    font-size: 0.875rem;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 120%; /* 1.05rem */
+                }
+                textarea{
+                    font-size: 1rem;
+                    align-self: stretch;
+                    padding: 8px 12px;
+                    border-radius: 8px;
+                    border: 1px solid var(--Primary-Primary200, #C7D9E5);
+                    background: var(--Base-Base-White, #FFF);
+
+                }
+            }
+        }
+        .support-modal-content{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: inline-flex;
+            padding: 40px 48px 64px 48px;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--Primary-Primary200, #C7D9E5);
+            background: var(--Base-Base-White, #FFF);
+            h3,p{
+                align-self: flex-start;
+            }
+        }
+    }
+    .help-faq-container{
+        display: flex;
+        padding: 24px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 48px;
+        align-self: stretch;
+        border-radius: 8px;
+        border: 1.5px solid var(--Primary-Primary200, #C7D9E5);
+        background: var(--Base-Base-White, #FFF);
+    }
+}

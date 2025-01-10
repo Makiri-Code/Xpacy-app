@@ -1,4 +1,4 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNa, useNavigate } from 'react-router-dom';
 import sidebarLogo from '../../assets/sidebarLogo.png';
 import { RiHome2Line } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
@@ -14,6 +14,8 @@ import { LuExternalLink } from "react-icons/lu";
 import './side-bar.styles.css';
 
 const SideBarNav = () => {
+    const navigate = useNavigate();
+
     const sideBarContent = [
         {
             link: 'Go To Home Page',
@@ -43,17 +45,17 @@ const SideBarNav = () => {
         {
             link: 'Payments',
             icon: IoCardOutline,
-            to: ''
+            to: '/dashboard/user/payments'
         },
         {
             link: 'Profile Settings',
             icon: RiUserSettingsLine,
-            to: ''
+            to: '/dashboard/user/profile-settings'
         },
         {
             link: 'Help Support',
             icon: MdOutlineContactSupport,
-            to: ''
+            to: '/dashboard/user/support'
         },
     ]
     return (
@@ -74,7 +76,7 @@ const SideBarNav = () => {
                             }
                         </div>
                     </div>
-                    <div className="referral-card">
+                    <div className="referral-card" onClick={() => navigate('/dashboard/user/referral')}>
                         <FaCircle className='elipse'/>
                         <div className="referral-content">
                             <div className="referral-header">

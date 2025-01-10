@@ -20,6 +20,10 @@ import './property.styles.css';
 import Photos from '../all-photos/photos.component';
 const Property = () => {
     const [selectedDate, setSelectedDate] = useState('Select tour date');
+    const cardStyles = {
+        cardWidth: '395px',
+        showDivider: true
+    }
     const latestPropertises = [
         {
             src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -144,7 +148,7 @@ const Property = () => {
             {/* Property Photos */}
             <div className="property-photos d-flex align-self-strech">
                 <div className="property-img-container" >
-                    <img src={image01} alt="" style={{width: '914px', height: '615px'}}/>
+                    <img src={image01} alt=""/>
                 </div>
                 <div className="property-other-images d-flex flex-column align-items-start position-relative">
                     <Link to={'property-photos'} className="d-flex justify-content-center align-items-center position-absolute">
@@ -328,7 +332,6 @@ const Property = () => {
                                         <div className="calender-container position-relative" style={{width: '15px', height:'16.667px'}}>
                                             <Calender className='calender position-absolute' style={{width: '100%', height:'100%'}}/>
                                             <input type='date' className='position-absolute' onChange={(e) => {
-                                                console.log(e.target.value)
                                                 setSelectedDate(e.target.value)
                                             }}/>
                                         </div>
@@ -362,12 +365,13 @@ const Property = () => {
             <div className="property-reviews d-flex flex-column align-items-center align-self-stretch">
                 <div className="property-reviews-container overflow-x-hidden">
                     <h2 className="property-details-heading m-0">Reviews</h2>
+                    <div className="divider"/>
                     <div className="testimonial-scroll">
                         {clientRatings.map((clientRating, index)=>{
                             const {Reviewer, comment, name, title, rating} = clientRating
                             return (
                                 <ClientRating
-                                    Review = {Reviewer}
+                                    image={Reviewer}
                                     comment={comment}
                                     name={name}
                                     title={title}
@@ -388,7 +392,7 @@ const Property = () => {
                                 return(
                                     <Card 
                                         propertise={propertise}
-                                        cardWidth={'395px'}
+                                        cardStyles={cardStyles}
                                     />
                                 )
                             })

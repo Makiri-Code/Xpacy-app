@@ -14,10 +14,16 @@
 }
 /* Card-stlyes */
 .card-image{
+    width: 100%;
+    object-fit:cover;
     height: 280px;
     border-radius: 8px 8px var(--Radius-Sharp, 0px) var(--Radius-Sharp, 0px);
     border: 1px solid var(--Neutrals-Neutrals200, #DADADA);
 
+}
+.card-image:hover{
+    cursor: pointer;
+    transform: scale(1.00999);
 }
 .card-image-btns{
     width: 100%;

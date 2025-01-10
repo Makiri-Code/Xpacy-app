@@ -1,26 +1,34 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> d0dc5d18dd482971ad1c7357d7630fb17e81bfdc
 .faq{
-    width: 768px;
+    align-self: stretch;
     gap: 24px;
+    margin-bottom: 24px;
 }
 .faq-heading{
+    margin: 0;
     color: var(--Base-Base-Black);
     font-family: "Unitext Regular";
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
     line-height: 120%; /* 21.6px */
+    user-select: none;
 }
-.minus-icon{
+.faq:hover{
+    cursor: pointer;
+    transform: scale(0.97);
+    color: dodgerblue;
+}
+.faq-heading:hover{
+    color: dodgerblue;
+}
+
+.minus-icon, .plus-icon{
     width: 24px;
     height: 24px;
+    cursor: pointer;
+    user-select: none;
+    color: dodgerblue;
 }
-.no-show-faq{
-    display: none;
-}
-.show-faq {
-    display: block;
+.faq-divider{
+    border: 1px solid #DADADA;
 }

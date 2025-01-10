@@ -3,6 +3,7 @@ import { Link, Outlet } from 'react-router-dom';
 import {ReactComponent as Logo } from '../../assets/x-pacy-logo.svg';
 import './navigation.styles.css';
 import Footer from '../footer/footer.component';
+import Button from '../../components/button/button';
 
 const Navigation = () => {
     const classNames = {
@@ -89,10 +90,17 @@ const Navigation = () => {
                 </div>
                 <div className="nav-btns-container">
                     <Link to='auth/log-in' >
-                        <button className='nav-btns'>Log In</button>
+                        <Button 
+                            buttonType={{primaryBtn: false}}
+
+                        >Log In</Button>
                     </Link>
                     <Link to='auth/sign-up' >
-                        <button className='nav-btns'>Sign Up</button>
+                        <Button 
+                            buttonType={{primaryBtn: true}}
+                        >
+                            Sign Up
+                        </Button>
                     </Link>
                 </div>
             </nav>

@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoClose } from "react-icons/io5";
 import {ReactComponent as Logo} from '../../assets/x-pacy-logo.svg';
-import { Carousel, CarouselCaption, CarouselItem } from 'react-bootstrap';
+import { Carousel, CarouselCaption, CarouselItem, Modal } from 'react-bootstrap';
 import sliderImg from '../../assets/log-asset/carousel-photo01.png';
 import './login.styles.css';
 import FormInput from '../form-input/formInput.component';
@@ -10,6 +10,7 @@ import fetchServer from '../../utils/serverutils/fetchServer';
 import { UserContext } from '../../contexts/userContext';
 import ClipLoader from "react-spinners/ClipLoader";
 import Cookies from "js-cookie";
+import ModalComponent from '../modal/modal';
 const LogIn = () => {
     const defaultFormFields = {
         email: '',
@@ -97,13 +98,17 @@ const LogIn = () => {
                                     />
                                     {
                                         (isUserValid && 
-                                        <div className='invalid-email-container'>
+                                        <ModalComponent>
                                             <div className="invalid-email-content">
                                                 <h3>Opps!</h3>
                                                 <p>Incorrect Email or Password. Please try again</p>
-                                                <IoClose style={{width: '24px', height: '24px'}} className='close-email' onClick={() => setIsUserValid(false)}/>
+                                                <IoClose 
+                                                    style={{width: '24px', height: '24px'}} 
+                                                    className='close-email' 
+                                                    onClick={() => setIsUserValid(false)}
+                                                />
                                             </div>
-                                        </div>)
+                                        </ModalComponent>)
                                     }
                                 </div>
                                 <FormInput

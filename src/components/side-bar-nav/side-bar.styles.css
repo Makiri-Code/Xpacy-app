@@ -64,6 +64,8 @@
                 }
             }
             .referral-card {
+                user-select: none;
+                cursor: pointer;
                 position: relative;
                 width: 203px;
                 min-width: 100%;

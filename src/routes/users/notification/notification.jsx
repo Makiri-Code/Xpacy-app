@@ -3,9 +3,10 @@ import DashboardTopNav from '../dashoard-top-nav/dashboardTopNav';
 import { MdFilterList } from "react-icons/md";
 import { LuCalendarCheck } from "react-icons/lu";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import Pagination from '../../components/pagination/pagination';
-import SortBy from '../../components/sort-by/sortBy';
+import Pagination from '../../../components/pagination/pagination';
+import SortBy from '../../../components/sort-by/sortBy';
 import './notification.styles.css';
+import DashboardFilter from '../../../components/dashboard-filter/dasboardFilter';
 
 const Notification = () => {
     const [showDropdown, setShowDropDown] = useState(false);
@@ -72,7 +73,8 @@ const Notification = () => {
         {
             option: 'Last 90 days'
         },
-    ]
+    ];
+    const dropdownOptions = ['General', 'Services', 'Properties', 'Payments']
     return (
         <div className="notification-container">
             <DashboardTopNav dashboardRoute={'Notification'}/>
@@ -89,19 +91,7 @@ const Notification = () => {
                         </div>
                         <div className="sort-filter-container">
                             <SortBy selectOptions={selectOptions}/>
-                            <div className="filter-icon-container" onMouseEnter={()=> setShowDropDown(true)} onMouseLeave={() => setShowDropDown(false)}>
-                                <MdFilterList style={{width: '24px', height: '24px'}} />
-                                {
-                                    showDropdown && (
-                                        <div className="dropdown-hover">
-                                            <span>General</span>
-                                            <span>Services</span>
-                                            <span>Properties</span>
-                                            <span>Payments</span>
-                                        </div>
-                                    )
-                                }
-                            </div>
+                            <DashboardFilter dropdownOptions={dropdownOptions}/>
                         </div>
                     </div>
                     <div className="datatable">

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { IoChevronForward } from "react-icons/io5";
 import {Form} from 'react-bootstrap';
 import LatestImage from '../../assets/shop-page-assets/latest-img.jpeg'
@@ -6,10 +7,15 @@ import {ReactComponent as Naira} from '../../assets/mdi_naira.svg'
 import { TbBed } from "react-icons/tb";
 import { LuBath } from "react-icons/lu";
 import Card from '../card/card.component'
+import Pagination from "../pagination/pagination";
 import './shop.styles.css';
-import { Link } from "react-router-dom";
 
-const Shop = () => {
+const Shop = ({propHeadings, page, propType}) => {
+    const {heading, subHeading} = propHeadings;
+    const cardStyles = {
+        cardWidth: '415px',
+        showDivider: true
+    }
     const latestPropertises = [
         {
             src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -55,18 +61,18 @@ const Shop = () => {
             price: '1,000,000', 
             bedrooms: 4,
             bathrooms: 4,
-        }
+        },
     ]
     return(
         <>
             <div className="shop-container d-flex flex-column align-items-center align-self-stretch">
                 <div className="header d-flex flex-column align-items-start">
                     <div className="header-navigation">
-                     <Link to={'/'} className="header-nav-text">Home</Link> <span><IoChevronForward/></span> <span className="header-nav-text" style={{color:  "#007BFF"}}>Buy</span>
+                     <Link to={'/'} className="header-nav-text">Home</Link> <span><IoChevronForward/></span> <span className="header-nav-text" style={{color:  "#007BFF"}}>{page}</span>
                     </div>
                     <div className="header-text-container">
-                        <h1 className="header-heading">Properties For Sale</h1>
-                        <p className="header-text">Search for properties on sale</p>
+                        <h1 className="header-heading">{heading}</h1>
+                        <p className="header-text">{subHeading}</p>
                     </div>
                 </div>
                 <div className="main-container d-flex justify-content-center align-items-start ">
@@ -178,8 +184,9 @@ const Shop = () => {
                                         return(
                                             <Link to='property'>
                                                 <Card
-                                                    cardWidth = {"415px"}
+                                                    cardStyles={cardStyles}
                                                     propertise = {propertise}
+                                                    propType={propType}
 
                                                 />
                                             </Link>
@@ -189,6 +196,7 @@ const Shop = () => {
                         </div>
                     </div>
                 </div>
+                <Pagination/>
             </div>
         </>
     )

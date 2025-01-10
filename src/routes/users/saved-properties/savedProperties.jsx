@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom';
 import DashboardTopNav from '../dashoard-top-nav/dashboardTopNav';
-import SortBy from '../../components/sort-by/sortBy';
-import Pagination from '../../components/pagination/pagination';
-import Card from '../../components/card/card.component';
+import SortBy from '../../../components/sort-by/sortBy';
+import Pagination from '../../../components/pagination/pagination';
+import Card from '../../../components/card/card.component';
 import './saved-properties.styles.css';
 
 const SavedProperties = () => {
@@ -135,6 +136,9 @@ const SavedProperties = () => {
                     }
                     <Pagination/>
                 </div>
+                <Link className="explore">
+                    Explore New Properties
+                </Link>
             </div>
         </div>
     </div>

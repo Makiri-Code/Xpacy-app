@@ -125,7 +125,7 @@ const SignUp = () => {
                                 </div>
                                 <div className="signup-password d-flex flex-column align-items-start">
                                     <FormInput
-                                        label={"Password"}
+                                        label={"Confirm Password"}
                                         className= {password !== confirmPassword ? 'form-input invalid' : 'form-input'}
                                         id="password"
                                         name='confirmPassword'
@@ -145,7 +145,7 @@ const SignUp = () => {
                                             nigeriaStates.map((stateName) => {
                                                 const {location} = stateName
                                                 return (
-                                                    <option>{location}</option>
+                                                    <option key={location}>{location}</option>
                                                 )
                                             })
                                         }

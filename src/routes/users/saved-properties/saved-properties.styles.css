@@ -25,7 +25,7 @@
         width: 100%;
         flex-direction: column;
         align-items: center;
-        gap: 64px;
+        gap: 40px;
         .product-card-container{
             display: flex;
             flex-wrap: wrap;
@@ -33,6 +33,22 @@
             gap: 20px;
             align-self: stretch;
             padding: 0px 5px;
+        }
+        .explore{
+            margin-bottom: 40px;
+            display: flex;
+            height: 48px;
+            padding: var(--Spacing-ml, 24px);
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            background: var(--Primary-Primary, #203645);
+            color: var(--Base-Base-White, #FFF);
+            font-family: "Unitext Regular";
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 120%; /* 19.2px */
         }
     }
 }
