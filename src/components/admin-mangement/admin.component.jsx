@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import managementHero from '../../assets/management-hero-img.png'
 import Button from '../button/button';
@@ -16,8 +17,22 @@ import Image3 from '../../assets/facility-management/Image3.png';
 import Reviews from '../reviews/reviews';
 import GetInTouch from '../get-in-touch/getInTouch';
 import './admin.styles.css';
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
 
 const AdminMangement = () => {
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 600);
+        }
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        };
+       
+    }, []);
+    AOS.init();
     const navigate = useNavigate();
     const facilityService = [
         {
@@ -149,7 +164,7 @@ const AdminMangement = () => {
                 subHeadinFontFamily={'Unitext Regular'}
             />
             <GetInTouch
-                width={'85.9%'}
+                width={isMobile ? '100%' : '85.9%'}
                 marginBottom={'72px'}
                 Image1={Image1}
                 Image2={Image2}

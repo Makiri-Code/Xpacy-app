@@ -1,8 +1,8 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import {Carousel, CarouselItem, Form } from 'react-bootstrap';
 import Button from '../../components/button/button';
 import { IoIosSearch} from "react-icons/io";
-// import {ReactComponent as NairaIcon} from '.'
+import { useNavigate } from 'react-router-dom';
 import { GoArrowLeft } from "react-icons/go";
 import { GoArrowRight } from "react-icons/go";
 // import {ReactComponent as FaStar} from '../../assets/homepage-assets/testimonial-section-images/star-Icons.svg';
@@ -32,109 +32,46 @@ import insightimg3 from '../../assets/homepage-assets/insights-section-images/in
 import {ReactComponent as GooglePlay} from '../../assets/homepage-assets/play-store.svg';
 import {ReactComponent as GooglePlayText} from '../../assets/homepage-assets/google-play.svg';
 import {ReactComponent as ApplePlay} from '../../assets/homepage-assets/apple-store.svg';
-
-import './home.styles.css';
+import { PageContext } from '../../contexts/page.context';
 import Reviews from '../../components/reviews/reviews';
+import ServicesCard from '../../components/services-card/services-card';
 import GetInTouch from '../../components/get-in-touch/getInTouch';
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
 // ..
+import './home.styles.css';
 
 
 const Home = () => {
+    const {propertiesArray} = useContext(PageContext);
+    const navigate = useNavigate()
+    const featured = propertiesArray.filter((item) => item.featured);
+
+
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 600);
+        }
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        };
+       
+    }, []);
+    
     AOS.init();
+
     const featuredCard = useRef(null);
+
     const cardStyles = {
         cardWidth: '373px',
-        showDivider: true
+        showDivider: true,
+        isMobile: isMobile
     }
-    const featuredProperties = [
-        {
-            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'title':'Terrace',
-            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
-            'location': 'Ikoyi, Lagos',
-            'price': "1,000,000,000",
-            'bedrooms':4,
-            'bathrooms':5
-        },
-        {
-            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'title':'Terrace',
-            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
-            'location': 'Ikoyi, Lagos',
-            'price': "9,000,000,000",
-            'bedrooms':4,
-            'bathrooms':5
-        },
-        {
-            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'title':'Terrace',
-            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
-            'location': 'Ikoyi, Lagos',
-            'price': "5,000,000,000",
-            'bedrooms':4,
-            'bathrooms':5
-        },
-        {
-            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'title':'Terrace',
-            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
-            'location': 'Ikoyi, Lagos',
-            'price': "600,000,000",
-            'bedrooms':4,
-            'bathrooms':5
-        },
-        {
-            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'title':'Terrace',
-            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
-            'location': 'Ikoyi, Lagos',
-            'price': "800,000,000",
-            'bedrooms':4,
-            'bathrooms':5
-        },
-        {
-            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'title':'Terrace',
-            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
-            'location': 'Abuja, Lagos',
-            'price': "600,000,000",
-            'bedrooms':4,
-            'bathrooms':5
-        },
-        {
-            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'title':'Terrace',
-            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
-            'location': 'Lekki, Lagos',
-            'price': "900,000",
-            'bedrooms':4,
-            'bathrooms':5
-        },
-        {
-            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'title':'Terrace',
-            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
-            'location': 'Ikoyi, Lagos',
-            'price': "600,000,000",
-            'bedrooms':4,
-            'bathrooms':5
-        },
-        {
-            'src':"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            'title':'Terrace',
-            'heading':'Luxury 4-Bedroom Terrace Home with BQ',
-            'location': 'Ikoyi, Lagos',
-            'price': "600,000,000",
-            'bedrooms':4,
-            'bathrooms':5
-        }
-    ]
     
     const handleFeatureClick = (e)=>{
         const name = e.target.getAttribute('name')
-        console.log(name)
         if (name && featuredCard.current){
             console.log(featuredCard)
             if (name==='fclickright'){                
@@ -144,6 +81,7 @@ const Home = () => {
             }
         }
     }
+
 
     return (
         <>
@@ -185,10 +123,20 @@ const Home = () => {
                                         <option value={"buy"}>Buy</option>
                                         <option value={"rent"}>Rent</option>
                                     </Form.Select>
-                                    <Form.Select className='select'>
+                                    <Form.Select className='select location-select'>
                                         <option>Location</option>
-                                        <option value={"buy"}>Buy</option>
-                                        <option value={"rent"}>Rent</option>
+                                        <option value={"Abuja"}>Abuja</option>
+                                        <option value={"Aba"}>Aba</option>
+                                        <option value={"Benin"}>Benin</option>
+                                        <option value={"Calabar"}>Calabar</option>
+                                        <option value={"Enugu"}>Enugu</option>
+                                        <option value={"Ibadan"}>Ibadan</option>
+                                        <option value={"Ilorin"}>Ilorin</option>
+                                        <option value={"Lagos"}>Lagos</option>
+                                        <option value={"Minna"}>Minna</option>
+                                        <option value={"Port Harcourt"}>Port Harcourt</option>
+                                        <option value={"Uyo"}>Uyo</option>
+                                        <option value={"Warri"}>Warri</option>
                                     </Form.Select>
                                     <Form.Select className='select'>
                                         <option>Type</option>
@@ -217,8 +165,46 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            
+            {/* Mobile search container */}
+            <div className=' mobile-search-container' data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-easing="linear" data-aos-duration="1000">
+                <Form className="mobile-align-search-container">
+                    <div className="mobile-home-select-option">
+                        <Form.Select className='select'>
+                            <option>Purpose</option>
+                            <option value={"buy"}>Buy</option>
+                            <option value={"rent"}>Rent</option>
+                        </Form.Select>
+                        <Form.Select className='select'>
+                            <option>Location</option>
+                            <option value={"buy"}>Buy</option>
+                            <option value={"rent"}>Rent</option>
+                        </Form.Select>
+                        <Form.Select className='select'>
+                            <option>Type</option>
+                            <option value={"buy"}>Buy</option>
+                            <option value={"rent"}>Rent</option>
+                        </Form.Select>
+                        <Form.Select className='select'>
+                            <option>Bedroom</option>
+                            <option value={"buy"}>Buy</option>
+                            <option value={"rent"}>Rent</option>
+                        </Form.Select>
+                        <Form.Select className='select'>
+                            <option>Min Price</option>
+                            <option value={"buy"}>Buy</option>
+                            <option value={"rent"}>Rent</option>
+                        </Form.Select>
+                        <Form.Select className='select'>
+                            <option>Max Price</option>
+                            <option value={"buy"}>Buy</option>
+                            <option value={"rent"}>Rent</option>
+                        </Form.Select>
+                    </div>
+                    <Button buttonType={{primaryBtn: true}} className='search-btn'> <IoIosSearch className='search-icon'/> Search</Button>
+                </Form>
+            </div>
             {/* Featured Section */}
+            
             <div className="featured">
                 <div className="brow">
                     <h1 className='feature-main-heading' data-aos="slide-down"  data-aos-easing="linear" data-aos-duration="1000">Featured Properties</h1>
@@ -238,7 +224,7 @@ const Home = () => {
                         <div className='featured-inner-container' >
                             {/* Featured Cards */}
                             {
-                                featuredProperties.map((properties, id)=>{
+                                featured.map((properties, id)=>{
                                     return (                                
                                         <Card
                                             cardStyles={cardStyles}
@@ -251,45 +237,49 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+
+
+            {/* Services section */}
             <div className="services"  data-aos="fade-down"  data-aos-easing="linear" data-aos-duration="1500" data-aos-anchor-placement="top-bottom">
-                <div className="text-center">
+                <div className="services-content">
                     <h1 className='heading'>Our Services</h1>
                     <h5 className='sub-heading'>Tailored Property Services to Meet Your Unique Needs</h5>
-                    <div className="row services-img-container mx-0 flex-nowrap overflow-x-hidden">
-                            <div className="col">
-                                <div className="hover-container">
-                                </div>
-                                <img src={Services01} alt="services" className='services-img position-relative rounded'/>
-                                <img src={Icon01} alt="Naira bag" style={{width: "160px", height: "160px"}} className='position-absolute top-50 start-50 translate-middle object-fit-contain'/>
-                            </div>
-                            <div className="col">
-                                <div className="hover-container">
-                                
-                                </div>
-                                <img src={Services02} alt="services" className='services-img position-relative rounded'/>
-                                <img src={Icon02} alt="Service icon" style={{width: "160px", height: "160px"}} className='position-absolute top-50 start-50 translate-middle object-fit-contain'/>
-                            </div>
-                            <div className="col">
-                                <div className="hover-container">
-                                
-                                </div>
-                                <img src={Services03} alt="services" className='services-img position-relative rounded'/>
-                                <img src={Icon03} alt="Services icon" style={{width: "160px", height: "160px"}} className='position-absolute top-50 start-50 translate-middle object-fit-contain'/>
-                            </div>
-                            <div className="col">
-                                <div className="hover-container">
-                                
-                                </div>
-                                <img src={Services04} alt="services" className='services-img position-relative rounded'/>
-                                <img src={Icon04} alt="Services Icon" style={{width: "160px", height: "160px"}} className='position-absolute top-50 start-50 translate-middle object-fit-contain'/>
-                            </div>
-                            <div className="col">
-                                <div className="hover-container">
-                                
-                                </div>
-                                <img src={Services05} alt="services" className='services-img position-relative rounded'/>
-                                <img src={Icon05} alt="Services icon" style={{width: "160px", height: "160px"}} className='position-absolute top-50 start-50 translate-middle object-fit-contain'/>
-                            </div>
+                    <div className="services-img-container">
+                            <ServicesCard
+                                imageSrc={Services01}
+                                iconSrc={Icon01}
+                                cardName={'property-sale'}
+                                hoverTitle={'Property Sale'}
+                                hoverText={'Find your ideal home or investment property with ease. Our curated listings and expert guidance make the buying process smooth and secure.'}
+                            />
+                            <ServicesCard
+                                imageSrc={Services02}
+                                iconSrc={Icon02}
+                                cardName={'property-rental'}
+                                hoverTitle={'Property Rental'}
+                                hoverText={'Discover rental properties that fit your lifestyle and budget. From short stays to long leases, we make finding your next home effortless.'}
+                            />
+                            <ServicesCard
+                                imageSrc={Services03}
+                                iconSrc={Icon03}
+                                cardName={'property-listing'}
+                                hoverTitle={'Property Listing'}
+                                hoverText={'Showcase your property to the right audience. Our end-to-end list services handles everything from marketing to management, making it easy to sell or rent your property.'}
+                            />
+                            <ServicesCard
+                                imageSrc={Services04}
+                                iconSrc={Icon04}
+                                cardName={'facility-management'}
+                                hoverTitle={'Facility Management'}
+                                hoverText={'Keep your property in top shape with our reliable facility management services. From mainteance to security, we handle the details so you can enjoy peace of mind'}
+                            />
+                            <ServicesCard
+                                imageSrc={Services05}
+                                iconSrc={Icon05}
+                                cardName={'space-planing'}
+                                hoverTitle={'Space Planing & Design'}
+                                hoverText={'Transform yoour space with our expert planing and design services. We create functional, beautiful envirometns tailore to your unique vision'}
+                            />
                     </div>
                 </div>
             </div>
@@ -301,7 +291,7 @@ const Home = () => {
             {/* FAQ Container */}
                 {/* FAQs */}
             <div className="faqs d-flex align-items-center flex-column">
-                <div data-aos="fade-down"  data-aos-easing="linear" data-aos-duration="1500" data-aos-anchor-placement="top-bottom">
+                <div className='faq-text-container' data-aos="fade-down"  data-aos-easing="linear" data-aos-duration="1500" data-aos-anchor-placement="top-bottom">
                     <div>
                         <h1 className='heading'>Frequently asked questions</h1>
                     </div>
@@ -351,6 +341,7 @@ const Home = () => {
                     heading={'Still have questions?'}
                     message={"Can't find answers you're looking for? Please chat to our friendly team"}
                     buttonText={'Get In Touch'}
+                    handleClick={ (() => navigate('/contact'))}
                 />
             </div>
             <div className='lmp'>
@@ -358,7 +349,7 @@ const Home = () => {
                 <div className='lmp-content' data-aos="flip-right"  data-aos-easing="ease-in" data-aos-duration="1000" data-aos-anchor-placement="top-bottom">
                     <div className='lmp-content-title'>Want to list your property ?</div>
                     <div className='lmp-content-subtext'>At Xpacy, we manage your property listings from start to finish, ensuring you enjoy peace of mind while maximizing your returns.</div>
-                    <div className='lmp-button'>List My Property</div>
+                    <div className='lmp-button' onClick={() => navigate('/contact')}>List My Property</div>
                 </div>
             </div>
             <div className='download'>
@@ -420,7 +411,7 @@ const Home = () => {
                 </div>
             </div>
         </>
-    );
+    )
 };
 
 export default Home; 

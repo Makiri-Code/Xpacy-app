@@ -16,6 +16,7 @@ import UserDashboard from './routes/users/user-dashboards/userDashboard'
 import Dashboards from "./routes/dashboards/dashboards";
 import ForgotPassword from "./routes/forgot-password/ForgotPassword";
 import ResetPassword from "./routes/reset-password/ResetPassword";
+import Search from "./routes/search/search";
 import { UserContext } from "./contexts/userContext";
 import Cookies from "js-cookie";
 
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="contact" element = {<Contacts/>} />
           <Route path="rent/*" element = {<Rent/>} />/
           <Route path="buy/*" element = {<Buy/>} />
+          <Route path="search/*" element={<Search/>} />
           <Route path="blog" element = {<Blog/>} />
         </Route>
         <Route path='auth/' element={<Authentication/>}>

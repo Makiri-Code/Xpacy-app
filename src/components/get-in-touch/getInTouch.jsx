@@ -1,6 +1,6 @@
 import './get-in-touch.style.css';
 
-const GetInTouch = ({Image1, Image2, Image3, marginBottom, width, heading, message, buttonText, otherProps}) => {
+const GetInTouch = ({Image1, Image2, Image3, marginBottom, width, heading, message, buttonText, handleClick}) => {
     
     return (
         <div className='getintch' style={{marginBottom: marginBottom, width: width}} data-aos="fade-up"  
@@ -14,7 +14,7 @@ const GetInTouch = ({Image1, Image2, Image3, marginBottom, width, heading, messa
                 <div className='gtintch-text-title'>{heading}</div>
                 <div className='gtintch-text-subtext'>{message}</div>
             </div>
-            <div className='gtintch-button'>
+            <div className='gtintch-button' onClick={handleClick}>
                 {buttonText}
             </div>  
         </div>

@@ -66,7 +66,7 @@ const BookServices = () => {
                         <p>Need us to manage your facility? Kindly fill out the form below, and we'll get back to you shortly.</p>
                     </div>
                     <form onSubmit={handleSubmit}>
-                        <div className="name-container d-flex justify-content-between align-self-stretch">
+                        <div className="name-container">
                             <FormInput
                                 label={'First Name'}
                                 id={'first-name'}

@@ -1,23 +1,32 @@
 import { createContext, useState, useEffect } from "react";
 
 export const PageContext = createContext({
-    nigerianStates: [],
+    propertiesArray: [],
+    setPropertiesArray: () => {},
+    propertyObj: {},
+    setPropertyObj: () => {},
+    pagination: {}
 });
 
 export const PageProvider = ({children}) => {
-    const [nigerianStates, setNigerianStates] = useState([]);
-    const value = {nigerianStates}
+    const [propertiesArray, setPropertiesArray] = useState([]);
+    const [propertyObj, setPropertyObj] = useState({});
+    const [pagination, setPagination] = useState({});
+
+    const value = {propertiesArray, pagination, propertyObj, setPropertyObj, setPropertiesArray};
+
     useEffect(() => {
-            const states = async () => {
+            const getProperties = async () => {
                 try {
-                    const statesArray = await fetch('https://app.xpacy.com/location/fetch-states', {method: 'GET'})
-                    const response = await statesArray.json();
-                    setNigerianStates(response.state)
+                    const properties = await fetch('https://app.xpacy.com/property/fetch-properties', {method: 'GET'})
+                    const response = await properties.json();
+                    setPropertiesArray(response.properties);
+                    setPagination(response.pagination);
                 } catch (error) {
                     console.error('Error:', error);
                 }
             }
-            states()
+            getProperties();
     }, []);
 
     return(

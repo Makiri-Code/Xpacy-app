@@ -6,7 +6,7 @@
     --Neutrals-Neutrals200: #DADADA;
     --Neutrals-Neutrals900: #585858;
     --Secondary-Secondary500: #C2A269;
-    --negative-margin: -100px;
+    --negative-margin: -10px;
     --Spacing-xl: 48px;
     --Spacing-m: 16px;
     --Spacing-l: 32px;
@@ -36,7 +36,7 @@
 
 .banner-content-container{
     .arow{
-        width: 95.88%;
+        width: 95.85%;
         /* margin: 0 auto; */
         .filter-heading{
             display: flex;
@@ -70,8 +70,8 @@
 }
 .align-search-container{
     display: flex;
-    gap: 26px;
-    align-self: stretch;
+    gap: 24px;
+    /* align-self: stretch; */
 }
 .home-select-option{
     display: flex;
@@ -86,6 +86,10 @@
         font-family: "Unitext Regular";
         color: var(--Neutrals-Neutrals900);
     }
+}
+.location-select{
+    max-height: 300px;
+    
 }
 .banner-main-heading{
     color: var(--Base-Base-White, #FFF);
@@ -249,44 +253,57 @@
 /* Services Section */
 .services{
     width: 95.88%;
-    padding-bottom: 120px;
-    margin: auto;
+    /* padding-bottom: 120px; */
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
-.text-center > h5{
+.services-content{
+    align-self: stretch;
+
+}
+.services-content > h5{
     margin-bottom: 64px;
 }
+.services-img-container{
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: hidden;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 450px;
+}
 
-.services-img{
-    width: 280px;
-    height: 400px;
-}
-.services-img-container > .col:nth-of-type(1){
-    filter: drop-shadow(5px 0px 40px #FFF);
-    padding: 0px;
-    /* margin-left: -11px; */
-}
-.services-img-container > .col:nth-of-type(2) {
-    margin-left: var(--negative-margin);
-    z-index: -1;
+.services-img-container > .services-card-container:nth-of-type(1){
+    left: 0px;
+    top: 0;
     filter: drop-shadow(5px 0px 40px #FFF);
     padding: 0px;
 }
-.services-img-container > .col:nth-of-type(3) {
-    margin-left: var(--negative-margin);
+.services-img-container > .services-card-container:nth-of-type(2) {
+    left: 20%;
+    top: 0;
     filter: drop-shadow(5px 0px 40px #FFF);
-    z-index: -2;
     padding: 0px;
 }
-.services-img-container > .col:nth-of-type(4) {
-    margin-left: var(--negative-margin);
+
+.services-img-container > .services-card-container:nth-of-type(3) {
+    left: 40%;
+    top: 0;
     filter: drop-shadow(5px 0px 40px #FFF);
-    z-index: -3;
     padding: 0px;
 }
-.services-img-container > .col:nth-of-type(5) {
-    margin-left: var(--negative-margin);
+.services-img-container > .services-card-container:nth-of-type(4) {
+    left: 60%;
+    top: 0;
     filter: drop-shadow(5px 0px 40px #FFF);
-    z-index: -4;
+    padding: 0px;
+}
+.services-img-container > .services-card-container:nth-of-type(5) {
+    filter: drop-shadow(5px 0px 40px #FFF);
+    left: 80%;
     padding: 0px;
 }
 
@@ -349,6 +366,7 @@
     width: 50%;
     height: 459px;
     border-radius: 9.46px;
+    object-fit: cover;
 }
 .lmp-content{
     width:448px;
@@ -372,8 +390,6 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
-    letter-spacing: 1%;
-
 }
 .lmp-button{
     width: 167px;
@@ -551,4 +567,211 @@
     font-size: 14px;
     line-height: 16.8px;
     color: var(--Neutrals-Neutrals900);
+}
+
+@media only screen and (max-width: 600px){
+    .carousel-item img{
+        height: 431px;
+    }
+    .banner-content-container{
+        width: 100%;
+        position: absolute;
+        top: -100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .headings{
+        gap: 24px;
+        padding: 48px 24px;
+        .banner-main-heading{
+            font-size: 2rem;
+        }
+        .banner-sub-heading{
+            font-size: 1.125rem;
+        }
+        
+    }
+    .search-container{
+        display: none;
+    }
+    .mobile-search-container{
+        width: 100%;
+        padding: 24px;
+        align-self: stretch;
+        display: flex;
+        border-radius: 8px;
+        background-color: #FCFCFC;
+        align-items: center;
+        .mobile-align-search-container{
+            display: flex;
+            gap: 26px;
+            align-self: stretch;
+            justify-content: center;
+            flex-wrap: wrap;
+            .mobile-home-select-option{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 16px;
+                align-self: stretch;
+                .select, option {
+                    width: 153px;
+                    height: 48px;
+                    margin: 0px;
+                    padding: 8px 16px;
+                    border-radius: 8px;
+                    font-family: "Unitext Regular";
+                    font-size: 1rem;
+                    color: var(--Neutrals-Neutrals900);
+                }
+            }
+        }
+    }
+    .featured{
+        padding: 48px 0px;
+        gap: 32px;
+        .feature-main-heading{
+            font-size: 1.75rem;
+        }
+        .feature-sub-heading{
+            font-family: 'Unitext Regular';
+            font-size: 1rem;
+        }
+    }
+    .featured-container {
+        .horizontal-scroll-btn{
+            display: none;
+        }
+    }
+    .heading {
+        font-size: 1.75rem;
+    }
+    .sub-heading{
+        font-family: 'Unitext Regular';
+        font-size: 1rem;
+    }
+    .services-img-container{
+        position: unset;
+        display: block;
+        height: auto;
+        
+    }
+    .services-img{
+        width: auto;
+    }
+    .services-card-icon{
+        top: 40%;
+    }
+    .mobile-call-to-action{
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 50%);
+        h5{
+            color: var(--Base-Base-White, #FFF);
+            text-align: center;
+
+            /* XPACY- Real Estate & Facility Management - 1/Mobile/Headings/Heading 4 */
+            font-family: "Florencesans Exp";
+            font-size: 1.125rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%; /* 1.35rem */
+        }
+    }
+    .services-img-container > .services-card-container:nth-of-type(1){
+        filter: drop-shadow(5px 0px 40px #FFF);
+    }
+    .services-img-container > .services-card-container:nth-of-type(2) {
+        margin-left: unset;
+        z-index: unset;
+        filter: drop-shadow(5px 0px 40px #FFF);
+        padding: 0px;
+    }
+    .services-img-container > .services-card-container:nth-of-type(3) {
+        margin-left: unset;
+        z-index: unset;
+        filter: drop-shadow(5px 0px 40px #FFF);
+        padding: 0px;
+    }
+    .services-img-container > .services-card-container:nth-of-type(4) {
+        margin-left: unset;
+        z-index: unset;
+        filter: drop-shadow(5px 0px 40px #FFF);
+        padding: 0px;
+    }
+    .services-img-container > .services-card-container:nth-of-type(5) {
+        margin-left: unset;
+        z-index: unset;
+        filter: drop-shadow(5px 0px 40px #FFF);
+        padding: 0px;
+    }
+    .faq-text-container{
+        padding: 0 24px;
+    }
+    .faq-scroll{
+        width: 83%;
+    }
+    .lmp{
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 32px;
+        padding: 96px 0px;
+    }
+    .lmp-img{
+        width: 100%;
+        border-radius: unset;
+    }
+    .lmp-content{
+        width: 100%;
+        padding: 0 24px;
+    }
+    .lmp-content-title{
+        font-size: 1.75rem;
+    }
+    .lmp-content-subtext{
+        font-size: 0.875rem;
+    }
+    .download{
+        width: 100%;
+        flex-wrap: wrap;
+        padding: 48px 24px;
+        gap: 32px;
+    }
+    .download-content{
+        width: 100%;
+        order: 1;
+    }
+    .download-content-title{
+        font-size: 1.75rem;
+    }
+    .download-content-subtext{
+        font-size: 0.875rem;
+    }
+    .download-img{
+        width: 100%;
+        order: 0;
+    }
+    .insight-cover{
+        margin-top: 48px;
+        padding: 48px 24px;
+    }
+    .insight-content{
+        width: 100%;
+    }
+    .insight-content-title{
+        font-size: 1.75rem;
+    }
+    .insight-content-subtext{
+        font-size: 1rem;
+    }
+    .insight-card-view{
+        flex-wrap: wrap;
+        gap: 48px;
+    }
 }

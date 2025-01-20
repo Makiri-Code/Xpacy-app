@@ -23,21 +23,9 @@ const LogIn = () => {
     const {userProfile, setUserData, setUserToken, server, userToken, setUserProfile} = useContext(UserContext);
     const navigate =  useNavigate();
 
-    useEffect(() => {
-        if(userToken){
-            const getUserProfile = async () => {
-                try{
-                    const resp = await fetchServer('GET', {},  userToken, 'user/fetch-profile', server);
-                    setUserProfile(resp.user);
-                } catch(error) {
-                    console.log(error)
-                }
-            }
-            getUserProfile()
-            console.log(userProfile)
-            console.log(userToken)
-        }
-    }, [userToken]);
+    // useEffect(() => {
+        
+    // }, [userToken]);
 
     const handleChange = (e) => {
         const {name, value} = e.target
@@ -55,7 +43,7 @@ const LogIn = () => {
             email: email,
             password: password
         }
-        const userData = await fetchServer('POST', body, '', 'user/login', server, );
+        const userData = await fetchServer('POST', body, '', 'user/login', server,);
         setIsUserValid(!userData.success)
         setFormFields(defaultFormFields);
         setUserData(userData);
@@ -63,22 +51,20 @@ const LogIn = () => {
 
         if(userData.success){
             Cookies.set('gt-jwt-br', userData.token)
-            setUserToken(userData.token)
-            setTimeout(() => {
-                navigate("/dashboard/user")
-            }, 2000)
+            setUserToken(userData.token);
+            navigate("/");
         }
     }
     return(
         <>
-            <div className="login-container d-flex align-items-start">
-                <div className="login-form d-flex flex-column align-items-center">
-                    <div className="d-flex justify-content-center align-items-center">
+            <div className="login-container">
+                <div className="login-form">
+                    <div className="login-logo-container">
                         <Link className="logo-container" to='/'>
                             <Logo className='logo'/>
                         </Link>
                     </div>
-                    <div className="login-content d-flex flex-column align-items-start">
+                    <div className="login-content">
                         <header className="login-header">
                             <h1>Welcome back!</h1>
                             <p>Enter your email address and password to log in.</p>

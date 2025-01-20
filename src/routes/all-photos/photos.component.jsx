@@ -1,18 +1,35 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { IoChevronForward, IoLocationOutline, IoSearchOutline, IoArrowBack, IoArrowForward } from "react-icons/io5";
 import { CiHeart } from "react-icons/ci";
 import { MdOutlineShare } from "react-icons/md";
 import { Carousel, CarouselItem } from "react-bootstrap";
-
+import { PageContext } from "../../contexts/page.context";
 import './photos.styles.css';
 
 const Photos = () => {
+    const {propertyObj} = useContext(PageContext);
+
+    const {
+        property_name,
+        address,
+        images
+    } = propertyObj.property
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 600);
+        }
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        };
+       
+    }, []);
     const [index, setIndex] = useState(0);
     const handleSelect = (selectedIndex) => {
         setIndex(selectedIndex);
     }
-    console.log(index)
     return (
         <>
             <div className="property-title-container d-flex flex-column align-items-start">
@@ -32,13 +49,13 @@ const Photos = () => {
                 </div>
                 <div className="property-info-container d-flex flex-column align-items-start ">
                     <h1 className="property-heading m-0">
-                        Luxury 4-Bedroom Terrace Home with BQ
+                        {property_name}
                     </h1>
-                    <div className="d-flex justify-content-between align-items-start align-self-strech w-100">
+                    <div className="property-cta">
                         <div className="d-flex align-items-center py-1">
                             <IoLocationOutline style={{width: "24px", height: "24px"}}/>
                             <h5 className="location-text">
-                                12, Osborne Road, Ikoyi, Lagos
+                                {address}
                             </h5>
 
                         </div>
@@ -59,98 +76,79 @@ const Photos = () => {
                     </div>
                 </div>
             </div>  
-            <div className="view-photos-container d-flex justify-content-center align-items-center">
-                <div className="view-photos">
-                    <Carousel 
-                        controls={true} 
-                        touch={true}
-                        onSelect={handleSelect}
-                        activeIndex={index}
-                        slide={false}
-                        prevIcon={
-                            <div className="prevIcon-container d-flex justify-content-center align-items-center">
-                                <IoArrowBack style={{width: '24px', height: '24px', color: '#333333'}}/> 
-                            </div>
-                        }
-                        nextIcon={
-                            <div className="prevIcon-container d-flex justify-content-center align-items-center">
-                                <IoArrowForward style={{width: '24px', height: '24px', color: '#333333'}}/> 
-                            </div>
-                        }
-                    >
-                        <CarouselItem className="view-photos-carousel">
-                            <img
-                                className="d-block w-100"
-                                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Second slide"
-                            />
-                        </CarouselItem>
-                        <CarouselItem className="view-photos-carousel">
-                            <img
-                                className="d-block w-100"
-                                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Hero"
-                            />
-                        </CarouselItem>
-                        <CarouselItem className="view-photos-carousel">
-                            <img
-                                className="d-block w-100"
-                                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Second slide"
-                                />
-                        </CarouselItem>
-                        <CarouselItem className="view-photos-carousel">
-                            <img
-                                className="d-block w-100"
-                                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            />
-                        </CarouselItem>
-                        <CarouselItem className="view-photos-carousel">
-                            <img
-                                className="d-block w-100"
-                                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            />
-                        </CarouselItem>
-                        <CarouselItem className="view-photos-carousel">
-                            <img
-                                className="d-block w-100"
-                                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Second slide"
-                                />
-                        </CarouselItem>
-                    </Carousel>
-                    <div className="other-photos d-flex ">
-                        <img
-                            className={index == 0 ? 'active-carousel' : ''}
-                            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            alt="Second slide"
-                        />
-                        <img
-                            className={index == 1 ? 'active-carousel' : ''}
-                            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            alt="Hero"
-                        />
-                        <img
-                            className={index == 2 ? 'active-carousel' : ''}
-                            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            alt="Second slide"
-                        />
-                        <img
-                            className={index == 3 ? 'active-carousel' : ''}
-                            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        />
-                        <img
-                            className={index == 4 ? 'active-carousel' : ''}
-                            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        />
-                        <img
-                            className={index == 5 ? 'active-carousel' : ''}
-                            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            alt="Second slide"
-                        />
+            {
+                isMobile ? 
+                (
+                    <div className="mobile-photos-container">
+                        <img src={images[0]} alt="" />
+                        <img src={images[1]} alt="" />
+                        <img src={images[2]} alt="" />
                     </div>
-                </div>
-            </div>
+                ) : 
+
+                (
+                    <div className="view-photos-container d-flex justify-content-center align-items-center">
+                        <div className="view-photos">
+                            <Carousel 
+                                controls={true} 
+                                touch={true}
+                                onSelect={handleSelect}
+                                activeIndex={index}
+                                slide={false}
+                                prevIcon={
+                                    <div className="prevIcon-container d-flex justify-content-center align-items-center">
+                                        <IoArrowBack style={{width: '24px', height: '24px', color: '#333333'}}/> 
+                                    </div>
+                                }
+                                nextIcon={
+                                    <div className="prevIcon-container d-flex justify-content-center align-items-center">
+                                        <IoArrowForward style={{width: '24px', height: '24px', color: '#333333'}}/> 
+                                    </div>
+                                }
+                            >
+                                <CarouselItem className="view-photos-carousel">
+                                    <img
+                                        className="d-block w-100"
+                                        src={images[0]}
+                                        alt="Second slide"
+                                    />
+                                </CarouselItem>
+                                <CarouselItem className="view-photos-carousel">
+                                    <img
+                                        className="d-block w-100"
+                                        src={images[1]}
+                                        alt="Hero"
+                                    />
+                                </CarouselItem>
+                                <CarouselItem className="view-photos-carousel">
+                                    <img
+                                        className="d-block w-100"
+                                        src={images[2]}
+                                        alt="Second slide"
+                                        />
+                                </CarouselItem>
+                            </Carousel>
+                            <div className="other-photos d-flex ">
+                                <img
+                                    className={index == 0 ? 'active-carousel' : ''}
+                                    src={images[0]}
+                                    alt="Second slide"
+                                />
+                                <img
+                                    className={index == 1 ? 'active-carousel' : ''}
+                                    src={images[1]}
+                                    alt="Hero"
+                                />
+                                <img
+                                    className={index == 2 ? 'active-carousel' : ''}
+                                    src={images[2]}
+                                    alt="Second slide"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
         </>
     )
 }

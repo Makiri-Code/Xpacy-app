@@ -11,19 +11,28 @@ import UserPayments from '../user-payments/userPayments';
 import ProfileSettings from '../profile-settings/profileSettings';
 import HelpAndSupport from '../help-support/help';
 import Referral from '../referral/referral';
+import fetchServer from '../../../utils/serverutils/fetchServer';
 const UserDashboard = () => {
     const navigate = useNavigate()
-    const {userProfile} = useContext(UserContext);
-    // useEffect(() => {
-    //     if(!userProfile.firstname){
-    //         navigate('/auth/log-in');
-    //     }
-    // }, []);
+    const {userProfile, userToken, setUserProfile, server} = useContext(UserContext);
+    useEffect(() => {
+        const getUserProfile = async () => {
+            try{
+                const resp = await fetchServer('GET', {},  userToken, 'user/fetch-profile', server);
+                setUserProfile(resp.user);
+                console.log(userProfile)
+                console.log(userToken);
+            } catch(error) {
+                console.log(error)
+            }
+        }
+        getUserProfile()
+    }, []);
     
     return(
         <>
             {
-                userProfile.firstname ? 
+                !userProfile ? 
                 (<PulseLoader style={{display: 'flex', justifyContent: 'center' ,alignItems: 'center', alignSelf: 'stretch', height: '100vh'}} margin={5}/>) :
                 (
                     <Routes >

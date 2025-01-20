@@ -2,10 +2,10 @@ import { Routes, Route } from "react-router-dom";
 import Shop from "../../components/shop/shop.component";
 import Properties from "../property/property.component";
 
-const Rent = () => {
+const Search = () => {
     const buyPropHeadings = {
-        heading: 'Properties For Rent',
-        subHeading: 'Search for properties on rent'
+        heading: "We've got 67 results for you",
+        subHeading: ''
     }
 
     return (
@@ -18,4 +18,4 @@ const Rent = () => {
     )
 };
 
-export default Rent; 
+export default Search; 

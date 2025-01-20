@@ -26,6 +26,7 @@
         .view-photos-carousel{
             img{
                 filter: brightness(90%);
+                object-fit: cover;
             }
         }
         .other-photos{
@@ -35,13 +36,30 @@
                 filter: brightness(100%);
             }
             img{
-                width: 199px;
+                width: 34%;
                 height: 100%;
                 filter: brightness(50%);
+                object-fit: cover;
             }
 
         }
     }
 
 
+}
+
+.mobile-photos-container{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 48px;
+    img{
+        width: 90%;
+        border-radius: 8px;
+        height: 250px;
+        object-fit: cover;
+    }
 }

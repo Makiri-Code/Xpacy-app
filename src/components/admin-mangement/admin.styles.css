@@ -198,3 +198,56 @@
         }
     }
 }
+
+@media only screen and (max-width: 600px){
+    .management-hero-container{
+        img{
+            height: 615px;
+            filter: brightness(50%);
+        }
+        .hero-content{
+            width: 100%;
+            top: 30%;
+            left: 0;
+            padding: 20px;
+            h1{
+                font-size: 1.75rem;
+            }
+            p{
+                font-family: "Unitext Regular";
+                font-size: 1rem;
+            }
+        }
+        
+    }
+    .services-section{
+        padding: 48px 24px;
+        gap: 32px;
+        .heading{
+            h1{
+                font-size: 1.375rem;
+            }
+        }
+        .services-cards{
+            flex-direction: column;
+            gap: 24px;
+        }
+    }
+    .facility-services{
+        padding: 48px 24px;
+        .heading{
+            h1{
+                font-size: 1.375rem;
+            }
+        }
+        .facilty-services-cards{
+            flex-direction: column;
+            width: 100%;
+            gap: 24px;
+            .service-card{
+                width: 100%;
+            }
+        }
+    }
+
+}

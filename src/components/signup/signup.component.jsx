@@ -4,14 +4,19 @@ import {ReactComponent as Logo} from '../../assets/x-pacy-logo.svg'
 import FormInput from '../form-input/formInput.component';
 import { Carousel, CarouselCaption, CarouselItem } from 'react-bootstrap';
 import sliderImg from '../../assets/log-asset/carousel-photo01.png'
-import './signup.styles.css';
 import { UserContext } from '../../contexts/userContext';
+import ClipLoader from "react-spinners/ClipLoader";
 import fetchServer from '../../utils/serverutils/fetchServer';
+import './signup.styles.css';
+import ModalComponent from '../modal/modal';
+import { IoClose } from "react-icons/io5";
 
 const SignUp = () => {
-    const {setUserdata} = useContext(UserContext)
+    const {setSignupUser} = useContext(UserContext);
     const navigate = useNavigate()
     const [nigeriaStates, setNigeriaStates] = useState([]);
+    const [showLoader, setShowLoader] = useState(false);
+    const [isErrorMessage, setIsErrorMessage] = useState(false);
 
     const defaultFormFields = {
         firstname: '',
@@ -46,6 +51,11 @@ const SignUp = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setShowLoader(true);
+        if(password !== confirmPassword){
+            setShowLoader(false)
+            return
+        }
         const server = "https://app.xpacy.com"
         const body = {
             firstname: firstname,
@@ -54,12 +64,15 @@ const SignUp = () => {
             password: password,
             state: state,
         }
-        const userData = await fetchServer('POST', body, 'user/register', server, );
-        setUserdata(userData.user);
-        console.log(userData);
+        const userData = await fetchServer('POST', body, '', 'user/register', server );
+        setSignupUser(userData.user);
+        
         setFormFields(defaultFormFields);
         if(userData.success){
-            navigate("/auth/verify-email")
+            setShowLoader(false)
+            navigate("/auth/verify-email");
+        } else {
+            setIsErrorMessage(true);
         }
     }
     return(
@@ -78,7 +91,7 @@ const SignUp = () => {
                         </header>
                         <main>
                             <form onSubmit={handleSubmit}>
-                                <div className="signup-name d-flex justify-content-between w-100">
+                                <div className="signup-name">
                                     <FormInput
                                         label={"First Name"}
                                         required
@@ -120,14 +133,15 @@ const SignUp = () => {
                                         value={password}
                                         pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
                                         placeholder="Enter your password"
+                                        
                                     />
-                                    <p id='password-txt'>* At least 8 characters, including an uppercase letter, a lowercase letter, and a number.</p>
+                                    <p id='password-txt' >* At least 8 characters, including an uppercase letter, a lowercase letter, and a number.</p>
                                 </div>
                                 <div className="signup-password d-flex flex-column align-items-start">
                                     <FormInput
                                         label={"Confirm Password"}
                                         className= {password !== confirmPassword ? 'form-input invalid' : 'form-input'}
-                                        id="password"
+                                        id="confirmPassword"
                                         name='confirmPassword'
                                         type="password"
                                         onChange={handleChange}
@@ -157,7 +171,11 @@ const SignUp = () => {
                                         <label htmlFor="agreement">I agree to Xpacy’s Terms & Conditions and Privacy Policy.</label>
                                     </div>
                                 </div>
-                                <button type="submit">Sign Up</button>
+                                <button type="submit">
+                                    {
+                                        showLoader ? (<ClipLoader size={25} color='#fff'/>) : 'Sign Up'
+                                    }
+                                </button>
                             </form>
                             <p>Already have an account? <Link to={'/auth/log-in'}>Log In</Link></p>
                         </main>
@@ -175,6 +193,25 @@ const SignUp = () => {
                         </CarouselItem>
                     </Carousel>
                 </div>
+                {
+                    isErrorMessage &&
+                    (
+                        <ModalComponent>
+                            <div className="invalid-signup-content">
+                                <h3>Opps!</h3>
+                                <p>Email already exits. Please use a different email.</p>
+                                <IoClose 
+                                    style={{width: '24px', height: '24px'}} 
+                                    className='close-email' 
+                                    onClick={() => {
+                                        setShowLoader(false);
+                                        setIsErrorMessage(false)
+                                    }}
+                                />
+                            </div>
+                        </ModalComponent>
+                    )
+                }
             </div>
         </>
     );

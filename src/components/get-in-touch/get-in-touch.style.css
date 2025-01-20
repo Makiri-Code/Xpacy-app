@@ -1,5 +1,4 @@
 .getintch{
-    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -91,4 +90,14 @@
 }
 .gtintch-button:hover{
     /* translate: ; */
+}
+
+@media only screen and (max-width: 600px){
+    .getintch{
+        width: 100%;
+        border-radius: 0px;
+    }
+    .gtintch-text{
+        width: unset;
+    }
 }

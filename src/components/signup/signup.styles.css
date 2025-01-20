@@ -48,6 +48,9 @@
                     gap: 16px;
                     .signup-name{
                         gap: 24px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-self: stretch;
                     }
                     .signup-password{
                         gap: 8px;
@@ -193,5 +196,55 @@
             line-height: 150%; /* 24px */
             letter-spacing: 0.16px;
         }
+    }
+}
+.invalid-signup-content{
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    background-color: #FCFEFF;
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+    .close-email{
+        position: absolute;
+        top: 20px;
+        right: 15px;
+        cursor: pointer;
+    }
+    p{
+        color: var(--Error-Error, #F44336);
+    }
+}
+@media only screen and (max-width: 600px){
+    .signup-container{
+        .signup-form{
+            width: 100%;
+            .signup-content{
+                .signup-header{
+                    h1{
+                        font-size: 1.75rem;
+                    }
+                }
+                main{
+                    form{
+                        .signup-name{
+                            flex-direction: column;
+                        }
+                    }
+                }
+            }
+        }
+        .signup-carousel{
+            display: none;
+        }
+        
+    }
+    .invalid-signup-content{
+        width: 90%;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 30px;
     }
 }

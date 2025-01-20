@@ -59,6 +59,9 @@
             width: 62.4%;
             margin-bottom: 120px;
             .name-container{
+                align-self: stretch;
+                display: flex;
+                justify-content: space-between;
                 gap: 24px;
             }
             .select-container{
@@ -226,5 +229,42 @@
     }
     .book-service-btn{
         align-self: flex-start;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .book-services-container{
+        .book-services-content{
+            .title{
+                width: 100%;
+                h1{
+                    font-size: 1.375rem;
+                }
+            }
+            form{
+                width: 100%;
+                .name-container{
+                    flex-direction: column;
+                }
+                .select-container{
+                    .select{
+                        flex-direction: column;
+                        select{
+                            width: 100%;
+                        }
+                        .custom-select{
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .book-services-modal{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
     }
 }

@@ -5,30 +5,34 @@ import fetchServer from "../utils/serverutils/fetchServer";
 export const UserContext = createContext({
     userToken: '',
     server: '',
-    userData: {},
+    userData: null,
+    signupUser: null,
+    setSignupUser: () => {},
     setUserData: () => {},
-    userProfile: {},
+    userProfile: null,
     setUserProfile: () => {},
     setUserToken: () => {},
 });
 
 export const UserProvider = ({children}) => {
-    const navigate = useNavigate();
-    const [userData, setUserData] = useState({})
-    const [userProfile, setUserProfile] = useState({});
+    const [userData, setUserData] = useState(null)
+    const [userProfile, setUserProfile] = useState(null);
     const [userToken, setUserToken] = useState(Cookies.get('gt-jwt-br'));
+    const [signupUser, setSignupUser] = useState(null);
     const [server] = useState("https://app.xpacy.com");
 
 
 
-    const value = {
-        userToken,
+    const value = { 
         setUserToken,
         userProfile,
         setUserProfile,
         userData,
         setUserData,
-        server
+        server,
+        signupUser,
+        setSignupUser, 
+        userToken
     }
     return (
         <UserContext.Provider value={value}> {children} </UserContext.Provider>

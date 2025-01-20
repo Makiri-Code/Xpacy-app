@@ -105,3 +105,12 @@
     margin-top: 25px;
 }
 
+@media only screen and (max-width: 600px){
+    .footer{
+        padding: 48px 24px;
+    }
+    .footer-content{
+        flex-wrap: wrap;
+        height: auto;
+    }
+}

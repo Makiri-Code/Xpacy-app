@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { MdOutlineManageAccounts } from "react-icons/md";
 import DashboardTopNav from '../../routes/users/dashoard-top-nav/dashboardTopNav';
@@ -11,9 +11,11 @@ import { IoCardOutline } from "react-icons/io5";
 import Card from '../card/card.component';
 import { PulseLoader } from 'react-spinners';
 import './user-dashboard.styles.css';
+import {PageContext} from '../../contexts/page.context'
 
 const DashboardPage = ({userProfile}) => {
     const navigate = useNavigate();
+    const {propertiesArray} = useContext(PageContext);
     const cardStytles = {
         cardWidth: '209px',
         cardHeight: '294px',
@@ -128,7 +130,7 @@ const DashboardPage = ({userProfile}) => {
                                     <Link>View All</Link>
                                 </div>
                                 <div className="property-list">
-                                    {latestPropertises.map((properties) => {
+                                    {propertiesArray.map((properties) => {
                                         return(
                                             <Card propertise={properties} cardStyles={cardStytles}/>
                                         )

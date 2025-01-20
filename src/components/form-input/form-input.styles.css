@@ -26,7 +26,7 @@
         line-height: 150%; /* 24px */
         letter-spacing: 0.16px;
     }
-    .form-input:invalid{
+     .form-input.invalid{
         border: 1px solid #F44336;
     }
     .password-input{
