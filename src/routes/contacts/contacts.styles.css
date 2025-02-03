@@ -6,6 +6,7 @@
         display: flex;
         align-self: stretch;
         .form-container{
+            width: 50%;
             display: flex;
             flex-direction: column;
             align-self: stretch;
@@ -34,6 +35,9 @@
                 gap: 24px;
                 margin-bottom: 120px;
                 .name-container{
+                    display: flex;
+                    justify-content: center;
+                    align-self: stretch;
                     gap: 24px;
                 }
                 .message-container{
@@ -68,6 +72,27 @@
             width: 50%;
             object-fit: cover;
             transform: rotateY(180deg);
+        }
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .contacts-container{
+        padding: 24px;
+        main{
+            .form-container{
+                width: 100%;
+                padding: 0px;
+                form{
+                    margin-bottom: 24px;
+                }
+                .name-container{
+                    flex-direction: column;
+                }
+            }
+            img{
+                display: none;
+            }
         }
     }
 }

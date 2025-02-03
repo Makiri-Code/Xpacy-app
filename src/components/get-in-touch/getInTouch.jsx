@@ -1,9 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import './get-in-touch.style.css';
-
-const GetInTouch = ({Image1, Image2, Image3, marginBottom, width, heading, message, buttonText, handleClick}) => {
+const GetInTouch = ({Image1, Image2, Image3, margin, width, heading, message, buttonText, handleClick}) => {
+    const navigate = useNavigate ();
     
     return (
-        <div className='getintch' style={{marginBottom: marginBottom, width: width}} data-aos="fade-up"  
+        <div className='getintch' style={{margin: margin, width: width}} data-aos="fade-up"  
         data-aos-easing="ease-in">
             <div className='gtintch-img-cover'>
                 <div className='gtintch-img-src1'><img alt='img1' src={Image1}/></div>
@@ -14,7 +15,7 @@ const GetInTouch = ({Image1, Image2, Image3, marginBottom, width, heading, messa
                 <div className='gtintch-text-title'>{heading}</div>
                 <div className='gtintch-text-subtext'>{message}</div>
             </div>
-            <div className='gtintch-button' onClick={handleClick}>
+            <div className='gtintch-button' onClick={() => navigate('/contact')}>
                 {buttonText}
             </div>  
         </div>

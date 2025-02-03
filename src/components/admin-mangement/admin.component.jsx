@@ -84,7 +84,9 @@ const AdminMangement = () => {
     return (
         <>
             {/* Hero section */}
-            <section className='management-hero-container'>
+            <section className='management-hero-container'data-aos="fade-down"
+                  data-aos-easing="linear"
+                  data-aos-duration="1500">
                 <img src={managementHero} alt="" />
                 <div className="hero-content">
                     <h1>Comprehensive Facility Management For Your Property</h1>
@@ -165,7 +167,7 @@ const AdminMangement = () => {
             />
             <GetInTouch
                 width={isMobile ? '100%' : '85.9%'}
-                marginBottom={'72px'}
+                margin={'0px auto 72px auto'}
                 Image1={Image1}
                 Image2={Image2}
                 Image3={Image3}

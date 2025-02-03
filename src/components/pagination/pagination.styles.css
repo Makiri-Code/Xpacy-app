@@ -16,6 +16,7 @@
             align-items: center;
             gap: var(--Spacing-xxs, 4px);
             border-radius: var(--Radius-m, 10px);
+            cursor: pointer;
             span{
                 color: var(--Base-Base-Black, #333);
                 font-family: "Unitext Regular";
@@ -24,6 +25,9 @@
                 font-weight: 700;
                 line-height: 120%; /* 1.05rem */
             }
+        }
+        .pagination-link:hover{
+            text-decoration: underline;
         }
         .page-numbers{
             display: flex;
@@ -38,7 +42,7 @@
                 align-items: center;
                 flex-basis: 40px;
                 height: 40px;
-                padding: var(--Spacing-s, 8px);
+                padding: 16px;
                 border-radius: var(--Radius-s, 4px);
                 color: var(--Base-Base-Black, #333);
                 font-family: "Unitext Regular";
@@ -46,8 +50,9 @@
                 font-style: normal;
                 font-weight: 700;
                 line-height: 120%; /* 1.05rem */
+                cursor: pointer;
             }
-            li:nth-of-type(1){
+            .active{
                 background: var(--Primary-Primary100, #E3ECF2);
             }
         }

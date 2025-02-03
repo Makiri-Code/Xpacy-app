@@ -6,8 +6,63 @@ import { IoClose } from 'react-icons/io5';
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import './application-form.styles.css';
 import ModalComponent from '../../components/modal/modal';
+import styled from 'styled-components';
 
 const ApplicationForm = () => {
+    const DocumentBtnContainer = styled.div`
+        display: flex;
+        flex-direction: column;
+        p, sapn{
+            margin-bottom: 8px;
+            color: var(--Base-02, #090914);
+            font-family: "Unitext Regular";
+            font-size: 0.875rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%; /* 1.05rem */
+            span{
+                color: var(--Neutrals-Neutrals900, #585858);
+            }
+        }
+        .document-btn{
+            align-self: flex-start;
+            position: relative;
+            display: flex;
+            height: 48px;
+            padding: var(--Spacing-ml, 24px);
+            justify-content: center;
+            align-items: center;
+            gap: var(--Spacing-s, 8px);
+            border-radius: 8px;
+            border: 1px solid var(--Primary-Primary, #203645);
+            background: var(--Base-Base-White, #FFF);
+            color: var(--Primary-Primary, #203645);
+            font-family: "Unitext Regular";
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 120%; /* 1.2rem */
+            margin-bottom: 8px;
+            input[type="file"]{
+                position: absolute;
+                left: 0;
+                opacity: 0;
+            }
+        }
+        span{
+            color: var(--Neutrals-Neutrals900, #585858);
+            font-family: "Unitext Regular";
+            font-size: 0.75rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 141.4%; /* 1.0605rem */
+            letter-spacing: 0.0075rem;
+        }
+        .document-btn:hover{
+            filter: brightness(80%);
+            cursor: pointer;
+        }
+    `
     const inputRef = useRef(null);
     const defaultFormFields = {
         firstname: '',
@@ -154,14 +209,14 @@ const ApplicationForm = () => {
                                 value={phoneNum}
                                 placeholder="+234 000 000 000"
                             />
-                            <div className="document">
+                            <DocumentBtnContainer>
                                 <p>Attach a copy of your valid government ID <span>(driver’s license, Int’l passport or Voter’s card)</span></p>
                                 <div className="document-btn" onClick={() => setShowUpLoadModal(!showUploadModal)}>
                                     <BsUpload style={{width: '24px', height: '24px'}}/>
                                     Attach Document
                                 </div>
                                 <span>*upload file from your computer.</span>
-                            </div>
+                            </DocumentBtnContainer>
                             {
                                 showUploadModal && 
                                 (
@@ -196,7 +251,7 @@ const ApplicationForm = () => {
                                                                     <IoIosCheckmarkCircleOutline className='success-icon'/>
                                                                     <span>{nameOfFile} <strong>{sizeOfFile}MB</strong></span>
                                                                 </div>
-                                                                <div className='progressBar' />
+                                                                <div className='progressBar ldBar' data-value='50' />
                                                             </div>
                                                         </div>
                                                     )

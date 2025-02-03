@@ -1,61 +1,81 @@
-import './footer.style.css'
 import Logo from '../../assets/xpacy-footer-logo.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { LogoContainer, NavLogo } from '../navigation/navigation.styles'
+import Button from '../../components/button/button'
+import { 
+    Company,
+    ContactText,
+    FooterContainer,
+    FooterContent,
+    FooterInfo,
+    FooterInfoTitle,
+    FooterInfoTop,
+    FooterLogo,
+    Newsletter,
+    ContactInfo,
+    Copywright,
+ } from './footer.style'
+import { useState } from 'react'
+
+
 const Footer = ()=>{
+    const navigate = useNavigate();
+    const date = new Date;
+    const [year, setYear] = useState(date.getUTCFullYear())
     return(
         <>
-            <footer className='footer'>
-                <div className='footer-content'>
-                    <div className='footer-info'>
+            <FooterContainer>
+                <FooterContent>
+                    <FooterInfo>
                          <div className='footer-info-top'>
-                            <div className='footer-logo-info'>
-                                <Link className="logo-container" to='/'>
-                                    <img className='logo' src={Logo}/>
-                                </Link>
-                                <div className='footer-info-title'>Experience Ease, Find Your Dream Property</div>
-                            </div>
-                            <div className='footer-contact-info'>
-                                <div className='footer-info-text'><b>Address:</b> Wills Court Mbora, Citec Estate, Jabi, FCT, Nigeria</div>
-                                <div className='footer-info-text'><b>Email:</b> support@xpacy.com</div>
-                                <div className='footer-info-text'><b>Phone:</b> 00000000000</div>
-                            </div>
+                            <FooterInfoTop>
+                                <LogoContainer onClick={() => navigate("/")}>
+                                    <FooterLogo src={Logo} />
+                                </LogoContainer>
+                                <FooterInfoTitle>Experience Ease, Find Your Dream Property</FooterInfoTitle>
+                            </FooterInfoTop>
+                            <ContactInfo>
+                                <ContactText><b>Address:</b> Wills Court Mbora, Citec Estate, Jabi, FCT, Nigeria</ContactText>
+                                <ContactText><b>Email:</b> support@xpacy.com</ContactText>
+                                <ContactText><b>Phone:</b> 00000000000</ContactText>
+                            </ContactInfo>
                          </div>
                          <div className='footer-info-bottom'></div>
-                    </div>
-                    <div className='footer-company'>
-                        <div className='footer-company-title'>COMPANY</div>        
+                    </FooterInfo>
+                    <Company>
+                        <h5 className='footer-company-title'>COMPANY</h5>        
                         <div className='footer-company-links'>
-                            <div>Home</div>
-                            <div>Buy</div>
-                            <div>Rent</div>
-                            <div>Management</div>
-                            <div>Contact</div>
+                            <Link to={'/'}>Home</Link>
+                            <Link to={'/buy'}>Buy</Link>
+                            <Link to={'/rent'}>Rent</Link>
+                            <Link to={'/admin'}>Management</Link>
+                            <Link to={'/contacts'}>Contact</Link>
                         </div>
-                    </div>
-                    <div className='footer-company'>
+                    </Company>
+                    <Company>
                         <div className='footer-company-title'>HELP</div>        
                         <div className='footer-company-links'>
-                            <div>Customer Support</div>
-                            <div>Terms & Conditions</div>
-                            <div>Privacy Policy</div>
+                            <Link>Customer Support</Link>
+                            <Link>Terms & Conditions</Link>
+                            <Link>Privacy Policy</Link>
                         </div>
-                    </div>
-                    <div className='footer-company'>
+                    </Company>
+                    <Company>
                         <div className='footer-company-title'>NEWSLETTER</div>        
-                        <div className='footer-company-newsletter'>
+                        <Newsletter>
                             <input
                                 type='email'
                                 name='email'
                                 placeholder='Enter your email address'
                             />
-                            <div className='footer-button'>Subscribe Now</div>
-                        </div>
-                    </div>
-                </div>
-                <div className='footer-copyright'>© Copyright 2024, All Rights Reserved by Xpacy</div>
-            </footer>
+                            <Button buttonType={{primaryBtn: false}} background={'var(--Secondary-Secondary500)'} >Subscribe Now</Button>
+                        </Newsletter>
+                    </Company>
+                </FooterContent>
+                <Copywright>&copy; Copyright {year}, All Rights Reserved by Xpacy</Copywright>
+            </FooterContainer>
         </>
     )
 }
 
-export default Footer
+export default Footer;

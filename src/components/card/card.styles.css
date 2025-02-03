@@ -87,7 +87,13 @@
     font-family: "Florencesans Exp";
     font-size: 18px;
     font-weight: 700;
+    user-select: none;
 }
+    .card-heading:hover{
+        text-decoration: underline;
+        transform: scale(1.09);
+        cursor: pointer;
+    }
 .location{
     gap: 4px;
 }
@@ -157,6 +163,7 @@
         display: flex;
         height: 36px;
         padding: 16px;
+        cursor: pointer;
         justify-content: center;
         align-items: center;
         gap: var(--Spacing-s, 8px);
@@ -172,5 +179,7 @@
             line-height: 120%; /* 19.2px */
         }
     }
-
+        .remove-btn:hover{
+            filter: brightness(60%);
+        }
 }

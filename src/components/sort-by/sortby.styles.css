@@ -1,9 +1,10 @@
 .sort{
+    position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     span{
         display: flex;
-        padding: 10px;
+        padding: 10px 8px 10px 0px;
         justify-content: center;
         align-items: center;
         gap: 10px;
@@ -15,37 +16,71 @@
         line-height: 150%; /* 1.5rem */
         letter-spacing: 0.01rem;
     }
-    select[name='sort']{
+
+}
+
+.sort-icon-container{
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    border: 1px solid var(--Primary-Primary200, #C7D9E5);
+    background: var(--Base-Base-White, #FFF);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sort-dropdown-container{
+    position: relative;
+    display: flex;
+    .sort-dropdown-content{
         display: flex;
-        min-width: 138px;
-        height: 48px;
-        display: flex;
-        height: 48px;
-        padding: 8px;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
-        flex-shrink: 0;
         border-radius: 8px;
-        border: 1px solid var(--Primary-Primary200, #C7D9E5);
-        background: var(--Base-Base-White, #FFF);
-        color: var(--Neutrals-Neutrals900, #585858);
+        border: 1px solid #585858;
+        padding: 0px 8px;
+        cursor: pointer;
+    }
+   
+}
+.sort-dropdown{
+    position: absolute;
+    top: 45px;
+    left: 0px;
+    list-style: none;
+    width: 138px;
+    height: auto;
+    border-radius: 10px;
+    border: 1.5px solid var(--Primary-Primary100, #E3ECF2);
+    background: var(--Base-Base-White, #FFF);
+    box-shadow: 0px 10px 10px 0px var(--Neutrals-Neutrals100, #ECECEC);
+    padding: unset;
+    margin: unset;
+    padding: 10px;
+    li{
+        cursor: pointer;
+        padding: 12px 0px;
+        color: var(--Base-Base-Black, #333);
         font-family: "Unitext Regular";
         font-size: 1rem;
         font-style: normal;
         font-weight: 400;
-        line-height: 150%; /* 1.5rem */
-        letter-spacing: 0.01rem;
-        option{
-            height: 48px;
-            border: 1px solid var(--Primary-Primary100, #E3ECF2);
-            min-width: 138px;
-            color: var(--Neutrals-Neutrals900, #585858);
-            font-family: "Unitext Regular";
-            font-size: 1rem;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 150%; /* 1.5rem */
-            letter-spacing: 0.01rem;
-        }
+        line-height: 120%; /* 1.2rem */
+        border-bottom: 1px solid #E3ECF2;
+    }
+    
+}
+li:hover{
+    background-color: #E3ECF2;
+
+}
+
+@media only screen and (max-width: 600px){
+    .sort-dropdown{
+        top: 48px;
+        left: -80px;
+        z-index: 3;
     }
 }

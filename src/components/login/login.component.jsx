@@ -2,15 +2,33 @@ import { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoClose } from "react-icons/io5";
 import {ReactComponent as Logo} from '../../assets/x-pacy-logo.svg';
-import { Carousel, CarouselCaption, CarouselItem, Modal } from 'react-bootstrap';
+import { Carousel, CarouselCaption, CarouselItem } from 'react-bootstrap';
 import sliderImg from '../../assets/log-asset/carousel-photo01.png';
-import './login.styles.css';
 import FormInput from '../form-input/formInput.component';
 import fetchServer from '../../utils/serverutils/fetchServer';
 import { UserContext } from '../../contexts/userContext';
 import ClipLoader from "react-spinners/ClipLoader";
 import Cookies from "js-cookie";
 import ModalComponent from '../modal/modal';
+import { LogoContainer, NavLogo } from '../../routes/navigation/navigation.styles';
+import { 
+    AnchorTag,
+    FormContainer,
+    LogInContainer,
+    LogInForm,
+    LoginLogoContainer,
+    MainContent,
+    LoginContent,
+    LogInHeader,
+    CheckboxForgotPasswordContainer,
+    LoginCarouselImg,
+    CarouselCaptionTxt,
+    LoginCarouselContainer,
+    ErroModal,
+} from './login.styles';
+import Button from '../button/button';
+
+
 const LogIn = () => {
     const defaultFormFields = {
         email: '',
@@ -35,7 +53,20 @@ const LogIn = () => {
             [name]: value,
         })
     }
-
+    const getUserProfile = async (token) => {
+        try {
+          const resp = await fetchServer(
+            "GET",
+            {},
+            token,
+            "user/fetch-profile",
+            server
+          );
+          setUserProfile(resp.user);
+        } catch (error) {
+          console.log(error);
+        }
+      };
     const handleSubmit = async (e) => {
         e.preventDefault();
         setShowLoader(true)
@@ -52,51 +83,50 @@ const LogIn = () => {
         if(userData.success){
             Cookies.set('gt-jwt-br', userData.token)
             setUserToken(userData.token);
-            navigate("/");
+            getUserProfile(userData.token);
+            navigate("/dashboard/user");
         }
     }
     return(
         <>
-            <div className="login-container">
-                <div className="login-form">
-                    <div className="login-logo-container">
-                        <Link className="logo-container" to='/'>
-                            <Logo className='logo'/>
-                        </Link>
-                    </div>
-                    <div className="login-content">
-                        <header className="login-header">
+            <LogInContainer>
+                <LogInForm>
+                    <LoginLogoContainer>
+                        <LogoContainer onClick={() => navigate("/")}>
+                            <NavLogo />
+                        </LogoContainer>
+                    </LoginLogoContainer>
+                    <LoginContent>
+                        <LogInHeader>
                             <h1>Welcome back!</h1>
                             <p>Enter your email address and password to log in.</p>
-                        </header>
-                        <main>
-                            <form onSubmit={handleSubmit}>
-                                <div className="email-container w-100">
-                                    <FormInput
-                                        label={"Email address"}
-                                        id="e-mail"
-                                        name='email'
-                                        type="email"
-                                        onChange={handleChange}
-                                        value={email}
-                                        required
-                                        placeholder="Enter your email address"
-                                    />
-                                    {
-                                        (isUserValid && 
-                                        <ModalComponent>
-                                            <div className="invalid-email-content">
-                                                <h3>Opps!</h3>
-                                                <p>Incorrect Email or Password. Please try again</p>
-                                                <IoClose 
-                                                    style={{width: '24px', height: '24px'}} 
-                                                    className='close-email' 
-                                                    onClick={() => setIsUserValid(false)}
-                                                />
-                                            </div>
-                                        </ModalComponent>)
-                                    }
-                                </div>
+                        </LogInHeader>
+                        <MainContent>
+                            <FormContainer onSubmit={handleSubmit}>
+                                <FormInput
+                                    label={"Email address"}
+                                    id="e-mail"
+                                    name='email'
+                                    type="email"
+                                    onChange={handleChange}
+                                    value={email}
+                                    required
+                                    placeholder="Enter your email address"
+                                />
+                                {
+                                    (isUserValid && 
+                                    <ModalComponent>
+                                        <ErroModal>
+                                            <h3>Opps!</h3>
+                                            <p>Incorrect Email or Password. Please try again</p>
+                                            <IoClose 
+                                                style={{width: '24px', height: '24px'}} 
+                                                className='close-email' 
+                                                onClick={() => setIsUserValid(false)}
+                                            />
+                                        </ErroModal>
+                                    </ModalComponent>)
+                                }
                                 <FormInput
                                     label={"password"}
                                     id="password"
@@ -107,36 +137,52 @@ const LogIn = () => {
                                     required
                                     placeholder="Enter your password"
                                 />
-                                <div className="checkbox d-flex justify-content-between align-items-start w-100">
+                                <CheckboxForgotPasswordContainer>
                                     <div className="checkbox-container">
                                         <input type="checkbox" name="rememberMe" id="remember-me" />
                                         <label htmlFor="remember-me">Remember me</label>
                                     </div>
-                                    <Link to={'/auth/forgot-password'}>Forgot password?</Link>
-                                </div>
-                                <button type="submit">
+                                    <AnchorTag to={'/auth/forgot-password'}>Forgot password?</AnchorTag>
+                                </CheckboxForgotPasswordContainer>
+                                <Button buttonType={{primaryBtn: true}}>
                                     {
                                         showLoader ? (<ClipLoader size={25} color='#fff'/>) : 'Log In'
                                     }
-                                </button>
-                            </form>
-                            <p>Don't have an account? <Link to={'/auth/sign-up'}>Sign Up</Link></p>
-                        </main>
-                    </div>
-                </div>
-                <div className="login-carousel">
-                    <Carousel>
+                                </Button>
+                            </FormContainer>
+                            <p>Don't have an account? <AnchorTag fontWeight={700} to={'/auth/sign-up'}>Sign Up</AnchorTag></p>
+                        </MainContent>
+                    </LoginContent>
+                </LogInForm>
+                <LoginCarouselContainer>
+                    <Carousel controls={false} wrap={true}>
                         <CarouselItem>
-                            <img src={sliderImg} alt='beautiful house' className='login-image'/>
+                            <LoginCarouselImg src={sliderImg} alt='beautiful house' className='login-image'/>
                             <CarouselCaption>
-                                <h2 className='carousel-caption-txt'>
+                                <CarouselCaptionTxt className='carousel-caption-txt'>
                                     Discover properties that fit your vision and goals.
-                                </h2>
+                                </CarouselCaptionTxt>
+                            </CarouselCaption>
+                        </CarouselItem>
+                        <CarouselItem>
+                            <LoginCarouselImg src={sliderImg} alt='beautiful house' className='login-image'/>
+                            <CarouselCaption>
+                                <CarouselCaptionTxt>
+                                    Discover properties that fit your vision and goals.
+                                </CarouselCaptionTxt>
+                            </CarouselCaption>
+                        </CarouselItem>
+                        <CarouselItem>
+                            <LoginCarouselImg src={sliderImg} alt='beautiful house' className='login-image'/>
+                            <CarouselCaption>
+                                <CarouselCaptionTxt className='carousel-caption-txt'>
+                                    Discover properties that fit your vision and goals.
+                                </CarouselCaptionTxt>
                             </CarouselCaption>
                         </CarouselItem>
                     </Carousel>
-                </div>
-            </div>
+                </LoginCarouselContainer>
+            </LogInContainer>
         </>
     )
 };

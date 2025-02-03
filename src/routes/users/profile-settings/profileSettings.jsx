@@ -1,15 +1,67 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import DashboardTopNav from '../dashoard-top-nav/dashboardTopNav';
-import userImage from '../../../assets/user-profile-img.png';
+import userImage from '../../../assets/user-profile-img.svg';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import FormInput from '../../../components/form-input/formInput.component';
 import Button from '../../../components/button/button';
 import { FormCheck } from 'react-bootstrap';
 import { PageContext } from '../../../contexts/page.context';
 import ModalComponent from '../../../components/modal/modal';
-import './profile-settings.styles.css';
-const ProfileSettings = () => {
-    const {nigerianStates} = useContext(PageContext)
+import { UserDashboardTopNav } from '../../../components/user-dashboard/user-dashboard.styles.jsx';
+import { SlOptionsVertical } from 'react-icons/sl';
+import { PulseLoader } from 'react-spinners';
+import { 
+    ProfileSettingsContainer,
+    ProfilePhotoTxt,
+    ProfileContainer, 
+    ProfileInfo, 
+    UploadInput,
+    ProfileUploadSection,
+    PhotoInfo,
+    PhotoInfoWrapper,
+    UploadControls,
+    UploadPictureLabel,
+    DeleteBtnContainer,
+    PersonalInfo,
+    PersonalFormContainer,
+    PersonalInfoHeading,
+    SubmitControls,
+    NameInputs,
+    ResetButtonContainer,
+    Divider,
+    TwoFactorContainer,
+    NotificationPrefrenceContainer,
+    NotificationPrefrenceHeading,
+    NotificationsInputsContainer,
+    NotificationsTypeContainer,
+    DeactivateModalHeading,
+    DeactivateModalContent,
+    ModalCardFooter,
+    PaymentNotification
+} from './profile-settings.styles.jsx';
+import fetchServer from '../../../utils/serverutils/fetchServer.js';
+import { UserContext } from '../../../contexts/userContext.jsx';
+const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, userProfile}) => {
+    const {userToken} = useContext(UserContext);
+    const [showPropertyStatus, setShowPropertyStatus] = useState(true);
+    const [nigerianStates, setNigerianStates] = useState([]);
+    
+    // Get NigerianStates
+    useEffect(() => {
+        const getStatesData = async () => {
+            try {
+                const response = await fetch("https://app.xpacy.com/location/fetch-states", {method: "GET"});
+                const data = await response.json();
+                setNigerianStates(data.state);
+                console.log(data)
+            } catch (error) {
+                console.error("Error", error);
+            }
+        }
+        getStatesData();
+    }, []);
+
+
     const defaultPersonalFormFields = {
         firstName: '',
         lastName: '',
@@ -21,6 +73,7 @@ const ProfileSettings = () => {
         currentPassword: '',
         newPassword: ''
     }
+    
     const [personalFormFields, setPersonalFormFields] = useState(defaultPersonalFormFields);
     const {firstName, lastName, email, phoneNumber, address} = personalFormFields;
     const [passwordFields, setPassWordFields] = useState(defaultPasswords);
@@ -28,7 +81,6 @@ const ProfileSettings = () => {
     const [notificationRadio, setNotificationRadio] = useState('');
     const [state, setState] = useState('');
     const [showModal, setShowModal] = useState(false)
-
     const handleSecurityChange = (e) => {
         const {name, value} = e.target;
         setPassWordFields({
@@ -65,248 +117,321 @@ const ProfileSettings = () => {
         });
         console.log(state)
     }
-
+    const uploadPhoto = async (file) => {
+        const formData = new FormData();
+        formData.append("display_picture", file); // 👈 Must match the server's expected field name
+        try {
+            const response = await fetch("https://app.xpacy.com/user/upload-display-image", {
+              method: "PUT",
+              headers: {
+                Authorization: `Bearer ${userToken}`, // Include token if needed
+              },
+              body: formData, // Send FormData (NOT JSON)
+            });
+        
+            const data = await response.json();
+            console.log("Server response:", data);
+          } catch (error) {
+            console.error("Upload error:", error);
+          }
+    }
+  const handlePhotoUpload = async(e) => {
+      const {files} = e.target;      
+        await uploadPhoto(files[0])
+    }  
+    
+    console.log(userProfile)
     return(
-        <div className="notification-container">
-            <DashboardTopNav dashboardRoute={'Profile Settings'}/>
-            <main className='profile-container'>
-                <div className="profile-info">
-                    <h3>Profile Photo</h3>
-                    <div className="photo-upload-section">
-                        <div className="photo-info">
-                            <div style={{width: '100px', height: '100px', background: `url(${userImage}) lightgray 50% / cover no-repeat `, borderRadius: '100px'}} />
-                            <div className="d-flex align-items-start flex-column">
-                                <h5>Profile photo</h5>
-                                <p>PNG, JPEG under 15MB</p>
-                            </div>
-                        </div>
-                        <div className="upload-controls">
-                            <label htmlFor="upload-photo" className='upload-picture'>
-                                <input type="file" name="profile-picture" id="upload-photo" />
-                                Upload Picture
-                            </label>
-                            <div>
-                                <RiDeleteBin6Line style={{width: '24px', height: '24px'}}/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="personal-info">
-                    <h3>Personal Information</h3>
-                    <form onSubmit={handlePersonalFormSubmit}>
-                        <div className='d-flex justify-content-between align-self-stretch personal-info-name'>
-                            <FormInput
-                                label={'First Name'}
-                                name={'firstName'}
-                                placeholder={'Emmanuel'}
-                                id="firstName"
-                                type="text"
-                                onChange={handleChange}
-                                value={firstName}
-                            />
-                            <FormInput
-                                label={'Last Name'}
-                                name={'lastName'}
-                                placeholder={'Amakiri'}
-                                id="lastName"
-                                type="text"
-                                onChange={handleChange}
-                                value={lastName}
-                            />
-                        </div>
-                        <FormInput
-                            label={'email'}
-                            name={'email'}
-                            placeholder={'manuel.makiri@gmail.com'}
-                            id="email"
-                            type="email"
-                            onChange={handleChange}
-                            value={email}
-                        />
-                        <FormInput
-                            label={'Phone number'}
-                            name={'phoneNumber'}
-                            placeholder={'+234 000 0000'}
-                            id="email"
-                            type="tel"
-                            pattern="[0-9]{11}"
-                            onChange={handleChange}
-                            value={phoneNumber}
-                        />
-                        <FormInput
-                            label={'Address'}
-                            name={'address'}
-                            placeholder={'Enter Address'}
-                            id="address"
-                            type="text"
-                            onChange={handleChange}
-                            value={address}
-                        />
-                        <div className="submit-controls">
-                            <Button buttonType={{primaryBtn: true}} type={'submit'}>Save Changes</Button>
-                            <Button buttonType={{primaryBtn: false}} type={'button'}>Cancel</Button>
-                        </div>
-                    </form>
-                </div>
-                <div className="personal-info">
-                    <h3>Account Security</h3>
-                    <form onSubmit={handlePersonalFormSubmit}>
-                        <FormInput
-                            label={'Current Password'}
-                            name={'currentPassword'}
-                            placeholder={'current password'}
-                            id="password"
-                            type="password"
-                            onChange={handleSecurityChange}
-                            value={currentPassword}
-                        />
-                        <FormInput
-                            label={'New Password'}
-                            name={'newPassword'}
-                            placeholder={'new password'}
-                            id="password"
-                            type="password"
-                            onChange={handleSecurityChange}
-                            value={newPassword}
-                        />
-                        <div className="align-self-stretch d-flex justify-content-end">
-                            <Button buttonType={{primaryBtn: false}} type={'button'} onClick={handlePasswordClick} >Reset Password</Button>
-                        </div>
-                        <div className='divider'/>
-                        <div className="align-self-stretch d-flex justify-content-between">
-                            <p>Two-Factor Authentication</p>
-                            <div class="form-switch" >
-                                <input type="checkbox" class="form-check-input" style={{width: '40px', height: '25px',}}/>
-                            </div>
-                        </div>
-                        <div className="submit-controls">
-                            <Button buttonType={{primaryBtn: true}} type={'submit'}>Save Changes</Button>
-                        </div>
-                    </form>
-                </div>
-                <div className="personal-info">
-                    <h3>Notification Preference</h3>
-                    <form onSubmit={handlePersonalFormSubmit}>
-                        <div className="notification-preference-container">
-                            <p>Notification Methods</p>
-                            <div className="notification-inputs-container" onClick={handleRadioChange} >
-                                <div className="radio-btns">
-                                    <input type="radio" name="emailradio" id="emailRadio" value={'email'} defaultChecked/>
-                                    <label htmlFor="email">Email</label>
-                                </div>
-                                <div className="radio-btns">
-                                    <input type="radio" name="radio" id="appRadio" value={'app'}/>
-                                    <label htmlFor="email">App</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='divider'/>
-                        <div className="notification-preference-container">
-                            <p>Notification Type</p>
-                            <div className="notification-type-container" onClick={handleRadioChange} >
-                                <div className="radio-btns">
-                                    <input type="radio" name="radio" id="emailRadio" value={'email'} defaultChecked/>
-                                    <label htmlFor="email">Services</label>
-                                </div>
-                                <div className="radio-btns">
-                                    <input type="radio" name="radio" id="appRadio" value={'app'}/>
-                                    <label htmlFor="email">Properties</label>
-                                </div>
-                                <div className="radio-btns">
-                                    <input type="radio" name="radio" id="appRadio" value={'app'}/>
-                                    <label htmlFor="email">Payments</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='divider'/>
-                        <div className="align-self-stretch d-flex justify-content-between">
-                            <p>Two-Factor Authentication</p>
-                            <div class="form-switch" >
-                                <input type="checkbox" class="form-check-input" style={{width: '40px', height: '25px',}}/>
-                            </div>
-                        </div>
-                        <div className="submit-controls">
-                            <Button buttonType={{primaryBtn: true}} type={'submit'}>Save Changes</Button>
-                        </div>
-                    </form>
-                </div>
-                <div className="personal-info">
-                    <h3>Location Preference</h3>
-                    <form onSubmit={handlePersonalFormSubmit}>
-                        <div className='signup-location'>
-                            <label htmlFor="state">Change selected location</label>
-                            <select name='state' required value={state}  onChange={handleStatesChange}>
-                                <option selected >Choose a Location</option>
-                                {
-                                    nigerianStates &&
-                                    (
-                                        nigerianStates.map((stateName) => {
-                                            const {location} = stateName
-                                            return (
-                                                <option key={location}>{location}</option>
-                                            )
-                                        })
-                                    )
-                                }
-                            </select>
-                        </div>
-                        <div className="submit-controls">
-                            <Button buttonType={{primaryBtn: true}} type={'submit'}>Save Changes</Button>
-                        </div>
-                    </form>
-                </div>
-                <div className="personal-info">
-                    <h3>Account Management</h3>
-                    <div className="submit-controls">
-                            <Button 
-                                buttonType={{primaryBtn: false}} 
-                                type={'submit'} 
-                                background={'#FBC0BC'} 
-                                textColor={'#333333'}
-                                onClick={()=> setShowModal(true)}
-                            >
-                                Deactivate Account
-                            </Button>
-                    </div>
-                </div>
-                {
-                    showModal && 
-                    (
-                        <ModalComponent>
-                            <div className="deactivate-modal-content">
-                                <div className="deactivate-card-header">
-                                    <h5>Are you sure you want to deactivate your account?</h5>
-                                    <p>You would have to register again to reactivate your account.</p>
-                                </div>
-                                <div className="card-footer">
-                                    <Button 
-                                        buttonType={{primaryBtn: false}} 
-                                        type={'submit'} 
-                                        background={'#FBC0BC'} 
-                                        textColor={'#333333'}
-                                        buttonPadding={'6px 16px'}
-                                        buttonHeight={'28px'}
-                                    >
-                                        Yes, deactivate
-                                    </Button>
-                                    <Button 
-                                        buttonType={{primaryBtn: true}} 
-                                        type={'button'} 
-                                        background={'#FBC0BC'} 
-                                        textColor={'#333333'}
-                                        buttonPadding={'6px 16px'}
-                                        buttonHeight={'28px'}
-                                        onClick={() => setShowModal(false)}
-                                    >
-                                        No, undo
-                                    </Button>
-                                </div>
-                            </div>
-                        </ModalComponent>
-                    )
-                }
-            </main>
-        </div>
+        <>
+            {
+                userProfile ? 
+                (
+                    <ProfileSettingsContainer>
+                        <DashboardTopNav dashboardRoute={'Profile Settings'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSidebar} />
+                        {
+                            isMobile && (
+                                <UserDashboardTopNav>
+                                    <h5>Profile Settings</h5>
+                                    <SlOptionsVertical style={{width: '24px', height: '24px'}} onClick={() => {}}/>
+                                </UserDashboardTopNav>
+                            )
+                        }
+                        {
+                            isMobile && (
+                                <>
+                                    {
+                                        
+                                        showPropertyStatus && (
+                                            <PaymentNotification className='pending'>
+                                                <p>
+                                                    The verification for your property application is pending.
+                                                </p>
+                                                <Button
+                                                    buttonType={{primaryBtn: false}}
+                                                    buttonHeight={'36px'}
+                                                    buttonPadding={'16px'}
+                                                >
+                                                    View Details
+                                                </Button>
+                                            </PaymentNotification>
+                                        )
+                                        
+                                    }
+                                </>
+                            )
+                        }
+                        <ProfileContainer>
+                            <ProfileInfo>
+                                <ProfilePhotoTxt>Profile Photo</ProfilePhotoTxt>
+                                <ProfileUploadSection>
+                                    <PhotoInfo>
+                                        <div style={{width: '100px', height: '100px', background: `${!userProfile.display_picture ? `url(${userImage}) lightgray 50% / cover no-repeat` : `url(${userProfile.display_picture}) lightgray 50% / cover no-repeat` }`,  borderRadius: '100px', objectFit: 'contain'} } />
+                                        <PhotoInfoWrapper>
+                                            <h5>Profile photo</h5>
+                                            <p>PNG, JPEG under 15MB</p>
+                                        </PhotoInfoWrapper>
+                                    </PhotoInfo>
+                                    <UploadControls>
+                                        <UploadPictureLabel htmlFor="upload-photo" >
+                                            <UploadInput type="file" accept='.jpg, .png' name="display_picture" id="upload-photo" onChange={handlePhotoUpload}  />
+                                            {userProfile.display_picture ? "Change Photo" : "Upload Picture"}
+                                        </UploadPictureLabel>
+                                        <DeleteBtnContainer>
+                                            <RiDeleteBin6Line style={{width: '24px', height: '24px'}}/>
+                                        </DeleteBtnContainer>
+                                    </UploadControls>
+                                </ProfileUploadSection>
+                            </ProfileInfo>
+                            <PersonalInfo>
+                                <PersonalInfoHeading>Personal Information</PersonalInfoHeading>
+                                <PersonalFormContainer onSubmit={handlePersonalFormSubmit}>
+                                    <NameInputs>
+                                        <FormInput
+                                            label={'First Name'}
+                                            name={'firstName'}
+                                            placeholder={userProfile.firstname}
+                                            id="firstName"
+                                            type="text"
+                                            onChange={handleChange}
+                                            value={firstName}
+                                        />
+                                        <FormInput
+                                            label={'Last Name'}
+                                            name={'lastName'}
+                                            placeholder={userProfile.lastname}
+                                            id="lastName"
+                                            type="text"
+                                            onChange={handleChange}
+                                            value={lastName}
+                                        />
+                                    </NameInputs>
+                                    <FormInput
+                                        label={'email'}
+                                        name={'email'}
+                                        placeholder={userProfile.email}
+                                        id="email"
+                                        type="email"
+                                        onChange={handleChange}
+                                        value={email}
+                                    />
+                                    <FormInput
+                                        label={'Phone number'}
+                                        name={'phoneNumber'}
+                                        placeholder={'+234 000 0000'}
+                                        id="email"
+                                        type="tel"
+                                        pattern="[0-9]{11}"
+                                        onChange={handleChange}
+                                        value={phoneNumber}
+                                    />
+                                    <FormInput
+                                        label={'Address'}
+                                        name={'address'}
+                                        placeholder={'Enter Address'}
+                                        id="address"
+                                        type="text"
+                                        onChange={handleChange}
+                                        value={address}
+                                    />
+                                    <SubmitControls>
+                                        <Button buttonType={{primaryBtn: true}} type={'submit'}>Save Changes</Button>
+                                        <Button buttonType={{primaryBtn: false}} type={'button'}>Cancel</Button>
+                                    </SubmitControls>
+                                </PersonalFormContainer>
+                            </PersonalInfo>
+                            <PersonalInfo>
+                                <PersonalInfoHeading>Account Security</PersonalInfoHeading>
+                                <PersonalFormContainer onSubmit={handlePersonalFormSubmit}>
+                                    <FormInput
+                                        label={'Current Password'}
+                                        name={'currentPassword'}
+                                        placeholder={'current password'}
+                                        id="password"
+                                        type="password"
+                                        onChange={handleSecurityChange}
+                                        value={currentPassword}
+                                    />
+                                    <FormInput
+                                        label={'New Password'}
+                                        name={'newPassword'}
+                                        placeholder={'new password'}
+                                        id="password"
+                                        type="password"
+                                        onChange={handleSecurityChange}
+                                        value={newPassword}
+                                    />
+                                    <ResetButtonContainer>
+                                        <Button buttonType={{primaryBtn: false}} type={'button'} onClick={handlePasswordClick} >Reset Password</Button>
+                                    </ResetButtonContainer>
+                                    <Divider/>
+                                    <TwoFactorContainer>
+                                        <p>Two-Factor Authentication</p>
+                                        <div class="form-switch" >
+                                            <input type="checkbox" class="form-check-input" style={{width: '40px', height: '25px',}}/>
+                                        </div>
+                                    </TwoFactorContainer>
+                                    <SubmitControls>
+                                        <Button buttonType={{primaryBtn: true}} type={'submit'}>Save Changes</Button>
+                                    </SubmitControls>
+                                </PersonalFormContainer>
+                            </PersonalInfo>
+                            <PersonalInfo>
+                                <PersonalInfoHeading>Notification Preference</PersonalInfoHeading>
+                                <PersonalFormContainer onSubmit={handlePersonalFormSubmit}>
+                                    <NotificationPrefrenceContainer>
+                                        <NotificationPrefrenceHeading>Notification Methods</NotificationPrefrenceHeading>
+                                        <NotificationsInputsContainer onClick={handleRadioChange} >
+                                            <div className="radio-btns">
+                                                <input type="radio" name="notification_methods" id="notification_methods" value={'email'} defaultChecked/>
+                                                <label htmlFor="email">Email</label>
+                                            </div>
+                                            <div className="radio-btns">
+                                                <input type="radio" name="notification_methods" id="notification_methods" value={'app'}/>
+                                                <label htmlFor="email">App</label>
+                                            </div>
+                                        </NotificationsInputsContainer>
+                                    </NotificationPrefrenceContainer>
+                                    <Divider/>
+                                    <NotificationPrefrenceContainer>
+                                        <NotificationPrefrenceHeading>Notification Type</NotificationPrefrenceHeading>
+                                        <NotificationsTypeContainer onClick={handleRadioChange} >
+                                            <div className="radio-btns">
+                                                <input type="radio" name="radio" id="emailRadio" value={'email'} defaultChecked/>
+                                                <label htmlFor="email">Services</label>
+                                            </div>
+                                            <div className="radio-btns">
+                                                <input type="radio" name="radio" id="appRadio" value={'app'}/>
+                                                <label htmlFor="email">Properties</label>
+                                            </div>
+                                            <div className="radio-btns">
+                                                <input type="radio" name="radio" id="appRadio" value={'app'}/>
+                                                <label htmlFor="email">Payments</label>
+                                            </div>
+                                        </NotificationsTypeContainer>
+                                    </NotificationPrefrenceContainer>
+                                    <Divider/>
+                                    <TwoFactorContainer>
+                                        <p>Two-Factor Authentication</p>
+                                        <div class="form-switch" >
+                                            <input type="checkbox" class="form-check-input" style={{width: '40px', height: '25px',}}/>
+                                        </div>
+                                    </TwoFactorContainer>
+                                    <SubmitControls>
+                                        <Button buttonType={{primaryBtn: true}} type={'submit'}>Save Changes</Button>
+                                    </SubmitControls>
+                                </PersonalFormContainer>
+                            </PersonalInfo>
+                            <PersonalInfo>
+                                <PersonalInfoHeading>Location Preference</PersonalInfoHeading>
+                                <PersonalFormContainer onSubmit={handlePersonalFormSubmit}>
+                                    <div className='signup-location'>
+                                        <label htmlFor="state">Change selected location</label>
+                                        <select name='state' required value={state}  onChange={handleStatesChange}>
+                                            <option selected >Choose a Location</option>
+                                            {
+                                                nigerianStates &&
+                                                nigerianStates.map((stateName) => {
+                                                        const {location} = stateName
+                                                        return (
+                                                            <option key={location}>{location}</option>
+                                                        )
+                                                    })
+                                            }
+                                        </select>
+                                    </div>
+                                    <SubmitControls>
+                                        <Button buttonType={{primaryBtn: true}} type={'submit'}>Save Changes</Button>
+                                    </SubmitControls>
+                                </PersonalFormContainer>
+                            </PersonalInfo>
+                            <PersonalInfo>
+                                <PersonalInfoHeading>Account Management</PersonalInfoHeading>
+                                <SubmitControls>
+                                        <Button 
+                                            buttonType={{primaryBtn: false}} 
+                                            type={'submit'} 
+                                            background={'#FBC0BC'} 
+                                            textColor={'#333333'}
+                                            onClick={()=> setShowModal(true)}
+                                        >
+                                            Deactivate Account
+                                        </Button>
+                                </SubmitControls>
+                            </PersonalInfo>
+                            {
+                                showModal && 
+                                (
+                                    <ModalComponent>
+                                        <DeactivateModalContent>
+                                            <DeactivateModalHeading>
+                                                <h5>Are you sure you want to deactivate your account?</h5>
+                                                <p>You would have to register again to reactivate your account.</p>
+                                            </DeactivateModalHeading>
+                                            <ModalCardFooter>
+                                                <Button 
+                                                    buttonType={{primaryBtn: false}} 
+                                                    type={'submit'} 
+                                                    background={'#FBC0BC'} 
+                                                    textColor={'#333333'}
+                                                    buttonPadding={'6px 16px'}
+                                                    buttonHeight={'28px'}
+                                                >
+                                                    Yes, deactivate
+                                                </Button>
+                                                <Button 
+                                                    buttonType={{primaryBtn: true}} 
+                                                    type={'button'} 
+                                                    background={'#FBC0BC'} 
+                                                    textColor={'#333333'}
+                                                    buttonPadding={'6px 16px'}
+                                                    buttonHeight={'28px'}
+                                                    onClick={() => setShowModal(false)}
+                                                >
+                                                    No, undo
+                                                </Button>
+                                            </ModalCardFooter>
+                                        </DeactivateModalContent>
+                                    </ModalComponent>
+                                )
+                            }
+                        </ProfileContainer>
+                    </ProfileSettingsContainer>
+                ) :
+                (
+                    <PulseLoader
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            alignSelf: "stretch",
+                            height: "100vh",
+                            width: '100%'
+                        }}
+                        margin={5}
+                    />
+                )
+            }
+        </>
     );
 }
 

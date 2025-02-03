@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoChevronForward, IoLocationOutline, IoSearchOutline   } from "react-icons/io5";
 import { FaRegSquareFull, FaCheck } from "react-icons/fa6";
 import { CiHeart } from "react-icons/ci";
@@ -19,15 +19,12 @@ import ClientRating from '../../components/clientRating/clientRating';
 import './property.styles.css';
 import Photos from '../all-photos/photos.component';
 import { PageContext } from '../../contexts/page.context';
-import { div } from 'framer-motion/client';
+import { PulseLoader } from 'react-spinners';
 
 
 const Property = () => {
-    const [property, setProperty] = useState(null);
-    
+    const navigate = useNavigate();
     const {propertyObj, propertiesArray} = useContext(PageContext)
-    
-    
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
     useEffect(() => {
         const handleResize = () => {
@@ -37,7 +34,6 @@ const Property = () => {
         return () => {
             window.removeEventListener('resize', handleResize)
         };
-       
     }, []);
     const tourDate = {
         bookTourDate: 'Select tour date'
@@ -128,7 +124,7 @@ const Property = () => {
         }
     ];
     const handleGetPropertyClick = () => {
-
+        navigate('application-form');
     }
     const handleBookTourClick = () => {
 
@@ -159,7 +155,7 @@ const Property = () => {
     return(
         <>
         {
-                propertyObj.success ? 
+                propertyObj ? 
                 (
                     <div>
                         {/* Property Title and info */}
@@ -373,7 +369,7 @@ const Property = () => {
                                         <div className="price-content">
                                             <div className="d-flex justify-content-center align-items-center">
                                                 <Naira style={{width: '26px', height: '26px'}}/>
-                                                <h5 className='m-0'>{property_price}</h5>
+                                                <h5 className='m-0'>{property_price.toLocaleString()}</h5>
                                             </div>
                                             <button className='d-flex justify-content-center align-items-center' onClick={handleGetPropertyClick}>Get This Property</button>
                                             <div className="virtual-tour d-flex align-items-center">
@@ -463,9 +459,7 @@ const Property = () => {
                     </div>
                 ) : 
                 (
-                    <div>
-                        <h1>Loading..</h1>
-                    </div>
+                    <PulseLoader style={{display: 'flex', justifyContent: 'center' ,alignItems: 'center', alignSelf: 'stretch', height: '100vh'}} margin={5}/>
                 )
         }
        </>

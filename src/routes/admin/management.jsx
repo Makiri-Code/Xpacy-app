@@ -3,12 +3,12 @@ import './admin.styles.css';
 import AdminMangement from '../../components/admin-mangement/admin.component';
 import BookServices from '../services/bookServices';
 
-const Management = () => {
+const Management = ({userProfile}) => {
     return (
         <>
             <Routes>
                 <Route index element = {<AdminMangement/>} />
-                <Route path='/book-services' element = {<BookServices/>} /> 
+                <Route path='/book-services' element = {<BookServices userProfile={userProfile} />} /> 
             </Routes>
         </>
     )

@@ -51,7 +51,7 @@ const Contacts = () => {
                         <h2>We would love to hear from you!</h2>
                         <p>Have a question or need assistance? Fill out the form below, and we'll get back to you shortly.</p>
                         <form onSubmit={handleSubmit}>
-                            <div className="name-container d-flex justify-content-between align-self-stretch">
+                            <div className="name-container">
                                 <FormInput
                                     label={'First Name'}
                                     id={'first-name'}

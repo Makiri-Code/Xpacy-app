@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import FormInput from "../../components/form-input/formInput.component";
 import Button from "../../components/button/button";
@@ -8,7 +9,8 @@ import ModalComponent from "../../components/modal/modal";
 import { IoClose } from "react-icons/io5";
 import './book-services.css';
 
-const BookServices = () => {
+const BookServices = ({userProfile}) => {
+    const navigate = useNavigate()
     const [showModal, setShowModal] = useState(false);
     const defaultFormFields = {
         firstName: '',
@@ -48,7 +50,9 @@ const BookServices = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+        if(!userProfile){
+            navigate('/auth/log-in')
+        }
         console.log(formFields);
         setFormFields(defaultFormFields)
         setShowModal(true)
@@ -114,7 +118,7 @@ const BookServices = () => {
                             onChange={handleChange}
                         />
                         <div className="select-container">
-                            <div className="select">
+                            <div className="select-options">
                                 <div className="d-flex flex-column">
                                     <label htmlFor="service-type">Service Type</label>
                                     <select  name="serviceType" id="service-type" value={serviceType} onChange={handleChange}>
@@ -136,7 +140,7 @@ const BookServices = () => {
                                     </select>
                                 </div>
                             </div>
-                            <div className="select">
+                            <div className="select-options">
                                 <div className="d-flex flex-column">
                                     <label htmlFor="service-visit">Schedule Service Visit</label>
                                     <div className="custom-select">

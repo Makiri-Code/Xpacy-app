@@ -52,3 +52,17 @@
         }
     }
 }
+
+@media only screen and (max-width: 600px){
+    .product-list-container{
+        .results-sort-container{
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .product-card-list{
+            .product-card-container{
+                justify-content: center;
+            }
+        }
+    }
+}

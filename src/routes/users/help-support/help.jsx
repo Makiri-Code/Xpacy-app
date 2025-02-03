@@ -1,12 +1,27 @@
 import { useState } from 'react';
 import DashboardTopNav from '../dashoard-top-nav/dashboardTopNav';
 import FormInput from '../../../components/form-input/formInput.component';
-import './help-support.styles.css';
+import './help-support.styles.jsx';
 import Button from '../../../components/button/button';
 import Faq from '../../../components/faq/faq.component';
 import ModalComponent from '../../../components/modal/modal';
 import { IoClose } from 'react-icons/io5';
-const HelpAndSupport = () => {
+import { SlOptionsVertical } from 'react-icons/sl';
+import { UserDashboardTopNav } from '../../../components/user-dashboard/user-dashboard.styles.jsx';
+import { 
+    TextArea, 
+    TextAreaContainer,
+    HelpAndSupportContainer, 
+    SupportContainer,
+    SupportForm,
+    SupportFormContainer,
+    SupportFormHeader,
+    PersonalName,
+    Label,
+    FaqContainer,
+    SupportModalContent,
+} from './help-support.styles.jsx';
+const HelpAndSupport = ({isMobile, showDashboardSidebar,setShowDashboardSidebar}) => {
     const defaultFormFields = {
         firstName: '',
         lastName: '',
@@ -38,15 +53,24 @@ const HelpAndSupport = () => {
         setShowModal(!showModal)
     }
     return(
-        <div className="notification-container">
-            <DashboardTopNav dashboardRoute={'Help/Support'}/>
-            <main className="support-container">
-                <div className='form-container'>
-                    <div className="form-header">
+        <HelpAndSupportContainer>
+            <DashboardTopNav dashboardRoute={'Help/Support'} isMobile={isMobile} showDashboardSidebar={showDashboardSidebar} setShowDashboardSidebar={setShowDashboardSidebar}/>
+            {
+                isMobile && (
+                    <UserDashboardTopNav>
+                        <h5>Help/Support</h5>
+                        <SlOptionsVertical style={{width: '24px', height: '24px'}} onClick={() => {}}/>
+                    </UserDashboardTopNav>
+                )
+            }
+            <SupportContainer>
+                <SupportFormContainer>
+                    <SupportFormHeader>
                         <h5>Need Help?</h5>
                         <p>Have a question or need assistance? Fill out the form below, and we'll get back to you shortly.</p>
-                        <form onSubmit={handleFormSubmit}>
-                            <div className='d-flex justify-content-between align-self-stretch personal-info-name'>
+                    </SupportFormHeader>
+                    <SupportForm onSubmit={handleFormSubmit}>
+                            <PersonalName>
                                 <FormInput
                                     label={'First Name'}
                                     name={'firstName'}
@@ -67,7 +91,7 @@ const HelpAndSupport = () => {
                                     value={lastName}
                                     required
                                 />
-                            </div>
+                            </PersonalName>
                             <FormInput
                                 label={'email'}
                                 name={'email'}
@@ -88,34 +112,33 @@ const HelpAndSupport = () => {
                                 value={subject}
                                 required
                             />
-                            <div className="text-area">
-                                <label htmlFor="message">How can we help?</label>
-                                <textarea name="message" id="message" rows="5" value={message} required onChange={handleChange}></textarea>
-                            </div>
+                            <TextAreaContainer>
+                                <Label htmlFor="message">How can we help?</Label>
+                                <TextArea name="message" id="message" rows="5" value={message} required onChange={handleChange}></TextArea>
+                            </TextAreaContainer>
                             <Button
                                 buttonType={{primaryBtn: true}}
                                 type={'submit'}
                                 className = 'align-self-stretch'
                             >Send A Message</Button>
-                        </form>
+                    </SupportForm>
                         {
                             showModal && 
                             (
                                 <ModalComponent>
-                                    <div className="support-modal-content">
+                                    <SupportModalContent>
                                         <IoClose 
                                             style={{width: '24px', height: '24px', cursor: 'pointer'}}  
                                             onClick={() => setShowModal(!showModal)}
                                         />
                                         <h3>Thank you for contacting us!</h3>
                                         <p>We will get back to you shortly.</p>
-                                    </div>
+                                    </SupportModalContent>
                                 </ModalComponent>
                             )
                         }
-                    </div>
-                </div>
-                <div className="help-faq-container">
+                </SupportFormContainer>
+                <FaqContainer>
                     <h5>Frequently Asked Questions (FAQ)</h5>
                     <div className="align-self-stretch">
                     <Faq 
@@ -148,9 +171,9 @@ const HelpAndSupport = () => {
                         answer={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."}
                     />
                     </div>
-                </div>
-            </main>
-        </div>
+                </FaqContainer>
+            </SupportContainer>
+        </HelpAndSupportContainer>
     )
 }
 

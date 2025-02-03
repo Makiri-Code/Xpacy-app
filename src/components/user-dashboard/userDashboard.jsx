@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { MdOutlineManageAccounts } from "react-icons/md";
 import DashboardTopNav from '../../routes/users/dashoard-top-nav/dashboardTopNav';
@@ -10,12 +10,38 @@ import { CiHeart } from "react-icons/ci";
 import { IoCardOutline } from "react-icons/io5";
 import Card from '../card/card.component';
 import { PulseLoader } from 'react-spinners';
-import './user-dashboard.styles.css';
 import {PageContext} from '../../contexts/page.context'
+import { SlOptionsVertical } from "react-icons/sl";
+import { CiSearch } from "react-icons/ci";
+import { 
+    ContentLayout,
+    UserDashboardContainer,
+    ProfileName,
+    PropertyServicesContainer,
+    PropertySection,
+    PropertyList,
+    ServicesSection,
+    PropertySectionTitle,
+    BookedTable,
+    NotificationIconContainer, 
+    NotificationSection,
+    NotificationList,
+    NotificationsPaymentContainer,
+    NotificationContent,
+    UserDashboardMain,
+    PaymentSection,
+    UserDashboardTopNav,
+    MenuOption,
+    MenuOptionContent,
+    MenuItem,
+    Divider,
 
-const DashboardPage = ({userProfile}) => {
+} from './user-dashboard.styles';
+import EmptySavedProperty from '../empty-saved-property/emptySavedProperty';
+
+const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDashboardSidebar, showDashboardSideBar, bookedServices, notifications}) => {
     const navigate = useNavigate();
-    const {propertiesArray} = useContext(PageContext);
+    const [showMenuOption, setShowMenuOption] = useState(false);
     const cardStytles = {
         cardWidth: '209px',
         cardHeight: '294px',
@@ -33,75 +59,31 @@ const DashboardPage = ({userProfile}) => {
         bodyPadding: '8px 10px',
 
     }
-    const latestPropertises = [
-        {
-            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            title: 'Duplex',
-            heading: '4-Bedroom Semi-detached Duplex with BQ',
-            location: 'Ikoyi, Lagos',
-            price: '1,000,000', 
-            bedrooms: 4,
-            bathrooms: 4,
-        },
-        {
-            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            title: 'Duplex',
-            heading: '4-Bedroom Semi-detached Duplex with BQ',
-            location: 'Ikoyi, Lagos',
-            price: '1,000,000', 
-            bedrooms: 4,
-            bathrooms: 4,
-        },
-        {
-            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            title: 'Duplex',
-            heading: '4-Bedroom Semi-detached Duplex with BQ',
-            location: 'Ikoyi, Lagos',
-            price: '1,000,000', 
-            bedrooms: 4,
-            bathrooms: 4,
-        },
-    ]
-    const bookedServicesTable  = [
-        {
-            serviceType: 'Waste Management',
-            property: '22, Awolowo way Ikoyi, Lagos',
-            date: '29/12/24',
-            status: 'upcoming',
-        },
-        {
-            serviceType: 'Cleaning',
-            property: '22, Awolowo way Ikoyi, Lagos',
-            date: '29/12/24',
-            status: 'in-progress',
-        },
-        {
-            serviceType: 'Plumbing',
-            property: '3, Ahmed Musa Crescent, Jabi, Abuja ',
-            date: '29/12/24',
-            status: 'completed',
-        },
-    ]
-    const notificationLists = [
-        {
-            icon: LuCalendarCheck,
-            title: 'Service Request',
-            time: '35 mins',
-            message: 'Plumbing service request confirmed'
-        },
-        {
-            icon: IoCardOutline,
-            title: 'Payment',
-            time: '3 hours',
-            message: 'Your current rent expires on Nov 25.'
-        },
-        {
-            icon: CiHeart,
-            title: 'Saved Property',
-            time: '2 days',
-            message: 'You just saved a new property.'
-        },
-    ]
+    const convertDateToTimeAndDays = (dateStr) => {
+        const givenDate = new Date(dateStr);
+        const currentDate = new Date(); // User's current date
+
+            // Convert both dates to UTC (ignoring time differences)
+        const givenUTC = new Date(givenDate.getUTCFullYear(), givenDate.getUTCMonth(), givenDate.getUTCDate());
+        const currentUTC = new Date(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate());
+
+            // Calculate the difference in milliseconds and convert to days
+        const differenceInDays = Math.round((currentUTC - givenUTC) / (1000 * 60 * 60 * 24));
+        if(differenceInDays > 0){
+            return `${differenceInDays} days ago`
+        } else {
+            const timeDifferenceMs = currentDate - givenDate;
+
+            // Convert milliseconds to hours, minutes, and seconds
+            const differenceInHours = Math.floor(timeDifferenceMs / (1000 * 60 * 60));
+            const differenceInMinutes = Math.floor((timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60));
+            if(differenceInHours > 0){
+                return `${differenceInHours} hours ago`
+            } else {
+                return `${differenceInMinutes} mins ago`
+            }
+        }
+    }
     const paymentLists = [
         {
             icon: IoCardOutline,
@@ -116,114 +98,255 @@ const DashboardPage = ({userProfile}) => {
             message: '3-bedroom in Abuja'
         },
     ]
-    
+    console.log(bookedServices);
     return (
-            <div className='user-dashboard-container'>
-                <DashboardTopNav dashboardRoute={'Dashboard Overview'}/>
-                <div className="user-dashboard-main-content">
-                    <h2>Welcome {userProfile.firstname},</h2>
-                    <div className="content-layout">
-                        <div className="property-services-container">
-                            <div className="property-section">
-                                <div className="property-section-title">
-                                    <h3>Saved Properties</h3>
-                                    <Link>View All</Link>
-                                </div>
-                                <div className="property-list">
-                                    {propertiesArray.map((properties) => {
-                                        return(
-                                            <Card propertise={properties} cardStyles={cardStytles}/>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                            <div className="services-section">
-                                <div className="property-section-title">
-                                    <h3>Booked Services</h3>
-                                    <Link>View All</Link>
-                                </div>
-                                <table className="booked-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Services Type</th>
-                                            <th>Property</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
+        <>
+            {
+                savedPropertiesArray && userProfile && bookedServices && notifications  ? 
+                (<UserDashboardContainer>
+                    <DashboardTopNav dashboardRoute={'Dashboard Overview'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSideBar}/>
+                    {
+                        isMobile && (
+                            <UserDashboardTopNav>
+                                <h5>Dashboard</h5>
+                                <SlOptionsVertical style={{width: '24px', height: '24px'}} onClick={() => setShowMenuOption(!showMenuOption)}/>
+                            </UserDashboardTopNav>
+                        )
+                    }
+                    {
+                        isMobile && (
+                            <>
+                            {
+                                <>
                                     {
-                                        bookedServicesTable.map((tableData, index) => {
-                                            const {serviceType, property, date, status,} = tableData
-                                            return(
-                                                <tbody key={index}>
-                                                    <tr>
-                                                        <td>{serviceType}</td>
-                                                        <td>{property}</td>
-                                                        <td>{date}</td>
-                                                        <td ><span className={status}>{status}</span></td>
-                                                    </tr>
-                                                </tbody>
-                                            )
-                                        })
+                                        showMenuOption && (
+                                        <MenuOption>
+                                            <MenuOptionContent>
+                                                <MenuItem>
+                                                    <CiSearch style={{width: '20px', height: '20px'}}/>
+                                                    <span>Search Properties</span>
+                                                </MenuItem>
+                                                <Divider/>
+                                                <MenuItem onClick={() => {
+                                                    setShowMenuOption(!showMenuOption)
+                                                    navigate('/dashboard/user/book-services')
+                                                }}>
+                                                    <LuCalendarCheck style={{width: '20px', height: '20px'}}/>
+                                                    <span>Book Services</span>
+                                                </MenuItem>
+                                            </MenuOptionContent>
+                                        </MenuOption>
+                                        )
                                     }
-                                </table>
-                            </div>
-                        </div>
-                        <div className="notifications-payment-container">
-                            <div className="notification-section">
-                                <div className="property-section-title">
-                                    <h3>Notification</h3>
-                                    <Link>View All</Link>
-                                </div>
-                                {
-                                    notificationLists.map((item, index) => {
-                                        const { title, time, message} = item;
-                                        return(
-                                            <div className="notification-list" key={index}>
-                                                <div className="notification-icon">
-                                                    <item.icon style={{width:'24px', height:'24px'}}/>
-                                                </div> 
-                                                <div className="notification-content">
-                                                    <div className="notification-title">
-                                                        <p>{title}</p>
-                                                        <span>{time} ago</span>
-                                                    </div>
-                                                    <p>{message}</p>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
-                            <div className="payment-section">
-                                <div className="property-section-title">
-                                    <h3>Payment</h3>
-                                    <Link>View All</Link>
-                                </div>
-                                {
-                                    paymentLists.map((item, index) => {
-                                        const {title, status, message} = item
-                                        return(
-                                            <div className="notification-list" key={index}>
-                                                <div className="notification-icon">
-                                                    <item.icon style={{width:'24px', height:'24px'}}/>
-                                                </div> 
-                                                <div className="notification-content">
-                                                    <div className="notification-title">
-                                                        <p>{title}</p>
-                                                        <span className={status}>{status}</span>
-                                                    </div>
-                                                    <p>{message}</p>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                    </>
+                            }
+                            </>
+                        )
+                    }
+                    <UserDashboardMain>
+                        <ProfileName>Welcome {userProfile.firstname},</ProfileName>
+                        {/* {isMobile && <div className='divider'/>} */}
+                        <ContentLayout>
+                            <PropertyServicesContainer>
+                                <PropertySection>
+                                    <PropertySectionTitle>
+                                        <h3>Saved Properties</h3>
+                                        {
+                                            savedPropertiesArray.length > 0 && (<Link to={'/dashboard/user/saved-properties'}>View All</Link>)
+                                        }
+                                    </PropertySectionTitle>
+                                    <PropertyList>
+                                        {
+                                            savedPropertiesArray.length > 0 ?
+                                            <>
+                                                {savedPropertiesArray.toSpliced(3).map((properties) => {
+                                                    return(
+                                                        <Card propertise={properties.propertySaved} cardStyles={cardStytles} savedProperty={true}/>
+                                                    )
+                                                })}
+                                            </> :
+                                            <EmptySavedProperty
+                                                message={'Oops!... You have no saved properties yet.'}
+                                                btnTxt={'Explore New Properties'}
+                                                link={'/buy'}
+                                            />
+                                        }
+                                    </PropertyList>
+                                </PropertySection>
+                                <ServicesSection>
+                                    <PropertySectionTitle>
+                                        <h3>Booked Services</h3>
+                                        {
+                                            bookedServices.length > 0 && (<Link to={'/dashboard/user/book-services'}>View All</Link>)
+                                        }
+                                    </PropertySectionTitle>
+                                    {
+                                        !isMobile ? (
+                                            <>
+                                                {
+                                                    bookedServices.length > 0 ?
+                                                    (
+                                                        <BookedTable>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Services Type</th>
+                                                                    <th>Property</th>
+                                                                    <th>Date</th>
+                                                                    <th>Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            {
+                                                                bookedServices.toSpliced(4).map((tableData, index) => {
+                                                                    const {service_type, address, scheduled_date, service_status,} = tableData
+                                                                    return(
+                                                                        <tbody key={index}>
+                                                                            <tr>
+                                                                                <td>{service_type}</td>
+                                                                                <td>{address}</td>
+                                                                                <td>{scheduled_date}</td>
+                                                                                <td ><span className={service_status.toLowerCase()}>{service_status}</span></td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </BookedTable>
+                                                    ) :
+                                                    (
+                                                        <EmptySavedProperty
+                                                            message={'Oops!... You have no booked services yet.'}
+                                                            btnTxt={'Book A Service'}
+                                                            link={'/admin/book-services'}
+                                                        />
+                                                    )
+                                                }
+                                            </>
+                                        ):
+                                        <>
+                                            {
+                                                bookedServices.length > 0 ?
+                                                (
+                                                    <BookedTable>
+                                                        {
+                                                            bookedServices.map((tableData, index) => {
+                                                                const {service_type, address, scheduled_date, service_status,} = tableData
+        
+                                                                return(
+                                                                    <tbody key={index}>
+                                                                        <tr>
+                                                                            <tr>
+                                                                                <td colSpan={2}>{scheduled_date}</td>
+                                                                            </tr>
+                                                                        <tr>
+                                                                            <td>{service_type} </td>
+                                                                            <td><span className={service_status}>{service_status}</span></td>
+                                                                        </tr>
+                                                                            <tr>
+                                                                                <td>Property</td>
+                                                                                <td>{address}</td>
+                                                                            </tr>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                )
+                                                            })
+                                                        }
+                                                    </BookedTable>
+                                                ): 
+                                                (
+                                                    <EmptySavedProperty
+                                                    message={'Oops!... You have no booked services yet.'}
+                                                    btnTxt={'Book A Service'}
+                                                    link={'/admin/book-services'}
+                                                    />
+                                                )
+                                            }
+                                        </>
+
+                                    }
+                                </ServicesSection>
+                            </PropertyServicesContainer>
+                                <NotificationsPaymentContainer>
+                                        {
+                                            !isMobile && (
+                                                    <NotificationSection>
+                                                        <PropertySectionTitle>
+                                                            <h3>Notification</h3>
+                                                            <Link to={'/dashboard/user/notification'}>View All</Link>
+                                                        </PropertySectionTitle>
+                                                        {
+                                                            notifications.toSpliced(3).map((item, index) => {
+                                                                const {  notification_type, date, message} = item;
+
+                                                                
+                                                                return(
+                                                                    <NotificationList key={index}>
+                                                                        <NotificationIconContainer>
+                                                                            {
+                                                                                 notification_type === 'Properties' && (<CiHeart style={{width: '24px', height: '24px'}} />)
+                                                                            }
+                                                                            {
+                                                                                 notification_type === 'Payment' && (<IoCardOutline style={{width: '24px', height: '24px'}} />)
+                                                                            }
+                                                                            {
+                                                                                 notification_type === 'Services' && (<LuCalendarCheck style={{width: '24px', height: '24px'}} />)
+                                                                            }
+                                                                        </NotificationIconContainer> 
+                                                                        <NotificationContent>
+                                                                            <div className="notification-title">
+                                                                                <p>{notification_type}</p>
+                                                                                <span>{convertDateToTimeAndDays(date)}</span>
+                                                                            </div>
+                                                                            <p>{message}</p>
+                                                                        </NotificationContent>
+                                                                    </NotificationList>
+                                                                )
+                                                            })
+                                                        }
+                                                    </NotificationSection>
+                                            )
+                                        }
+                                        <PaymentSection>
+                                            <PropertySectionTitle>
+                                                <h3>Payment</h3>
+                                                <Link to={'/dashboard/user/payments'}>View All</Link>
+                                            </PropertySectionTitle>
+                                            {
+                                                paymentLists.map((item, index) => {
+                                                    const {title, status, message} = item
+                                                    return(
+                                                        <NotificationList key={index}>
+                                                            <NotificationIconContainer>
+                                                                <item.icon style={{width:'24px', height:'24px'}}/>
+                                                            </NotificationIconContainer> 
+                                                            <NotificationContent>
+                                                                <div className="notification-title">
+                                                                    <p>{title}</p>
+                                                                    <span className={status}>{status}</span>
+                                                                </div>
+                                                                <p>{message}</p>
+                                                            </NotificationContent>
+                                                        </NotificationList>
+                                                    )
+                                                })
+                                            }
+                                        </PaymentSection>
+                                    </NotificationsPaymentContainer>
+
+                        </ContentLayout>
+                    </UserDashboardMain>
+                </UserDashboardContainer>) :
+                (<PulseLoader
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  alignSelf: "stretch",
+                  height: "100vh",
+                }}
+                margin={5}
+              />)
+            }
+        </>
     );
 }
 

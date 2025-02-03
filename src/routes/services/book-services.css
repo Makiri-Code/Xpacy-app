@@ -71,12 +71,12 @@
                 align-items: flex-start;
                 padding: 16px 0px;
                 align-self: stretch;
-                .select{
+                .select-options{
                     display: flex;
                     align-self: stretch;
                     gap: 24px;
                     label{
-                        color: var(--Neutrals-Neutrals900, #585858);
+                            color: var(--Neutrals-Neutrals900, #585858);
                             font-family: "Unitext Regular";
                             font-size: 1rem;
                             font-style: normal;

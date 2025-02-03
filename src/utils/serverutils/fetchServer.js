@@ -12,14 +12,16 @@ const fetchServer = async (method, body, token, endpoint, server)=>{
     if (method==='GET'){
         delete data.body
     }else{
-        delete data.headers.Authorization
+        // delete data.headers.Authorization
     }
     try {
         const resp = await fetch(server + '/' + endpoint, data)
         const response = await resp.json()
         return {err: false, ...response}
     } catch (error) {
+        console.log(error);
         return {err: true, mess: "Could not connect to server. Please check your internet connection"}
+
     }
 }
 

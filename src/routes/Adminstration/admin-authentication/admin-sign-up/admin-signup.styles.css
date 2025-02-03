@@ -1,8 +1,8 @@
-.signup-container{
+.admin-signup-container{
     background: var(--Background-Color, #FCFEFF);
     height: max-content;
     .signup-form{
-        width: 50%;
+        width: 100%;
         padding: 64px 48px 0px 48px;
         gap: 20px;
         .signup-content{
@@ -32,6 +32,9 @@
                 }
             }
             main{
+                display: flex;
+                flex-direction: column;
+                align-self: stretch;
                 a{
                     color: var(--Primary-Primary, #203645);
                     font-family: "Unitext Regular";
@@ -46,6 +49,7 @@
                     flex-direction: column;
                     align-items: start;
                     gap: 16px;
+                    align-self: stretch;
                     .signup-name{
                         gap: 24px;
                         display: flex;

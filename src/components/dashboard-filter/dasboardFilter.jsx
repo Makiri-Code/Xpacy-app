@@ -5,7 +5,7 @@ import './dashboard-filter.style.css';
 const DashboardFilter = ({dropdownOptions}) => {
     const [showDropdown, setShowDropDown] = useState(false);
     return(
-        <div className="filter-icon-container" onMouseEnter={()=> setShowDropDown(true)} onMouseLeave={() => setShowDropDown(false)}>
+        <div className="filter-icon-container" onClick={()=> setShowDropDown(!showDropdown)} >
             <MdFilterList style={{width: '24px', height: '24px'}} />
             {
                 showDropdown && (

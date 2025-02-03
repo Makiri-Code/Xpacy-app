@@ -207,3 +207,28 @@
     margin-bottom: 10px;
     
 }   
+
+@media only screen and (max-width: 600px){
+    .referral-container{
+        padding: 24px;
+        .referral-content{
+            flex-direction: column;
+            align-items: center;
+            .right-container{
+                width: 100%;
+                .referral-users{
+                    .referral-users-content{
+                        table{
+                            tr{
+                                border: none;
+                            }
+                            .mobile-row{
+                                border-top: 2px solid #e3ecf2;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
