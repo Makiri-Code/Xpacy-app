@@ -17,7 +17,7 @@ import EmptySavedProperty from '../../../components/empty-saved-property/emptySa
 import fetchServer from '../../../utils/serverutils/fetchServer';
 import { UserContext } from '../../../contexts/userContext';
 
-const Notification = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, notifications}) => {
+const Notification = ({profileImage, isMobile, showDashboardSidebar, setShowDashboardSidebar, notifications}) => {
     const [showDropdown, setShowDropDown] = useState(false);
     const [mark, setMark] = useState('false');
     const inputRef = useRef(null)
@@ -93,7 +93,7 @@ const Notification = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, 
                 notifications ? 
                 (
                     <div className='notification-container'>
-                        <DashboardTopNav dashboardRoute={'Notification'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar}/>
+                        <DashboardTopNav profileImage={profileImage} dashboardRoute={'Notification'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} notifications={notifications}/>
                         {
                             isMobile && (
                                     <UserDashboardTopNav>

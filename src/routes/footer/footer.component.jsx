@@ -27,19 +27,17 @@ const Footer = ()=>{
             <FooterContainer>
                 <FooterContent>
                     <FooterInfo>
-                         <div className='footer-info-top'>
-                            <FooterInfoTop>
-                                <LogoContainer onClick={() => navigate("/")}>
-                                    <FooterLogo src={Logo} />
-                                </LogoContainer>
-                                <FooterInfoTitle>Experience Ease, Find Your Dream Property</FooterInfoTitle>
-                            </FooterInfoTop>
+                         <FooterInfoTop>
+                            <LogoContainer onClick={() => navigate("/")}>
+                                <FooterLogo src={Logo} />
+                            </LogoContainer>
+                            <FooterInfoTitle>Experience Ease, Find Your Dream Property</FooterInfoTitle>
+                         </FooterInfoTop>
                             <ContactInfo>
                                 <ContactText><b>Address:</b> Wills Court Mbora, Citec Estate, Jabi, FCT, Nigeria</ContactText>
                                 <ContactText><b>Email:</b> support@xpacy.com</ContactText>
                                 <ContactText><b>Phone:</b> 00000000000</ContactText>
                             </ContactInfo>
-                         </div>
                          <div className='footer-info-bottom'></div>
                     </FooterInfo>
                     <Company>

@@ -34,11 +34,13 @@ const LogIn = () => {
         email: '',
         password: '',
     }
+    const [disabled, setDisabled] = useState(false);
     const [isUserValid, setIsUserValid] = useState(false);
     const [formFields, setFormFields] =useState(defaultFormFields);
     const {email, password} = formFields;
     const [showLoader, setShowLoader] = useState(false)
     const {userProfile, setUserData, setUserToken, server, userToken, setUserProfile} = useContext(UserContext);
+    const [errorMessage, setErrorMessage] = useState(" ")
     const navigate =  useNavigate();
 
     // useEffect(() => {
@@ -53,29 +55,42 @@ const LogIn = () => {
             [name]: value,
         })
     }
-    const getUserProfile = async (token) => {
-        try {
-          const resp = await fetchServer(
-            "GET",
-            {},
-            token,
-            "user/fetch-profile",
-            server
-          );
-          setUserProfile(resp.user);
-        } catch (error) {
-          console.log(error);
-        }
-      };
+
+    // const getUserProfile = async (token) => {
+    //     try {
+    //       const resp = await fetchServer(
+    //         "GET",
+    //         {},
+    //         token,
+    //         "user/fetch-profile",
+    //         server
+    //       );
+    //       setUserProfile(resp.user);
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setShowLoader(true)
+        setDisabled(true);
+        setShowLoader(true);
         const body = {
             email: email,
             password: password
         }
         const userData = await fetchServer('POST', body, '', 'user/login', server,);
-        setIsUserValid(!userData.success)
+        if(!userData.success){
+            if(userData.error === "Internal Server Error"){
+                console.log("error")
+                setIsUserValid(!userData.success);
+                setErrorMessage("Something went wrong. Please try again later");
+                
+            } else if(userData.message === "Invalid credentials"){
+                setIsUserValid(!userData.success)
+                setErrorMessage("Invalid email or password. Please try again");
+            }
+        }
         setFormFields(defaultFormFields);
         setUserData(userData);
         setShowLoader(false);
@@ -83,10 +98,12 @@ const LogIn = () => {
         if(userData.success){
             Cookies.set('gt-jwt-br', userData.token)
             setUserToken(userData.token);
-            getUserProfile(userData.token);
+            // getUserProfile(userData.token);
             navigate("/dashboard/user");
         }
+        setDisabled(false)
     }
+    
     return(
         <>
             <LogInContainer>
@@ -118,7 +135,7 @@ const LogIn = () => {
                                     <ModalComponent>
                                         <ErroModal>
                                             <h3>Opps!</h3>
-                                            <p>Incorrect Email or Password. Please try again</p>
+                                            <p>{errorMessage}</p>
                                             <IoClose 
                                                 style={{width: '24px', height: '24px'}} 
                                                 className='close-email' 
@@ -144,7 +161,7 @@ const LogIn = () => {
                                     </div>
                                     <AnchorTag to={'/auth/forgot-password'}>Forgot password?</AnchorTag>
                                 </CheckboxForgotPasswordContainer>
-                                <Button buttonType={{primaryBtn: true}}>
+                                <Button buttonType={{primaryBtn: true}} disabled={disabled}>
                                     {
                                         showLoader ? (<ClipLoader size={25} color='#fff'/>) : 'Log In'
                                     }

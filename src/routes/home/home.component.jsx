@@ -185,23 +185,42 @@ const Home = ({ isMobile }) => {
                       </Select>
                       <Select>
                         <option>Type</option>
-                        <option value={"buy"}>Buy</option>
-                        <option value={"rent"}>Rent</option>
+                        <option value={"All types"}>All types</option>
+                        <option value={"Commercial"}>Commercial</option>
+                        <option value={"Residential"}>Residential</option>
+                        <option value={"Terrace"}>Terrace</option>
+                        <option value={"Flat/Apartment"}>Flat/Apartment</option>
+                        <option value={"Duplex"}>Duplex</option>
+                        <option value={"Semi-detached"}>Semi-detached</option>
+                        <option value={"Fully-detached"}>Fully-detached</option>
+                        <option value={"Villa"}>Villa</option>
                       </Select>
                       <Select>
                         <option>Bedroom</option>
-                        <option value={"buy"}>Buy</option>
-                        <option value={"rent"}>Rent</option>
+                        <option value={"1"}>1</option>
+                        <option value={"2"}>2</option>
+                        <option value={"3"}>3</option>
+                        <option value={"4"}>4</option>
+                        <option value={"5"}>5</option>
+                        <option value={"6"}>6</option>
                       </Select>
                       <Select>
                         <option>Min Price</option>
-                        <option value={"buy"}>Buy</option>
-                        <option value={"rent"}>Rent</option>
+                        <option value={""}>{"<N5m"}</option>
+                        <option value={""}>{"<N5m"}</option>
+                        <option value={""}>{"<N10m"}</option>
+                        <option value={""}>{"<100m"}</option>
+                        <option value={""}>{"<N200m"}</option>
+                        <option value={""}>{">N200m"}</option>
                       </Select>
                       <Select>
                         <option>Max Price</option>
-                        <option value={"buy"}>Buy</option>
-                        <option value={"rent"}>Rent</option>
+                        <option value={""}>{"<N5m"}</option>
+                        <option value={""}>{"<N5m"}</option>
+                        <option value={""}>{"<N10m"}</option>
+                        <option value={""}>{"<100m"}</option>
+                        <option value={""}>{"<N200m"}</option>
+                        <option value={""}>{">N200m"}</option>
                       </Select>
                     </SelectOptionContainer>
                     <SearchButton buttonType={{ primaryBtn: true }}>
@@ -358,7 +377,7 @@ const Home = ({ isMobile }) => {
                   imageSrc={Services05}
                   iconSrc={Icon05}
                   cardName={"space-planing"}
-                  hoverTitle={"Space Planing & Design"}
+                  hoverTitle={"Space Planning & Design"}
                   hoverText={
                     "Transform yoour space with our expert planing and design services. We create functional, beautiful envirometns tailore to your unique vision"
                   }

@@ -1,0 +1,194 @@
+.admin-login-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--Background-Color, #FCFEFF);
+    .login-form{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        padding: 64px 0px 0px 0px;
+        /* gap: 20px; */
+        .login-logo-container{
+            align-self: stretch;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-content{
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px;
+            gap: 42px;
+            .login-header{
+                /* width: 100%; */
+                h1{
+                    color: var(--Primary-Primary, #203645);
+                    text-align: center;
+                    font-family: "Florencesans Exp";
+                    font-size: 36px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 120%; /* 43.2px */
+                }
+                p{
+                    color: var(--Neutrals-Base-Black, #333);
+                    text-align: center;
+                    font-family: "Unitext Regular";
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 150%; /* 24px */
+                    letter-spacing: 0.16px;
+                }
+            }
+            main{
+                width: 100%;
+                a{
+                    color: var(--Primary-Primary, #203645);
+                    font-family: "Unitext Regular";
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 150%; /* 24px */
+                    letter-spacing: 0.16px;
+                }
+                form{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: start;
+                    gap: 16px;
+                    .email-container{
+                        
+                    }
+                    .checkbox{
+                        .checkbox-container{
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            gap: 5px;
+                            input[type='checkbox']{
+                                width: 24px;
+                                height: 24px;
+                            }
+                            label{
+                                color: var(--Neutrals-Base-Black, #333);
+                                text-align: center;
+                                font-family: "Unitext Regular";
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: 150%; /* 24px */
+                                letter-spacing: 0.16px
+                            }
+                        }
+                        
+                    }
+                    button[type='submit']{
+                        margin-top: 24px;
+                        display: flex;
+                        width: 100%;
+                        height: 40px;
+                        padding: var(--Spacing-ml, 24px);
+                        justify-content: center;
+                        align-items: center;
+                        gap: var(--Spacing-s, 8px);
+                        border-radius: 8px;
+                        background: var(--Primary-Primary, #203645);
+                        color: var(--Base-Base-White, #FFF);
+                        font-family: "Unitext Regular";
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 150%; /* 24px */
+                        letter-spacing: 0.16px;
+                    }
+                }
+                p{
+                    margin: 24px 0px 0px 0px;
+                    a{
+                        font-weight: 700;
+                    }
+                }
+
+            }
+        }
+    }
+    .login-carousel{
+        width: 50%;
+        .login-image{
+            max-height: unset;
+            height: 715px;
+        }
+        .carousel-caption{
+            bottom: 7rem;
+            right: unset;
+            left: unset;
+        }
+        .carousel-caption-txt{
+            margin: 0;
+            color: var(--Base-Base-White, #FFF);
+            text-align: center;
+            font-family: "Florencesans Exp";
+            font-size: 28px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 120%; /* 33.6px */
+        }
+    }
+}
+
+.invalid-email-content{
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    background-color: #FCFEFF;
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+    .close-email{
+        position: absolute;
+        top: 20px;
+        right: 15px;
+        cursor: pointer;
+    }
+    p{
+        color: var(--Error-Error, #F44336);
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .admin-login-container{
+        width: 91%;
+        margin: 0 auto;
+        .login-form{
+            width: 100%;
+            padding: unset;
+            .login-content{
+                width: 100%;
+                margin: 0 auto;
+                align-items: center;  
+                padding: 48px 24px;
+                .login-header{
+                    h1{
+                        font-size: 1.75rem;
+                    }
+                }
+            }
+        }
+        .login-carousel{
+            display: none;
+        }
+    }
+    .invalid-email-content{
+        width: 90%;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 30px;
+    }
+}

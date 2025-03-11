@@ -10,17 +10,33 @@ import {ReactComponent as Twitter} from '../../../assets/referral/twitter.svg';
 import Pagination from '../../../components/pagination/pagination';
 import SortBy from '../../../components/sort-by/sortBy';
 import { FaArrowUp, FaArrowDown } from "react-icons/fa6";
-import './referral.styles.css';
+import './referral.styles.jsx';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { UserContext } from '../../../contexts/userContext';
 import { UserDashboardTopNav } from '../../../components/user-dashboard/user-dashboard.styles';
 import fetchServer from '../../../utils/serverutils/fetchServer';
 import styled from 'styled-components';
 import EmptySavedProperty from '../../../components/empty-saved-property/emptySavedProperty';
-const Referral = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, userProfile, }) => {
+import { 
+    LeftContainer, 
+    ReferralCode, 
+    ReferralContainer, 
+    ReferralMainContainer, 
+    ReferralMainContent,
+    ReferralCodeContainer,
+    ReferralHeader,
+    ReferralPoints,
+    CopiedText,
+    RightContainer,
+    ReferralUsers,
+    ReferralUsersContent,
+    ReferralTable,
+    ReferralUserHeader
+} from './referral.styles.jsx';
+
+const Referral = ({ notifications, profileImage, isMobile, showDashboardSidebar, setShowDashboardSidebar, userProfile, }) => {
     const EmptySavedPropertyContainer = styled.div`
     width: 100%;
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -30,7 +46,7 @@ const Referral = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, user
         display: none;
     }
 `
-    const {userToken} = useContext(UserContext)
+    const {userToken} = useContext(UserContext);
 
     const [showCopied, setShowCopied] = useState(false);
     const [referralDownLine, setReferralDownLine] = useState(null);
@@ -127,7 +143,8 @@ const Referral = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, user
             icon: FaArrowDown
 
         },
-    ]
+    ];
+
     useEffect(() => {
         const getReferralDownLine = async () => {
           try {
@@ -148,15 +165,17 @@ const Referral = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, user
           getReferralDownLine();
         }
       }, [userToken]);
+
     //   Convert dateStr to date
     const getDateStr = (dateStr) => {
         const date = new Date(dateStr);
 
         return date.toLocaleDateString();
-    }
+    };
+
     return(
-        <div className="notification-container">
-            <DashboardTopNav dashboardRoute={'Referral'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSidebar}/>
+        <ReferralMainContainer>
+            <DashboardTopNav notifications={notifications} profileImage={profileImage} dashboardRoute={'Referral'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSidebar}/>
             {
                 isMobile && (
                     <UserDashboardTopNav>
@@ -167,23 +186,23 @@ const Referral = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, user
             }
             {
                 userProfile && (
-                    <div className="referral-container">
-                        <div className="referral-tittle">
+                    <ReferralContainer>
+                        <ReferralHeader>
                             <h3>Refer Friends And Earn</h3>
                             <p>Invite your friends to Xpacy and earn rewards for every successful signup. </p>
-                        </div>
-                        <main className="referral-content">
-                            <div className="left-container">
-                                <div className="referral-code-container">
-                                    <div className="referral-code">
+                        </ReferralHeader>
+                        <ReferralMainContent>
+                            <LeftContainer>
+                                <ReferralCodeContainer>
+                                    <ReferralCode>
                                         <p>Referral code</p>
                                         <div className="copy-referral">
-                                            <span>{userProfile.referralCode}</span>
-                                            <MdContentCopy style={{height: '20px', width: '18px'}} onClick={handleButtonClick}/>
+                                            <span>https://xpacy.com/auth/sign-up?referral_code={userProfile.referralCode}</span>
+                                            <MdContentCopy style={{height: '24px', width: '24px', cursor: 'pointer'}} onClick={handleButtonClick}/>
                                             {
                                                 showCopied && 
                                                 (
-                                                    <span className="copied-text">Copied!</span>
+                                                    <CopiedText>Copied!</CopiedText>
                                                 )
                                             }
                                         </div>
@@ -200,34 +219,34 @@ const Referral = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, user
                                             <TickTok/>
                                             <Twitter/>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="referral-points">
+                                    </ReferralCode>
+                                </ReferralCodeContainer>
+                                <ReferralPoints>
                                     <p>Referral points</p>
                                     <h3>{userProfile.refferalPoints} points</h3>
-                                </div>
-                            </div>
-                            <div className="right-container">
-                                <div className="referral-users">
-                                    <div className="referral-users-content">
-                                        <div className="d-flex justify-content-between align-self-stretch align-items-center referral-header">
+                                </ReferralPoints>
+                            </LeftContainer>
+                            <RightContainer>
+                                <ReferralUsers>
+                                    <ReferralUsersContent>
+                                        <ReferralUserHeader>
                                             <h5>Refferd Users</h5>
-                                            {referralDownLine && referralDownLine.length > 0 && (
+                                            {referralDownLine && referralDownLine?.length > 0 && (
                                                 <SortBy selectOptions={selectOptions} isMobile={isMobile}/>
                                             )}
-                                        </div>
+                                        </ReferralUserHeader>
                                         {
                                             referralDownLine && 
                                             (
                                                 <>
                                                     {
-                                                        referralDownLine.length > 0 ? 
+                                                        referralDownLine?.length > 0 ? 
                                                         (
                                                             <>
                                                                 {
                                                                     isMobile ? 
                                                                     (
-                                                                        <table>
+                                                                        <ReferralTable>
                                                                             <tbody>
                                                                                 {
                                                                                     referralDownLine.map((tableData, index) => {
@@ -254,10 +273,10 @@ const Referral = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, user
                                                                                     })
                                                                                 }
                                                                             </tbody>
-                                                                        </table>
+                                                                        </ReferralTable>
                                                                     ):
                                                                     (
-                                                                        <table>
+                                                                        <ReferralTable>
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th>Name</th>
@@ -268,7 +287,7 @@ const Referral = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, user
                                                                             </thead>
                                                                             <tbody>
                                                                                 {
-                                                                                    referralDownLine.map((tableData, index) => {
+                                                                                    referralDownLine?.map((tableData, index) => {
                                                                                         const {firstname, email, created_at, lastname} = tableData;
             
                                                                                         return(
@@ -282,7 +301,7 @@ const Referral = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, user
                                                                                     })
                                                                                 }
                                                                             </tbody>
-                                                                        </table>
+                                                                        </ReferralTable>
                                                                         
                                                                     )
                                                                 }
@@ -302,14 +321,14 @@ const Referral = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, user
                                                 </>
                                             )
                                         }
-                                    </div>
-                                </div>
-                                <div className="referral-users">
-                                    <div className="referral-users-content">
-                                        <div className="d-flex justify-content-between align-self-stretch align-items-center referral-header">
+                                    </ReferralUsersContent>
+                                </ReferralUsers>
+                                <ReferralUsers>
+                                    <ReferralUsersContent>
+                                        <ReferralUserHeader>
                                             <h5>LeaderBoard</h5>
-                                        </div>
-                                        <table>
+                                        </ReferralUserHeader>
+                                        <ReferralTable>
                                             <thead>
                                                 <tr>
                                                     <th>Rank</th>
@@ -333,16 +352,16 @@ const Referral = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, user
                                                     })
                                                 }
                                             </tbody>
-                                        </table>
-                                    </div>
+                                        </ReferralTable>
+                                    </ReferralUsersContent>
                                     <Pagination/>
-                                </div>
-                            </div>
-                        </main>
-                    </div>
+                                </ReferralUsers>
+                            </RightContainer>
+                        </ReferralMainContent>
+                    </ReferralContainer>
                 )
             }
-        </div>
+        </ReferralMainContainer>
     );
 }
 

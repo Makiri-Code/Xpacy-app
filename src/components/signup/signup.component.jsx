@@ -44,7 +44,8 @@ const SignUp = () => {
   const [nigeriaStates, setNigeriaStates] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
   const [isErrorMessage, setIsErrorMessage] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState("");
+ 
   const defaultFormFields = {
     firstname: "",
     lastname: "",
@@ -56,7 +57,7 @@ const SignUp = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { firstname, lastname, email, password, confirmPassword, state } =
     formFields;
-
+  // Fetch nigerian states
   useEffect(() => {
     const states = async () => {
       try {
@@ -66,6 +67,7 @@ const SignUp = () => {
         );
         const response = await statesArray.json();
         setNigeriaStates(response.state);
+        console.log(response)
       } catch (error) {
         console.error("Error:", error);
       }
@@ -103,14 +105,22 @@ const SignUp = () => {
       server
     );
     setSignupUser(userData.user);
-
-    setFormFields(defaultFormFields);
+    console.log(userData);
     if (userData.success) {
       setShowLoader(false);
+      setFormFields(defaultFormFields);
       navigate("/auth/verify-email");
-    } else {
+    } else if(!userData.success && userData.errors ){
+      setShowLoader(false);
+      setErrorMessage(`${userData.errors[0].msg} Please select a state`);
+      setIsErrorMessage(true);
+    } else if(!userData.success){
+      setShowLoader(false);
+      setFormFields(defaultFormFields);
+      setErrorMessage(userData.message);
       setIsErrorMessage(true);
     }
+    setShowLoader(false);
   };
   return (
     <>
@@ -211,11 +221,12 @@ const SignUp = () => {
                     value={state}
                     onChange={handleChange}
                   >
-                    <option selected>Choose a Location</option>
-                    {nigeriaStates.map((stateName) => {
+                    <option >Choose a Location</option>
+                    <option value={"Rivers"}>Rivers</option>
+                    {/* {nigeriaStates.map((stateName) => {
                       const { location } = stateName;
                       return <option key={location}>{location}</option>;
-                    })}
+                    })} */}
                   </Select>
                 </SignUpLocation>
                 <CheckboxForgotPasswordContainer>
@@ -289,7 +300,7 @@ const SignUp = () => {
           <ModalComponent>
             <ErroModal>
               <h3>Opps!</h3>
-              <p>Email already exits. Please use a different email.</p>
+              <p>{errorMessage}</p>
               <IoClose
                 style={{ width: "24px", height: "24px" }}
                 className="close-email"

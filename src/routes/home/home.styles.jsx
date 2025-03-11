@@ -29,6 +29,7 @@ export const BannerContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 0px 7%;
     @media only screen and (max-width: 600px){
         width: 100%;
         position: absolute;
@@ -40,8 +41,7 @@ export const BannerContainer = styled.div`
     }
 `
 export const BannerContent = styled.div`
-    width: 95.85%;
-
+    width: 100%;
 `
 
 export const FilterHeading = styled.div`
@@ -97,11 +97,11 @@ export const SearchContainer = styled.div`
 
 export const FormContainer = styled(Form)`
     display: flex;
-    gap: 24px;
-    /* align-self: stretch; */
+    justify-content: space-between;
+    width: 100%;
 `
 export const Select = styled(Form.Select)`
-    width: 153px;
+    // width: 153px;
     height: 48px;
     margin: 0px;
     padding: 8px 16px;
@@ -109,7 +109,7 @@ export const Select = styled(Form.Select)`
     font-family: "Unitext Regular";
     color: var(--Neutrals-Neutrals900);
     @media only screen and (max-width: 600px){
-        width: 45%;
+        width: 47%;
         height: 48px;
         margin: 0px;
         padding: 8px 16px;
@@ -123,7 +123,7 @@ export const Select = styled(Form.Select)`
 export const SelectOptionContainer = styled.div`
     display: flex;
     gap: 16px;
-    align-self: stretch;
+    width: 85%;
 `
 export const SelectLocation = styled(Form.Select)`
     font-family: "Unitext Regular";
@@ -173,14 +173,15 @@ export const MobileOptionContainer = styled.div`
     align-self: stretch;
 `
 export const Featured = styled.div`
-    width: 93.88%;
+    width: 100%;
     margin: 0 auto;
-    padding: 120px 0px;
+    padding: 120px 7%;
     display: flex;
     flex-direction: column;
     align-items: start;
+    gap: 64px;
     @media only screen and (max-width: 600px){
-        padding: 48px 0px;
+        padding: 48px 24px;
         gap: 32px;
     }
 `
@@ -190,6 +191,9 @@ export const Brow = styled.div`
     gap: 16px;
     align-self: stretch;
     text-align: center;
+    @media only screen and (max-width: 600px){
+        // padding: 0px 24px;
+    }
 `
 export const Heading = styled.h1`
     color: var(--Primary-Primary);
@@ -200,6 +204,7 @@ export const Heading = styled.h1`
     text-align: center;
     @media only screen and (max-width: 600px){
         font-size: 1.75rem;
+        
     }
 `
 export const SubHeading = styled.h5`
@@ -207,7 +212,7 @@ export const SubHeading = styled.h5`
     font-weight: 400;
     line-height: 21.6px;
     text-align: center;
-    margin-bottom: 64px;
+    margin: 0px;
     @media only screen and (max-width: 600px){
         font-size: 1rem;
         font-family: 'Unitext Regular';
@@ -233,7 +238,7 @@ export const HorizontalScrollBtnContainer = styled.div`
     justify-content: space-between;
     position: absolute;
     top: 50%;
-    width: 95vw;
+    width: 100%;
     @media only screen and (max-width: 600px){
         display: none;
 
@@ -283,8 +288,8 @@ export const FeaturedInnerContainer = styled.div`
     flex-wrap: nowrap;
 `
 export const ServicesContainer = styled.div`
-    width: 95.88%;
-    /* padding-bottom: 120px; */
+    width: 100%;
+    padding: 0px 7%;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -292,6 +297,9 @@ export const ServicesContainer = styled.div`
 `
 export const ServicesContent = styled.div`
     align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
 `
 export const ServicesImgContainer = styled.div`
     display: flex;
@@ -338,6 +346,7 @@ export const ServicesImgContainer = styled.div`
         position: unset;
         display: block;
         height: auto;
+        margin-top: 48px;
         .services-img{
             width: auto;
         }
@@ -373,7 +382,7 @@ export const Faqs = styled.div`
     background: linear-gradient(180deg, #E3ECF2 0%, #FCFCFC 100%);
     width: 100%;
     margin: auto;
-    padding: 120px 0px;
+    padding: 120px 7%;
     gap: 64px;
     padding-bottom: 20px;
     display: flex;
@@ -382,13 +391,13 @@ export const Faqs = styled.div`
 `
 
 export const FaqScroll = styled.div`
-    width: 83%;
+    width: 100%;
 `
 export const ListProperty = styled.div`
-        width: 95.88%;
+        width: 100%;
         margin:0 auto;
         display: flex;
-        padding: 120px 0px;
+        padding: 120px 7%;
         gap: 88px;
     @media only screen and (max-width: 600px){
         width: 100%;
@@ -548,20 +557,18 @@ export const DownloadImg = styled.img`
 `
 export const Insight = styled.div`
     width: 100%;
+    padding: 0px 7%;
     background: linear-gradient(180deg, #E3ECF2 0%, #FCFCFC 100%);
     .insight-cover{
-        width: 95.88%;
-        margin: 120px auto;
+        width: 100%;
         padding-top: 120px;
         @media only screen and (max-width: 600px){
-            margin-top: 48px;
-            padding: 48px 24px;
+            padding-top: 48px;
         }
         .insight-content{
             display: flex;
             flex-direction: column;
             width: 768px;
-            height: 83px;
             margin: auto;
             gap:16px;
             justify-content: space-between;
@@ -586,6 +593,7 @@ export const Insight = styled.div`
                 letter-spacing: 1%;
                 @media only screen and (max-width: 600px){
                    font-size: 1rem;
+                   
                 }
             }
         }
@@ -597,7 +605,7 @@ export const InsightCardContainer = styled.div`
     width: 100%;
     margin: 50px auto;
     display: flex;
-    justify-content: space-between;
+    gap: 24px;
     @media only screen and (max-width: 600px){
         flex-wrap: wrap;
         gap: 48px;
@@ -629,6 +637,9 @@ export const InsightCard = styled.div`
     .insight-card-title:hover{
         cursor: pointer;
         color: rgba(248, 67, 67, 0.801);
+    }
+    @media only screen and (max-width: 600px){
+        width: 100%;
     }
 `
 export const InsightCardBottom = styled.div`

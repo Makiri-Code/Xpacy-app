@@ -1,9 +1,8 @@
 import styled from "styled-components";
 export const FooterContainer = styled.footer`
     width: 100%;
-    padding-bottom:25px;
+    padding:120px 7% 25px 7%;
     background: var(--Primary-Primary);
-    padding-top: 120px;
     gap: 32px;
     color: white;
     @media only screen and (max-width: 600px){
@@ -13,9 +12,8 @@ export const FooterContainer = styled.footer`
 export const FooterContent = styled.div`
     display: flex;
     justify-content: space-between;
-    width: 95.88%;
+    width: 100%;
     height: 300.69px;
-    margin: auto;
     border-bottom: solid rgba(245, 245, 245,0.8) .2px ;
     @media only screen and (max-width: 600px){
         flex-wrap: wrap;
@@ -25,14 +23,12 @@ export const FooterContent = styled.div`
 
 export const FooterInfo = styled.div`
     width: 338px;
-    height: 300.69px;
-    display: block;
-    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
     gap: 32px;
 `
 export const FooterInfoTop = styled.div`
     width: 294px;
-    height: 101.48px;
     gap: 8px;
 `
 export const FooterLogo = styled.img`
@@ -40,12 +36,12 @@ export const FooterLogo = styled.img`
     height: 32px;
 `
 export const FooterInfoTitle = styled.h2`
-    font-size: 21px;
+    font-size: 1.125rem;
     line-height: 21.6px;
     font-weight: bold;
     font-family: "Florencesans Exp";
     font-weight: 400;
-    margin: 20px 0px;
+    
 `
 export const ContactInfo = styled.div`
     width: 338px;
@@ -57,7 +53,9 @@ export const ContactText = styled.h5`
     line-height: 24px;
     letter-spacing: 1%;
     font-family: "Unitext Regular";
-    margin: 8px 0px;
+    b{
+        font-family: "Unitext Regular";
+    }
 `
 export const Company = styled.div`
     display: flex;
@@ -82,6 +80,9 @@ export const Company = styled.div`
             line-height: 19.2px;
             cursor: pointer;
             color: #fff;
+        }
+        a:hover{
+            color: dodgerblue;
         }
     }
 `

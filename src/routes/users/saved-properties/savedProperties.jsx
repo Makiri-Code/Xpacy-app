@@ -9,10 +9,21 @@ import { PulseLoader } from "react-spinners";
 import { SlOptionsVertical } from "react-icons/sl";
 import EmptySavedProperty from "../../../components/empty-saved-property/emptySavedProperty";
 import "./saved-properties.styles.css";
-import { UserDashboardContainer, UserDashboardTopNav } from "../../../components/user-dashboard/user-dashboard.styles";
+import {
+  UserDashboardContainer,
+  UserDashboardTopNav,
+} from "../../../components/user-dashboard/user-dashboard.styles";
 import styled from "styled-components";
 
-const SavedProperties = ({ savedPropertiesArray, isMobile, showDashboardSidebar, setShowDashboardSidebar, savedPropertiesPagination }) => {
+const SavedProperties = ({
+  profileImage,
+  savedPropertiesArray,
+  isMobile,
+  showDashboardSidebar,
+  setShowDashboardSidebar,
+  savedPropertiesPagination,
+  notifications,
+}) => {
   const selectOptions = [
     {
       option: "Default",
@@ -40,77 +51,91 @@ const SavedProperties = ({ savedPropertiesArray, isMobile, showDashboardSidebar,
     showButtons: true,
     bodyPadding: "16px",
   };
-  console.log(savedPropertiesPagination);
   const EmptySavedPropertyContainer = styled.div`
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-  `
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  `;
   return (
     <>
-        {
-            savedPropertiesArray.length > 0 ?
-
-            (<UserDashboardContainer>
-              <DashboardTopNav dashboardRoute={"Saved Properties"} isMobile={isMobile} showDashboardSidebar={showDashboardSidebar} setShowDashboardSidebar={setShowDashboardSidebar}/>
-             {
-                  isMobile && (
-                      <UserDashboardTopNav>
-                          <h5>Saved Properties</h5>
-                          <SlOptionsVertical style={{width: '24px', height: '24px'}} onClick={() => {}}/>
-                      </UserDashboardTopNav>
-                  )
-              }
-            <div className="product-list-container">
-                <div className="results-sort-container">
-                <span className="result">Showing {savedPropertiesPagination.page} - {savedPropertiesPagination.total} of {savedPropertiesPagination.total} results </span>
-                <SortBy selectOptions={selectOptions} />
-                </div>
-                <div className="product-card-list">
-                <div className="product-card-container">
-                    {savedPropertiesArray.map((property) => {
-                    return (
-                        <Card
-                        propertise={property.propertySaved}
-                        cardStyles={cardStytles}
-                        savedProperty={true}
-                        savedPropertyId={property.id}
-                        />
-                    );
-                    })}
-                    <Pagination />
-                </div>
-                <Link className="explore">Explore New Properties</Link>
-                </div>
+      {savedPropertiesArray && notifications ? (
+        <UserDashboardContainer>
+          <DashboardTopNav
+            dashboardRoute={"Saved Properties"}
+            isMobile={isMobile}
+            showDashboardSidebar={showDashboardSidebar}
+            setShowDashboardSidebar={setShowDashboardSidebar}
+            profileImage={profileImage}
+            notifications={notifications}
+          />
+          {isMobile && (
+            <UserDashboardTopNav>
+              <h5>Saved Properties</h5>
+              <SlOptionsVertical
+                style={{ width: "24px", height: "24px" }}
+                onClick={() => {}}
+              />
+            </UserDashboardTopNav>
+          )}
+          <div className="product-list-container">
+            <div className="results-sort-container">
+              <span className="result">
+                Showing {savedPropertiesPagination.page} -{" "}
+                {savedPropertiesPagination.total} of{" "}
+                {savedPropertiesPagination.total} results{" "}
+              </span>
+              <SortBy selectOptions={selectOptions} />
             </div>
-            </UserDashboardContainer>) : 
-            (
-              <UserDashboardContainer>
-                <DashboardTopNav dashboardRoute={"Saved Properties"} isMobile={isMobile} showDashboardSidebar={showDashboardSidebar} setShowDashboardSidebar={setShowDashboardSidebar}/>
-                {
-                    isMobile && (
-                        <UserDashboardTopNav>
-                            <h5>Saved Properties</h5>
-                            <SlOptionsVertical style={{width: '24px', height: '24px'}} onClick={() => {}}/>
-                        </UserDashboardTopNav>
-                    )
-                }
-              <EmptySavedPropertyContainer>
-                <EmptySavedProperty
-                  message={"Oops!... You have no booked services yet."}
-                  btnTxt={"Explore New Properties"}
-                  link={"/buy"}
-                />
-              </EmptySavedPropertyContainer>
-              </UserDashboardContainer>
-            )
-            
-        }
+            <div className="product-card-list">
+              <div className="product-card-container">
+                {savedPropertiesArray.map((property) => {
+                  return (
+                    <Card
+                      propertise={property.propertySaved}
+                      cardStyles={cardStytles}
+                      savedProperty={true}
+                      savedPropertyId={property.id}
+                    />
+                  );
+                })}
+                <Pagination />
+              </div>
+              <Link className="explore">Explore New Properties</Link>
+            </div>
+          </div>
+        </UserDashboardContainer>
+      ) : (
+        <UserDashboardContainer>
+          <DashboardTopNav
+            dashboardRoute={"Saved Properties"}
+            isMobile={isMobile}
+            showDashboardSidebar={showDashboardSidebar}
+            setShowDashboardSidebar={setShowDashboardSidebar}
+            profileImage={profileImage}
+          />
+          {isMobile && (
+            <UserDashboardTopNav>
+              <h5>Saved Properties</h5>
+              <SlOptionsVertical
+                style={{ width: "24px", height: "24px" }}
+                onClick={() => {}}
+              />
+            </UserDashboardTopNav>
+          )}
+          <EmptySavedPropertyContainer>
+            <EmptySavedProperty
+              message={"Oops!... You have no booked services yet."}
+              btnTxt={"Explore New Properties"}
+              link={"/buy"}
+            />
+          </EmptySavedPropertyContainer>
+        </UserDashboardContainer>
+      )}
     </>
-  )
+  );
 };
 
 export default SavedProperties;

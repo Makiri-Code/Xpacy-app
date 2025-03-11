@@ -3,13 +3,13 @@ import {ReactComponent as Logo } from '../../assets/x-pacy-logo.svg';
 import { Link } from "react-router-dom";
 
 export const NavigationContainer = styled.div`
-    position: sticky;
+    position: fixed;
     left: 0;
     top: 0;
-    height: auto;
+    height: 92px;
     width: 100%;
     display: flex;
-    padding: 15px 2.22%;
+    padding: 22px 7%;
     justify-content: space-between;
     align-items: center;
     align-self: stretch;
@@ -20,6 +20,9 @@ export const NavigationContainer = styled.div`
         padding: 24px;
     }
     
+`
+export const PageWrapper = styled.div`
+    padding-top: 92px;
 `
 export const LogoContainer = styled.div`
     padding: 8px;

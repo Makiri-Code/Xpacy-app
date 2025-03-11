@@ -8,14 +8,14 @@
     }
     .hero-content{
         display: flex;
-        width: 718px;
+        width: 65%;
         flex-direction: column;
         justify-content: flex-end;
         align-items: flex-start;
         gap: 32px;
         position: absolute;
-        top: 50%;
-        left: 10%;
+        top: 25%;
+        padding-left: 7%;
         h1{
             color: var(--Base-Base-White, #FFF);
             font-size: 2.25rem;
@@ -211,7 +211,7 @@
             left: 0;
             padding: 20px;
             h1{
-                font-size: 1.75rem;
+                font-size: 1.375rem;
             }
             p{
                 font-family: "Unitext Regular";
@@ -238,6 +238,9 @@
         .heading{
             h1{
                 font-size: 1.375rem;
+            }
+            p{
+                font-size: 1rem;
             }
         }
         .facilty-services-cards{

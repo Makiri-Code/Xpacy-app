@@ -1,8 +1,8 @@
 .client-reviews{
-    width: 95.88%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 120px 0px;
+    padding: 120px 7%;
     gap: 64px;
     margin: 0  auto;
     background: var(--Background-Color);
@@ -28,7 +28,7 @@
 }
 .testimonial-card-container{
     display: flex;
-    width: 85.9%;
+    width: 100%;
     margin: 0 auto;
     height: 394px;
     padding: 48px;
@@ -45,10 +45,12 @@
 @media only screen and (max-width: 600px){
     .client-reviews{
         padding-bottom: 0px;
+        gap: 24px;
         .text-center{
-            padding: 0 32px;
             h1{
                 font-size: 1.75rem;
+                margin-bottom: 20px;
+
             }
             h5{
                 font-family: 'Unitext Regular';

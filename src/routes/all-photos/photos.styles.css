@@ -9,9 +9,9 @@
     padding: 0px 0px 120px 0px;
     .view-photos{
         display: flex;
-        padding: 0px 20px;
-        width: 1232.503px;
-        height: 844px;
+        padding: 0px 7%;
+        /* width: 1232.503px;
+        height: 844px; */
         flex-direction: column;
         align-items: flex-start;
         gap: 24px;

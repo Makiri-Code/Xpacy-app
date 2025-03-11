@@ -38,7 +38,7 @@ const Shop = ({
   }, []);
   const { heading, subHeading } = propHeadings;
   const cardStyles = {
-    cardWidth: "415px",
+    cardWidth: "419px",
     showDivider: true,
     isMobile: isMobile,
   };
@@ -153,22 +153,22 @@ const Shop = ({
                             property_price,
                             total_bedrooms,
                             id,
+                            property_type,
                           } = properties;
                           return (
                             <div className="latest-card-container d-flex">
                               <img
                                     src={
-                                    showPlacholderImg || images[0] == undefined
+                                     images[0] == undefined
                                         ? "https://placehold.co/600x400"
-                                        : images[0]
+                                        : `https://app.xpacy.com/src/upload/properties/${images[0]}`
                                     }
                                     alt=""
                                     className="latest-card-img"
-                                    onError={() => setShowPlaceHolderImg(!showPlacholderImg)}
                                 />
                               <div className="latest-card-body d-flex flex-column align-items-start">
                                 <p className="latest-card-title my-0">
-                                  Terrace
+                                  {property_type}
                                 </p>
                                 <h1 className="latest-card-heading">
                                   {property_name}
@@ -182,7 +182,7 @@ const Shop = ({
                                 <div className="price-container d-flex justify-content-center align-items-center">
                                   <Naira className="naira" />
                                   <p className="latest-price my-1">
-                                    {property_price}
+                                    {property_price.toLocaleString()}
                                   </p>
                                 </div>
                                 <div className="latest-card-divider" />
@@ -237,29 +237,58 @@ const Shop = ({
                         <option value={"rent"}>Rent</option>
                       </Form.Select>
                       <Form.Select className="select-option">
-                        <option>Purpose</option>
-                        <option value={"buy"}>Buy</option>
-                        <option value={"rent"}>Rent</option>
+                      <option>Location</option>
+                        <option value={"Abuja"}>Abuja</option>
+                        <option value={"Aba"}>Aba</option>
+                        <option value={"Benin"}>Benin</option>
+                        <option value={"Calabar"}>Calabar</option>
+                        <option value={"Enugu"}>Enugu</option>
+                        <option value={"Ibadan"}>Ibadan</option>
+                        <option value={"Ilorin"}>Ilorin</option>
+                        <option value={"Lagos"}>Lagos</option>
+                        <option value={"Minna"}>Minna</option>
+                        <option value={"Port Harcourt"}>Port Harcourt</option>
+                        <option value={"Uyo"}>Uyo</option>
+                        <option value={"Warri"}>Warri</option>
                       </Form.Select>
                       <Form.Select className="select-option">
-                        <option>Purpose</option>
-                        <option value={"buy"}>Buy</option>
-                        <option value={"rent"}>Rent</option>
+                      <option>Type</option>
+                        <option value={"All types"}>All types</option>
+                        <option value={"Commercial"}>Commercial</option>
+                        <option value={"Residential"}>Residential</option>
+                        <option value={"Terrace"}>Terrace</option>
+                        <option value={"Flat/Apartment"}>Flat/Apartment</option>
+                        <option value={"Duplex"}>Duplex</option>
+                        <option value={"Semi-detached"}>Semi-detached</option>
+                        <option value={"Fully-detached"}>Fully-detached</option>
+                        <option value={"Villa"}>Villa</option>
                       </Form.Select>
                       <Form.Select className="select-option">
-                        <option>Purpose</option>
-                        <option value={"buy"}>Buy</option>
-                        <option value={"rent"}>Rent</option>
+                      <option>Bedroom</option>
+                        <option value={"1"}>1</option>
+                        <option value={"2"}>2</option>
+                        <option value={"3"}>3</option>
+                        <option value={"4"}>4</option>
+                        <option value={"5"}>5</option>
+                        <option value={"6"}>6</option>
                       </Form.Select>
                       <Form.Select className="select-option">
-                        <option>Purpose</option>
-                        <option value={"buy"}>Buy</option>
-                        <option value={"rent"}>Rent</option>
+                        <option>Min Price</option>
+                        <option value={""}>{"<N5m"}</option>
+                        <option value={""}>{"<N5m"}</option>
+                        <option value={""}>{"<N10m"}</option>
+                        <option value={""}>{"<100m"}</option>
+                        <option value={""}>{"<N200m"}</option>
+                        <option value={""}>{">N200m"}</option>
                       </Form.Select>
                       <Form.Select className="select-option">
-                        <option>Purpose</option>
-                        <option value={"buy"}>Buy</option>
-                        <option value={"rent"}>Rent</option>
+                        <option>Max Price</option>
+                        <option value={""}>{"<N5m"}</option>
+                        <option value={""}>{"<N5m"}</option>
+                        <option value={""}>{"<N10m"}</option>
+                        <option value={""}>{"<100m"}</option>
+                        <option value={""}>{"<N200m"}</option>
+                        <option value={""}>{">N200m"}</option>
                       </Form.Select>
                     </Form>
                     <div className="filter-btn-container d-flex flex-column align-items-start">
@@ -294,13 +323,12 @@ const Shop = ({
                         <div className="latest-card-container d-flex">
                           <img
                             src={
-                              showPlacholderImg || images[0] == undefined
+                              images[0] == undefined
                                 ? "https://placehold.co/600x400"
-                                : images[0]
+                                :`https://app.xpacy.com/src/upload/properties/${images[0]}`
                             }
                             alt=""
                             className="latest-card-img"
-                            onError={() => setShowPlaceHolderImg(!showPlacholderImg)}
                           />
                           <div className="latest-card-body d-flex flex-column align-items-start">
                             <p className="latest-card-title my-0">Duplex</p>
@@ -316,7 +344,7 @@ const Shop = ({
                             <div className="price-container d-flex justify-content-center align-items-center">
                               <Naira className="naira" />
                               <p className="latest-price my-1">
-                                {property_price}
+                                {property_price.toLocaleString()}
                               </p>
                             </div>
                             <div className="latest-card-divider" />

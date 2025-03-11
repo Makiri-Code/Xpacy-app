@@ -10,7 +10,7 @@ const Pagination = () => {
     
     const {pagination, setPropertiesArray} = useContext(PageContext);
     const pageNum = [];
-    for(let i=1; i<=pagination.totalPages; i++){
+    for(let i=1; i<=pagination?.totalPages; i++){
         pageNum.push(i);
     }
     const handleNext = async () => {

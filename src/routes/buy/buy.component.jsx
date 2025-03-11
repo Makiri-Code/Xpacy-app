@@ -23,7 +23,7 @@ const Buy = ({propertiesArray, pagination}) => {
             }
         />
         <Route
-          path="property/*"
+          path="property/:id/*"
           element={<Properties Properties={propertiesArray} />}
         />
       </Routes>

@@ -1,6 +1,6 @@
 import { CarouselCaption } from "react-bootstrap";
 import styled from "styled-components";
-
+import {Form} from "react-bootstrap";
 export const SignUpContainer = styled.div`
     display: flex;
     align-items: start;
@@ -91,13 +91,10 @@ export const Label = styled.label`
     line-height: 120%; /* 24px */
 `
 
-export const Select = styled.select`
-    width: 100%;
+export const Select = styled(Form.Select)`
     height: 48px;
-    padding: 5px 16px;
     border-radius: 8px;
     border: 1px solid var(--Primary-Primary200, #C7D9E5);
-    background: var(--Background-Color, #FCFCFC);
     color: var(--Neutrals-Neutrals900, #585858);
     font-family: "Unitext Regular";
     font-size: 16px;
@@ -105,15 +102,6 @@ export const Select = styled.select`
     font-weight: 400;
     line-height: 150%; /* 24px */
     letter-spacing: 0.16px;
-    option{
-        color: var(--Neutrals-Neutrals900, #585858);
-        font-family: "Unitext Regular";
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 150%; /* 24px */
-        letter-spacing: 0.16px;
-    }
 }
 `
 export const SignUpCarouselImg = styled.img`

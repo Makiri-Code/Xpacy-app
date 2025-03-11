@@ -21,7 +21,7 @@ import {
     FaqContainer,
     SupportModalContent,
 } from './help-support.styles.jsx';
-const HelpAndSupport = ({isMobile, showDashboardSidebar,setShowDashboardSidebar}) => {
+const HelpAndSupport = ({notifications, profileImage, isMobile, showDashboardSidebar,setShowDashboardSidebar}) => {
     const defaultFormFields = {
         firstName: '',
         lastName: '',
@@ -54,7 +54,7 @@ const HelpAndSupport = ({isMobile, showDashboardSidebar,setShowDashboardSidebar}
     }
     return(
         <HelpAndSupportContainer>
-            <DashboardTopNav dashboardRoute={'Help/Support'} isMobile={isMobile} showDashboardSidebar={showDashboardSidebar} setShowDashboardSidebar={setShowDashboardSidebar}/>
+        <DashboardTopNav notifications={notifications} profileImage={profileImage} dashboardRoute={'Help/Support'} isMobile={isMobile} showDashboardSidebar={showDashboardSidebar} setShowDashboardSidebar={setShowDashboardSidebar}/>
             {
                 isMobile && (
                     <UserDashboardTopNav>

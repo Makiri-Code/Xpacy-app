@@ -1,3 +1,5 @@
+import { toast } from "sonner"
+
 const fetchServer = async (method, body, token, endpoint, server)=>{
     const data = {
         method,
@@ -20,6 +22,7 @@ const fetchServer = async (method, body, token, endpoint, server)=>{
         return {err: false, ...response}
     } catch (error) {
         console.log(error);
+        toast.error("Could not connect to server. Please check your internet connection")
         return {err: true, mess: "Could not connect to server. Please check your internet connection"}
 
     }

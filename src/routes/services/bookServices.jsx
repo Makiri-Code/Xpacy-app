@@ -7,7 +7,23 @@ import { FaAngleDown } from "react-icons/fa";
 import { FiUpload } from "react-icons/fi";
 import ModalComponent from "../../components/modal/modal";
 import { IoClose } from "react-icons/io5";
-import './book-services.css';
+import { 
+    AttachmentContainer, 
+    BookServicesContainer,
+     BookServicesContent, 
+     BookServicesForm, 
+     BookServicesNav,
+      SelectContainer, 
+      SelectOption, 
+      Title,
+      Names,
+      SelectOptionContainer,
+      DropdownIconContainer,
+      MessageContainer,
+      BookServicesModal,
+      Select,
+      Label,
+    } from "./book-services.jsx";
 
 const BookServices = ({userProfile}) => {
     const navigate = useNavigate()
@@ -59,18 +75,18 @@ const BookServices = ({userProfile}) => {
     }
     return (
         <>
-            <div className="book-services-container">
-                <div className="book-services-nav">
+            <BookServicesContainer>
+                <BookServicesNav>
                     <IoMdArrowBack/>
                     <span>Back To Dashboard</span>
-                </div>
-                <div className="book-services-content">
-                    <div className="title">
+                </BookServicesNav>
+                <BookServicesContent>
+                    <Title>
                         <h1>Ready To Experience Ease?</h1>
                         <p>Need us to manage your facility? Kindly fill out the form below, and we'll get back to you shortly.</p>
-                    </div>
-                    <form onSubmit={handleSubmit}>
-                        <div className="name-container">
+                    </Title>
+                    <BookServicesForm onSubmit={handleSubmit}>
+                        <Names>
                             <FormInput
                                 label={'First Name'}
                                 id={'first-name'}
@@ -89,7 +105,7 @@ const BookServices = ({userProfile}) => {
                                 value={lastName}
                                 onChange={handleChange}
                             />
-                        </div>
+                        </Names>
                         <FormInput
                             label={'Email'}
                             id={'email'}
@@ -117,11 +133,11 @@ const BookServices = ({userProfile}) => {
                             value={propertyAddress}
                             onChange={handleChange}
                         />
-                        <div className="select-container">
-                            <div className="select-options">
-                                <div className="d-flex flex-column">
-                                    <label htmlFor="service-type">Service Type</label>
-                                    <select  name="serviceType" id="service-type" value={serviceType} onChange={handleChange}>
+                        <SelectOptionContainer>
+                            <SelectContainer>
+                                <SelectOption>
+                                    <Label htmlFor="">Service Type</Label>
+                                    <Select  name="serviceType" id="service-type" value={serviceType} onChange={handleChange}>
                                         <option name="serviceType" value="">Choose a service</option>
                                         <option name="serviceType" value="Plumbing Services">Plumbing Services</option>
                                         <option name="serviceType" value="Painting And WallCare">Painting and Wall Care</option>
@@ -129,61 +145,61 @@ const BookServices = ({userProfile}) => {
                                         <option name="serviceType" value="Landscaping And Lawn Care">Lanscaping And Lawn Care</option>
                                         <option name="serviceType" value="Waste Management"> Waste Management </option>
                                         <option name="serviceType" value="Electrical repairs">Electrical repairs</option>
-                                    </select>
-                                </div>
-                                <div className="d-flex flex-column">
-                                    <label htmlFor="building-type">Building Type</label>
-                                    <select name="buildingType" id="building-type" value={buildingType} onChange={handleChange}>
+                                    </Select>
+                                </SelectOption>
+                                <SelectOption>
+                                    <Label htmlFor="building-type">Building Type</Label>
+                                    <Select name="buildingType" id="building-type" value={buildingType} onChange={handleChange}>
                                         <option value="" disabled>Choose type of building</option>
                                         <option name="buildingType" value="Commercial">Commercial</option>
                                         <option name="buildingType" value="Residential">Residential</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="select-options">
-                                <div className="d-flex flex-column">
-                                    <label htmlFor="service-visit">Schedule Service Visit</label>
+                                    </Select>
+                                </SelectOption>
+                            </SelectContainer>
+                            <SelectContainer>
+                                <SelectOption>
+                                    <Label htmlFor="service-visit">Schedule Service Visit</Label>
                                     <div className="custom-select">
                                         <span>{serviceDate ? serviceDate : 'Choose a date'}</span>
-                                        <div className="position-relative" style={{width: '18px', height: '18px'}}>
-                                            <FaAngleDown className=".calender position-absolute" style={{width: '100%', height: '100%'}}/>
-                                            <input type="date" value={serviceDate} id="" onChange={(e) => setFormFields({...formFields, serviceDate: e.target.value})}/>
-                                        </div>
+                                        <DropdownIconContainer>
+                                            <FaAngleDown className=".calender" style={{width: '16px', height: '16px', cursor: 'pointer'}}/>
+                                        </DropdownIconContainer>
+                                        <input type="date" value={serviceDate} id="" onChange={(e) => setFormFields({...formFields, serviceDate: e.target.value})}/>
                                     </div>
-                                </div>
-                                <div className="d-flex flex-column">
-                                    <label htmlFor="service-visit">Schedule Visit Time</label>
+                                </SelectOption>
+                                <SelectOption>
+                                    <Label htmlFor="service-visit">Schedule Visit Time</Label>
                                     <div className="custom-select">
                                         <span>{serviceTime ? serviceTime : 'Choose a time'}</span>
-                                        <div className="position-relative" style={{width: '18px', height: '18px'}}>
-                                            <FaAngleDown className=".calender position-absolute" style={{width: '100%', height: '100%'}}/>
-                                            <input type="time" value={serviceTime} id="" onChange={(e) => setFormFields({...formFields, serviceTime: e.target.value})}/>
-                                        </div>
+                                        <DropdownIconContainer>
+                                            <FaAngleDown className=".calender" style={{width: '16px', height: '16px', cursor: 'pointer'}}/>
+                                        </DropdownIconContainer>
+                                        <input type="time" value={serviceTime} id="" onChange={(e) => setFormFields({...formFields, serviceTime: e.target.value})}/>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="message-container">
+                                </SelectOption>
+                            </SelectContainer>
+                        </SelectOptionContainer>
+                        <MessageContainer>
                             <p>Additional Information</p>
-                            <span>(Kindly include the description of your service request. E.g. a full cleaning service for a 3-bedroom and 4-bathroom apartment, including the balcony and staircase area.) </span>
+                            <span>( Kindly include the description of your service request. E.g. a full cleaning service for a 3-bedroom and 4-bathroom apartment, including the balcony and staircase area.) </span>
                             <textarea name="message" id="message" cols="30" rows="10" placeholder='Type your message here' value={message} onChange={handleChange}></textarea>
-                        </div>
-                        <div className="attachment">
+                        </MessageContainer>
+                        <AttachmentContainer>
                             <div className="position-relative"  style={{width: '20px', height: '20px'}}>
                                 <FiUpload className='attachment-icon' />
                                 <input type="file" name="attachement" id="attachment" title='upload a file' onChange={handleChange}/>
                             </div>
                             <p>Attach necessary documents/photos <span>(if applicable)</span></p>
-                        </div>
+                        </AttachmentContainer>
                         <Button buttonType={{primaryBtn: true}} type='submit' >Submit</Button>
-                    </form>
-                </div>
-            </div>
+                    </BookServicesForm>
+                </BookServicesContent>
+            </BookServicesContainer>
             {
                 showModal && 
                     (
                         <ModalComponent>
-                            <div className="book-services-modal">
+                            <BookServicesModal>
                                 <IoClose style={{width: '24px', height: '24px', alignSelf: 'flex-end', cursor: 'pointer'}} onClick={() => setShowModal(!showModal)}/>
                                 <h3>Your request was sent successfully</h3>
                                 <p>Our Admin will contact you shortly</p>
@@ -194,7 +210,7 @@ const BookServices = ({userProfile}) => {
                                 >
                                     Back To Dashboard
                                 </Button>
-                            </div>
+                            </BookServicesModal>
                         </ModalComponent>
                     )
             }

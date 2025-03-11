@@ -15,11 +15,9 @@
 /* Card-stlyes */
 .card-image{
     width: 100%;
-    object-fit:cover;
     height: 280px;
     border-radius: 8px 8px var(--Radius-Sharp, 0px) var(--Radius-Sharp, 0px);
     border: 1px solid var(--Neutrals-Neutrals200, #DADADA);
-
 }
 .card-image:hover{
     cursor: pointer;
@@ -144,7 +142,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    a{
+    button{
         display: flex;
         height: 36px;
         padding: var(--Spacing-m, 16px);

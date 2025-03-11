@@ -15,11 +15,12 @@ import {
   MobileNavContainer,
   NavTitle,
   MobileNavItemContainer,
+  PageWrapper,
 } from "./navigation.styles";
 
 const Navigation = () => {
   const navigate = useNavigate();
-  const { userProfile } = useContext(UserContext);
+  const { loggedInUser } = useContext(UserContext);
   const [showNav, setShowNav] = useState(false);
   const classNames = {
     home: false,
@@ -53,6 +54,7 @@ const Navigation = () => {
       };
       
   }, []);
+  
   return (
     <>
       <NavigationContainer>
@@ -115,7 +117,7 @@ const Navigation = () => {
                   Contact
                 </NavItem>
                 {
-                  userProfile ?
+                  loggedInUser ?
                   (
                     <>
                       <NavItem to="'dashboard/user'">
@@ -208,7 +210,7 @@ const Navigation = () => {
                 Contact
               </NavItem>
             </NavItemContainer>
-            {userProfile ? (
+            {loggedInUser ? (
               <Button
                 buttonType={{ primaryBtn: true }}
                 buttonPadding={"16px"}
@@ -220,6 +222,7 @@ const Navigation = () => {
             ) : (
               <NavBtnsContainer>
                 <Button
+                  
                   buttonType={{ primaryBtn: false }}
                   buttonPadding={"16px"}
                   buttonHeight={"36px"}
@@ -240,7 +243,9 @@ const Navigation = () => {
           </>
         )}
       </NavigationContainer>
-      <Outlet />
+      <PageWrapper>
+        <Outlet />
+      </PageWrapper>
       <Footer />
     </>
   );

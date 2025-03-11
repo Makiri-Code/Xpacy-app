@@ -19,6 +19,7 @@ import EmptySavedProperty from "../../../components/empty-saved-property/emptySa
 import styled from "styled-components";
 
 const BookServices = ({
+  profileImage,
   isMobile,
   showDashboardSidebar,
   setShowDashboardSidebar,
@@ -48,6 +49,7 @@ const BookServices = ({
     setShowCancelRequest(!showCancelRequest);
     setShowMenu(!showMenu);
   };
+
   const convertDateToTimeAndDays = (dateStr) => {
     const givenDate = new Date(dateStr);
     const currentDate = new Date(); // User's current date
@@ -96,10 +98,12 @@ const BookServices = ({
   return (
     <UserDashboardContainer>
       <DashboardTopNav
+        profileImage={profileImage}
         dashboardRoute={"Booked Services"}
         isMobile={isMobile}
         showDashboardSidebar={showDashboardSidebar}
         setShowDashboardSidebar={setShowDashboardSidebar}
+        notifications={notifications}
       />
       {isMobile && (
         <UserDashboardTopNav>

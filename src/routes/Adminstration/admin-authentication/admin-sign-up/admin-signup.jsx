@@ -38,7 +38,7 @@ const AdminSignUp = () => {
           </div>
           <div className="signup-content d-flex flex-column align-items-start">
             <header className="signup-header">
-              <h1>Welcome Fidamilola,</h1>
+              <h1>Welcome,</h1>
               <p>Let’s set up your Admin account to start managing properties and services on Xpacy.</p>
             </header>
             <main>

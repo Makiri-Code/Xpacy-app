@@ -9,12 +9,13 @@ import { IoCloseSharp } from "react-icons/io5";
 import { PageContext } from "../../contexts/page.context";
 import { UserContext } from "../../contexts/userContext";
 import fetchServer from "../../utils/serverutils/fetchServer";
+import { toast } from "sonner";
 import "./card.styles.css";
 const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId }) => {
   const [showPlacholderImg, setShowPlaceHolderImg] = useState(false);
   const [showLikeBtn, setShowLikeBtn] = useState(false);
-  const { setPropertyObj, propertyObj, savedPropertiesArray } = useContext(PageContext);
-  const { server, userProfile, userToken } = useContext(UserContext);
+  const { setPropertyObj, propertyObj, } = useContext(PageContext);
+  const { server, userProfile, userToken, savedPropertiesArray, setSavedPropertiesArray } = useContext(UserContext);
   const navigate = useNavigate();
   const {
     cardWidth,
@@ -44,23 +45,22 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId }
     id,
   } = propertise;
   // console.log(savedPropertiesArray)
-  const fetchProperty = async (id) => {
-    try {
-      const property = await fetch(
-        `https://app.xpacy.com/property/fetch-property/${id}`,
-        { method: "GET" }
-      );
-      const response = await property.json();
-      setPropertyObj(response);
-      // console.log(propertyObj.property);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  // const fetchProperty = async (id) => {
+  //   try {
+  //     const property = await fetch(
+  //       `https://app.xpacy.com/property/fetch-property/${id}`,
+  //       { method: "GET" }
+  //     );
+  //     const response = await property.json();
+  //     setPropertyObj(response);
+  //     // console.log(propertyObj.property);
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
 
   const handleClick = async () => {
-    await fetchProperty(id);
-    navigate("/buy/property");
+    navigate(`/buy/property/${id}`);
   };
   const handleSavedProperties = async () => {
     if (!userProfile) {
@@ -79,7 +79,6 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId }
     );
     setShowLikeBtn(!showLikeBtn);
   };
-
   const handleRemove = async () => {
     const response = await fetchServer(
       "DELETE",
@@ -88,7 +87,10 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId }
       `user-property/delete-saved-property/${savedPropertyId}`,
       server
     );
-    console.log(response);
+    if(response.success){
+      setSavedPropertiesArray(savedPropertiesArray.filter((item) =>  item.id !== savedPropertyId))
+      toast.success(response.message)
+    }
   };
   return (
     <div
@@ -96,16 +98,9 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId }
       style={{ width: `${isMobile ? "313px" : cardWidth}`, maxHeight: cardHeight }}
     >
       <div className="card-img-container position-relative align-self-stretch">
-        <img
+        <div
           className="card-image"
-          src={
-            showPlacholderImg || images[0] == undefined
-              ? "https://placehold.co/600x400"
-              : images[0]
-          }
-          alt="house image"
-          style={{ height: imgHeight }}
-          onError={() => setShowPlaceHolderImg(!showPlacholderImg)}
+          style={{ height: imgHeight, background: `url(${images[0] == undefined ? "https://placehold.co/600x400" : `https://app.xpacy.com/src/upload/properties/${images[0]}`}) lightgray 50% / cover no-repeat` }}
           onClick={handleClick}
 
         />
@@ -198,7 +193,7 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId }
           <>
             <div className="card-divider" />
             <div className="card-footer-buttons">
-              <Link onClick={handleClick}>View Details</Link>
+              <button onClick={handleClick}>View Details</button>
               <div className="remove-btn" onClick={handleRemove}>
                 <IoCloseSharp
                   style={{ width: iconWidth, height: iconHeight }}

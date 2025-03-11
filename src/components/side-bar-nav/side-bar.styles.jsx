@@ -12,8 +12,8 @@ export const DashboardContainer = styled. nav`
 `
 export const SideBarNavContainer = styled.div`
     display: flex;
-    width: 251px;
-    max-width: 17.54%;
+    // width: 251px;
+    width: 18%;
     height: 900px;
     padding: 24px;
     justify-content: center;
@@ -24,7 +24,6 @@ export const SideBarNavContainer = styled.div`
 `
 export const SideBarContent = styled.div`
     display: flex;
-    width: 203px;
     height: 852px;
     flex-direction: column;
     justify-content: space-between;
@@ -66,10 +65,10 @@ export const NavLinks = styled.div`
         border-radius: 8px;
     }
     .nav-link:hover{
-        background-color: #7ec4f3;
+        background-color: #477899;
     }
     .active{
-        background-color: #7ec4f3;
+        background-color: #477899;
     }
 `
 export const NavLinkItem = styled.span`

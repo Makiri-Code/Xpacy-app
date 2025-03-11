@@ -4,12 +4,13 @@ import userImage from '../../../assets/user-profile-img.svg';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import FormInput from '../../../components/form-input/formInput.component';
 import Button from '../../../components/button/button';
-import { FormCheck } from 'react-bootstrap';
+import { FormCheck, FormSelect } from 'react-bootstrap';
 import { PageContext } from '../../../contexts/page.context';
 import ModalComponent from '../../../components/modal/modal';
 import { UserDashboardTopNav } from '../../../components/user-dashboard/user-dashboard.styles.jsx';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { PulseLoader } from 'react-spinners';
+import ClipLoader from "react-spinners/ClipLoader";
 import { 
     ProfileSettingsContainer,
     ProfilePhotoTxt,
@@ -41,11 +42,11 @@ import {
 } from './profile-settings.styles.jsx';
 import fetchServer from '../../../utils/serverutils/fetchServer.js';
 import { UserContext } from '../../../contexts/userContext.jsx';
-const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, userProfile}) => {
+
+const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, userProfile, profileImage, setProfileImage, notifications}) => {
     const {userToken} = useContext(UserContext);
     const [showPropertyStatus, setShowPropertyStatus] = useState(true);
     const [nigerianStates, setNigerianStates] = useState([]);
-    
     // Get NigerianStates
     useEffect(() => {
         const getStatesData = async () => {
@@ -53,7 +54,6 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
                 const response = await fetch("https://app.xpacy.com/location/fetch-states", {method: "GET"});
                 const data = await response.json();
                 setNigerianStates(data.state);
-                console.log(data)
             } catch (error) {
                 console.error("Error", error);
             }
@@ -63,11 +63,11 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
 
 
     const defaultPersonalFormFields = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        address: '',
+        firstname: userProfile?.firstname,
+        lastname: userProfile?.lastname,
+        email: userProfile?.email,
+        phoneNumber: userProfile?.phoneNumber,
+        address: userProfile?.address,
     }
     const defaultPasswords = {
         currentPassword: '',
@@ -75,12 +75,13 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
     }
     
     const [personalFormFields, setPersonalFormFields] = useState(defaultPersonalFormFields);
-    const {firstName, lastName, email, phoneNumber, address} = personalFormFields;
+    const {firstname, lastname, email, phoneNumber, address} = personalFormFields;
     const [passwordFields, setPassWordFields] = useState(defaultPasswords);
     const {currentPassword, newPassword} = passwordFields;
     const [notificationRadio, setNotificationRadio] = useState('');
     const [state, setState] = useState('');
-    const [showModal, setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState(false);
+    const [showLoader, setShowLoader] = useState(false);
     const handleSecurityChange = (e) => {
         const {name, value} = e.target;
         setPassWordFields({
@@ -131,23 +132,26 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
         
             const data = await response.json();
             console.log("Server response:", data);
+            setProfileImage(data.display_picture);
+            setShowLoader(false);
           } catch (error) {
             console.error("Upload error:", error);
           }
     }
   const handlePhotoUpload = async(e) => {
+      setShowLoader(true);
       const {files} = e.target;      
-        await uploadPhoto(files[0])
+        await uploadPhoto(files[0]);
     }  
-    
-    console.log(userProfile)
+    // display picture loading
+
     return(
         <>
             {
                 userProfile ? 
                 (
                     <ProfileSettingsContainer>
-                        <DashboardTopNav dashboardRoute={'Profile Settings'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSidebar} />
+                        <DashboardTopNav dashboardRoute={'Profile Settings'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSidebar} profileImage={profileImage} notifications={notifications}/>
                         {
                             isMobile && (
                                 <UserDashboardTopNav>
@@ -185,7 +189,11 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
                                 <ProfilePhotoTxt>Profile Photo</ProfilePhotoTxt>
                                 <ProfileUploadSection>
                                     <PhotoInfo>
-                                        <div style={{width: '100px', height: '100px', background: `${!userProfile.display_picture ? `url(${userImage}) lightgray 50% / cover no-repeat` : `url(${userProfile.display_picture}) lightgray 50% / cover no-repeat` }`,  borderRadius: '100px', objectFit: 'contain'} } />
+                                        <div style={{width: '100px', height: '100px', background: `url(${profileImage}) lightgray 50% / cover no-repeat` ,  borderRadius: '100px', objectFit: 'contain'} } >
+                                            {
+                                                showLoader && <ClipLoader size={25} color="#fff" />
+                                            }
+                                        </div>
                                         <PhotoInfoWrapper>
                                             <h5>Profile photo</h5>
                                             <p>PNG, JPEG under 15MB</p>
@@ -194,7 +202,7 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
                                     <UploadControls>
                                         <UploadPictureLabel htmlFor="upload-photo" >
                                             <UploadInput type="file" accept='.jpg, .png' name="display_picture" id="upload-photo" onChange={handlePhotoUpload}  />
-                                            {userProfile.display_picture ? "Change Photo" : "Upload Picture"}
+                                            {userProfile?.display_picture ? "Change Photo" : "Upload Picture"}
                                         </UploadPictureLabel>
                                         <DeleteBtnContainer>
                                             <RiDeleteBin6Line style={{width: '24px', height: '24px'}}/>
@@ -208,27 +216,27 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
                                     <NameInputs>
                                         <FormInput
                                             label={'First Name'}
-                                            name={'firstName'}
-                                            placeholder={userProfile.firstname}
-                                            id="firstName"
+                                            name={'firstname'}
+                                            // placeholder={userProfile?.firstname}
+                                            id="firstname"
                                             type="text"
                                             onChange={handleChange}
-                                            value={firstName}
+                                            value={firstname}
                                         />
                                         <FormInput
                                             label={'Last Name'}
-                                            name={'lastName'}
-                                            placeholder={userProfile.lastname}
-                                            id="lastName"
+                                            name={'lastname'}
+                                            // placeholder={userProfile.lastname}
+                                            id="lastname"
                                             type="text"
                                             onChange={handleChange}
-                                            value={lastName}
+                                            value={lastname}
                                         />
                                     </NameInputs>
                                     <FormInput
                                         label={'email'}
                                         name={'email'}
-                                        placeholder={userProfile.email}
+                                        // placeholder={userProfile.email}
                                         id="email"
                                         type="email"
                                         onChange={handleChange}
@@ -241,6 +249,7 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
                                         id="email"
                                         type="tel"
                                         pattern="[0-9]{11}"
+                                        required
                                         onChange={handleChange}
                                         value={phoneNumber}
                                     />
@@ -250,6 +259,7 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
                                         placeholder={'Enter Address'}
                                         id="address"
                                         type="text"
+                                        required
                                         onChange={handleChange}
                                         value={address}
                                     />
@@ -346,7 +356,7 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
                                 <PersonalFormContainer onSubmit={handlePersonalFormSubmit}>
                                     <div className='signup-location'>
                                         <label htmlFor="state">Change selected location</label>
-                                        <select name='state' required value={state}  onChange={handleStatesChange}>
+                                        <FormSelect name='state' required value={state}  onChange={handleStatesChange}>
                                             <option selected >Choose a Location</option>
                                             {
                                                 nigerianStates &&
@@ -357,7 +367,7 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
                                                         )
                                                     })
                                             }
-                                        </select>
+                                        </FormSelect>
                                     </div>
                                     <SubmitControls>
                                         <Button buttonType={{primaryBtn: true}} type={'submit'}>Save Changes</Button>

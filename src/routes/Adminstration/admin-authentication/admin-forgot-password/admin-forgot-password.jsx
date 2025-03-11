@@ -1,87 +1,111 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {ReactComponent as Logo} from '../../../../assets/x-pacy-logo.svg';
 import FormInput from '../../../../components/form-input/formInput.component';
 import { IoMdArrowBack } from 'react-icons/io';
 import { IoIosClose } from 'react-icons/io';
-import './admin-forgot-password.styles.css';
+import { LoginLogoContainer } from '../../../../components/login/login.styles.jsx';
+import { LogoContainer, NavLogo } from '../../../navigation/navigation.styles.jsx';
+import Button from '../../../../components/button/button.jsx';
+import { 
+    ResetContainer, 
+    ResetPasswordContainer,
+    ResetPasswordContent,
+    EmailContainer,
+    BackLink,
+    Heading,
+    SuccesModal,
+    MessageContainer,
+    MessageContent
+
+} from '../../../forgot-password/forgot-password.styles';
 
 const AdminForgotPassword = () => {
-    const [isUserValid, setIsUserValid] = useState(false);
-    const [resetMessage, setResetMessage] = useState('');
-
+    const navigate = useNavigate()
     const defaultFormFields = {
         email: ''
     }
-    const [formFields, setFormFields] = useState(defaultFormFields);
-    const {email} = formFields;
-
+    const [isUserValid, setIsUserValid] = useState(true);
+    const [resetMessage, setResetMessage] = useState('')
+    const [formFields, setFormFields] =useState(defaultFormFields);
+    const {email} = formFields
     const handleChange = (e) => {
-        const {name, value} = e.target;
+        const {name, value} = e.target
+
         setFormFields({
             ...formFields,
             [name]: value,
-        });
-    };
-    const handleSubmit = (e) => {
+        })
+    }
+    const handleClick = () => setIsUserValid(!isUserValid)
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        // const server = "https://app.xpacy.com"
+        // const body = {
+        //     email: email,
+        // }
+        // const userData = await fetchServer('POST', body, 'user/request-password-reset', server);
+        // setIsUserValid(!userData.success)
+        // setResetMessage(userData.message)
+        // console.log(isUserValid);
 
-    };
-
+    }
     return(
         <>
             {
                 isUserValid ? 
-                (   <div className='d-flex justify-content-center align-items-center'>
-                        <div className="reset-password-container">
-                            <div className="d-flex justify-content-center align-items-center">
-                                <Link className="logo-container" to='/'>
-                                    <Logo className='logo'/>
-                                </Link>
-                            </div>
-                            <div className="reset-password-content">
-                                <header>
-                                    <h1>Forgot Password?</h1>
-                                    <p>Enter your email address below, and we’ll send you a link to reset your password.</p>
-                                </header>
-                                <form onSubmit={handleSubmit}>
-                                    <div className="email-container w-100">
-                                        <FormInput
-                                            label={"Email address"}
-                                            id="e-mail"
-                                            name='email'
-                                            type="email"
-                                            onChange={handleChange}
-                                            value={email}
-                                            required
-                                            placeholder="Enter your email address"
-                                        />
-                                    </div>
-                                    <button type="submit">Send Reset Link</button>
-                                </form>
-                                <Link className="d-flex gap-1" to={'/admin/auth/log-in'}>
-                                    <IoMdArrowBack style={{width: '24px', height: '24px', color: '#333'}}/> 
-                                    <p className="back-button">Back to <span>Log In</span></p>
-                                </Link>
-                            </div>
-                        </div>
-                    </div> ) :
+                (   
+                    <ResetContainer>
+                            <ResetPasswordContainer>
+                                <LoginLogoContainer>
+                                    <LogoContainer onClick={() => navigate("/")}>
+                                        <NavLogo />
+                                    </LogoContainer>
+                                </LoginLogoContainer>
+                                <ResetPasswordContent>
+                                    <Heading>
+                                        <h1>Forgot Password?</h1>
+                                        <p>Enter your email address below, and we’ll send you a link to reset your password.</p>
+                                    </Heading>
+                                    <form onSubmit={handleSubmit}>
+                                        <EmailContainer>
+                                            <FormInput
+                                                label={"Email address"}
+                                                id="e-mail"
+                                                name='email'
+                                                type="email"
+                                                onChange={handleChange}
+                                                value={email}
+                                                required
+                                                placeholder="Enter your email address"
+                                            />
+                                        </EmailContainer>
+                                        <Button buttonType={{primaryBtn: true}} type={'submit'}>Send Reset Link</Button>
+                                    </form>
+                                    <BackLink to={'/admin/auth/log-in'}>
+                                        <IoMdArrowBack style={{width: '24px', height: '24px', color: '#333'}}/> 
+                                        <p className="back-button">Back to <span>Log In</span></p>
+                                    </BackLink>
+                                </ResetPasswordContent>
+                            </ResetPasswordContainer>
+                    </ResetContainer> 
+                ) :
                 (
-                    <div className="modal-success d-flex justify-content-center align-items-center w-100">
-                        <div className="message d-flex justify-content-center align-items-center">
-                            <IoIosClose style={{width: '24px', height: '24px'}} onClick={() => setIsUserValid(!isUserValid)} className='reset-close-icon'/>
-                            <div className="message-content">
+                    <SuccesModal>
+                        <MessageContainer>
+                            <IoIosClose onClick={handleClick} className='reset-close-icon' />
+                            <MessageContent>
                                 <h1>Reset Link Sent!</h1>
                                 <p>{resetMessage}</p>
-                            </div>
-                        </div>
-                    </div>
+                            </MessageContent>
+                        </MessageContainer>
+                    </SuccesModal>
                 )
             }
             
 
         </>
     );
-};
+}
 
 export default AdminForgotPassword;

@@ -192,7 +192,7 @@ const SideBarNav = ({
                       }}
                     >
                       <content.icon
-                        style={{ width: "24px", height: "24px", color: "#fff" }}
+                        style={{ width: "24px", height: "24px", color: `${className[content.name] === "nav-link active" ? '#CDB385' : '#fff'}` }}
                       />{" "}
                       <NavLinkItem>{content.link}</NavLinkItem>{" "}
                     </div>

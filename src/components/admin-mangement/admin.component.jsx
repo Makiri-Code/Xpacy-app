@@ -161,12 +161,12 @@ const AdminMangement = () => {
                 background={'linear-gradient(180deg, #E3ECF2 0%, #FCFCFC 100%)'}
                 width={'100%'}
                 cardPadding={'padding: 48px 0px 48px 100px'}
-                headingFont={'1.7rem'}
-                subHeadingFont={'1.125rem'}
+                headingFont={ isMobile ? '1.375rem' : '1.7rem'}
+                subHeadingFont={isMobile ? '1rem': '1.125rem'}
                 subHeadinFontFamily={'Unitext Regular'}
             />
             <GetInTouch
-                width={isMobile ? '100%' : '85.9%'}
+                width={'100%'}
                 margin={'0px auto 72px auto'}
                 Image1={Image1}
                 Image2={Image2}

@@ -12,7 +12,8 @@ import './user-payment.styles.css';
 import EmptySavedProperty from '../../../components/empty-saved-property/emptySavedProperty';
 import styled from 'styled-components';
 import { UserDashboardTopNav } from '../../../components/user-dashboard/user-dashboard.styles';
-const UserPayments = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, invoiceList }) => {
+
+const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDashboardSidebar, invoiceList, notifications }) => {
     const [showFilter, setShowFilter] = useState(false);
     const selectOptions = [
         {
@@ -63,10 +64,9 @@ const UserPayments = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, 
     justify-content: center;
     padding: 24px;
 `
-console.log(invoiceList)
     return (
         <div className="notification-container">
-            <DashboardTopNav dashboardRoute={'Payments'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSidebar}/>
+            <DashboardTopNav profileImage={profileImage} dashboardRoute={'Payments'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSidebar} notifications={notifications} />
             {
                 isMobile && (
                     <UserDashboardTopNav>
@@ -112,7 +112,7 @@ console.log(invoiceList)
                     <div className="invoice-header">
                         <h2>Invoice List</h2>
                         {
-                            invoiceList.length > 0 && (
+                            invoiceList?.length > 0 && (
                                 <div className="payments-filter">
                                     <SortBy
                                         selectOptions={selectOptions}
@@ -164,7 +164,7 @@ console.log(invoiceList)
                              invoiceList && (
                                 <>
                                     {
-                                    invoiceList.length > 0 ?
+                                    invoiceList?.length > 0 ?
                                     (
                                         <>
                                             {

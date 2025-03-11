@@ -39,7 +39,7 @@ import {
 } from './user-dashboard.styles';
 import EmptySavedProperty from '../empty-saved-property/emptySavedProperty';
 
-const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDashboardSidebar, showDashboardSideBar, bookedServices, notifications}) => {
+const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDashboardSidebar, showDashboardSideBar, bookedServices, notifications, profileImage}) => {
     const navigate = useNavigate();
     const [showMenuOption, setShowMenuOption] = useState(false);
     const cardStytles = {
@@ -98,13 +98,12 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
             message: '3-bedroom in Abuja'
         },
     ]
-    console.log(bookedServices);
     return (
         <>
             {
                 savedPropertiesArray && userProfile && bookedServices && notifications  ? 
                 (<UserDashboardContainer>
-                    <DashboardTopNav dashboardRoute={'Dashboard Overview'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSideBar}/>
+                    <DashboardTopNav dashboardRoute={'Dashboard Overview'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSideBar} profileImage={profileImage} notifications={notifications}/>
                     {
                         isMobile && (
                             <UserDashboardTopNav>

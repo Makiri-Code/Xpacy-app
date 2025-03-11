@@ -14,11 +14,27 @@ import HelpAndSupport from "../help-support/help";
 import Referral from "../referral/referral";
 import fetchServer from "../../../utils/serverutils/fetchServer";
 import BookServices from "../book-services/bookServices";
-const UserDashboard = ({ userProfile, savedPropertiesArray, bookedServices, notifications, savedPropertiesPagination, invoiceList, referralDownLine }) => {
+import userImage from '../../../assets/user-profile-img.svg';
+import isTokenExpired from "../../../utils/token/handleUserToken";
+
+const UserDashboard = () => {
   const { showDashboardSidebar, setShowDashboardSidebar } =
     useContext(PageContext);
+  const {userToken, userProfile, savedPropertiesArray, setSavedPropertiesArray, savedPropertiesPagination, setSavedPropertiesPagination, setUserProfile, server, setLoggedInUser} = useContext(UserContext);
   const navigate = useNavigate();
+  // const [userProfile, setUserProfile] = useState(null);
+  // const [savedPropertiesArray, setSavedPropertiesArray] = useState(null);
+  // const [savedPropertiesPagination, setSavedPropertiesPagination] = useState(null);
+  const [invoiceList, setInvoiceList] = useState(null);
+  const [bookedServices, setBookedServices] = useState(null);
+  const [notifications, setNotifications] = useState(null);
+  const [referralDownLine, setReferralDownLine] = useState(null);
+  const [profileImage, setProfileImage] = useState('');
+
+
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+
+  // Handle resize
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 600);
@@ -29,27 +45,125 @@ const UserDashboard = ({ userProfile, savedPropertiesArray, bookedServices, noti
     };
   }, []);
 
-  // useEffect(() => {
-  //   const getUserProfile = async () => {
-  //     try {
-  //       const resp = await fetchServer(
-  //         "GET",
-  //         {},
-  //         userToken,
-  //         "user/fetch-profile",
-  //         server
-  //       );
-  //       setUserProfile(resp.user);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getUserProfile();
-  // }, []);
+    // getUserProfile
+    useEffect(() => {
+      const getUserProfile = async () => {
+        try {
+          const resp = await fetchServer(
+            "GET",
+            {},
+            userToken,
+            "user/fetch-profile",
+            server
+          );
+          setUserProfile(resp.user);
+          setLoggedInUser(resp.user);
+          setProfileImage(resp.user.display_picture ? resp.user.display_picture : userImage);
+        } catch (error) {
+          console.log("Error getting user", error);
+        }
+      };
+      if(userToken){
+        getUserProfile();
+      }
+    }, [userToken]);
+  
+    // getSavedPropertiesData
+    useEffect(() => {
+      const getSavedPropertiesData = async () => {
+        try {
+          const resp = await fetchServer(
+            "GET",
+            {},
+            userToken,
+            "user-property/saved-properties",
+            "https://app.xpacy.com"
+          );
+          setSavedPropertiesArray(resp.data);
+          setSavedPropertiesPagination(resp.pagination);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+      if(userToken){
+        getSavedPropertiesData();
+      }
+    }, [userToken]);
+  
+    // getBookedServicesData
+    useEffect(() => {
+      const getBookedServicesData = async () => {
+        try {
+          const resp = await fetchServer(
+            "GET",
+            {},
+            userToken,
+            "service/fetch-services",
+            "https://app.xpacy.com"
+          );
+          setBookedServices(resp.data);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+      if(userToken){
+        getBookedServicesData();
+      }
+    }, [userToken]);
+  
+  // getNotifications
+    useEffect(() => {
+      const geNotificationsData = async () => {
+        try {
+          const resp = await fetchServer(
+            "GET",
+            {},
+            userToken,
+            "notification/fetch-notifications",
+            "https://app.xpacy.com"
+          );
+          setNotifications(resp.data);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+      if(userToken){
+        geNotificationsData();
+      }
+    }, [userToken]);
+    // get invoiceList
+  useEffect(() => {
+    const getInvoiceList = async () => {
+      try {
+        const resp = await fetchServer(
+          "GET",
+          {},
+          userToken,
+          "invoice/fetch-invoices",
+          "https://app.xpacy.com"
+        );
+        setInvoiceList(resp.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    if(userToken){
+      getInvoiceList();
+    }
+  }, [userToken]);
+
+  // Reroute to log in when token expires
+  useEffect(()=> {
+    if (isTokenExpired(userToken)) {
+      navigate('/auth/log-in');
+    } else {
+      console.log('Welcome back! Token is valid.');
+    }
+  }, [userToken]);
 
   return (
     <>
-      {!userProfile && !notifications ? (
+      {!savedPropertiesArray && !userProfile && !bookedServices && !notifications ? (
         <PulseLoader
           style={{
             display: "flex",
@@ -83,6 +197,8 @@ const UserDashboard = ({ userProfile, savedPropertiesArray, bookedServices, noti
                   setShowDashboardSidebar={setShowDashboardSidebar}
                   bookedServices={bookedServices}
                   notifications={notifications}
+                  profileImage={profileImage}
+                  setProfileImage={setProfileImage}
                 />
               }
             />
@@ -94,6 +210,8 @@ const UserDashboard = ({ userProfile, savedPropertiesArray, bookedServices, noti
                   showDashboardSidebar={showDashboardSidebar}
                   setShowDashboardSidebar={setShowDashboardSidebar}
                   notifications={notifications}
+                  profileImage={profileImage}
+
                 />
               }
             />
@@ -106,6 +224,8 @@ const UserDashboard = ({ userProfile, savedPropertiesArray, bookedServices, noti
                   savedPropertiesArray={savedPropertiesArray}
                   isMobile={isMobile}
                   savedPropertiesPagination = {savedPropertiesPagination}
+                  profileImage={profileImage}
+                  notifications={notifications}
                 />
               }
             />
@@ -117,6 +237,8 @@ const UserDashboard = ({ userProfile, savedPropertiesArray, bookedServices, noti
                 showDashboardSidebar={showDashboardSidebar}
                 setShowDashboardSidebar={setShowDashboardSidebar}
                 invoiceList = {invoiceList}
+                profileImage={profileImage}
+                notifications={notifications}
               />
               }
             />
@@ -128,6 +250,9 @@ const UserDashboard = ({ userProfile, savedPropertiesArray, bookedServices, noti
                 showDashboardSidebar={showDashboardSidebar}
                 setShowDashboardSidebar={setShowDashboardSidebar} 
                 userProfile = {userProfile}
+                profileImage={profileImage}
+                setProfileImage={setProfileImage}
+                notifications={notifications}
               />
             }
             />
@@ -137,6 +262,8 @@ const UserDashboard = ({ userProfile, savedPropertiesArray, bookedServices, noti
                 isMobile={isMobile}
                 showDashboardSidebar={showDashboardSidebar}
                 setShowDashboardSidebar={setShowDashboardSidebar} 
+                profileImage={profileImage}
+                notifications={notifications}
               />
               } />
             <Route path="referral" 
@@ -147,6 +274,8 @@ const UserDashboard = ({ userProfile, savedPropertiesArray, bookedServices, noti
                 setShowDashboardSidebar={setShowDashboardSidebar}
                 userProfile={userProfile}
                 referralDownLine = {referralDownLine}
+                profileImage={profileImage}
+                notifications={notifications}
               />
               } />
             <Route 
@@ -158,6 +287,8 @@ const UserDashboard = ({ userProfile, savedPropertiesArray, bookedServices, noti
                 isMobile={isMobile}
                 bookedServices={bookedServices}
                 notifications = {notifications}
+                profileImage={profileImage}
+                notifications={notifications}
               />
               } 
               />

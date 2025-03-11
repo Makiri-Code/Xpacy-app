@@ -8,14 +8,14 @@ export const PageContext = createContext({
   propertyObj: null,
   setPropertyObj: () => {},
   pagination: null,
-  savedPropertiesArray: null,
-  setSavedPropertiesArray: () => {},
   searchedProperties: null,
   setSearchedProperties: () => {},
   searchedPagination: null,
   setSearchedPagination: () => {},
   showDashboardSidebar: false,
   setShowDashboardSidebar: () => {},
+  nigerianStates: [],
+  setNigerianStates: () => {},
 });
 
 export const PageProvider = ({ children }) => {
@@ -25,8 +25,9 @@ export const PageProvider = ({ children }) => {
   const [pagination, setPagination] = useState(null);
   const [searchedProperties, setSearchedProperties] = useState(null);
   const [searchedPagination, setSearchedPagination] = useState(null);
-  const [savedPropertiesArray, setSavedPropertiesArray] = useState(null)
+  const [nigerianStates, setNigerianStates] = useState([]);
   
+  // get properties
   useEffect(() => {
     const getProperties = async () => {
       try {
@@ -43,20 +44,38 @@ export const PageProvider = ({ children }) => {
     };
     getProperties();
   }, []);
+  // get Nigerian states
+  useEffect(() => {
+    const states = async () => {
+      try {
+        const statesArray = await fetch(
+          "https://app.xpacy.com/location/fetch-states",
+          { method: "GET" }
+        );
+        const response = await statesArray.json();
+        setNigerianStates(response.state);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    states();
+  }, []);
+
+
   const value = {
     propertiesArray,
     pagination,
     propertyObj,
     setPropertyObj,
     setPropertiesArray,
-    savedPropertiesArray,
-    setSavedPropertiesArray,
     searchedPagination,
     setSearchedPagination,
     searchedProperties,
     setSearchedProperties,
     showDashboardSidebar,
     setShowDashboardSidebar,
+    nigerianStates, 
+    setNigerianStates,
   };
 
   

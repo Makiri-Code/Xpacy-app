@@ -8,8 +8,6 @@ export const LogInContainer = styled.div`
     background: var(--Background-Color, #FCFEFF);
     @media only screen and (max-width: 600px){
         width: 100%;
-        margin: 0 auto;
-        padding: 100px 0px;
     }
 `
 export const LogInForm = styled.div`
@@ -24,6 +22,7 @@ export const LogInForm = styled.div`
         margin: 0 auto;
         align-items: center;  
         padding: 48px 24px;
+        gap: 24px;
     }
 `
 export const LoginLogoContainer = styled.div`
