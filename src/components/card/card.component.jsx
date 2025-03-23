@@ -11,11 +11,11 @@ import { UserContext } from "../../contexts/userContext";
 import fetchServer from "../../utils/serverutils/fetchServer";
 import { toast } from "sonner";
 import "./card.styles.css";
-const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId }) => {
+const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, setSavedPropertiesArray, setSavedPropertiesPagination }) => {
   const [showPlacholderImg, setShowPlaceHolderImg] = useState(false);
   const [showLikeBtn, setShowLikeBtn] = useState(false);
   const { setPropertyObj, propertyObj, } = useContext(PageContext);
-  const { server, userProfile, userToken, savedPropertiesArray, setSavedPropertiesArray } = useContext(UserContext);
+  const { server, userProfile, userToken} = useContext(UserContext);
   const navigate = useNavigate();
   const {
     cardWidth,
@@ -64,6 +64,7 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId }
   };
   const handleSavedProperties = async () => {
     if (!userProfile) {
+      toast.error("Please log in to continue")
       navigate("/auth/log-in");
       return
     }
@@ -77,7 +78,26 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId }
       "user-property/saved-properties",
       server
     );
-    setShowLikeBtn(!showLikeBtn);
+    if(response.success){
+      toast.success(response.message);
+      setShowLikeBtn(!showLikeBtn);
+    }
+  };
+  const getSavedPropertiesData = async () => {
+    try {
+      const resp = await fetchServer(
+        "GET",
+        {},
+        userToken,
+        "user-property/saved-properties",
+        "https://app.xpacy.com"
+      );
+      
+      setSavedPropertiesArray(resp.data);
+      setSavedPropertiesPagination(resp.pagination);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
   const handleRemove = async () => {
     const response = await fetchServer(
@@ -88,8 +108,8 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId }
       server
     );
     if(response.success){
-      setSavedPropertiesArray(savedPropertiesArray.filter((item) =>  item.id !== savedPropertyId))
-      toast.success(response.message)
+      toast.success(response.message);
+      getSavedPropertiesData();
     }
   };
   return (

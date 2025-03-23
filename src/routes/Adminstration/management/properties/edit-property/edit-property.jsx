@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
 import xpacyLogo from '../../../../../assets/x-pacy-logo.svg';
 import { IoArrowBack } from "react-icons/io5";
 import { PageContext } from '../../../../../contexts/page.context';
@@ -43,21 +43,32 @@ import {
     PhotosContainer,
     DeleteBtn,
  } from './edit-property.styles';
-import { useNavigate } from 'react-router-dom';
-
-
+import { useNavigate, useParams } from 'react-router-dom';
+import fetchServer from '../../../../../utils/serverutils/fetchServer';
+import { UserContext } from '../../../../../contexts/userContext';
+import { PulseLoader } from 'react-spinners';
+import { toast } from 'sonner';
+import isTokenExpired from '../../../../../utils/token/handleUserToken';
+import styled from 'styled-components';
+import { TwoFactorContainer } from '../../settings/setings.styles';
 const EditProperty = () => {
     const navigate = useNavigate();
+    const {id} = useParams();
+    const {userToken, server} = useContext(UserContext)
     const {nigerianStates} = useContext(PageContext)
     const inputRef = useRef(null);
     const itemRef = useRef(null);
-    const imageSrc = [
-        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG91c2VzfGVufDB8fDB8fHww',
-        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGhvdXNlc3xlbnwwfHwwfHx8MA%3D%3D',
-        'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fGhvdXNlc3xlbnwwfHwwfHx8MA%3D%3D',
-        'https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDJ8fGhvdXNlc3xlbnwwfHwwfHx8MA%3D%3D',
-    ]
-    const [imageSrcArray, setImageSrcArray] = useState(imageSrc)
+        // fetch property details
+        useEffect(() => {
+            const getPropertyDetails = async () => {
+                const response = await fetchServer("GET", {}, userToken, `admin/fetch-property/${id}`, server );
+                console.log(response)
+                setPropertyInfo(response.property);
+                setOwnerInfo(response.property.propertyOwner);
+            }
+            getPropertyDetails()
+        }, []);
+
     // options for property type
     const propertyType = [
         {
@@ -97,38 +108,30 @@ const EditProperty = () => {
     const availabilityStatus = [
         {
             id: 1,
-            status: 'Rented',
+            status: 'Available',
         },
         {
             id: 2,
-            status: 'Vacant',
+            status: 'Unavailable',
         },
         {
             id: 3,
-            status: 'For Sale',
-        },
-        {
-            id: 4,
             status: 'Sold',
-        },
-        {
-            id: 5,
-            status: 'Under Maintenance',
         },
     ];
     // options for property status
     const propertyStatus = [
         {
             id: 1,
-            status: 'For Sale',
+            status: 'Sale',
         },
         {
             id: 2,
-            status: 'For Rent',
+            status: 'Rent',
         },
         {
             id: 3,
-            status: 'For Lease',
+            status: 'Lease',
         },
     ];
     // Amenities 
@@ -150,78 +153,80 @@ const EditProperty = () => {
         "Fully-equiped Gym",
     ]
     // Default formfields
-    const defaultOwnerFormFields = {
-        firstname: '',
-        lastname: '',
-        email: '',
-        phonenumber: '',
-        address: '',
-    }
+    // const defaultOwnerFormFields = {
+    //     firstname: '',
+    //     lastname: '',
+    //     email: '',
+    //     phonenumber: '',
+    //     address: '',
+    // }
     // defaullt search fields
     const defaultSearchField = {
         owner: ''
     }
     // Default property information
-    const defaultPropertyInfo = {
-        property_owner_id: '',
-        property_name: '',
-        property_address: '',
-        city: '',
-        state: '',
-        property_type: '',
-        availability_status: '',
-        property_price: '',
-        property_status: '',
-        description: '',
-        total_bedrooms: '',
-        total_baths: '',
-        total_toilets: '',
-        parking_area: '',
-        property_square_area: '',
-        land_area: '',
-        property_amenities: [],
-        images: [], 
-        videos: [],
-        virtual_tour_url: '',
-        long: '',
-        lat: '',
-    }
+    // const defaultPropertyInfo = {
+    //     property_owner_id: '',
+    //     property_name: '',
+    //     property_address: '',
+    //     city: '',
+    //     state: '',
+    //     property_type: '',
+    //     availability_status: '',
+    //     property_price: '',
+    //     property_status: '',
+    //     description: '',
+    //     total_bedrooms: '',
+    //     total_baths: '',
+    //     total_toilets: '',
+    //     parking_area: '',
+    //     property_square_area: '',
+    //     land_area: '',
+    //     property_amenities: [],
+    //     images: [], 
+    //     videos: [],
+    //     virtual_tour_url: '',
+    //     long: '',
+    //     lat: '',
+    // }
 
 
     // handle delete photo
     const handleDeleteImg = (imgSrc) => {
-        console.log(imgSrc);
-        const newImageSrc = imageSrcArray.filter((item) => item !== imgSrc);
-        setImageSrcArray(newImageSrc)
-    }
-    const [propertyInfo, setPropertyInfo] = useState(defaultPropertyInfo);
-    const {
-            property_owner_id,
-            property_address, 
-            property_name, 
-            city, 
-            state, 
-            property_price, 
-            property_status, 
-            property_type,
-            description,
-            availability_status,
-            property_amenities,
-            property_square_area,
-            land_area,
-            parking_area,
-            images,
-            videos,
-            virtual_tour_url,
-            long,
-            lat,
-            total_baths,
-            total_bedrooms,
-            total_toilets,
-        } = propertyInfo;
+        const newImageSrcArray = propertyInfo?.images.filter((item) => item !== imgSrc);
+        setPropertyInfo({
+            ...propertyInfo,
+            images: newImageSrcArray,
+        });
 
-    const [ownerInfo , setOwnerInfo] = useState(defaultOwnerFormFields);
-    const {firstname, lastname, email, phonenumber, address} = ownerInfo;
+    }
+    const [propertyInfo, setPropertyInfo] = useState(null);
+    // const {
+    //         property_owner_id,
+    //         property_address, 
+    //         property_name, 
+    //         city, 
+    //         state, 
+    //         property_price, 
+    //         property_status, 
+    //         property_type,
+    //         description,
+    //         availability_status,
+    //         property_amenities,
+    //         property_square_area,
+    //         land_area,
+    //         parking_area,
+    //         images,
+    //         videos,
+    //         virtual_tour_url,
+    //         long,
+    //         lat,
+    //         total_baths,
+    //         total_bedrooms,
+    //         total_toilets,
+    //     } = propertyInfo;
+
+    const [ownerInfo , setOwnerInfo] = useState(null);
     const [showOwnerInfo, setShowOwnerInfo] = useState(true);
     const [searchField, setSearchField] = useState(defaultSearchField);
     const {owner} = searchField;
@@ -229,6 +234,8 @@ const EditProperty = () => {
     const [showError, setShowError] = useState(false);
     const [selectImages, setSelectImages] = useState([]);
     const [selectedAmenities, setSelectedAmenities] = useState([]);
+    const [disabled, setDisabled] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
     // Progress bar steps
     const steps = [
         {
@@ -275,19 +282,112 @@ const EditProperty = () => {
             images: [...prev.images, ...acceptedFiles ],
         }));
     }
-    const handleSubmit = (e) => {
+    // Styled Retry Button
+    const RetryButton = styled.button`
+      align-self: center;
+      margin-top: 12px;
+      font-family: "Unitext Regular", sans-serif;
+      background-color: white;
+      color: #c4170b;
+      border: 1px solid #c4170b;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    
+      &:hover {
+        background-color: #c4170b;
+        color: white;
+      }
+    `;
+    // Submit form
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        if(isTokenExpired(userToken)){
+           toast.error("Session expired. Log in again to continue");
+          navigate("/admin/auth/log-in");
+          return;
+       }
+        setDisabled(true);
+        setShowSuccessModal(true);
         const data = new FormData();
-        const {images, ...otherFields} = propertyInfo;
-         data.append('propertyInfo',JSON.stringify(propertyInfo));
-         
-         for (let pair of data.entries()) {
-            console.log(pair[0], pair[1]);
+        Object.entries(propertyInfo).forEach(([key, value]) => {
+            if (Array.isArray(value)) {
+                // Handle arrays separately (e.g., property_amenities, images, videos)
+                value.forEach((item) => {
+                    data.append(key, item); // Append each item in the array
+                });
+            } else if (value !== null && value !== undefined) {
+                data.append(key, value);
+            }
+        });
+        try {
+            const response = await fetch(`${server}/property/update-property/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${userToken}`
+                 },
+                body: data,
+            });
+            const resp = await response.json();
+            console.log(resp)
+            setDisabled(false)
+            if(!resp.success){
+                console.log(resp.errors.message)
+
+                toast.custom((t) => ( // ✅ Use `toast.custom` instead of `toast.error`
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        padding: "16px",
+                        backgroundColor: "#FBC0BC",
+                        color: "#C4170B",
+                        fontFamily: "Unitext Regular, sans-serif",
+                        borderRadius: "8px",
+                      }}
+                    >
+                      <p style={{fontSize: '1.2rem', fontWeight: 'bold', alignSelf: 'start'}}>The following error occurred:</p>
+                      <ul style={{ paddingLeft: "20px" }}>
+                        {resp.errors.map((err, index) => (<li style={{fontFamily: "Unitext Rgular", fontSize: "1rem", }}>{err.message}</li>))}
+                      </ul>
+                      <RetryButton onClick={() => {
+                        setPageNum(2)
+                        toast.dismiss(t); // ✅ Close toast when clicking Retry
+                      }}>
+                        Retry
+                      </RetryButton>
+                    </div>
+                  ), {
+                    duration: 10000,
+                    position: "bottom-center",
+                  });
+            }
+            if(resp.success){
+                toast.success(resp.message, {
+                    duration: 5000,
+                    position: "bottom-center",
+                  });
+                setShowSuccessModal(false);
+                setPageNum(1);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            toast.error(error.message);
         }
-    }   
+        // for (let pair of data.entries()) {
+        //     console.log(pair[0], pair[1]);
+        // }
+        setShowSuccessModal(false);
+        setDisabled(false)
+    }
     const [pageNum, setPageNum] = useState(1);
     return(
-            <PropertyDetails>
+        <>
+        {
+            propertyInfo && ownerInfo ? 
+            (<PropertyDetails>
                 <NavigationContainer>
                     <LogoContainer>
                         <BackNav
@@ -354,14 +454,14 @@ const EditProperty = () => {
                                                 id="first-name"
                                                 name="firstname"
                                                 type="text"
-                                                value={firstname}
+                                                value={ownerInfo?.first_name}
                                             />
                                             <FormInput
                                                 label={"Last Name"}
                                                 id="last-name"
                                                 name="lastname"
                                                 type="text"
-                                                value={lastname}
+                                                value={ownerInfo?.last_name}
                                             />
                                         </NameContainer>
                                         <FormInput
@@ -369,30 +469,24 @@ const EditProperty = () => {
                                             id="email"
                                             name="email"
                                             type="email"
-                                            value={email}
+                                            value={ownerInfo?.email}
                                         />
                                         <FormInput
                                             label={"Phone Number"}
                                             id="phone-num"
                                             name="phone"
                                             type="text"
-                                            value={phonenumber}
+                                            value={ownerInfo?.phonenumber}
                                         />
                                         <FormInput
                                             label={"Address"}
                                             id="address"
                                             name="address"
                                             type="text"
-                                            value={address}
+                                            value={ownerInfo?.address}
                                         />  
                                         <NextBtn 
                                             onClick={() => {
-                                                if(owner.length <= 0){
-                                                    setShowError(true);
-                                                    inputRef.current.focus();
-                                                    console.log(showError);
-                                                    return;
-                                                } 
                                                 setPageNum(2);
                                             }
                                             }
@@ -416,7 +510,7 @@ const EditProperty = () => {
                                         placeholder="Enter property name"
                                         name="property_name"
                                         type="text"
-                                        value={property_name}
+                                        value={propertyInfo?.property_name}
                                         onChange = {handleChange}
                                     />
                                     <FormInput
@@ -425,7 +519,7 @@ const EditProperty = () => {
                                         placeholder="Enter property address"
                                         name="property_address"
                                         type="text"
-                                        value={property_address}
+                                        value={propertyInfo?.property_address}
                                         onChange = {handleChange}
                                     />
                                     <NameContainer>
@@ -435,12 +529,12 @@ const EditProperty = () => {
                                             name="city"
                                             placeholder="Enter property city/town"
                                             type="text"
-                                            value={city}
+                                            value={propertyInfo?.city}
                                             onChange = {handleChange}
                                         />
                                         <SelectContainer>
                                             <label>State</label>
-                                            <Option name = "state" value={state} onChange={handleChange}>
+                                            <Option name = "state" value={propertyInfo?.state} onChange={handleChange}>
                                             <option value="" disabled>Select State</option>
                                                 {
                                                     nigerianStates.map((state) => {
@@ -455,7 +549,7 @@ const EditProperty = () => {
                                     <NameContainer>
                                         <SelectContainer>
                                             <label>Property Type</label>
-                                            <Option name = "property_type" value={property_type} onChange={handleChange}>
+                                            <Option name = "property_type" value={propertyInfo?.property_type} onChange={handleChange}>
                                             <option value="" disabled>Select Property Type</option>
                                                 {
                                                     propertyType.map((type) => {
@@ -468,7 +562,7 @@ const EditProperty = () => {
                                         </SelectContainer>
                                         <SelectContainer>
                                             <label>Availabilty Status</label>
-                                            <Option name = "availability_status" value={availability_status} onChange={handleChange}>
+                                            <Option name = "availability_status" value={propertyInfo?.availability_status} onChange={handleChange}>
                                             <option value="" disabled>Select property availibility status</option>
                                                 {
                                                     availabilityStatus.map((status) => {
@@ -484,13 +578,13 @@ const EditProperty = () => {
                                         <SelectContainer>
                                             <label>Property Type</label>
                                             <Price>
-                                                <FormInput type="number" name="property_price" id=""  value={property_price} onChange={handleChange}/>
+                                                <FormInput type="number" name="property_price" id=""  value={propertyInfo?.property_price} onChange={handleChange}/>
                                                 <Currnecy></Currnecy>
                                             </Price>
                                         </SelectContainer>
                                         <SelectContainer>
                                             <label>Property Status</label>
-                                            <Option name = "property_status" value={property_status} onChange={handleChange}>
+                                            <Option name = "property_status" value={propertyInfo?.property_status} onChange={handleChange}>
                                             <option value="" disabled>Select property status</option>
                                                 {
                                                     propertyStatus.map((status) => {
@@ -507,7 +601,7 @@ const EditProperty = () => {
                                             <label>Description</label>
                                             <TextArea 
                                                 placeholder="Type property description here"
-                                                value={description}
+                                                value={propertyInfo?.description}
                                                 name="description"
                                                 onChange={handleChange}
                                             >
@@ -546,7 +640,7 @@ const EditProperty = () => {
                                     <NameContainer>
                                         <SelectContainer>
                                             <label>Bedrooms</label>
-                                            <Option name = "total_bedrooms" value={total_bedrooms} onChange={handleChange}>
+                                            <Option name = "total_bedrooms" value={propertyInfo?.total_bedrooms} onChange={handleChange}>
                                                 <option value="" disabled>Number of bedrooms</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -558,7 +652,7 @@ const EditProperty = () => {
                                         </SelectContainer>
                                         <SelectContainer>
                                             <label>Bathrooms</label>
-                                            <Option name = "total_baths" value={total_baths} onChange={handleChange}>
+                                            <Option name = "total_baths" value={propertyInfo?.total_bathrooms} onChange={handleChange}>
                                                 <option value="" disabled>Number of bathrooms</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -572,7 +666,7 @@ const EditProperty = () => {
                                     <NameContainer>
                                         <SelectContainer>
                                             <label>Toilets</label>
-                                            <Option name = "total_toilets" value={total_toilets} onChange={handleChange}>
+                                            <Option name = "total_toilets" value={propertyInfo?.total_toilets} onChange={handleChange}>
                                                 <option value="" disabled>Number of toilets</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -583,8 +677,8 @@ const EditProperty = () => {
                                             </Option>
                                         </SelectContainer>
                                         <SelectContainer>
-                                        <label>Toilets</label>
-                                            <Option name = "parking_area" value={parking_area} onChange={handleChange}>
+                                        <label>Parking Area</label>
+                                            <Option name = "parking_area" value={propertyInfo?.parking_area} onChange={handleChange}>
                                                 <option value="" disabled>Number of cars that fit</option>
                                                 <option value="Fit 1 car">Fit 1 car</option>
                                                 <option value="Fit 2 car">Fit 2 car</option>
@@ -602,7 +696,7 @@ const EditProperty = () => {
                                             placeholder="Sqm2"
                                             name="property_square_area"
                                             type="text"
-                                            value={property_square_area}
+                                            value={propertyInfo?.property_square_area}
                                             onChange = {handleChange}
                                         />
                                         <FormInput
@@ -611,7 +705,7 @@ const EditProperty = () => {
                                             placeholder="Sqm2"
                                             name="land_area"
                                             type="text"
-                                            value={land_area}
+                                            value={propertyInfo?.land_area}
                                             onChange = {handleChange}
                                         />
                                     </NameContainer>
@@ -620,11 +714,11 @@ const EditProperty = () => {
                                             <label>Select Amenties</label>
                                             <AmenitiesContainer>
                                                 {
-                                                    amenitites.map((item, index) => {
+                                                    propertyInfo?.property_amenities.map((item, index) => {
                                                         const isSelected = selectedAmenities.includes(item);
                                                         return(
                                                             <Item 
-                                                                className = {isSelected ? 'selected' : ''}
+                                                                className = 'selected'
                                                                 key={index}  
                                                                 onClick={() => {
                                                                     setSelectedAmenities((prev) => {
@@ -634,7 +728,6 @@ const EditProperty = () => {
                                                                             return [...prev, item];
                                                                         }
                                                                     });
-                                                                    property_amenities.push(selectedAmenities)
                                                                 }}
                                                             >
                                                                 {item}
@@ -676,10 +769,10 @@ const EditProperty = () => {
                                 <FormContainer>
                                     <PhotosContainer>
                                         {
-                                            imageSrcArray.map((imageSrc) => {
+                                            propertyInfo?.images.map((imageSrc) => {
                                                 return (
                                                     <div className='img-container'>
-                                                        <img src={imageSrc} alt="house photo" /> 
+                                                        <img src={`https://app.xpacy.com/src/upload/properties/${imageSrc}`} alt="house photo" /> 
                                                         <DeleteBtn onClick={() => handleDeleteImg(imageSrc) }>
                                                                 <RiDeleteBin6Line style={{width: '15px', height: '15px'}}/>
                                                         </DeleteBtn>                                                  
@@ -701,7 +794,7 @@ const EditProperty = () => {
                                         name="virtual_tour_url"
                                         type="url"
                                         placeholder= "Enter virtual tour link"
-                                        value={virtual_tour_url}
+                                        value={propertyInfo?.virtual_tour_url}
                                         onChange={handleChange}
                                     />
                                     <Location>
@@ -714,7 +807,7 @@ const EditProperty = () => {
                                             name="lat"
                                             type="text"
                                             placeholder= "Enter location latitude"
-                                            value={lat}
+                                            value={propertyInfo?.lat}
                                             onChange={handleChange}
                                         />
                                         <FormInput
@@ -723,12 +816,22 @@ const EditProperty = () => {
                                             name="long"
                                             type="text"
                                             placeholder= "Enter location longitude"
-                                            value={long}
+                                            value={propertyInfo?.long}
                                             onChange={handleChange}
                                         />
                                     </NameContainer>
-                                    <Button buttonType={{primaryBtn: true}} >Save Changes</Button>
-                                    {/* <NameContainer>
+                                    <TwoFactorContainer>
+                                        <p>Featured</p>
+                                        <div class="form-switch" >
+                                            <input type="checkbox" class="form-check-input" name='featured' value={propertyInfo.featured} style={{width: '40px', height: '25px',}} onChange={(e) => {
+                                                setPropertyInfo({
+                                                    ...propertyInfo,
+                                                    featured: e.target.checked
+                                                })
+                                            }}/>
+                                        </div>
+                                    </TwoFactorContainer>
+                                    <NameContainer>
                                         <NextBtn 
                                             onClick={() => {
                                                 setPageNum(() => pageNum - 1)
@@ -738,10 +841,8 @@ const EditProperty = () => {
                                             <MdOutlineArrowBackIos style={{width: '16px', height: '16px'}}/>
                                             <span>Previous</span>
                                         </NextBtn>
-                                        <FinishBtn >
-                                            Finish
-                                        </FinishBtn>
-                                    </NameContainer> */}
+                                        <Button buttonType={{primaryBtn: true}} disabled={disabled}>Save Changes</Button>
+                                    </NameContainer>
                                 </FormContainer>
                             </Main>
                         )
@@ -758,7 +859,37 @@ const EditProperty = () => {
                         </ModalComponent>
                     )
                 }
-            </PropertyDetails>    
+                {
+                    showSuccessModal && (
+                        <ModalComponent>
+                            <PulseLoader
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    alignSelf: "stretch",
+                                    height: "100vh",
+                                }}
+                                margin={5}
+                            />
+                        </ModalComponent>
+                    )
+                }
+            </PropertyDetails> ):
+            (
+                <PulseLoader
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  alignSelf: "stretch",
+                  height: "100vh",
+                }}
+                margin={5}
+              />
+            )
+        }
+        </>   
     );
 }
 

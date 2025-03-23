@@ -16,7 +16,9 @@ import fetchServer from "../../../utils/serverutils/fetchServer";
 import BookServices from "../book-services/bookServices";
 import userImage from '../../../assets/user-profile-img.svg';
 import isTokenExpired from "../../../utils/token/handleUserToken";
-
+import ServiceRequestDetails from "../book-services/services/service-request details/service-request-details";
+import ServiceRequest from "../book-services/services/service-request/service-request";
+import Invoice from "../user-payments/invoice/invoice";
 const UserDashboard = () => {
   const { showDashboardSidebar, setShowDashboardSidebar } =
     useContext(PageContext);
@@ -79,6 +81,7 @@ const UserDashboard = () => {
             "user-property/saved-properties",
             "https://app.xpacy.com"
           );
+          
           setSavedPropertiesArray(resp.data);
           setSavedPropertiesPagination(resp.pagination);
         } catch (error) {
@@ -89,7 +92,7 @@ const UserDashboard = () => {
         getSavedPropertiesData();
       }
     }, [userToken]);
-  
+  console.log(savedPropertiesArray);
     // getBookedServicesData
     useEffect(() => {
       const getBookedServicesData = async () => {
@@ -222,6 +225,7 @@ const UserDashboard = () => {
                   showDashboardSidebar={showDashboardSidebar}
                   setShowDashboardSidebar={setShowDashboardSidebar}
                   savedPropertiesArray={savedPropertiesArray}
+                  setSavedPropertiesArray={setSavedPropertiesArray}
                   isMobile={isMobile}
                   savedPropertiesPagination = {savedPropertiesPagination}
                   profileImage={profileImage}
@@ -293,6 +297,9 @@ const UserDashboard = () => {
               } 
               />
           </Route>
+          <Route path="service-details/:id" element={<ServiceRequestDetails/>} />
+          <Route path="reschdeule-request/:id" element={<ServiceRequest/>} />
+          <Route path="invoice/:id" element={<Invoice/>} />
         </Routes>
       )}
     </>

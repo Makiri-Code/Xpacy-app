@@ -18,9 +18,11 @@ import SortBy from "../../../../components/sort-by/sortBy"
 import DashboardFilter from "../../../../components/dashboard-filter/dasboardFilter"
 import {ReactComponent as MoneyBag} from "../../../../assets/money-bag.svg";
 import { InvoiceStatusContext } from "../../../../contexts/invoice.context"
+import { CgCalendarDates } from "react-icons/cg"
 
-const AdminPayments = ({isMobile}) => {
+const AdminPayments = ({isMobile, allInvoices, profileImage}) => {
     const navigate = useNavigate();
+    console.log(allInvoices)
     const {setInvoiceStatus} = useContext(InvoiceStatusContext)
     const dropdownOptions = ['General', 'Services', 'Properties', 'Payments'];
     const selectOptions = [
@@ -62,10 +64,20 @@ const AdminPayments = ({isMobile}) => {
             payment_amount: '4,500,000',
             payment_status: 'Incomplete',
         },
-    ]
+    ];
+    // Format date 
+    const formatDate = (dateStr) => {
+        const formattedDate = new Date(dateStr)
+                                    .toLocaleDateString('en-GB')
+                                    .split("/")
+                                    .map((part, index) => (index === 2 ? part.slice(-2) : part) )
+                                    .join("/")
+        return formattedDate;
+    }
+
     return(
         <ManagementDashboardContainer>
-            <TopNav dashboardRoute={'Payments'} isMobile={isMobile} />
+            <TopNav dashboardRoute={'Payments'} isMobile={isMobile} profileImage={profileImage} />
             <ManagementDashboardContent>
                 <HeaderContainer>
                     <Form>
@@ -195,24 +207,38 @@ const AdminPayments = ({isMobile}) => {
                         </thead>
                         <tbody>
                             {
-                                dataSet.map((tableData, index) => {
-                                    const {invoice_no, type, description, issued_date, due_date, payment_amount, payment_status } = tableData
+                                allInvoices.map((tableData, index) => {
+                                    // const {invoice_no, type, description, issued_date, due_date, payment_amount, payment_status } = tableData
                                     
                                     return (
                                         <tr key={index}>
-                                            <td><strong>{invoice_no}</strong></td>
+                                            <td><strong>{tableData.invoiceNumber}</strong></td>
                                             <td className='typeData'>
-                                                <div className={type.toLocaleLowerCase()}><MoneyBag style={{width: '20px', height: '20px'}}/></div>
-                                                {type}
+                                               {
+                                                tableData.invoice_reason === 'rent' && (
+                                                    <>
+                                                         <div className={tableData.invoice_reason .toLocaleLowerCase()}><MoneyBag style={{width: '20px', height: '20px'}}/></div>
+                                                         {tableData.invoice_reason.charAt(0).toUpperCase() + tableData.invoice_reason.slice(1).toLocaleLowerCase()}
+                                                    </>
+                                                )
+                                               }
+                                               {
+                                                tableData.invoice_reason === 'services' && (
+                                                    <>
+                                                         <div className={tableData.invoice_reason .toLocaleLowerCase()}><CgCalendarDates style={{width: '20px', height: '20px'}}/></div>
+                                                         {tableData.invoice_reason.charAt(0).toUpperCase() + tableData.invoice_reason.slice(1).toLocaleLowerCase()}
+                                                    </>
+                                                )
+                                               }
                                             </td>
-                                            <td>{description}</td>
-                                            <td>{issued_date}</td>
-                                            <td>{due_date}</td>
-                                            <td>₦ {payment_amount}</td>
-                                            <td><div className={payment_status.toLocaleLowerCase()}>{payment_status}</div></td>
+                                            <td>{tableData.invoice_reason.charAt(0).toUpperCase() + tableData.invoice_reason.slice(1).toLocaleLowerCase()}</td>
+                                            <td>{formatDate(tableData.issuedDate)}</td>
+                                            <td>{formatDate(tableData.dueDate)}</td>
+                                            <td style={{fontWeight: 700}}>₦{Number(tableData.amountOutstanding).toLocaleString()}</td>
+                                            <td><div className={tableData.status}>{tableData.status.charAt(0).toUpperCase() + tableData.status.slice(1).toLocaleLowerCase()}</div></td>
                                             <td style={{textDecoration: 'underline'}} onClick={() => {
-                                                setInvoiceStatus(payment_status);
-                                                navigate('/dashboard/admin/invoice');
+                                                setInvoiceStatus(tableData.status);
+                                                navigate(`/dashboard/admin/invoice/${tableData.id}`);
                                             }} >
                                                 <Link >View</Link></td>
                                         </tr>

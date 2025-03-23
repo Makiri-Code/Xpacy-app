@@ -213,3 +213,37 @@ export const PropertyModalContainer= styled.div`
         }
     }
 `
+export const OptionsContainer = styled.div`
+    position: absolute;
+    right: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 152px;
+    border-radius: 8px;
+    border: 1.5px solid var(--Primary-Primary200, #C7D9E5);
+    background: var(--Base-Base-White, #FFF);
+    box-shadow: 0px 10px 10px 0px rgba(32, 54, 69, 0.10);
+    z-index: 100;
+    .option-item{
+        align-self: stretch;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 16px 10px 16px 16px;
+        cursor: pointer;
+        border-bottom: 1px solid #C7D9E5;
+        span{
+            color: var(--Base-Base-Black, #333);
+            font-family: "Unitext Regular";
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%; /* 1.2rem */
+        }
+    }
+    .option-item:last-of-type{
+        border: none;
+    }
+`

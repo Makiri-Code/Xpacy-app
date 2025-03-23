@@ -5,6 +5,7 @@ import { MdOutlineManageAccounts } from "react-icons/md";
 import { BiBuildings } from "react-icons/bi";
 import { FaBuildingUser } from "react-icons/fa6";
 import { TbUsersGroup } from "react-icons/tb";
+import { TbCalendarMonth } from "react-icons/tb";
 import TopNav from '../navigation/topnav/top-nav';
 import propertyImage from '../../../../assets/Property-Image.png';
 import {ReactComponent as MoneyBag} from "../../../../assets/money-bag.svg"
@@ -18,14 +19,11 @@ import {
     Header,
     NotificationTable,
  } from './management_dashboard.styles';
-const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProperties, allServices, allOwners, allUsers}) => {
-    
+const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProperties, allServices, allOwners, allUsers, profileImage}) => {
     
     const navigate = useNavigate();
-    const [firstName, setFirstName] = useState(userProfile?.username)
-    if(userProfile?.username.includes(".")){
-        setFirstName(userProfile?.username.split(".")[0]);
-    }
+    const [firstName, setFirstName] = useState(userProfile?.username.split(" ")[0])
+    
     
     // Convert to Sentence case
     const toSentenceCase = (str) => {
@@ -55,10 +53,9 @@ const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProper
             number: allUsers?.length
         },
     ];
-    console.log(allProperties)
     return (
         <ManagementDashboardContainer>
-            <TopNav dashboardRoute={'Dashboard Overview'} isMobile={isMobile} userProfile={userProfile}/>
+            <TopNav dashboardRoute={'Dashboard Overview'} isMobile={isMobile} userProfile={userProfile} profileImage={profileImage}/>
             <ManagementDashboardContent>
                 <Heading>Welcome {toSentenceCase(firstName)},</Heading>
                 {/* Overview */}
@@ -66,10 +63,10 @@ const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProper
                     <p>Quick Overview</p>
                     <QuickOverviewCard>
                         {
-                            overviewCardArray.map((card)=> {
+                            overviewCardArray.map((card, index)=> {
                                 const { name, number} = card;
                                 return(
-                                    <div className="card">
+                                    <div className="card" key={index}>
                                         <div className="building-icon">
                                             <card.icon style={{width: '24px', height: '24px'}}/>
                                         </div>
@@ -97,7 +94,9 @@ const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProper
                         </thead>
                         <tbody>
                             {
-                                allNotifications.map((item) => {
+                                allNotifications?.toSpliced(3).map((item) => {
+                                    const dateStr = new Date(item?.date);
+
                                     return(
                                         <tr>
                                             <td className='typeData'>
@@ -106,14 +105,17 @@ const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProper
                                                         item.notification_type === 'Payment' && <MoneyBag style={{width: '20px', height: '20px'}}/>
                                                     }
                                                     {
-                                                        item.notification_type === 'Properties' && <BiBuildings style={{width: '20px', height: '20px'}}/>
+                                                        item.notification_type === 'Property Update' && <BiBuildings style={{width: '20px', height: '20px'}}/>
+                                                    }
+                                                    {
+                                                        item.notification_type === 'Service Request' && <TbCalendarMonth style={{width: '20px', height: '20px'}}/>
                                                     }
                                                 </div>
-                                                Payment
+                                                {item?.notification_type}
                                             </td>
-                                            <td>Rent overdue for 2-Bedroom Apartment, Lagos</td>
-                                            <td>19/09/24</td>
-                                            <td>12:00pm</td>
+                                            <td>{item?.message}</td>
+                                            <td>{dateStr.toLocaleDateString('en-GB')}</td>
+                                            <td>{dateStr.toLocaleTimeString('en-US', {hour: 'numeric', minute: '2-digit', hour12: true})}</td>
                                         </tr>
                                     )
                                 })
@@ -125,7 +127,7 @@ const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProper
                 <Container>
                     <Header>
                         <p>Property List</p>
-                        <Link>View All</Link>
+                        <Link to={'/dashboard/admin/properties'}>View All</Link>
                     </Header>
                     <NotificationTable>
                         <thead>
@@ -136,16 +138,22 @@ const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProper
                             <th>Current Price</th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className='typeData'>
-                                    <div style = {{width: '64px', height: '48px', background: `url(${propertyImage}) lightgray 50% / cover no-repeat`}}></div>
-                                    3 Bedroom Apartment 
-                                </td>
-                                <td>Ikoyi, Lagos</td>
-                                <td><strong>Joy Osigwe</strong><br/> 08000000000,<br/> joyosigwe@gmail.com</td>
-                                <td><div className='rented' >Rented</div></td>
-                                <td><strong>₦4,500,000/year</strong></td>
-                            </tr>
+                            {
+                                allProperties?.properties.toSpliced(5).map((property) => {
+                                    return(
+                                        <tr key={property.id}>
+                                            <td className='typeData'>
+                                                <div style = {{width: '64px', height: '48px', background: `url(https://app.xpacy.com/src/upload/properties/${property?.images[0]}) lightgray 50% / cover no-repeat`}}></div>
+                                                {property.property_name} 
+                                            </td>
+                                            <td>{property.state}</td>
+                                            <td><strong>{property.propertyOwner.first_name}</strong><br/> {property.propertyOwner.phone},<br/> {property.propertyOwner.email}</td>
+                                            <td><div className={property.availability_status.toLowerCase()} >{property.availability_status}</div></td>
+                                            <td><strong>₦{property.property_price.toLocaleString()}/year</strong></td>
+                                        </tr>
+                                    )
+                                })
+                            }
                         </tbody>
                     </NotificationTable>
                 </Container>
@@ -153,7 +161,7 @@ const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProper
                 <Container>
                     <Header>
                         <p>Service Request Overview</p>
-                        <Link>View All</Link>
+                        <Link to={'/dashboard/admin/services'}>View All</Link>
                     </Header>
                     <NotificationTable>
                         <thead>
@@ -165,14 +173,20 @@ const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProper
                             <th>Service Status</th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Plumbing</td>
-                                <td>3 Bedroom flat Ikoyi, Lagos</td>
-                                <td>Jerry Brigs</td>
-                                <td>15/04/24</td>
-                                <td>12:00pm</td>
-                                <td><div className='in-progress' >In progress</div></td>
-                            </tr>
+                            {
+                                allServices?.toSpliced(5).map((service) => {
+                                    return(
+                                            <tr>
+                                                <td>{service.service_type}</td>
+                                                <td>{service.address}</td>
+                                                <td>{service.propertyOwner.first_name}</td>
+                                                <td>{service.scheduled_date}</td>
+                                                <td>{service.scheduled_time}</td>
+                                                <td><div className={service.service_status.toLowerCase()} >{service.service_status}</div></td>
+                                            </tr>
+                                    )
+                                })
+                            }
                         </tbody>
                     </NotificationTable>
                 </Container>

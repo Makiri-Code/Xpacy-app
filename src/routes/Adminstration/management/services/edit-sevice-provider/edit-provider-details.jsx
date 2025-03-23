@@ -1,5 +1,5 @@
-import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext, useEffect, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import FormInput from "../../../../../components/form-input/formInput.component";
 import Button from "../../../../../components/button/button";
@@ -45,43 +45,45 @@ import {
     } from "../../../../services/book-services";
 import { IoArrowBack } from "react-icons/io5";
 import { SlOptionsVertical } from "react-icons/sl";
-
+import fetchServer from "../../../../../utils/serverutils/fetchServer";
+import { toast } from "sonner";
 const EditServiceProvider = () => {
-    const {isProviderAssigned} = useContext(UserContext);
+    const {isProviderAssigned, userToken, server} = useContext(UserContext);
     const navigate = useNavigate();
+    const {id} = useParams();
+    const btnRef = useRef(null);
     const [editStatus, setEditStatus] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
-    const [formFields, setFormFields] = useState({
-        providerName: 'Bright Plumbing',
-        firstName: 'Bright',
-        lastName: 'Nelson',
-        email: 'bplumbing@gmail.com',
-        phoneNumber: '+234 000000000',
-        address: '16, Awolowo Way, Ikoyi, Lagos',
-        serviceType: 'Plumbing',
-        city: 'Ikoyi',
-        state: 'Lagos',
-        buildingType: 'Residential, Commercial',
-        availableDays: 'Mondays-Fridays',
-        availableTime: '8am - 6pm',
-    });
+    const defaultFormFields = {
+        provider_name: '',
+        contact_first_name: '',
+        contact_last_name: '',
+        email: '',
+        phone: '',
+        address: '',
+        service_type: '',
+        city: '',
+        state: '',
+        buildingType: '',
+        days_available: '',
+        time_available: '',
+    }
+    const [formFields, setFormFields] = useState(defaultFormFields);
 
     const {
-            providerName,
-            firstName, 
-            lastName, 
+            provider_name,
+            contact_first_name, 
+            contact_last_name, 
             email, 
-            phoneNumber, 
+            phone, 
             address, 
-            serviceDate,
-            serviceTime, 
-            serviceType, 
+            service_type, 
             buildingType,
             city,
             state,
-            availableDays,
-            availableTime,
+            days_available,
+            time_available,
         } = formFields;
 
     const handleChange = (e) => {
@@ -90,14 +92,27 @@ const EditServiceProvider = () => {
             ...formFields,
             [name]: value,
         });
-        
-        
 
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        btnRef.current.disabled = true;
+        const response = await fetchServer("PUT", formFields, userToken, `service-provider/update-service-provider/${id}`, server);
+        console.log(response);
+        toast.success(response.message);
+
+        btnRef.current.disabled = false;
 
     }
+    useEffect(() => {
+        const getProviderDetails = async () => {
+            const response = await fetchServer('GET', {}, userToken, `service-provider/get-service-provider/${id}`, server);
+            if(response.success){
+                setFormFields(response.serviceProvider);
+            }
+        }
+        getProviderDetails();
+    }, []);
     return (
         <>
             <BookServicesContainer>
@@ -121,37 +136,41 @@ const EditServiceProvider = () => {
                     <BookServicesForm onSubmit={handleSubmit}>
                         <FormInput
                             label={"Provider's Name"}
+                            required
                             id={'provider-name'}
-                            // placeholder={'Enter your first name'}
-                            name={'providerName'}
+                            placeholder={'Enter provider first name'}
+                            name={'provider_name'}
                             type={'text'}
-                            value={providerName}
+                            value={provider_name}
                             onChange={handleChange}
                         />
                         <Names>
                             <FormInput
                                 label={"Contact's First Name"}
+                                required
                                 id={'first-name'}
-                                // placeholder={'Enter your first name'}
-                                name={'firstName'}
+                                placeholder={'Enter provider first name'}
+                                name={'contact_first_name'}
                                 type={'text'}
-                                value={firstName}
+                                value={contact_first_name}
                                 onChange={handleChange}
                             />
                             <FormInput
                                 label={"Contact's Last Name"}
                                 id={'last-name'}
-                                // placeholder={'Enter your last name'}
-                                name={'lastName'}
+                                required
+                                placeholder={'Enter provider last name'}
+                                name={'contact_last_name'}
                                 type={'text'}
-                                value={lastName}
+                                value={contact_last_name}
                                 onChange={handleChange}
                             />
                         </Names>
                         <FormInput
                             label={'Email'}
                             id={'email'}
-                            // placeholder={'Enter your email address'}
+                            required
+                            placeholder={'Enter provider email address'}
                             name={'email'}
                             type={'email'}
                             value={email}
@@ -160,82 +179,91 @@ const EditServiceProvider = () => {
                         <FormInput
                             label={'Phone Number'}
                             id={'phone'}
-                            // placeholder={'+234000 000 0000'}
-                            name={'phoneNumber'}
+                            required
+                            placeholder={'+234000 000 0000'}
+                            name={'phone'}
                             type={'tel'}
-                            value={phoneNumber}
+                            value={phone}
                             onChange={handleChange}
                         />
                         <FormInput
                             label={'Address'}
                             id={'property-address'}
-                            // placeholder={'Enter your address'}
+                            required
+                            placeholder={'Enter provider address'}
                             name={'address'}
                             type={'text'}
                             value={address}
                             onChange={handleChange}
                         />
-                            <Names>
-                                <FormInput
-                                    label={'City/Town'}
-                                    id={'city'}
-                                    type={'text'}
-                                    name={'city'}
-                                    value={city}
-                                    onChange={handleChange}
-                                />
-                                <FormInput
-                                    label={'State'}
-                                    id={'state'}
-                                    type={'text'}
-                                    name={'state'}
-                                    value={state}
-                                    onChange={handleChange}
-                                />
-                            </Names>
-                            <Names>
-                                <FormInput
-                                    label={'Service Type'}
-                                    id={'service-type'}
-                                    type={'text'}
-                                    name={'serviceType'}
-                                    value={serviceType}
-                                    onChange={handleChange}
-                                />
-                                <FormInput
-                                    label={'Building Type'}
-                                    id={'building-type'}
-                                    type={'text'}
-                                    name={'buildingType'}
-                                    value={buildingType}
-                                    onChange={handleChange}
-                                />
-                            </Names>
-                            <Names>
-                                <FormInput
-                                    label={'Available days'}
-                                    id={'available-days'}
-                                    type={'text'}
-                                    name={'availableDays'}
-                                    value={availableDays}
-                                    onChange={handleChange}
-                                />
-                                <FormInput
-                                    label={'Available time'}
-                                    id={'available-time'}
-                                    type={'text'}
-                                    name={'availableTime'}
-                                    value={availableTime}
-                                    onChange={handleChange}
-                                />
-                            </Names>
-                            <div style={{alignSelf: 'center'}}>
-                                <Button 
-                                    buttonType={{primaryBtn: true}}
-                                >
-                                    Save Changes
-                                </Button>
-                            </div>
+                        <Names>
+                            <FormInput
+                                label={'City/Town'}
+                                id={'city'}
+                                required
+                                type={'text'}
+                                name={'city'}
+                                value={city}
+                                onChange={handleChange}
+
+                            />
+                            <FormInput
+                                label={'State'}
+                                id={'state'}
+                                type={'text'}
+                                required
+                                name={'state'}
+                                value={state}
+                                onChange={handleChange}
+                            />
+                        </Names>
+                        <Names>
+                            <FormInput
+                                label={'Service Type'}
+                                id={'service-type'}
+                                type={'text'}
+                                required
+                                name={'service_type'}
+                                value={service_type}
+                                onChange={handleChange}
+                            />
+                            <FormInput
+                                label={'Building Type'}
+                                id={'building-type'}
+                                type={'text'}
+                                name={'buildingType'}
+                                value={buildingType}
+                                onChange={handleChange}
+                            />
+                        </Names>
+                        <Names>
+                            <FormInput
+                                label={'Available days'}
+                                id={'available-days'}
+                                type={'text'}
+                                required
+                                name={'days_available'}
+                                value={days_available}
+                                onChange={handleChange}
+                            />
+                            <FormInput
+                                label={'Available time'}
+                                id={'available-time'}
+                                required
+                                type={'text'}
+                                name={'time_available'}
+                                value={time_available}
+                                onChange={handleChange}
+                            />
+                        </Names>
+                        <div style={{alignSelf: 'center', marginTop: '32px'}}>
+                            <Button 
+                                buttonType={{primaryBtn: true}}
+                                btnRef={btnRef}
+                            >
+                            Save Changes
+                            </Button>
+                        </div>
                     </BookServicesForm>
                 </BookServicesContent>
             </BookServicesContainer>

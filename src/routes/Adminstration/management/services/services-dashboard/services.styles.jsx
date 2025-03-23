@@ -15,7 +15,7 @@ export const SummaryContainer = styled.div`
     .card1{
         grid-area: one;
         position: relative;
-        padding: 21px 74% 29px 24px;
+        padding: 21px 72% 29px 24px;
         border-radius: 8px;
         overflow: hidden;
         border: 1px solid var(--Primary-Primary200, #C7D9E5);
@@ -106,7 +106,7 @@ export const Icon = styled.div`
     align-items: center;
     width: 40px;
     height: 40px;
-    background-color: #E3ECF2;
+    background-color: #FFF8BE;
     border-radius: 50%;
 `
 export const ServicesCardFooter = styled.div`
@@ -172,12 +172,12 @@ export const ChartContainer = styled.div`
 `
 export const OptionsContainer = styled.div`
     position: absolute;
-    right: 0px;
+    right: 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 216px;
+    // width: 216px;
     border-radius: 8px;
     border: 1.5px solid var(--Primary-Primary200, #C7D9E5);
     background: var(--Base-Base-White, #FFF);

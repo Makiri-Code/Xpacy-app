@@ -1,6 +1,5 @@
-import { FormSelect } from 'react-bootstrap';
-import styled from 'styled-components';
-import { IoClose } from 'react-icons/io5';
+import styled from "styled-components";
+import { FormSelect } from "react-bootstrap";
 export const BookServicesContainer = styled.div`
     display: flex;
     padding: 0px 7%;
@@ -8,31 +7,44 @@ export const BookServicesContainer = styled.div`
     align-items: center;
     justify-content: center;
     gap: 48px;
+    @media only screen and (max-width: 600px){
+        width: 100%;
+        padding: 0px 24px;
+    }
 `
 
-export const UploadModalContainer = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: inline-flex;
-    padding: 56px 84px 153px 85px;
-    flex-direction: column;
-    gap: 64px;
-    background: var(--Base-Base-White, #FFF);
-    width: 80%;
+export const NavigationContainer = styled.nav`
+        width: 100%;
+        height: 80px;
+        display: flex;
+        padding: 24px 104px;
+        align-items: start;
+        background: var(--Base-Base-White, #FFF);
+        border-bottom: 1px solid #E3ECF2;
+        @media only screen and (max-width: 600px){
+            padding: 24px 0px;
+        }
 `
-export const CloseIcon = styled(IoClose)`
-    width: 32px;
-    height: 32px;
-    align-self: flex-end;
-    cursor: pointer;
-`
-export const BookServicesNav = styled.nav`
+
+export const LogoContainer = styled.div`
     display: flex;
+    width: 60%;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
-    align-self: stretch;
+    im{
+        width: 153.6px;
+        height: 31.725px;
+    }
+    @media only screen and (max-width: 600px){
+        width: 100%;
+    }
+
+`
+export const BackNav = styled.div`
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    cursor: pointer;
     span{
         color: var(--Base-Base-Black, #333);
         font-family: "Unitext Regular";
@@ -40,6 +52,9 @@ export const BookServicesNav = styled.nav`
         font-style: normal;
         font-weight: 400;
         line-height: 120%; /* 1.05rem */
+    }
+    &:hover{
+        text-decoration: underline;
     }
 `
 
@@ -50,30 +65,8 @@ export const BookServicesContent = styled.div`
     align-items: center;
     gap: 48px;
     width: 67%;
-`
-export const Title = styled.div`
-    display: flex;
-    // width: 62.4%;
-    flex-direction: column;
-    gap: 16px;
-    h1{
-        color: var(--Primary-Primary, #203645);
-        text-align: center;
-        font-size: 1.75rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 120%; /* 2.1rem */
-        margin: 0;
-    }
-    p{
-        color: var(--Neutrals-Base-Black, #333);
-        text-align: center;
-        font-family: "Unitext Regular";
-        font-size: 1rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 150%; /* 1.5rem */
-        letter-spacing: 0.01rem;
+    @media only screen and (max-width: 600px){
+        width: 100%;
     }
 `
 export const BookServicesForm = styled.form`
@@ -84,12 +77,56 @@ export const BookServicesForm = styled.form`
     margin-bottom: 120px;
     align-self: stretch;
 `
+export const Heading = styled.div`
+    align-self: stretch;
+
+    h2{
+        color: var(--Base-Base-Black, #333);
+        text-align: center;
+        font-family: "Florencesans Exp";
+        font-size: 1.75rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%; /* 2.1rem */
+        margin-bottom: 24px;
+    }
+    .sub-heading{
+        align-self: stretch;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p{
+            color: var(--Neutrals-Neutrals900, #585858);
+            font-family: "Unitext Regular";
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 150%; /* 1.5rem */
+            letter-spacing: 0.01rem;
+        }
+    }
+    @media only screen and (max-width: 600px){
+        h2{
+        font-size: 1.375rem;
+        line-height: 141.4%;
+        }
+        .sub-heading{
+            p{
+                font-weight: 700;
+            }   
+        }
+    }
+`
 
 export const Names = styled.div`
     align-self: stretch;
     display: flex;
     justify-content: space-between;
     gap: 24px;
+    @media only screen and (max-width: 600px){
+        flex-direction: column;
+
+    }
 `
 
 export const SelectContainer = styled.div`
@@ -99,6 +136,9 @@ export const SelectContainer = styled.div`
     align-items: flex-start;
     padding: 16px 0px;
     align-self: stretch;
+    @media only screen and (max-width: 600px){
+        padding: unset;
+    }
 `
 
 export const SelectOptionContainer = styled.div`
@@ -106,6 +146,9 @@ export const SelectOptionContainer = styled.div`
     grid-template-columns: 1fr 1fr;
     align-self: stretch;
     gap: 24px;
+    @media only screen and (max-width: 600px){
+        grid-template-columns: 1fr;
+    }
 `
 export const SelectOption = styled.div`
     display: flex;
@@ -126,10 +169,10 @@ export const SelectOption = styled.div`
         align-items: center;
         input{
             position: absolute;
-            top: 10px;
-            right: 23px;
-            width: 7%;
-            height: auto;
+            top: 0;
+            right: 9px;
+            width: 8%;
+            height: 100%;
             opacity: 0;
             cursor: pointer;
             box-sizing: border-box;
@@ -205,38 +248,6 @@ export const MessageContainer = styled.div`
         letter-spacing: 0.01rem;
     }
 `
-export const AttachmentContainer = styled.div`
-    display: flex;
-    gap: 8px;
-    margin-bottom: 24px;
-    cursor: pointer;
-    div{
-        position: relative;
-        .attachment-icon {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;    
-            height: 100%;
-            cursor: pointer;
-        }
-        input[type=file]{
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            box-sizing: border-box;
-        }
-    }
-    img{
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-    }
-
-`
 
 export const BookServicesModal = styled.div`
     display: flex;
@@ -266,87 +277,30 @@ export const BookServicesModal = styled.div`
         align-self: flex-start;
     }
 `
-// .book-services-container{
+export const AttachmentContainer = styled.div`
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    div{
+        position: relative;
+        .attachment-icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;    
+            height: 100%;
+            cursor: pointer;
+        }
+        input[type=file]{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            box-sizing: border-box;
+        }
+    }
 
-//     .book-services-nav{
-//         
-//     }
-//     .book-services-content{
+`
 
-//         .title{
-
-//         }
-//         form{
-
-//             
-//             .name-container{
-
-//             }
-//             .select-container{
-
-//                 .select-options{
-
-//                     
-
-
-//                     input[type=date], input[type=time]{
-
-//                     }
-                    
-
-//                 }
-//             }
-//             .message-container{
-//                 
-//             }
-//             .attachment{
-
-//             }
-
-//             input[type=file]:hover{
-//                 cursor: pointer;
-//             }
-//         }
-//     }
-// }
-
-// .book-services-modal{
-
-// }
-
-// @media only screen and (max-width: 600px){
-//     .book-services-container{
-//         .book-services-content{
-//             .title{
-//                 width: 100%;
-//                 h1{
-//                     font-size: 1.375rem;
-//                 }
-//             }
-//             form{
-//                 width: 100%;
-//                 .name-container{
-//                     flex-direction: column;
-//                 }
-//                 .select-container{
-//                     .select{
-//                         flex-direction: column;
-//                         select{
-//                             width: 100%;
-//                         }
-//                         .custom-select{
-//                             width: 100%;
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-//     .book-services-modal{
-//         position: absolute;
-//         top: 50%;
-//         left: 50%;
-//         transform: translate(-50%, -50%);
-//         width: 90%;
-//     }
-// }

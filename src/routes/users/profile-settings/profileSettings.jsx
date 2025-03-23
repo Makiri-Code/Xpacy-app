@@ -131,7 +131,6 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
             });
         
             const data = await response.json();
-            console.log("Server response:", data);
             setProfileImage(data.display_picture);
             setShowLoader(false);
           } catch (error) {

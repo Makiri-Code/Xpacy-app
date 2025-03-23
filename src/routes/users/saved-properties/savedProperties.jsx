@@ -18,6 +18,7 @@ import styled from "styled-components";
 const SavedProperties = ({
   profileImage,
   savedPropertiesArray,
+  setSavedPropertiesArray,
   isMobile,
   showDashboardSidebar,
   setShowDashboardSidebar,
@@ -35,6 +36,7 @@ const SavedProperties = ({
       option: "Oldest",
     },
   ];
+  console.log(savedPropertiesArray)
   const cardStytles = {
     cardWidth: "330px",
     cardHeight: "auto",
@@ -50,10 +52,10 @@ const SavedProperties = ({
     showDivider: false,
     showButtons: true,
     bodyPadding: "16px",
+    
   };
   const EmptySavedPropertyContainer = styled.div`
     width: 100%;
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,7 +63,7 @@ const SavedProperties = ({
   `;
   return (
     <>
-      {savedPropertiesArray && notifications ? (
+      {savedPropertiesArray.length > 0 && notifications ? (
         <UserDashboardContainer>
           <DashboardTopNav
             dashboardRoute={"Saved Properties"}
@@ -91,13 +93,15 @@ const SavedProperties = ({
             </div>
             <div className="product-card-list">
               <div className="product-card-container">
-                {savedPropertiesArray.map((property) => {
+                {savedPropertiesArray?.map((property) => {
                   return (
                     <Card
                       propertise={property.propertySaved}
                       cardStyles={cardStytles}
                       savedProperty={true}
                       savedPropertyId={property.id}
+                      setSavedPropertiesArray={setSavedPropertiesArray}
+                      savedPropertiesPagination={savedPropertiesPagination}
                     />
                   );
                 })}

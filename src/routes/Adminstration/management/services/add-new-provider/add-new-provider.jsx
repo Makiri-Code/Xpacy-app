@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import FormInput from "../../../../../components/form-input/formInput.component";
@@ -45,42 +45,49 @@ import {
     } from "../../../../services/book-services";
 import { IoArrowBack } from "react-icons/io5";
 import { FiPlus } from "react-icons/fi";
-const AddNewProvider = () => {
-    const {isProviderAssigned} = useContext(UserContext);
-    const navigate = useNavigate();
-    const [editStatus, setEditStatus] = useState(false);
-    const [showModal, setShowModal] = useState(false);
+import { ClipLoader } from "react-spinners";
+import isTokenExpired from "../../../../../utils/token/handleUserToken";
+import fetchServer from "../../../../../utils/serverutils/fetchServer";
+import { toast } from "sonner";
 
-    const [formFields, setFormFields] = useState({
-        providerName: '',
-        firstName: '',
-        lastName: '',
+const AddNewProvider = () => {
+    const {isProviderAssigned, userToken, server} = useContext(UserContext);
+    const btnRef = useRef(null);
+    const defaultFormFields = {
+        provider_name: '',
+        contact_first_name: '',
+        contact_last_name: '',
         email: '',
-        phoneNumber: '',
+        phone: '',
         address: '',
-        serviceType: '',
+        service_type: '',
         city: '',
         state: '',
         buildingType: '',
-        availableDays: '',
-        availableTime: '',
-    });
+        days_available: '',
+        time_available: '',
+    }
+    const navigate = useNavigate();
+    const [editStatus, setEditStatus] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [showLoader, setShowLoader] = useState(false);
+    const [formFields, setFormFields] = useState(defaultFormFields);
 
     const {
-            providerName,
-            firstName, 
-            lastName, 
+            provider_name,
+            contact_first_name, 
+            contact_last_name, 
             email, 
-            phoneNumber, 
+            phone, 
             address, 
             serviceDate,
             serviceTime, 
-            serviceType, 
+            service_type, 
             buildingType,
             city,
             state,
-            availableDays,
-            availableTime,
+            days_available,
+            time_available,
         } = formFields;
 
     const handleChange = (e) => {
@@ -93,9 +100,21 @@ const AddNewProvider = () => {
         
 
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
+        btnRef.current.disabled = true;
+        setShowLoader(true);
+         if(isTokenExpired(userToken)){
+            navigate('/admin/auth/log-in');
+            return;
+        }
+        const response = await fetchServer('POST', formFields, userToken, 'service-provider/create-service-provider', server);
+        if(response.success){
+            toast.success(response.message);
+            setFormFields(defaultFormFields);
+        }
+        btnRef.current.disabled = false;
+        setShowLoader(false);
     }
     return (
         <>
@@ -123,9 +142,9 @@ const AddNewProvider = () => {
                             label={"Provider's Name"}
                             id={'provider-name'}
                             placeholder={"Enter provider’s company name"}
-                            name={'providerName'}
+                            name={'provider_name'}
                             type={'text'}
-                            value={providerName}
+                            value={provider_name}
                             onChange={handleChange}
                         />
                         <Names>
@@ -134,9 +153,9 @@ const AddNewProvider = () => {
                                 label={"Contact's First Name"}
                                 id={'first-name'}
                                 placeholder={"Enter contact’s first name"}
-                                name={'firstName'}
+                                name={'contact_first_name'}
                                 type={'text'}
-                                value={firstName}
+                                value={contact_first_name}
                                 onChange={handleChange}
                             />
                             <FormInput
@@ -144,9 +163,9 @@ const AddNewProvider = () => {
                                 label={"Contact's Last Name"}
                                 id={'last-name'}
                                 placeholder={"Enter contact’s last name"}
-                                name={'lastName'}
+                                name={'contact_last_name'}
                                 type={'text'}
-                                value={lastName}
+                                value={contact_last_name}
                                 onChange={handleChange}
                             />
                         </Names>
@@ -165,9 +184,9 @@ const AddNewProvider = () => {
                             label={'Phone Number'}
                             id={'phone'}
                             placeholder={"Enter provider’s phone number"}
-                            name={'phoneNumber'}
+                            name={'phone'}
                             type={'tel'}
-                            value={phoneNumber}
+                            value={phone}
                             onChange={handleChange}
                         />
                         <FormInput
@@ -209,8 +228,8 @@ const AddNewProvider = () => {
                                     placeholder={"E.g. Plumbing"}
                                     id={'service-type'}
                                     type={'text'}
-                                    name={'serviceType'}
-                                    value={serviceType}
+                                    name={'service_type'}
+                                    value={service_type}
                                     onChange={handleChange}
                                 />
                                 <FormInput
@@ -231,8 +250,8 @@ const AddNewProvider = () => {
                                     placeholder={"Enter provider’s available days"}
                                     id={'available-days'}
                                     type={'text'}
-                                    name={'availableDays'}
-                                    value={availableDays}
+                                    name={'days_available'}
+                                    value={days_available}
                                     onChange={handleChange}
                                 />
                                 <FormInput
@@ -241,17 +260,22 @@ const AddNewProvider = () => {
                                     placeholder={"Enter provider’s available time"}
                                     id={'available-time'}
                                     type={'text'}
-                                    name={'availableTime'}
-                                    value={availableTime}
+                                    name={'time_available'}
+                                    value={time_available}
                                     onChange={handleChange}
                                 />
                             </Names>
-                            <div style={{alignSelf: 'center'}}>
+                            <div style={{alignSelf: 'center', marginTop: '32px'}}>
                                 <Button 
                                     buttonType={{primaryBtn: true}}
                                     type={"submit"}
+                                    btnRef={btnRef}
                                 >
-                                    <FiPlus style={{width: '24px', height: '24px'}}/>Add New Provider
+                                    <FiPlus style={{width: '24px', height: '24px'}}/>
+                                    {
+                                        showLoader ? (<ClipLoader size={25} color='#fff'/>) : ( 'Add New Provider')
+                                    }
+                                    
                                 </Button>
                             </div>
                     </BookServicesForm>

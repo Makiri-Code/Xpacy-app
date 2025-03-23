@@ -4,7 +4,7 @@ import {
     Container,
  } from "../dashboard/management_dashboard.styles";
 import { Form } from "react-bootstrap";
-import { IconContainer, Icon, ServicesCardFooter, OptionsContainer, } from "../services/services-dashboard/services.styles";
+import { IconContainer, Icon, ServicesCardFooter,  } from "../services/services-dashboard/services.styles";
 import { HeaderContainer, Select, } from "../properties/properties.styles";
 import Button from "../../../../components/button/button";
 import TopNav from "../navigation/topnav/top-nav";
@@ -12,7 +12,7 @@ import { FiUpload } from "react-icons/fi";
 import { IoArrowUp, IoClose } from "react-icons/io5";
 import { RiDeleteBin6Line, RiUserSettingsLine } from "react-icons/ri";
 import ServicesBarChart from "../../../../components/services-barchart/services-barchart"
-import { UsersAnalyticsContainer, ChartContainer, SummaryUsers, AddOwnerModalForm, AddOwnerModalContent, PropertyModalContainer, } from "./users.styles";
+import { UsersAnalyticsContainer, ChartContainer, SummaryUsers, AddOwnerModalForm, AddOwnerModalContent, OptionsContainer, PropertyModalContainer, } from "./users.styles";
 import { NotificationTable } from "../dashboard/management_dashboard.styles";
 import profileImage from "../../../../assets/profile-picture.png"
 import { FilterContainer, FilterItem, SearchBoxContainer, SearchBox, SearchIcon } from "../notification/notification.styles";
@@ -33,9 +33,11 @@ import { FaCircleCheck } from "react-icons/fa6";
 import fetchServer from "../../../../utils/serverutils/fetchServer";
 import { UserContext } from "../../../../contexts/userContext";
 import { MdOutlineError } from "react-icons/md";
-
-const UsersComponent = ({isMobile, userProfile}) => {
+import { PiUsersThreeBold } from "react-icons/pi";
+const UsersComponent = ({isMobile, userProfile, allUsers, allAdmin, allOwners, profileImage}) => {
     const {userToken, server} = useContext(UserContext);
+    console.log(allOwners);
+    console.log(allUsers);
     const defaultFormFields = {
         first_name: '',
         last_name: '',
@@ -44,9 +46,9 @@ const UsersComponent = ({isMobile, userProfile}) => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {first_name, last_name, email} = formFields;
     const [showOptionsDropdown, setShowOptionsDropdown] = useState(false);
-    const [showOptionsDropdownUsersList, setShowOptionsDropdownUsersList] = useState(false);    
-    const [showOptionsDropdownAdminList, setShowOptionsDropdownAdminList] = useState(false);    
-    const [showOptionsDropdownOwnerList, setShowOptionsDropdownOwnerList] = useState(false);    
+    const [showOptionsDropdownUsersListId, setShowOptionsDropdownUsersListId] = useState(false);    
+    const [showOptionsDropdownAdminListId, setShowOptionsDropdownAdminListId] = useState(null);    
+    const [showOptionsDropdownOwnerListId, setShowOptionsDropdownOwnerListId] = useState(null);    
     const [showAddOwnerModal, setShowAddOwnerModal] = useState(false);
     const navigate = useNavigate();
     const [showDeletModal, setShowDeleteModal] = useState(false);
@@ -57,7 +59,7 @@ const UsersComponent = ({isMobile, userProfile}) => {
     const [message, setMessage] = useState('')
     const [success, setSuccess] = useState(true);
     const [disabledBtn, setDisabledBtn] = useState(false)
-    
+    const btnRef = useRef(null)
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(formFields);
@@ -66,8 +68,9 @@ const UsersComponent = ({isMobile, userProfile}) => {
     }
     const handleAddAdminSumit = async (e) => {
         e.preventDefault();
-        setDisabledBtn(!disabledBtn);
+        btnRef.current.disabled = true
         const response = await fetchServer('POST', formFields, userToken, 'admin/create-admin', server);
+        console.log(response);
         if(response.success){
             setDisabledBtn(false)
             setMessage(response.message);
@@ -80,7 +83,7 @@ const UsersComponent = ({isMobile, userProfile}) => {
             setMessage(response.message);
             setFormFields(defaultFormFields);
         }
-        
+        btnRef.current.disabled = false
     }
     const users_data = [
     { name: "Owerri", value: 2, color: "#203645" },
@@ -118,7 +121,7 @@ const UsersComponent = ({isMobile, userProfile}) => {
     ];
     return (
         <ManagementDashboardContainer>
-            <TopNav dashboardRoute={'Users'} isMobile={isMobile} />
+            <TopNav dashboardRoute={'Users'} isMobile={isMobile} profileImage={profileImage} />
             <ManagementDashboardContent>
                 <HeaderContainer>
                     <Form>
@@ -144,12 +147,12 @@ const UsersComponent = ({isMobile, userProfile}) => {
                             <div className="services-card">
                                 <IconContainer>
                                     <Icon>
-                                        <RiUserSettingsLine style={{width: '20px', height: '20px'}}/>
+                                        <PiUsersThreeBold style={{width: '20px', height: '20px'}}/>
                                     </Icon>
                                     <p>Total Users</p>
                                 </IconContainer>
                                 <ServicesCardFooter>
-                                    <span>45</span>
+                                    <span>{allUsers?.length + allOwners?.length}</span>
                                     <div className="stats">
                                         <IoArrowUp style={{width: '16px', height: '16px', color: '#357B38'}}/>
                                         <span>1.0%</span>
@@ -161,23 +164,23 @@ const UsersComponent = ({isMobile, userProfile}) => {
                         </div>
                         <div className="card2">
                             <span>Owners</span>
-                            <p>25</p>
+                            <p>{allOwners.length}</p>
                         </div>
                         <div className="card3">
                             <span>Tenants</span>
-                            <p>20</p>
+                            <p>0</p>
                         </div>
                         <div className="card4">
                             <span>Active Users</span>
-                            <p>40</p>
+                            <p>0</p>
                         </div>
                         <div className="card5">
                             <span>Inactive Users</span>
-                            <p>5</p>
+                            <p>0</p>
                         </div>
                         <div className="card6">
                             <span>Unverified Users</span>
-                            <p>3</p>
+                            <p>{allUsers.filter((user) => user.kyc_status === 'Pending').length}</p>
                         </div>
                     </SummaryUsers>
                 </Container>
@@ -302,48 +305,59 @@ const UsersComponent = ({isMobile, userProfile}) => {
                             <th></th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className='typeData'>
-                                    <div style = {{width: '32px', height: '32px', background: `url(${profileImage}) lightgray 50% / cover no-repeat`, borderRadius: '50%'}}></div>
-                                    <div><strong>Joy Osigwe</strong></div>
-                                </td>
-                                <td>+234 8000000000, judeokon@gmail.com</td>
-                                <td><div className='active' >Active</div></td>
-                                <td><div className='verified' >Verified</div></td>
-                                <td style={{position: 'relative'}}>
-                                    <SlOptions style={{width: '24px', height: '24px', cursor: "pointer", }} onClick={() => setShowOptionsDropdownUsersList(!showOptionsDropdownUsersList)} />
-                                    {
-                                        showOptionsDropdownUsersList && (
-                                            <OptionsContainer>
-                                                <div className="option-item" onClick={() => {
-                                                    navigate('/dashboard/admin/user-details');
-                                                }}> 
-                                                    <VscNote style={{width: '20px', height: '20px', color: '#203645'}}/>
-                                                    <span>View details</span>
-                                                </div>
-                                                <div className="option-item" onClick={() => navigate('/dashboard/admin/issue-invoice') }>
-                                                    <RiUserSettingsLine style={{width: '20px', height: '20px', color: '#203645'}}/>
-                                                    <span>Issue Invoice</span>
-                                                </div>
-                                                <div className="option-item" onClick={() => {
-                                                    setShowKYCModal(!showKYCModal);
-                                                    setShowOptionsDropdownUsersList(!showOptionsDropdownUsersList)
-                                                } }>
-                                                    <RiProfileLine style={{width: '20px', height: '20px', color: '#203645'}}/>
-                                                    <span>View KYC</span>
-                                                </div>
-                                                <div className="option-item" onClick={() => {
-                                                    setShowDeleteModal(true);
-                                                    setShowOptionsDropdownUsersList(!showOptionsDropdownUsersList);
-                                                }}>
-                                                    <RiDeleteBin6Line style={{width: '20px', height: '20px', color: '#203645'}}/>
-                                                    <span>Delete User</span>
-                                                </div>
-                                            </OptionsContainer>
-                                        )
-                                    }
-                                </td>
-                            </tr>
+                            {
+                                allUsers?.map((user, index) => {
+                                    return (
+                                        <tr>
+                                            <td className='typeData'>
+                                                <div style = {{width: '32px', height: '32px', background: `url(${user?.display_picture}) lightgray 50% / cover no-repeat`, borderRadius: '50%'}}></div>
+                                                <div><strong>{user.firstname} {user.lastname}</strong></div>
+                                            </td>
+                                            <td>{user.phone_number}, {user.email}</td>
+                                            <td><div className='active' >Active</div></td>
+                                            <td><div className={user.kyc_status.toLowerCase()} >{user.kyc_status}</div></td>
+                                            <td style={{position: 'relative'}}>
+                                                <SlOptions style={{width: '24px', height: '24px', cursor: "pointer", }} onClick={() => setShowOptionsDropdownUsersListId(showOptionsDropdownUsersListId === user.id ? null : user.id)} />
+                                                {
+                                                    showOptionsDropdownUsersListId === user.id && (
+                                                        <OptionsContainer>
+                                                            <div className="option-item" onClick={() => {
+                                                                navigate(`/dashboard/admin/user-details/${user.id}`);
+                                                            }}> 
+                                                                <VscNote style={{width: '20px', height: '20px', color: '#203645'}}/>
+                                                                <span>View details</span>
+                                                            </div>
+                                                            <div className="option-item" onClick={() => navigate(`/dashboard/admin/issue-invoice/${user.id}`) }>
+                                                                <RiUserSettingsLine style={{width: '20px', height: '20px', color: '#203645'}}/>
+                                                                <span>Issue Invoice</span>
+                                                            </div>
+                                                            {
+                                                                user.kyc_status === 'Verified' && 
+                                                                (
+                                                                    <div className="option-item" onClick={() => {
+                                                                        setShowKYCModal(!showKYCModal);
+                                                                        setShowOptionsDropdownUsersListId(null)
+                                                                    } }>
+                                                                        <RiProfileLine style={{width: '20px', height: '20px', color: '#203645'}}/>
+                                                                        <span>View KYC</span>
+                                                                    </div>
+                                                                )
+                                                            }
+                                                            <div className="option-item" onClick={() => {
+                                                                setShowDeleteModal(true);
+                                                                setShowOptionsDropdownUsersListId(null);
+                                                            }}>
+                                                                <RiDeleteBin6Line style={{width: '20px', height: '20px', color: '#203645'}}/>
+                                                                <span>Delete User</span>
+                                                            </div>
+                                                        </OptionsContainer>
+                                                    )
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
                         </tbody>
                     </NotificationTable>
                 </Container>
@@ -423,45 +437,57 @@ const UsersComponent = ({isMobile, userProfile}) => {
                             <th></th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className='typeData'>
-                                    <div style = {{width: '32px', height: '32px', background: `url(${profileImage}) lightgray 50% / cover no-repeat`, borderRadius: '50%'}}></div>
-                                    <div><strong>Joy Osigwe</strong></div>
-                                </td>
-                                <td>+234 8000000000, judeokon@gmail.com</td>
-                                <td><div className='active' >Active</div></td>
-                                <td style={{position: 'relative'}}>
-                                    <SlOptions style={{width: '24px', height: '24px', cursor: "pointer", }} onClick={() => setShowOptionsDropdownAdminList(!showOptionsDropdownAdminList)} />
-                                    {
-                                        showOptionsDropdownAdminList && (
-                                            <OptionsContainer>
-                                                <div className="option-item" onClick={() => {
-                                                    navigate('/dashboard/admin/admin-details');
-                                                }}> 
-                                                    <VscNote style={{width: '20px', height: '20px', color: '#203645'}}/>
-                                                    <span>View details</span>
-                                                </div>
-                                                <div className="option-item" onClick={() => {
-                                                    setShowDeleteModal(true);
-                                                    setShowOptionsDropdownAdminList(!showOptionsDropdownAdminList);
-                                                }}>
-                                                    <RiDeleteBin6Line style={{width: '20px', height: '20px', color: '#203645'}}/>
-                                                    <span>Delete User</span>
-                                                </div>
-                                            </OptionsContainer>
-                                        )
-                                    }
-                                </td>
-                            </tr>
+                            {
+                                allAdmin?.map((admin, index) => {
+                                    const firstName = admin.username.split(" ")[0];
+                                    const lastName = admin.username.split(" ")[1];
+                                    return(
+                                        <tr key={index}>
+                                            <td className='typeData'>
+                                                <div style = {{width: '32px', height: '32px', background: `url(https://app.xpacy.com/src/upload/display_img/${admin.display_picture}) lightgray 50% / cover no-repeat`, borderRadius: '50%'}}></div>
+                                                <div><strong>{firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase()} {lastName.charAt(0).toUpperCase() + lastName.slice(1).toLowerCase()}</strong></div>
+                                            </td>
+                                            <td>{admin.phone_number}, {admin.email}</td>
+                                            <td><div className='active' >Active</div></td>
+                                            <td style={{position: 'relative'}}>
+                                                <SlOptions style={{width: '24px', height: '24px', cursor: "pointer", }} onClick={() => setShowOptionsDropdownAdminListId(showOptionsDropdownAdminListId === admin.id ? null : admin.id)} />
+                                                {
+                                                    showOptionsDropdownAdminListId === admin.id && (
+                                                        <OptionsContainer>
+                                                            <div className="option-item" onClick={() => {
+                                                                // navigate(`/dashboard/admin/admin-details/${admin.id}`);
+                                                            }}> 
+                                                                <VscNote style={{width: '20px', height: '20px', color: '#203645'}}/>
+                                                                <span>View details</span>
+                                                            </div>
+                                                            <div className="option-item" onClick={() => {
+                                                                setShowDeleteModal(true);
+                                                                setShowOptionsDropdownAdminListId(null);
+                                                            }}>
+                                                                <RiDeleteBin6Line style={{width: '20px', height: '20px', color: '#203645'}}/>
+                                                                <span>Delete User</span>
+                                                            </div>
+                                                        </OptionsContainer>
+                                                    )
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                } )
+                            }
                         </tbody>
                     </NotificationTable>
-                    <Button 
-                        buttonType={{primaryBtn: true}}
-                        onClick={() => setShowAddAdminModal(!showAddAdminModal)}
-                    >
-                        <RiAdminLine style={{width: '24px', height: '24px'}} />
-                        Add New Admin
-                    </Button>
+                    {
+                        userProfile?.role === "Super Admin" && (
+                            <Button 
+                                buttonType={{primaryBtn: true}}
+                                onClick={() => setShowAddAdminModal(!showAddAdminModal)}
+                            >
+                                <RiAdminLine style={{width: '24px', height: '24px'}} />
+                                Add New Admin
+                            </Button>
+                        )
+                    }
                 </Container>
                 {/* Delete Modal */}
                 {
@@ -492,7 +518,7 @@ const UsersComponent = ({isMobile, userProfile}) => {
                     )
                 }
                 {
-                    userProfile?.role === "super admin" && 
+                    userProfile?.role === "Super Admin" && 
                     (
                         <>
                             {/* Add admin modal */}
@@ -526,7 +552,7 @@ const UsersComponent = ({isMobile, userProfile}) => {
                                                     required
                                                 />
                                                 <Button
-                                                    disabled={disabledBtn}
+                                                    btnRef={btnRef}
                                                     type={"submit"}
                                                     buttonType={{primaryBtn: true}} 
                                                 >
@@ -577,40 +603,46 @@ const UsersComponent = ({isMobile, userProfile}) => {
                             <th></th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className='typeData'>
-                                    <div style = {{width: '32px', height: '32px', background: `url(${profileImage}) lightgray 50% / cover no-repeat`, borderRadius: '50%'}}></div>
-                                    <div><strong>Joy Osigwe</strong></div>
-                                </td>
-                                <td>+234 8000000000, judeokon@gmail.com</td>
-                                <td><div className='active' >Active</div></td>
-                                <td style={{position: 'relative'}}>
-                                    <SlOptions style={{width: '24px', height: '24px', cursor: "pointer", }} onClick={() => setShowOptionsDropdownOwnerList(!showOptionsDropdownOwnerList)} />
-                                    {
-                                        showOptionsDropdownOwnerList && (
-                                            <OptionsContainer>
-                                                <div className="option-item" onClick={() => {
-                                                    navigate('/dashboard/admin/admin-details');
-                                                }}> 
-                                                    <VscNote style={{width: '20px', height: '20px', color: '#203645'}}/>
-                                                    <span>View details</span>
-                                                </div>
-                                                <div className="option-item" onClick={() => navigate('/dashboard/admin/issue-invoice') }>
-                                                    <RiUserSettingsLine style={{width: '20px', height: '20px', color: '#203645'}}/>
-                                                    <span>Issue Invoice</span>
-                                                </div>
-                                                <div className="option-item" onClick={() => {
-                                                    setShowDeleteModal(true);
-                                                    setShowOptionsDropdownOwnerList(!showOptionsDropdownOwnerList);
-                                                }}>
-                                                    <RiDeleteBin6Line style={{width: '20px', height: '20px', color: '#203645'}}/>
-                                                    <span>Delete User</span>
-                                                </div>
-                                            </OptionsContainer>
-                                        )
-                                    }
-                                </td>
-                            </tr>
+                            {
+                                allOwners?.map((ownerProfile, index) => {
+                                    return(
+                                        <tr>
+                                            <td className='typeData'>
+                                                <div style = {{width: '32px', height: '32px', background: `url(${ownerProfile.display_picture}) lightgray 50% / cover no-repeat`, borderRadius: '50%'}}></div>
+                                                <div><strong>{ownerProfile.first_name} {ownerProfile.last_name}</strong></div>
+                                            </td>
+                                            <td>{ownerProfile.phone}, {ownerProfile.email}</td>
+                                            <td><div className='active' >Active</div></td>
+                                            <td style={{}}>
+                                                <SlOptions style={{width: '24px', height: '24px', cursor: "pointer", position: 'relative'}} onClick={() => setShowOptionsDropdownOwnerListId(showOptionsDropdownOwnerListId === ownerProfile.id ? null : ownerProfile.id)} />
+                                                {
+                                                    showOptionsDropdownOwnerListId === ownerProfile.id && (
+                                                        <OptionsContainer>
+                                                            <div className="option-item" onClick={() => {
+                                                                navigate(`/dashboard/admin/admin-details/${ownerProfile.id}`);
+                                                            }}> 
+                                                                <VscNote style={{width: '20px', height: '20px', color: '#203645'}}/>
+                                                                <span>View details</span>
+                                                            </div>
+                                                            <div className="option-item" onClick={() => navigate('/dashboard/admin/issue-invoice') }>
+                                                                <RiUserSettingsLine style={{width: '20px', height: '20px', color: '#203645'}}/>
+                                                                <span>Issue Invoice</span>
+                                                            </div>
+                                                            <div className="option-item" onClick={() => {
+                                                                setShowDeleteModal(true);
+                                                                setShowOptionsDropdownOwnerListId(null);
+                                                            }}>
+                                                                <RiDeleteBin6Line style={{width: '20px', height: '20px', color: '#203645'}}/>
+                                                                <span>Delete User</span>
+                                                            </div>
+                                                        </OptionsContainer>
+                                                    )
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
                         </tbody>
                     </NotificationTable>
                     <Button 

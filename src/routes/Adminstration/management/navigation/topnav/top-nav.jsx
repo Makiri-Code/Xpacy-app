@@ -25,9 +25,12 @@ import {
    } from "./top-nav.styles";
 import { PageContext } from "../../../../../contexts/page.context";
 import { UserContext } from "../../../../../contexts/userContext";
-const TopNav = ({dashboardRoute, isMobile, userProfile}) => {
+import Cookies from "js-cookie";
+import isTokenExpired from "../../../../../utils/token/handleUserToken";
+
+const TopNav = ({dashboardRoute, isMobile, userProfile, profileImage}) => {
         const {setSearchedPagination, setSearchedProperties, setShowDashboardSidebar, showDashboardSidebar, } = useContext(PageContext);
-        const {notifications} = useContext(UserContext);
+        const {notifications, userToken, setUserToken} = useContext(UserContext);
         const navigate = useNavigate();
         const [showDropdown, setShowDropdown] = useState(false);
         const dropDown = [
@@ -42,6 +45,15 @@ const TopNav = ({dashboardRoute, isMobile, userProfile}) => {
               to: "/dashboard/management/settings",
             },
           ];
+        //   Log out user
+        const logOut = () => {
+            setUserToken(Cookies.remove('gt-jwt-br'));
+            if (isTokenExpired(userToken)) {
+              navigate('/auth/log-in');
+            } else {
+              console.log('Welcome back! Token is valid.');
+            }
+          }
     return(
         <DashboardTopNavContainer>
             <DashboardTitle>
@@ -78,7 +90,7 @@ const TopNav = ({dashboardRoute, isMobile, userProfile}) => {
                 onClick={() => setShowDropdown(!showDropdown)}
                 >
                     <ProfileImg
-                        src={userImage}
+                        src={profileImage}
                         // {!userProfile.display_picture ? userImage : userProfile.display_picture}
                         alt="profile picture"
                         style={{ width: "24px", height: "24px" }}
@@ -96,7 +108,7 @@ const TopNav = ({dashboardRoute, isMobile, userProfile}) => {
                         );
                         })}
                         
-                        <DropdownLink className="log-out">
+                        <DropdownLink className="log-out" onClick={logOut}>
                             {" "}
                             <LogOutIcon style={{width: '20px', height: '20px'}} /> Log out{" "}
                         </DropdownLink>

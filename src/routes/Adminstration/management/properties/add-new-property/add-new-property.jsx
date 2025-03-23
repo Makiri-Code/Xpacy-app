@@ -108,15 +108,15 @@ const AddNewProperty = ({allOwners}) => {
     const propertyStatus = [
         {
             id: 1,
-            status: 'sale',
+            status: 'Sale',
         },
         {
             id: 2,
-            status: 'rent',
+            status: 'Rent',
         },
         {
             id: 3,
-            status: 'lease',
+            status: 'Lease',
         },
     ];
     // Amenities 

@@ -85,18 +85,18 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
         }
     }
     const paymentLists = [
-        {
-            icon: IoCardOutline,
-            title: 'Rent',
-            status: 'unpaid',
-            message: '3-bedroom in Abuja'
-        },
-        {
-            icon: IoCardOutline,
-            title: 'Rent',
-            status: 'paid',
-            message: '3-bedroom in Abuja'
-        },
+        // {
+        //     icon: IoCardOutline,
+        //     title: 'Rent',
+        //     status: 'unpaid',
+        //     message: '3-bedroom in Abuja'
+        // },
+        // {
+        //     icon: IoCardOutline,
+        //     title: 'Rent',
+        //     status: 'paid',
+        //     message: '3-bedroom in Abuja'
+        // },
     ]
     return (
         <>
@@ -104,6 +104,7 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                 savedPropertiesArray && userProfile && bookedServices && notifications  ? 
                 (<UserDashboardContainer>
                     <DashboardTopNav dashboardRoute={'Dashboard Overview'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSideBar} profileImage={profileImage} notifications={notifications}/>
+                    {/* Mobile only Screen */}
                     {
                         isMobile && (
                             <UserDashboardTopNav>
@@ -112,6 +113,7 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                             </UserDashboardTopNav>
                         )
                     }
+                    {/* Mobile only Screen */}
                     {
                         isMobile && (
                             <>
@@ -151,14 +153,14 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                                     <PropertySectionTitle>
                                         <h3>Saved Properties</h3>
                                         {
-                                            savedPropertiesArray.length > 0 && (<Link to={'/dashboard/user/saved-properties'}>View All</Link>)
+                                            savedPropertiesArray?.length > 0 && (<Link to={'/dashboard/user/saved-properties'}>View All</Link>)
                                         }
                                     </PropertySectionTitle>
                                     <PropertyList>
                                         {
-                                            savedPropertiesArray.length > 0 ?
+                                            savedPropertiesArray?.length > 0 ?
                                             <>
-                                                {savedPropertiesArray.toSpliced(3).map((properties) => {
+                                                {savedPropertiesArray?.toSpliced(3).map((properties) => {
                                                     return(
                                                         <Card propertise={properties.propertySaved} cardStyles={cardStytles} savedProperty={true}/>
                                                     )
@@ -181,6 +183,7 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                                     </PropertySectionTitle>
                                     {
                                         !isMobile ? (
+                                            // Desktop screen only
                                             <>
                                                 {
                                                     bookedServices.length > 0 ?
@@ -197,12 +200,17 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                                                             {
                                                                 bookedServices.toSpliced(4).map((tableData, index) => {
                                                                     const {service_type, address, scheduled_date, service_status,} = tableData
-                                                                    return(
+                                                                    const formattedDate = new Date(scheduled_date)
+                                                                                                .toLocaleDateString('en-GB')
+                                                                                                .split("/")
+                                                                                                .map((part, index) => (index === 2 ? part.slice(-2) : part) )
+                                                                                                .join("/")
+                                                                        return(
                                                                         <tbody key={index}>
                                                                             <tr>
                                                                                 <td>{service_type}</td>
                                                                                 <td>{address}</td>
-                                                                                <td>{scheduled_date}</td>
+                                                                                <td>{formattedDate}</td>
                                                                                 <td ><span className={service_status.toLowerCase()}>{service_status}</span></td>
                                                                             </tr>
                                                                         </tbody>
@@ -222,6 +230,7 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                                             </>
                                         ):
                                         <>
+                                            {/* Moible Screen Only */}
                                             {
                                                 bookedServices.length > 0 ?
                                                 (
@@ -229,16 +238,20 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                                                         {
                                                             bookedServices.map((tableData, index) => {
                                                                 const {service_type, address, scheduled_date, service_status,} = tableData
-        
+                                                                const formattedDate = new Date(scheduled_date)
+                                                                                                .toLocaleDateString('en-GB')
+                                                                                                .split("/")
+                                                                                                .map((part, index) => (index === 2 ? part.slice(-2) : part) )
+                                                                                                .join("/")
                                                                 return(
                                                                     <tbody key={index}>
                                                                         <tr>
                                                                             <tr>
-                                                                                <td colSpan={2}>{scheduled_date}</td>
+                                                                                <td colSpan={2}>{formattedDate}</td>
                                                                             </tr>
                                                                         <tr>
                                                                             <td>{service_type} </td>
-                                                                            <td><span className={service_status}>{service_status}</span></td>
+                                                                            <td><span className={service_status.toLowerCase()}>{service_status}</span></td>
                                                                         </tr>
                                                                             <tr>
                                                                                 <td>Property</td>
@@ -310,23 +323,36 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                                                 <Link to={'/dashboard/user/payments'}>View All</Link>
                                             </PropertySectionTitle>
                                             {
-                                                paymentLists.map((item, index) => {
-                                                    const {title, status, message} = item
-                                                    return(
-                                                        <NotificationList key={index}>
-                                                            <NotificationIconContainer>
-                                                                <item.icon style={{width:'24px', height:'24px'}}/>
-                                                            </NotificationIconContainer> 
-                                                            <NotificationContent>
-                                                                <div className="notification-title">
-                                                                    <p>{title}</p>
-                                                                    <span className={status}>{status}</span>
-                                                                </div>
-                                                                <p>{message}</p>
-                                                            </NotificationContent>
-                                                        </NotificationList>
-                                                    )
-                                                })
+                                                paymentLists?.length > 0 ? 
+
+                                                (<>
+                                                    {
+                                                        paymentLists.map((item, index) => {
+                                                            const {title, status, message} = item
+                                                            return(
+                                                                <NotificationList key={index}>
+                                                                    <NotificationIconContainer>
+                                                                        <item.icon style={{width:'24px', height:'24px'}}/>
+                                                                    </NotificationIconContainer> 
+                                                                    <NotificationContent>
+                                                                        <div className="notification-title">
+                                                                            <p>{title}</p>
+                                                                            <span className={status}>{status}</span>
+                                                                        </div>
+                                                                        <p>{message}</p>
+                                                                    </NotificationContent>
+                                                                </NotificationList>
+                                                            )
+                                                        })
+                                                    }
+                                                </>):
+                                                (
+                                                    <EmptySavedProperty
+                                                    message={'Oops!... You have no payment yet.'}
+                                                    btnTxt={'Buy or Rent Now'}
+                                                    link={'/admin/book-services'}
+                                                    />
+                                                )
                                             }
                                         </PaymentSection>
                                     </NotificationsPaymentContainer>

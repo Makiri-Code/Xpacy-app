@@ -24,21 +24,24 @@ import ModalComponent from "../../../../components/modal/modal";
 import FormInput from "../../../../components/form-input/formInput.component";
 import { ClipLoader } from "react-spinners";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useState } from "react";
-import profileImage from "../../../../assets/profile-picture.png";
+import { useContext, useState } from "react";
 import Button from "../../../../components/button/button";
 import { TwoFactorContainer } from "../../../users/profile-settings/profile-settings.styles";
 import { NotificationTable } from "../dashboard/management_dashboard.styles";
 import { ManagementDashboardContainer } from "../dashboard/management_dashboard.styles";
 import TopNav from "../navigation/topnav/top-nav";
+import fetchServer from "../../../../utils/serverutils/fetchServer";
+import { UserContext } from "../../../../contexts/userContext";
 
-const Settings = ({isMobile}) => {
-    const [showLoader, setShowLoader] = useState(false)
+const Settings = ({isMobile, userProfile, profileImage, setProfileImage }) => {
+    const [showLoader, setShowLoader] = useState(false);
+    const {server, userToken} = useContext(UserContext);
     const [showModal, setShowModal] = useState(false);
+    console.log(userProfile)
     const defaultPersonalFormFields = {
-        firstName: '',
-        lastName: '',
-        email: '',
+        firstName: userProfile.role === 'Super Admin' ? userProfile.username.charAt(0).toUpperCase() + userProfile.username.slice(1).toLowerCase() : userProfile?.username.split(" ")[0].charAt(0).toUpperCase() + userProfile?.username.split(" ")[0].slice(1).toLowerCase(),
+        lastName: userProfile.role === 'Super Admin' ? '' : userProfile?.username?.split(" ")[1].charAt(0).toUpperCase() + userProfile?.username.split(" ")[1].slice(1).toLowerCase(),
+        email: userProfile?.email,
         phoneNumber: '',
         address: '',
     }
@@ -59,33 +62,38 @@ const Settings = ({isMobile}) => {
     const uploadPhoto = async (file) => {
         const formData = new FormData();
         formData.append("display_picture", file); // 👈 Must match the server's expected field name
-        // try {
-        //     const response = await fetch("https://app.xpacy.com/user/upload-display-image", {
-        //       method: "PUT",
-        //       headers: {
-        //         Authorization: `Bearer ${userToken}`, // Include token if needed
-        //       },
-        //       body: formData, // Send FormData (NOT JSON)
-        //     });
+        try {
+            const response = await fetch("https://app.xpacy.com/admin/upload-display-image", {
+              method: "PUT",
+              headers: {
+                Authorization: `Bearer ${userToken}`, // Include token if needed
+              },
+              body: formData, // Send FormData (NOT JSON)
+            });
         
-        //     const data = await response.json();
-        //     console.log("Server response:", data);
-        //     // setProfileImage(data.display_picture);
-        //     setShowLoader(false);
-        //   } catch (error) {
-        //     console.error("Upload error:", error);
-        //   }
+            const data = await response.json();
+            console.log("Server response:", data);
+            setProfileImage(`https://app.xpacy.com/src/upload/display_img/${data.display_picture}`);
+            setShowLoader(false);
+          } catch (error) {
+            console.error("Upload error:", error);
+          }
+        // const response = await fetchServer("PUT", formData, userToken, 'admin/upload-display-image', server );
+        // console.log(response);
+        // setProfileImage(response.display_picture);
+        // setShowLoader(false);
     }
     const handlePhotoUpload = async(e) => {
       setShowLoader(true);
-      const {files} = e.target;      
+      const {files} = e.target;
         await uploadPhoto(files[0]);
+        setShowLoader(false);
     }
 
 
     return(
         <ManagementDashboardContainer>
-            <TopNav dashboardRoute={'Settings'} isMobile={isMobile} />
+            <TopNav dashboardRoute={'Settings'} isMobile={isMobile} profileImage={profileImage} />
             <ProfileContainer>
                 <ProfileInfo>
                     <ProfilePhotoTxt>Profile Photo</ProfilePhotoTxt>
@@ -104,8 +112,7 @@ const Settings = ({isMobile}) => {
                         <UploadControls>
                             <UploadPictureLabel htmlFor="upload-photo" >
                                 <UploadInput type="file" accept='.jpg, .png' name="display_picture" id="upload-photo" onChange={handlePhotoUpload}  />
-                                {/* {userProfile.display_picture ? "Change Photo" : "Upload Picture"} */}
-                                Upload Picture
+                                {userProfile.display_picture ? "Change Photo" : "Upload Picture"}
                             </UploadPictureLabel>
                             <DeleteBtnContainer>
                                 <RiDeleteBin6Line style={{width: '24px', height: '24px'}}/>

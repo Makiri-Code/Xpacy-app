@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
 import xpacyLogo from '../../../../../assets/x-pacy-logo.svg';
 import { IoArrowBack } from "react-icons/io5";
 import { PageContext } from '../../../../../contexts/page.context';
@@ -43,21 +43,30 @@ import {
     PhotosContainer,
     DeleteBtn,
  } from './property-details.styles';
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate, useParams } from 'react-router-dom';
+import fetchServer from '../../../../../utils/serverutils/fetchServer';
+import { UserContext } from '../../../../../contexts/userContext';
+import { PulseLoader } from 'react-spinners';
 
 const PropertyDetailsComponent = () => {
+    const {userToken, server} = useContext(UserContext)
     const navigate = useNavigate();
+    const {id} = useParams();
     const {nigerianStates} = useContext(PageContext)
     const inputRef = useRef(null);
     const itemRef = useRef(null);
-    const imageSrc = [
-        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG91c2VzfGVufDB8fDB8fHww',
-        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGhvdXNlc3xlbnwwfHwwfHx8MA%3D%3D',
-        'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fGhvdXNlc3xlbnwwfHwwfHx8MA%3D%3D',
-        'https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDJ8fGhvdXNlc3xlbnwwfHwwfHx8MA%3D%3D',
-    ]
-    const [imageSrcArray, setImageSrcArray] = useState(imageSrc)
+    
+    
+    // fetch property details
+    useEffect(() => {
+        const getPropertyDetails = async () => {
+            const response = await fetchServer("GET", {}, userToken, `admin/fetch-property/${id}`, server );
+            console.log(response);
+            setPropertyInfo(response.property);
+            setOwnerInfo(response.property.propertyOwner);
+        }
+        getPropertyDetails()
+    }, [])
     // options for property type
     const propertyType = [
         {
@@ -155,7 +164,6 @@ const PropertyDetailsComponent = () => {
         lastname: '',
         email: '',
         phonenumber: '',
-        address: '',
     }
     // defaullt search fields
     const defaultSearchField = {
@@ -165,7 +173,7 @@ const PropertyDetailsComponent = () => {
     const defaultPropertyInfo = {
         property_owner_id: '',
         property_name: '',
-        property_address: '',
+        address: '',
         city: '',
         state: '',
         property_type: '',
@@ -187,41 +195,33 @@ const PropertyDetailsComponent = () => {
         lat: '',
     }
 
+    const [propertyInfo, setPropertyInfo] = useState(null);
+    // const {
+    //         property_owner_id,
+    //         address, 
+    //         property_name, 
+    //         city, 
+    //         state, 
+    //         property_price, 
+    //         property_status, 
+    //         property_type,
+    //         description,
+    //         availability_status,
+    //         property_amenities,
+    //         property_square_area,
+    //         land_area,
+    //         parking_area,
+    //         images,
+    //         videos,
+    //         virtual_tour_url,
+    //         long,
+    //         lat,
+    //         total_baths,
+    //         total_bedrooms,
+    //         total_toilets,
+    //     } = propertyInfo;
 
-    // handle delete photo
-    const handleDeleteImg = (imgSrc) => {
-        console.log(imgSrc);
-        const newImageSrc = imageSrcArray.filter((item) => item !== imgSrc);
-        setImageSrcArray(newImageSrc)
-    }
-    const [propertyInfo, setPropertyInfo] = useState(defaultPropertyInfo);
-    const {
-            property_owner_id,
-            property_address, 
-            property_name, 
-            city, 
-            state, 
-            property_price, 
-            property_status, 
-            property_type,
-            description,
-            availability_status,
-            property_amenities,
-            property_square_area,
-            land_area,
-            parking_area,
-            images,
-            videos,
-            virtual_tour_url,
-            long,
-            lat,
-            total_baths,
-            total_bedrooms,
-            total_toilets,
-        } = propertyInfo;
-
-    const [ownerInfo , setOwnerInfo] = useState(defaultOwnerFormFields);
-    const {firstname, lastname, email, phonenumber, address} = ownerInfo;
+    const [ownerInfo , setOwnerInfo] = useState(null);
     const [showOwnerInfo, setShowOwnerInfo] = useState(true);
     const [searchField, setSearchField] = useState(defaultSearchField);
     const {owner} = searchField;
@@ -284,19 +284,23 @@ const PropertyDetailsComponent = () => {
             images: [...prev.images, ...acceptedFiles ],
         }));
     }
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const data = new FormData();
-        const {images, ...otherFields} = propertyInfo;
-         data.append('propertyInfo',JSON.stringify(propertyInfo));
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     const data = new FormData();
+    //     const {images, ...otherFields} = propertyInfo;
+    //      data.append('propertyInfo',JSON.stringify(propertyInfo));
          
-         for (let pair of data.entries()) {
-            console.log(pair[0], pair[1]);
-        }
-    }   
+    //      for (let pair of data.entries()) {
+    //         console.log(pair[0], pair[1]);
+    //     }
+    // }   
     const [pageNum, setPageNum] = useState(1);
     return(
-            <PropertyDetails>
+        <>
+            {
+                propertyInfo && ownerInfo ? 
+                (
+                    <PropertyDetails>
                 <NavigationContainer>
                     <LogoContainer>
                         <BackNav
@@ -320,7 +324,7 @@ const PropertyDetailsComponent = () => {
                         <img src={xpacyLogo} alt="x-pacy logo" />
                     </LogoContainer>
                 </NavigationContainer>
-                <PropertyFormContainer onSubmit={handleSubmit}>
+                <PropertyFormContainer>
                     <Header>
                         <HeaderText>
                             <h1>Property Details</h1>
@@ -354,14 +358,14 @@ const PropertyDetailsComponent = () => {
                                                 id="first-name"
                                                 name="firstname"
                                                 type="text"
-                                                value={firstname}
+                                                value={ownerInfo?.first_name}
                                             />
                                             <FormInput
                                                 label={"Last Name"}
                                                 id="last-name"
                                                 name="lastname"
                                                 type="text"
-                                                value={lastname}
+                                                value={ownerInfo?.last_name}
                                             />
                                         </NameContainer>
                                         <FormInput
@@ -369,21 +373,20 @@ const PropertyDetailsComponent = () => {
                                             id="email"
                                             name="email"
                                             type="email"
-                                            value={email}
+                                            value={ownerInfo?.email}
                                         />
                                         <FormInput
                                             label={"Phone Number"}
                                             id="phone-num"
                                             name="phone"
                                             type="text"
-                                            value={phonenumber}
+                                            value={ownerInfo?.phonenumber}
                                         />
                                         <FormInput
                                             label={"Address"}
                                             id="address"
                                             name="address"
                                             type="text"
-                                            value={address}
                                         />  
                                         <NextBtn 
                                             onClick={() => {
@@ -411,8 +414,7 @@ const PropertyDetailsComponent = () => {
                                         placeholder="Enter property name"
                                         name="property_name"
                                         type="text"
-                                        value={property_name}
-                                        onChange = {handleChange}
+                                        value={propertyInfo?.property_name}
                                     />
                                     <FormInput
                                         label={"Property Address"}
@@ -420,8 +422,7 @@ const PropertyDetailsComponent = () => {
                                         placeholder="Enter property address"
                                         name="property_address"
                                         type="text"
-                                        value={property_address}
-                                        onChange = {handleChange}
+                                        value={propertyInfo?.address}
                                     />
                                     <NameContainer>
                                         <FormInput
@@ -430,71 +431,57 @@ const PropertyDetailsComponent = () => {
                                             name="city"
                                             placeholder="Enter property city/town"
                                             type="text"
-                                            value={city}
-                                            onChange = {handleChange}
+                                            value={propertyInfo?.city}
                                         />
                                         <SelectContainer>
-                                            <label>State</label>
-                                            <Option name = "state" value={state} onChange={handleChange}>
-                                            <option value="" disabled>Select State</option>
-                                                {
-                                                    nigerianStates.map((state) => {
-                                                        return(
-                                                            <option value={state.location} key={state.id}>{state.location}</option>
-                                                        )
-                                                    } )
-                                                }
-                                            </Option>
+                                            <FormInput
+                                                label={"State"}
+                                                id="city"
+                                                name="state"
+                                                placeholder="Enter property city/town"
+                                                type="text"
+                                                value={propertyInfo?.state}
+                                            />
                                         </SelectContainer>
                                     </NameContainer>
                                     <NameContainer>
                                         <SelectContainer>
-                                            <label>Property Type</label>
-                                            <Option name = "property_type" value={property_type} onChange={handleChange}>
-                                            <option value="" disabled>Select Property Type</option>
-                                                {
-                                                    propertyType.map((type) => {
-                                                        return(
-                                                            <option value={type.type} key={type.id}>{type.type}</option>
-                                                        )
-                                                    } )
-                                                }
-                                            </Option>
+                                            <FormInput
+                                                label={"Property Type"}
+                                                name="property_type"
+                                                placeholder="Enter property city/town"
+                                                type="text"
+                                                value={propertyInfo?.property_type}
+                                            />
                                         </SelectContainer>
                                         <SelectContainer>
-                                            <label>Availabilty Status</label>
-                                            <Option name = "availability_status" value={availability_status} onChange={handleChange}>
-                                            <option value="" disabled>Select property availibility status</option>
-                                                {
-                                                    availabilityStatus.map((status) => {
-                                                        return(
-                                                            <option value={status.status} key={status.id}>{status.status}</option>
-                                                        )
-                                                    } )
-                                                }
-                                            </Option>
+                                            <FormInput
+                                                label={"Availabilty Status"}
+                                                name="availability_status"
+                                                placeholder="Enter property city/town"
+                                                type="text"
+                                                value={propertyInfo?.availability_status}
+                                            />
+                                            
                                         </SelectContainer>
                                     </NameContainer>
                                     <NameContainer> 
                                         <SelectContainer>
-                                            <label>Property Type</label>
+                                            
+                                            <label>Property Price</label>
                                             <Price>
-                                                <FormInput type="number" name="property_price" id=""  value={property_price} onChange={handleChange}/>
+                                                <FormInput type="text" name="property_price" id=""  value={propertyInfo?.property_price.toLocaleString()} onChange={handleChange}/>
                                                 <Currnecy></Currnecy>
                                             </Price>
                                         </SelectContainer>
                                         <SelectContainer>
-                                            <label>Property Status</label>
-                                            <Option name = "property_status" value={property_status} onChange={handleChange}>
-                                            <option value="" disabled>Select property status</option>
-                                                {
-                                                    propertyStatus.map((status) => {
-                                                        return(
-                                                            <option value={status.status} key={status.id}>{status.status}</option>
-                                                        )
-                                                    } )
-                                                }
-                                            </Option>
+                                            <FormInput
+                                                label={"Property Status"}
+                                                name="property_status"
+                                                placeholder="Enter property city/town"
+                                                type="text"
+                                                value={propertyInfo?.property_status}
+                                            />
                                         </SelectContainer>
                                     </NameContainer>
                                     <NameContainer>
@@ -502,7 +489,7 @@ const PropertyDetailsComponent = () => {
                                             <label>Description</label>
                                             <TextArea 
                                                 placeholder="Type property description here"
-                                                value={description}
+                                                value={propertyInfo?.description}
                                                 name="description"
                                                 onChange={handleChange}
                                             >
@@ -542,54 +529,46 @@ const PropertyDetailsComponent = () => {
                                 <FormContainer>
                                     <NameContainer>
                                         <SelectContainer>
-                                            <label>Bedrooms</label>
-                                            <Option name = "total_bedrooms" value={total_bedrooms} onChange={handleChange}>
-                                                <option value="" disabled>Number of bedrooms</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                            </Option>
+                                            <FormInput
+                                                label={"Bedrooms"}
+                                                placeholder="Enter property name"
+                                                name="total_bedrooms"
+                                                type="text"
+                                                value={propertyInfo?.total_bedrooms}
+                                            />
+                                            
                                         </SelectContainer>
                                         <SelectContainer>
-                                            <label>Bathrooms</label>
-                                            <Option name = "total_baths" value={total_baths} onChange={handleChange}>
-                                                <option value="" disabled>Number of bathrooms</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                            </Option>
+                                            <FormInput
+                                                label={"Bathrooms"}
+                                                placeholder="Enter property name"
+                                                name="total_baths"
+                                                type="text"
+                                                value={propertyInfo?.total_bathrooms}
+                                            />
+                                            
                                         </SelectContainer>
                                     </NameContainer>
                                     <NameContainer>
                                         <SelectContainer>
-                                            <label>Toilets</label>
-                                            <Option name = "total_toilets" value={total_toilets} onChange={handleChange}>
-                                                <option value="" disabled>Number of toilets</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                            </Option>
+                                            <FormInput
+                                                label={"Toilets"}
+                                                placeholder="Enter property name"
+                                                name="total_toilets"
+                                                type="text"
+                                                value={propertyInfo?.total_toilets}
+                                            />
+                                            
                                         </SelectContainer>
                                         <SelectContainer>
-                                        <label>Toilets</label>
-                                            <Option name = "parking_area" value={parking_area} onChange={handleChange}>
-                                                <option value="" disabled>Number of cars that fit</option>
-                                                <option value="Fit 1 car">Fit 1 car</option>
-                                                <option value="Fit 2 car">Fit 2 car</option>
-                                                <option value="Fit 3 car">Fit 3 car</option>
-                                                <option value="Fit 4 car">Fit 4 car</option>
-                                                <option value="Fit 5 car">Fit 5 car</option>
-                                                <option value="Fit 6 car">Fit 6 car</option>
-                                            </Option>
+                                            <FormInput
+                                                label={"Parking area"}
+                                                placeholder="Enter property name"
+                                                name="parking_area"
+                                                type="text"
+                                                value={propertyInfo?.parking_area}
+                                            />
+                                        
                                         </SelectContainer>
                                     </NameContainer>
                                     <NameContainer>
@@ -599,8 +578,7 @@ const PropertyDetailsComponent = () => {
                                             placeholder="Sqm2"
                                             name="property_square_area"
                                             type="text"
-                                            value={property_square_area}
-                                            onChange = {handleChange}
+                                            value={propertyInfo?.property_square_area}
                                         />
                                         <FormInput
                                             label={"Land area"}
@@ -608,8 +586,7 @@ const PropertyDetailsComponent = () => {
                                             placeholder="Sqm2"
                                             name="land_area"
                                             type="text"
-                                            value={land_area}
-                                            onChange = {handleChange}
+                                            value={propertyInfo?.land_area}
                                         />
                                     </NameContainer>
                                     <NameContainer>
@@ -617,22 +594,23 @@ const PropertyDetailsComponent = () => {
                                             <label>Select Amenties</label>
                                             <AmenitiesContainer>
                                                 {
-                                                    amenitites.map((item, index) => {
+                                                    propertyInfo?.property_amenities.map((item, index) => {
                                                         const isSelected = selectedAmenities.includes(item);
                                                         return(
                                                             <Item 
-                                                                className = {isSelected ? 'selected' : ''}
+                                                                className = 'selected'
                                                                 key={index}  
-                                                                onClick={() => {
-                                                                    setSelectedAmenities((prev) => {
-                                                                        if(prev.includes(item)){
-                                                                            return prev.filter((selected) => selected !== item)
-                                                                        } else {
-                                                                            return [...prev, item];
-                                                                        }
-                                                                    });
-                                                                    property_amenities.push(selectedAmenities)
-                                                                }}
+                                                                // onClick={() => {
+                                                                //     setSelectedAmenities((prev) => {
+                                                                //         if(prev.includes(item)){
+                                                                //             return prev.filter((selected) => selected !== item)
+                                                                //         } else {
+                                                                //             return [...prev, item];
+                                                                //         }
+                                                                //     });
+                                                                //     property_amenities.push(selectedAmenities)
+                                                                // }}
+
                                                             >
                                                                 {item}
                                                             </Item>
@@ -675,33 +653,32 @@ const PropertyDetailsComponent = () => {
                                 <FormContainer>
                                     <PhotosContainer>
                                         {
-                                            imageSrcArray.map((imageSrc) => {
+                                            propertyInfo?.images.map((imageSrc, index) => {
                                                 return (
-                                                    <div className='img-container'>
-                                                        <img src={imageSrc} alt="house photo" /> 
-                                                        <DeleteBtn onClick={() => handleDeleteImg(imageSrc) }>
+                                                    <div className='img-container' key={index}>
+                                                        <img src={`https://app.xpacy.com/src/upload/properties/${imageSrc}`} alt="house photo" /> 
+                                                        {/* <DeleteBtn onClick={() => handleDeleteImg(imageSrc) }>
                                                                 <RiDeleteBin6Line style={{width: '15px', height: '15px'}}/>
-                                                        </DeleteBtn>                                                  
+                                                        </DeleteBtn>                                                   */}
                                                     </div>
                                                 )
                                             })
                                         }
                                     </PhotosContainer>
-                                    <MediaContent>
+                                    {/* <MediaContent>
                                         <UploadContainer onClick = {() => setShowUploadModal(true)}>
                                             <FiUpload style={{width: '24px', height: '24px', color: '#fff'}}/>
                                             <p>Upload more files</p>
                                         </UploadContainer>
                                         <span style={{alignSelf: 'flex-end'}}>*upload files from your computer</span>
-                                    </MediaContent>
+                                    </MediaContent> */}
                                     <FormInput
                                         label={"Virtual Tour"}
                                         id="virtual_tour"
                                         name="virtual_tour_url"
                                         type="url"
                                         placeholder= "Enter virtual tour link"
-                                        value={virtual_tour_url}
-                                        onChange={handleChange}
+                                        value={propertyInfo?.virtual_tour_url}
                                     />
                                     <Location>
                                         Location Coordinates 
@@ -713,8 +690,7 @@ const PropertyDetailsComponent = () => {
                                             name="lat"
                                             type="text"
                                             placeholder= "Enter location latitude"
-                                            value={lat}
-                                            onChange={handleChange}
+                                            value={propertyInfo?.lat}
                                         />
                                         <FormInput
                                             label={"Longitude"}
@@ -722,8 +698,7 @@ const PropertyDetailsComponent = () => {
                                             name="long"
                                             type="text"
                                             placeholder= "Enter location longitude"
-                                            value={long}
-                                            onChange={handleChange}
+                                            value={propertyInfo?.long}
                                         />
                                     </NameContainer>
                                     {/* <NameContainer>
@@ -745,18 +720,23 @@ const PropertyDetailsComponent = () => {
                         )
                     }
                 </PropertyFormContainer>
-                {/* Upload Modal */}
-                {
-                    showUploadModal && (
-                        <ModalComponent>
-                            <UploadModalContainer>
-                                <CloseIcon onClick={() => setShowUploadModal(false)}></CloseIcon>
-                                <FileUploader onFilesSelected={handleFileSelect}/>
-                            </UploadModalContainer>
-                        </ModalComponent>
-                    )
-                }
-            </PropertyDetails>    
+                    </PropertyDetails>  
+                ) : 
+                (
+                    <PulseLoader
+                        style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        alignSelf: "stretch",
+                        height: "100vh",
+                        }}
+                        margin={5}
+                    />
+                )
+            }
+        </>
+                    
     );
 }
 

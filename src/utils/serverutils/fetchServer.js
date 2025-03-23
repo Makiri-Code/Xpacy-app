@@ -18,7 +18,7 @@ const fetchServer = async (method, body, token, endpoint, server)=>{
     }
     try {
         const resp = await fetch(server + '/' + endpoint, data)
-        const response = await resp.json()
+        const response = await resp.json();
         return {err: false, ...response}
     } catch (error) {
         console.log(error);

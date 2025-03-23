@@ -1,5 +1,5 @@
-import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import FormInput from "../../../../../components/form-input/formInput.component";
 import Button from "../../../../../components/button/button";
@@ -45,56 +45,45 @@ import {
     } from "../../../../services/book-services";
 import { IoArrowBack } from "react-icons/io5";
 import { SlOptionsVertical } from "react-icons/sl";
+import fetchServer from "../../../../../utils/serverutils/fetchServer";
 
 const ServicesProviderDetails = () => {
-    const {isProviderAssigned} = useContext(UserContext);
+    const {isProviderAssigned, userToken, server} = useContext(UserContext);
     const navigate = useNavigate();
+    const {id} = useParams();
     const [editStatus, setEditStatus] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const defaultFormFields = {
-        providerName: 'Bright Plumbing',
-        firstName: 'Bright',
-        lastName: 'Nelson',
-        email: 'bplumbing@gmail.com',
-        phoneNumber: '+234 000000000',
-        address: '16, Awolowo Way, Ikoyi, Lagos',
-        serviceType: 'Plumbing',
-        city: 'Ikoyi',
-        state: 'Lagos',
-        buildingType: 'Residential, Commercial',
-        availableDays: 'Mondays-Fridays',
-        availableTime: '8am - 6pm',
+        provider_name: '',
+        contact_first_name: '',
+        contact_last_name: '',
+        email: '',
+        phone: '',
+        address: '',
+        service_type: '',
+        city: '',
+        state: '',
+        buildingType: '',
+        days_available: '',
+        time_available: '',
     }
-    const [formFields, setFormFields] = useState({
-        providerName: 'Bright Plumbing',
-        firstName: 'Bright',
-        lastName: 'Nelson',
-        email: 'bplumbing@gmail.com',
-        phoneNumber: '+234 000000000',
-        address: '16, Awolowo Way, Ikoyi, Lagos',
-        serviceType: 'Plumbing',
-        city: 'Ikoyi',
-        state: 'Lagos',
-        buildingType: 'Residential, Commercial',
-        availableDays: 'Mondays-Fridays',
-        availableTime: '8am - 6pm',
-    });
+    const [formFields, setFormFields] = useState(defaultFormFields);
 
     const {
-            providerName,
-            firstName, 
-            lastName, 
+            provider_name,
+            contact_first_name, 
+            contact_last_name, 
             email, 
-            phoneNumber, 
+            phone, 
             address, 
             serviceDate,
             serviceTime, 
-            serviceType, 
+            service_type, 
             buildingType,
             city,
             state,
-            availableDays,
-            availableTime,
+            days_available,
+            time_available,
         } = formFields;
 
     const handleChange = (e) => {
@@ -103,14 +92,23 @@ const ServicesProviderDetails = () => {
             ...formFields,
             [name]: value,
         });
-        
-        
 
     }
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
     }
+    useEffect(() => {
+        const getProviderDetails = async () => {
+            const response = await fetchServer('GET', {}, userToken, `service-provider/get-service-provider/${id}`, server);
+            console.log(response);
+            if(response.success){
+                setFormFields(response.serviceProvider);
+            }
+        }
+        getProviderDetails();
+    }, []);
     return (
         <>
             <BookServicesContainer>
@@ -131,14 +129,14 @@ const ServicesProviderDetails = () => {
                     <HeaderContainer>
                        <h2>Service Provider Details</h2>
                     </HeaderContainer>
-                    <BookServicesForm onSubmit={handleSubmit}>
+                    <BookServicesForm>
                         <FormInput
                             label={"Provider's Name"}
                             id={'provider-name'}
                             // placeholder={'Enter your first name'}
-                            name={'providerName'}
+                            name={'provider_name'}
                             type={'text'}
-                            value={providerName}
+                            value={provider_name}
                             // onChange={handleChange}
                         />
                         <Names>
@@ -146,18 +144,18 @@ const ServicesProviderDetails = () => {
                                 label={"Contact's First Name"}
                                 id={'first-name'}
                                 // placeholder={'Enter your first name'}
-                                name={'firstName'}
+                                name={'contact_first_name'}
                                 type={'text'}
-                                value={firstName}
+                                value={contact_first_name}
                                 // onChange={handleChange}
                             />
                             <FormInput
                                 label={"Contact's Last Name"}
                                 id={'last-name'}
                                 // placeholder={'Enter your last name'}
-                                name={'lastName'}
+                                name={'contact_last_name'}
                                 type={'text'}
-                                value={lastName}
+                                value={contact_last_name}
                                 // onChange={handleChange}
                             />
                         </Names>
@@ -174,9 +172,9 @@ const ServicesProviderDetails = () => {
                             label={'Phone Number'}
                             id={'phone'}
                             // placeholder={'+234000 000 0000'}
-                            name={'phoneNumber'}
+                            name={'phone'}
                             type={'tel'}
-                            value={phoneNumber}
+                            value={phone}
                             // onChange={handleChange}
                         />
                         <FormInput
@@ -207,7 +205,7 @@ const ServicesProviderDetails = () => {
                                     label={'Service Type'}
                                     id={'service-type'}
                                     type={'text'}
-                                    value={serviceType}
+                                    value={service_type}
                                 />
                                 <FormInput
                                     label={'Building Type'}
@@ -221,18 +219,19 @@ const ServicesProviderDetails = () => {
                                     label={'Available days'}
                                     id={'available-days'}
                                     type={'text'}
-                                    value={availableDays}
+                                    value={days_available}
                                 />
                                 <FormInput
                                     label={'Available time'}
                                     id={'available-time'}
                                     type={'text'}
-                                    value={availableTime}
+                                    value={time_available}
                                 />
                             </Names>
                             <div style={{alignSelf: 'center'}}>
                                 <Button 
                                     buttonType={{primaryBtn: true}}
+                                    onClick={() => navigate(`/dashboard/admin/edit-provider/${id}`)}
                                 >
                                     Edit Provider's Details
                                 </Button>

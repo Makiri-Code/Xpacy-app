@@ -143,7 +143,7 @@ export const NotificationTable = styled.table`
         font-style: normal;
         font-weight: 400;
         line-height: 120%; /* 1.05rem */
-        .rented, .unpaid, .vacant, .for-sale, .in-progress, .pending, .completed, .incomplete, .paid, .active, .verified{
+        .rented, .unavailable, .available,  .unpaid, .vacant, .for-sale, .in-progress, .completed, .incomplete, .paid, .active, .verified{
             display: flex;
             justify-content: center;
             align-items: center;
@@ -155,15 +155,23 @@ export const NotificationTable = styled.table`
             font-weight: 700;
             width: fit-content;
         }
-        .vacant, .pending, .overdue, .declined, .unpaid {
+        .vacant, .available, .pending, .overdue, .declined, .unpaid {
             color: #C4170B;
             background-color: #FBC0BC;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-family: "Unitext Regular";
+            font-weight: 700;
+            width: fit-content;
         }
         .for-sale, .upcoming{
             color: #477899;
             background-color: #C7D9E5;
         }
-        .in-progress, .pending, .incomplete{
+        .in-progress, .incomplete{
             color: #9D7B40;
             background-color: #FFF8BE;
         }
@@ -174,7 +182,7 @@ export const NotificationTable = styled.table`
         align-items: center;
         height: max-content;
     }
-    .type, .service, .rent{
+    .type, .services, .rent{
         width: 32px;
         height: 32px;
         background-color: #C3E5C4;
@@ -183,7 +191,7 @@ export const NotificationTable = styled.table`
         align-items: center;
         border-radius: 50%;
     }
-    .service{
+    .services{
         background-color: #E3ECF2;
     }
     strong{

@@ -133,7 +133,7 @@ export const BookedTable = styled.table`
     td{
         color: var(--Base-Base-Black, #333);
         font-weight: 400;
-        .upcoming, .in-progress, .completed{
+        .upcoming, .in-progress, .completed, .pending{
             font-size: 14px;
             height: 24px;
             padding: 4px;

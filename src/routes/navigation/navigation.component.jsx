@@ -120,7 +120,7 @@ const Navigation = () => {
                   loggedInUser ?
                   (
                     <>
-                      <NavItem to="'dashboard/user'">
+                      <NavItem to="dashboard/user">
                         Dashboard
                       </NavItem>
                       

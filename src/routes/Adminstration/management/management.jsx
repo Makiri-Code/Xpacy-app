@@ -30,12 +30,18 @@ import { UserContext } from "../../../contexts/userContext";
 import isTokenExpired from "../../../utils/token/handleUserToken";
 import { toast } from "sonner";
 import { PulseLoader } from "react-spinners";
+import userImage from "../../../assets/user-profile-img.svg";
 const Management = ({ isMobile }) => {
+  const [profileImage, setProfileImage] = useState('')
   const [userProfile, setUserProfile] = useState(null);
   const [allProperties, setAllProperties] = useState(null);
   const [allServices, setAllServices] = useState(null);
+  const [allServiceProviders, setAllServiceProviders] = useState(null);
   const [allOwners, setAllOwners] = useState(null);
+  const [allAdmin, setAllAdmin] = useState(null);
   const [allUsers, setAllUsers] = useState(null);
+  const [allInvoices, setAllInvoices] = useState(null);
+  const [faqs, setFaqs] = useState(null);
   const [allNotifications, setAllNotifications] = useState(null);
   const navigate = useNavigate();
   const {} = useContext(PageContext);
@@ -51,8 +57,23 @@ const Management = ({ isMobile }) => {
         server
       );
       setUserProfile(response.admin);
+      setProfileImage(response.admin?.display_picture ? `https://app.xpacy.com/src/upload/display_img/${response.admin.display_picture}` : userImage )
     };
     getAdminProfile();
+  }, [userToken]);
+  // Get all admin
+  useEffect(() => {
+    const getAllAdmin = async () => {
+      const response = await fetchServer(
+        "GET",
+        {},
+        userToken,
+        "admin/fetch-admin",
+        server
+      );
+      setAllAdmin(response.data);
+    };
+    getAllAdmin();
   }, [userToken]);
   // Get all properties
   useEffect(() => {
@@ -61,7 +82,7 @@ const Management = ({ isMobile }) => {
         "GET",
         {},
         userToken,
-        "property/fetch-properties",
+        "admin/fetch-all-propreties",
         server
       );
       setAllProperties(response);
@@ -82,59 +103,84 @@ const Management = ({ isMobile }) => {
     };
     getAllServices();
   }, [userToken]);
-//    Get all Owners
-    useEffect(() => {
-        const getAllOwners = async () => {
-        const response = await fetchServer(
-            "GET",
-            {},
-            userToken,
-            "admin/property-owner/fetch-propertowners",
-            server
-        );
-        setAllOwners(response.data);
-        };
-        getAllOwners();
-    }, [userToken]);
-    // Get all users
-    useEffect(() => {
-        const getAllUsers = async () => {
-        const response = await fetchServer(
-            "GET",
-            {},
-            userToken,
-            "admin/users/fetch-users",
-            server
-        );
-        setAllUsers(response.data);
-        };
-        getAllUsers();
-    },  [userToken]);
-    // Get all notifications
-    useEffect(() => {
-        const getAllNotifications = async () => {
-        const response = await fetchServer(
-            "GET",
-            {},
-            userToken,
-            "notification/fetch-notifications",
-            server
-        );
-        setAllNotifications(response.data);
-        };
-        getAllNotifications();
-    },  [userToken]);
-// If token is expired
+  // Get all Owners
+  useEffect(() => {
+      const getAllOwners = async () => {
+      const response = await fetchServer(
+          "GET",
+          {},
+          userToken,
+          "admin/property-owner/fetch-propertowners",
+          server
+      );
+      setAllOwners(response.data);
+      };
+      getAllOwners();
+  }, [userToken]);
+  // Get all users
+  useEffect(() => {
+      const getAllUsers = async () => {
+      const response = await fetchServer(
+          "GET",
+          {},
+          userToken,
+          "admin/users/fetch-users",
+          server
+      );
+      setAllUsers(response.data);
+      };
+      getAllUsers();
+  },  [userToken]);
+  // Get all notifications
+  useEffect(() => {
+      const getAllNotifications = async () => {
+      const response = await fetchServer(
+          "GET",
+          {},
+          userToken,
+          "notification/fetch-notifications",
+          server
+      );
+      setAllNotifications(response.data);
+      };
+      getAllNotifications();
+  },  [userToken]);
+  // Get Service providers
+  useEffect(() => {
+    const getAllServiceProviders = async () => {
+    const response = await fetchServer("GET", {}, userToken, 'service-provider/get-all-service-providers', server);
+    setAllServiceProviders(response.data);
+    }
+    getAllServiceProviders();
+  }, []);
+  // Get Invoices
+  useEffect(() => {
+    const getAllInvoices = async () => {
+      const response = await fetchServer("GET", {}, userToken, 'invoice/fetch-invoices', server);
+      setAllInvoices(response.data);
+    } 
+    getAllInvoices();
+  }, []);
+  // Get FAQs
+  useEffect(() => {
+    const getAllFaqs = async () => {
+      const response = await fetchServer("GET", {}, userToken, 'admin/faq/get-all-faqs', server);
+      console.log(response);
+      setFaqs(response.data);
+    } 
+    getAllFaqs();
+  }, []);
+  // If token is expired
   useEffect(() => {
     if (isTokenExpired(userToken)) {
       navigate("/admin/auth/log-in");
       toast.error("Session expired please log-in to continue");
     }
   }, [userToken]);
-
+  console.log(userProfile)
   return (
     <>
-      {userProfile && allProperties && allServices && allOwners ? (
+      {userProfile && allProperties && allServices && allOwners && allAdmin ? (
         <Routes>
           <Route path="*" element={<NotFound />} />
           <Route path="/" element={<AdminSideBar isMobile={isMobile} />}>
@@ -149,33 +195,47 @@ const Management = ({ isMobile }) => {
                   allOwners={allOwners}
                   allUsers={allUsers}
                   allNotifications={allNotifications}
+                  profileImage={profileImage}
                 />
               }
             />
             <Route
               path="notification"
-              element={<Notification isMobile={isMobile} />}
+              element={
+                <Notification 
+                  isMobile={isMobile} 
+                  allNotifications={allNotifications}
+                  profileImage={profileImage}
+                />
+              }
             />
             <Route
               path="properties"
-              element={<Properties isMobile={isMobile} />}
+              element={<Properties isMobile={isMobile} profileImage={profileImage} allProperties={allProperties} setAllProperties={setAllProperties}/>}
             />
-            <Route path="services" element={<Services isMobile={isMobile} />} />
+            <Route path="services" element={<Services isMobile={isMobile} profileImage={profileImage} allServices={allServices} setAllServices={setAllServices}/>} />
             <Route
               path="users"
               element={
-                <UsersComponent isMobile={isMobile} userProfile={userProfile} />
+                <UsersComponent 
+                  isMobile={isMobile} 
+                  userProfile={userProfile}  
+                  allUsers={allUsers} 
+                  allOwners={allOwners}
+                  allAdmin={allAdmin}
+                  profileImage={profileImage}
+                />
               }
             />
             <Route
               path="payments"
-              element={<AdminPayments isMobile={isMobile} />}
+              element={<AdminPayments isMobile={isMobile} profileImage={profileImage} allInvoices={allInvoices}/>}
             />
-            <Route path="settings" element={<Settings isMobile={isMobile} />} />
-            <Route path="faq" element={<FaqComponent isMobile={isMobile} />} />
+            <Route path="settings" element={<Settings isMobile={isMobile} profileImage={profileImage} setProfileImage={setProfileImage} userProfile={userProfile}/>} />
+            <Route path="faq" element={<FaqComponent isMobile={isMobile} profileImage={profileImage} faqs={faqs} />} />
           </Route>
           <Route
-            path="properties-details"
+            path="properties-details/:id"
             element={<PropertyDetailsComponent />}
           />
           <Route 
@@ -186,30 +246,30 @@ const Management = ({ isMobile }) => {
                 />
             } 
             />
-          <Route path="edit" element={<EditProperty />} />
+          <Route path="edit/:id" element={<EditProperty />} />
           <Route
-            path="services-request-form"
+            path="services-request-form/:id"
             element={<ServicesRequestForm />}
           />
           <Route
-            path="assign-service-provider"
-            element={<AssignServiceProvider />}
+            path="assign-service-provider/:id"
+            element={<AssignServiceProvider allServiceProviders={allServiceProviders} />}
           />
           <Route
-            path="assign-service-request"
-            element={<AssignServiceRequest />}
+            path="assign-service-request/:id"
+            element={<AssignServiceRequest allServices={allServices}/>}
           />
           <Route
-            path="service-provider-details"
+            path="service-provider-details/:id"
             element={<ServicesProviderDetails />}
           />
-          <Route path="edit-provider" element={<EditServiceProvider />} />
+          <Route path="edit-provider/:id" element={<EditServiceProvider />} />
           <Route path="add-new-provider" element={<AddNewProvider />} />
-          <Route path="user-details" element={<UserDetails />} />
-          <Route path="admin-details" element={<AdminDetails />} />
-          <Route path="issue-invoice" element={<IssueInvoice />} />
-          <Route path="invoice" element={<Invoice />} />
-          <Route path="service-request-list" element={<ServiceRequestList />} />
+          <Route path="user-details/:id" element={<UserDetails />} />
+          <Route path="admin-details/:id" element={<AdminDetails />} />
+          <Route path="issue-invoice/:id" element={<IssueInvoice />} />
+          <Route path="invoice/:id" element={<Invoice />} />
+          <Route path="service-request-list" element={<ServiceRequestList allServices={allServices} setAllServices={setAllServices} allServiceProviders={allServiceProviders} setAllServiceProviders={setAllServiceProviders} />} />
         </Routes>
       ) : (
         <PulseLoader

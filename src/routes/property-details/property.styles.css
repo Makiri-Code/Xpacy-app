@@ -490,8 +490,7 @@
     }
     .property-details{
         padding: 48px 24px;
-        .property-main-content{
-            flex-wrap: wrap;
+            grid-template-columns: 1fr;
             width: 100%;
             .left-panel{
                 width: 100%;
@@ -524,7 +523,6 @@
                 width: 100%;
                 padding: unset;
             }
-        }
 
     }
     .related{

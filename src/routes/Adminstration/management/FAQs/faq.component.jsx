@@ -10,7 +10,7 @@ import { useState } from "react";
 import ModalComponent from "../../../../components/modal/modal";
 import { IoClose } from "react-icons/io5";
 
-const FaqComponent = ({isMobile}) => {
+const FaqComponent = ({isMobile, profileImage,}) => {
     const [editFaq, setEditFaq] = useState({
         questions: '',
         answers: '',
@@ -106,7 +106,7 @@ const FaqComponent = ({isMobile}) => {
     const [tableData, setTableData] = useState(faqTableData);
     return(
         <ManagementDashboardContainer>
-            <TopNav dashboardRoute={'FAQs'} isMobile={isMobile} />
+            <TopNav dashboardRoute={'FAQs'} isMobile={isMobile} profileImage={profileImage} />
             <ManagementDashboardContent>
                 <Container>
                     <HeaderContainer>

@@ -18,11 +18,23 @@ import { IoSearchOutline } from "react-icons/io5";
 import { DeleteModalContent } from "../../properties/properties.styles";
 import Button from "../../../../../components/button/button";
 import ModalComponent from "../../../../../components/modal/modal";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-const AssignServiceProvider = () => {
-    const [assignUser, setAssignUser] = useState(false)
+import { useContext, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import fetchServer from "../../../../../utils/serverutils/fetchServer";
+import { UserContext } from "../../../../../contexts/userContext";
+const AssignServiceProvider = ({allServiceProviders}) => {
+    const {userToken, server} = useContext(UserContext)
+    const {id} = useParams()
+    const [assignUser, setAssignUser] = useState(false);
+    const [serviceMessage, setServiceMessae] = useState('')
     const navigate = useNavigate();
+    const handleAssign = async (providerId) => {
+        const response = await fetchServer("PUT", {provider_id: providerId}, userToken, `service/assign-provider/${id}`, server);
+        console.log(response);
+        setServiceMessae(response.message)
+        setAssignUser(!assignUser);
+    }
+    console.log(allServiceProviders)
     return(
         <BookServicesContainer>
                 <NavigationContainer>
@@ -57,15 +69,21 @@ const AssignServiceProvider = () => {
                             <th></th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Spark Cleaners</td>
-                                <td>08000000000, sparkcleans@gmail,com</td>
-                                <td>Cleaning</td>
-                                <td>Ikeja, Lagos</td>
-                                <td style={{textAlign: 'center'}}>12</td>
-                                <td onClick={() => setAssignUser(!assignUser)} style={{cursor: 'pointer'}}><AssignLink>Assign</AssignLink></td>
-                            </tr>
+                            {
+                                allServiceProviders?.map((provider, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{provider.provider_name}</td>
+                                            <td>{provider.phone}, <br/>{provider.email}</td>
+                                            <td>{provider.service_type}</td>
+                                            <td>{provider.city}, {provider.state}</td>
+                                            <td style={{textAlign: 'center'}}>{provider.total_jobs_completed}</td>
+                                            <td style={{cursor: 'pointer'}}><AssignLink  onClick={() => handleAssign(provider.id)}>Assign</AssignLink></td>
+                                        </tr>
+                                    )
+                                })
+                            }
                         </tbody>
                     </NotificationTable>
                     {
@@ -74,7 +92,7 @@ const AssignServiceProvider = () => {
                             <ModalComponent>
                                 <DeleteModalContent>
                                     <IoClose style={{width: '24px', height: '24px', alignSelf: 'flex-end', cursor: 'pointer'}} onClick={() => setAssignUser(!assignUser)}/>
-                                    <p style={{color: '#333333'}}>Your have successfully assigned a provider to the service request!</p>
+                                    <p style={{color: '#333333'}}>{serviceMessage}</p>
                                     <div className="btn-container">
                                     <Button
                                         buttonType={{primaryBtn: false}}

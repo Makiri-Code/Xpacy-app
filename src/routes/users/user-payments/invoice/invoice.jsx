@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
-import { LogoContainer, BackNav } from "../properties/add-new-property/add-new-property.styles";
 import { IoArrowBack } from "react-icons/io5";
 import xpacyLogo from "../../../../assets/x-pacy-logo.svg";
 import { 
@@ -13,13 +12,15 @@ import {
     FooterContainer,
     FooterLogoContent,
     ButtonContainer,
+    LogoContainer,
+    BackNav,
+    NotificationTable,
 } from "./issue-invoice.styles";
 import { ReactComponent as Instagram } from '../../../../assets/invoice-socials/instagram.svg';
 import { ReactComponent as Facebook } from '../../../../assets/invoice-socials/facebook.svg';
 import { ReactComponent as Twitter } from '../../../../assets/invoice-socials/x.svg';
 import { ReactComponent as Tiktok } from '../../../../assets/invoice-socials/tiktok.svg';
 import invoiceStamp from '../../../../assets/invoice-socials/invoice-stamp.png';
-import { NotificationTable } from "../notification/notification.styles";
 import invoiceLogo from "../../../../assets/invoice-logo.png";
 import Button from "../../../../components/button/button";
 import { LuDownload } from "react-icons/lu";
@@ -44,7 +45,6 @@ const PrintableInvoice = React.forwardRef(({ invoiceData, formatDate, invoiceSta
         <img
           src={invoiceLogo}
           alt="x-pacy logo"
-          style={{ width: '180.422px', height: '123.422px', objectFit: 'cover' }}
         />
         <HeaderContent>
           <h1>INVOICE</h1>
@@ -242,7 +242,7 @@ const Invoice = () => {
         <Button buttonType={{ primaryBtn: false }} onClick={handleDownload}>
           <LuDownload style={{ width: '24px', height: '24px' }} /> Download Invoice
         </Button>
-        <Button buttonType={{ primaryBtn: true }}> Send Invoice</Button>
+        <Button buttonType={{ primaryBtn: true }}>Pay Now</Button>
       </ButtonContainer>
     </InvoiceContainer>
   );

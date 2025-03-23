@@ -297,7 +297,7 @@ const Property = () => {
                                             </div>
                                             <div className="d-flex justify-content-between align-items-center align-items-stretch w-100">
                                                 <p className="features-text m-0">Status</p>
-                                                <p className="features-text m-0">{property?.availabilty_status}</p>
+                                                <p className="features-text m-0">{property?.availability_status}</p>
                                             </div>
                                             <div className="d-flex justify-content-between align-items-center align-items-stretch w-100">
                                                 <p className="features-text m-0">Type</p>
@@ -313,7 +313,7 @@ const Property = () => {
                                             </div>
                                             <div className="d-flex justify-content-between align-items-center align-items-stretch w-100">
                                                 <p className="features-text m-0">Parking Area</p>
-                                                <p className="features-text m-0">Fit {property?.parking_area} cars</p>
+                                                <p className="features-text m-0">{property?.parking_area}</p>
                                             </div>
                                         </div>
                                         <div className="left-features d-flex flex-column align-items-start">

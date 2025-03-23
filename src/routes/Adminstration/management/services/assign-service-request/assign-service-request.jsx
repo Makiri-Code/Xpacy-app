@@ -18,11 +18,21 @@ import { IoSearchOutline } from "react-icons/io5";
 import { DeleteModalContent } from "../../properties/properties.styles";
 import Button from "../../../../../components/button/button";
 import ModalComponent from "../../../../../components/modal/modal";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-const AssignServiceRequest= () => {
-    const [assignUser, setAssignUser] = useState(false)
+import { useState, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { UserContext } from "../../../../../contexts/userContext";
+import fetchServer from "../../../../../utils/serverutils/fetchServer";
+const AssignServiceRequest= ({allServices}) => {
+    const [assignUser, setAssignUser] = useState(false);
+    const {id} = useParams();
+    const {userToken, server} = useContext(UserContext)
     const navigate = useNavigate();
+
+    const handleAssign = async (serviceId) => {
+        const response = await fetchServer("PUT", {provider_id: id}, userToken, `service/assign-provider/${serviceId}`, server);
+        console.log(response);
+    }
+    console.log(allServices)
     return(
         <BookServicesContainer>
                 <NavigationContainer>
@@ -48,7 +58,7 @@ const AssignServiceRequest= () => {
                     </SearchBox>
                     <NotificationTable>
                         <thead>
-                            <th>N/O</th>
+                            <th>Service Type</th>
                             <th>Property Address</th>
                             <th>Tenant/Owner</th>
                             <th>Date/Time</th>
@@ -57,15 +67,43 @@ const AssignServiceRequest= () => {
                             <th></th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Plumbing</td>
-                                <td>22, Awolowo Way, Ikoyi, Lagos </td>
-                                <td>Jerry Briggs</td>
-                                <td>19/09/24 <br/> 12:00pm</td>
-                                <td><div className="in-progress">Inprogress</div></td>
-                                <td>Bright Plumbing</td>
-                                <td onClick={() => setAssignUser(!assignUser)} style={{cursor: 'pointer'}}><AssignLink style={{fontWeight: '700'}}>Re-assign</AssignLink></td>
-                            </tr>
+                            {
+                                allServices?.map((service, index) => {
+                                        // Format dateStr
+                                        const formattedDate = new Date(service?.scheduled_date).toLocaleDateString('en-GB').split("/").map((part, index) => (index === 2 ? part.slice(-2): part)).join("/")
+                                        const converTo12HourFormat = (timeString) => {
+                                            let [hours, minutes] = timeString?.split(":").map(Number);
+                                            let period = hours >= 12 ? 'pm' : 'am';
+                                            hours = hours % 12 || 12;   
+                                            return `${hours}:${minutes.toString().padStart(2, "0")} ${period}`;
+                                        }
+                                    return(
+                                        <tr>
+                                            <td>{service.service_type}</td>
+                                            <td>{service.address} </td>
+                                            <td>{service.propertyOwner.first_name} {service.propertyOwner.last_name}</td>
+                                            <td>{formattedDate} <br/> {converTo12HourFormat(service.scheduled_time)}</td>
+                                            <td><div className={service.service_status.toLowerCase()}>{service.service_status}</div></td>
+                                            <td>{service.serviceProvider.provider_name}</td>
+                                            <td onClick={() => handleAssign(service.id)} style={{cursor: 'pointer'}}>
+                                                {
+                                                    <>
+                                                    {
+                                                        !service.serviceProvider ? 
+                                                        (
+                                                            <AssignLink style={{fontWeight: '700'}}>Assign</AssignLink>
+                                                        ) : 
+                                                        (
+                                                            <AssignLink style={{fontWeight: '700'}}>Re-assign</AssignLink>
+                                                        )
+                                                    }
+                                                </>
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
                         </tbody>
                     </NotificationTable>
                     {

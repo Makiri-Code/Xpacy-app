@@ -28,7 +28,7 @@ const BookServices = ({
 }) => {
   const navigate = useNavigate();
   const [showFilter, setShowFilter] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenuId, setShowMenuId] = useState(null);
   const [showCancelRequest, setShowCancelRequest] = useState(false);
   const selectOptions = [
     {
@@ -47,7 +47,7 @@ const BookServices = ({
 
   const handleCancelClick = () => {
     setShowCancelRequest(!showCancelRequest);
-    setShowMenu(!showMenu);
+    setShowMenuId(null);
   };
 
   const convertDateToTimeAndDays = (dateStr) => {
@@ -114,7 +114,7 @@ const BookServices = ({
           />
         </UserDashboardTopNav>
       )}
-      {bookedServices.length > 0 ? (
+      {bookedServices?.length > 0 ? (
         <main id="book-services">
           <div className="content-container">
             <header>
@@ -127,6 +127,7 @@ const BookServices = ({
                 >
                   <MdFilterList style={{ width: "24px", height: "24px" }} />
                 </div>
+                {/* Filter section */}
                 {showFilter && (
                   <div className="filter-dropdown">
                     <p>Filter by:</p>
@@ -162,19 +163,26 @@ const BookServices = ({
               </div>
             </header>
             {isMobile ? (
+              // Mobile screen only
               <table>
                 <tbody>
-                  {bookedServices.map((service, index) => {
+                  {bookedServices?.map((service, index) => {
                     const {
                       service_type,
                       address,
                       scheduled_date,
                       service_status,
+                      id,
                     } = service;
+                    const formattedDate = new Date(scheduled_date)
+                    .toLocaleDateString('en-GB')
+                    .split("/")
+                    .map((part, index) => (index === 2 ? part.slice(-2) : part) )
+                    .join("/")
                     return (
                       <tr key={index}>
                         <tr className="mobile-table-row">
-                          <td>{scheduled_date}</td>
+                          <td>{formattedDate}</td>
                           <td>
                             <SlOptions
                               style={{
@@ -182,7 +190,7 @@ const BookServices = ({
                                 height: "20px",
                                 cursor: "pointer",
                               }}
-                              onClick={() => setShowMenu(!showMenu)}
+                              onClick={() => setShowMenuId(showMenuId === id ? null : id)}
                             />
                           </td>
                         </tr>
@@ -194,31 +202,31 @@ const BookServices = ({
                             </span>
                           </td>
                         </tr>
-                        <tr className="mobile-table-row">
+                        <tr className="mobile-table-row" >
                           <td>Property</td>
                           <td>{address}</td>
                         </tr>
+                        {showMenuId === id && (
+                          <div className="service-request-menu">
+                            <ul>
+                              <li onClick={() => navigate(`/dashboard/user/reschdeule-request/${id}`)}>
+                                <Calender /> Reschdule
+                              </li>
+                              <li onClick={handleCancelClick}>
+                                <Cancel /> Cancel request
+                              </li>
+                              <li onClick={() => navigate(`/dashboard/user/service-details/${id}`)}>
+                                <View /> View details
+                              </li>
+                              <li>
+                                <Settings /> Submit new request
+                              </li>
+                            </ul>
+                          </div>
+                        )}
                       </tr>
                     );
                   })}
-                  {showMenu && (
-                    <div className="service-request-menu">
-                      <ul>
-                        <li>
-                          <Calender /> Reschdule
-                        </li>
-                        <li onClick={handleCancelClick}>
-                          <Cancel /> Cancel request
-                        </li>
-                        <li>
-                          <View /> View details
-                        </li>
-                        <li>
-                          <Settings /> Submit new request
-                        </li>
-                      </ul>
-                    </div>
-                  )}
                   {showCancelRequest && (
                     <ModalComponent>
                       <div className="cancel-request-modal">
@@ -263,54 +271,61 @@ const BookServices = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {bookedServices.map((service, index) => {
+                  {bookedServices?.map((service, index) => {
                     const {
                       service_type,
                       address,
                       scheduled_date,
                       service_status,
+                      id,
                     } = service;
+                    console.log(bookedServices)
+                    const formattedDate = new Date(scheduled_date)
+                                                        .toLocaleDateString('en-GB')
+                                                        .split("/")
+                                                        .map((part, index) => (index === 2 ? part.slice(-2) : part) )
+                                                        .join("/")
                     return (
                       <tr>
                         <td>{service_type}</td>
                         <td>{address}</td>
-                        <td>{scheduled_date}</td>
+                        <td>{formattedDate}</td>
                         <td>
                           <span className={service_status.toLowerCase()}>
                             {service_status}
                           </span>
                         </td>
-                        <td>
+                        <td >
                           <SlOptions
                             style={{
                               width: "20px",
                               height: "20px",
                               cursor: "pointer",
                             }}
-                            onClick={() => setShowMenu(!showMenu)}
+                            onClick={() => setShowMenuId(showMenuId === id ? null : id)}
                           />
                         </td>
+                        {showMenuId === id && (
+                          <div className="service-request-menu">
+                            <ul>
+                              <li onClick={() => navigate(`/dashboard/user/reschdeule-request/${id}`)}>
+                                <Calender /> Reschdule
+                              </li>
+                              <li onClick={handleCancelClick}>
+                                <Cancel /> Cancel request
+                              </li>
+                              <li onClick={() => navigate(`/dashboard/user/service-details/${id}`)}>
+                                <View /> View details
+                              </li>
+                              <li>
+                                <Settings /> Submit new request
+                              </li>
+                            </ul>
+                          </div>
+                        )}
                       </tr>
                     );
                   })}
-                  {showMenu && (
-                    <div className="service-request-menu">
-                      <ul>
-                        <li>
-                          <Calender /> Reschdule
-                        </li>
-                        <li onClick={handleCancelClick}>
-                          <Cancel /> Cancel request
-                        </li>
-                        <li>
-                          <View /> View details
-                        </li>
-                        <li>
-                          <Settings /> Submit new request
-                        </li>
-                      </ul>
-                    </div>
-                  )}
                   {showCancelRequest && (
                     <ModalComponent>
                       <div className="cancel-request-modal">
@@ -349,10 +364,7 @@ const BookServices = ({
             <div className="sidebar-container">
               <section className="notification-section">
                 <h3>Recent Notification</h3>
-                {notifications
-                  .filter(
-                    (filterItem) => filterItem.notification_type === "Services"
-                  )
+                {notifications?.filter((filterItem) => filterItem.notification_type === "Services")
                   .map((item) => {
                     const { notification_type, date, message } = item;
                     return (

@@ -223,6 +223,7 @@ export const NameContainer = styled.div`
     align-self: stretch;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: 24px;
 `
 export const OwnerInfo = styled.div`
@@ -334,8 +335,9 @@ export const Item = styled.span`
     letter-spacing: 0.01rem;
     cursor: pointer;
     &.selected{
-        background-color:   #585858;
-        color: #fff;
+        border: 1.5px solid #C7D9E5;
+        background-color:   #E3ECF2;
+        color: #585858;
     }
 `
 export const CloseIcon = styled(IoClose)`

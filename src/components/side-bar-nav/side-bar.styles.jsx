@@ -11,9 +11,13 @@ export const DashboardContainer = styled. nav`
     }
 `
 export const SideBarNavContainer = styled.div`
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 3;
     display: flex;
     // width: 251px;
-    width: 18%;
+    min-width: 18%;
     height: 900px;
     padding: 24px;
     justify-content: center;

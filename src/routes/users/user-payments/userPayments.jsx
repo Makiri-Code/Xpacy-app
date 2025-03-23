@@ -26,6 +26,14 @@ const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDash
             option: 'Newest to oldest'
         },
     ];
+    const formatDate = (dateStr) =>{
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('en-GB');
+    }
+    const formatTime = (timeStr) => {
+        const date = new Date(timeStr);
+        return date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true })
+    }
     // const invoiceTableData = [
     //     {
     //         invoiceNo: 45678,
@@ -64,6 +72,7 @@ const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDash
     justify-content: center;
     padding: 24px;
 `
+    console.log(invoiceList)
     return (
         <div className="notification-container">
             <DashboardTopNav profileImage={profileImage} dashboardRoute={'Payments'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSidebar} notifications={notifications} />
@@ -87,7 +96,7 @@ const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDash
                                     </div>
                                     <span>TOTAL PAYMENTS</span>
                                 </div>
-                                <h3>₦5,000,000</h3>
+                                <h3>₦0</h3>
                             </div>
                             <div id='circle1'/>
                             <div id='circle2'/>
@@ -95,7 +104,7 @@ const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDash
                         <div className="stats-container">
                             <div className="stats-card">
                                 <p>Rent</p>
-                                <h4>₦4,500,000</h4>
+                                <h4>₦0</h4>
                             </div>
                             <div className="stats-card">
                                 <p>Purchases</p>
@@ -103,7 +112,7 @@ const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDash
                             </div>
                             <div className="stats-card">
                                 <p>Services</p>
-                                <h4>₦500,000</h4>
+                                <h4>₦0</h4>
                             </div>
                         </div>
                     </div>
@@ -173,27 +182,27 @@ const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDash
                                                 <table>
                                                     <tbody>
                                                         {
-                                                            invoiceList.map((data) => {
-                                                                const {invoiceNo, type, description, issuedDate, dueDate, paidAmount, paymentStatus} = data;
+                                                            invoiceList.map((data, index) => {
+                                                                const {id, invoiceNumber, invoice_reason, description, issuedDate, dueDate, total, status} = data;
                                                                 return(
-                                                                    <tr className='mobile-payments-row'>
+                                                                    <tr className='mobile-payments-row' key={index}>
                                                                         <tr>
-                                                                            <td><strong>Invoice No: </strong> {invoiceNo}</td>
+                                                                            <td><strong>Invoice No: </strong> {invoiceNumber}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>
                                                                                 {
-                                                                                    type === 'Rent' ? 
+                                                                                    invoice_reason === 'rent' ? 
                                                                                         (
                                                                                             <div className='mobile-rentcontainer'>
                                                                                                 <div className="rent-container"><MoneyBag className='rent'/></div> 
-                                                                                                <span>{type}</span>
+                                                                                                <span>{invoice_reason.charAt(0).toUpperCase() + invoice_reason.slice(1).toLowerCase()}</span>
                                                                                             </div>
                                                                                         ) : 
                                                                                         (
                                                                                             <div className="mobile-rentcontainer">
                                                                                                 <div className="service-container"><LuCalendarCheck className='rent'/></div>
-                                                                                                <span>{type}</span>
+                                                                                                <span>{invoice_reason.charAt(0).toUpperCase() + invoice_reason.slice(1).toLowerCase()}</span>
                                                                                             </div>
                                                                                         )
                                                                                 }
@@ -203,23 +212,23 @@ const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDash
                                                                             <td>
                                                                                 Payment Amount
                                                                             </td>
-                                                                            <td>{paidAmount}</td>
+                                                                            <td>₦{Number(total).toLocaleString()}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>
                                                                                Issued Date
                                                                             </td>
-                                                                            <td>{issuedDate}</td>
+                                                                            <td>{formatDate(issuedDate)}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>
                                                                                 Due Date
                                                                             </td>
-                                                                            <td>{dueDate}</td>
+                                                                            <td>{formatDate(dueDate)}</td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td><span className={paymentStatus}>{paymentStatus}</span></td>
-                                                                            <td><Link>View</Link></td>
+                                                                            <td><span className={status}>{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></td>
+                                                                            <td><Link to={`/dashboard/user/invoice/${id}`} >View</Link></td>
                                                                         </tr>
                                                                         {/* <td>
                                                                             {
@@ -244,6 +253,7 @@ const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDash
                                                     </tbody>
                                                 </table>
                                             ) : 
+                                            // For destop screen only
                                             (
                                                 <table>
                                                     <thead>
@@ -260,26 +270,27 @@ const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDash
                                                     </thead>
                                                     <tbody>
                                                         {
-                                                            invoiceList.map((data) => {
-                                                                const {invoiceNo, type, description, issuedDate, dueDate, paidAmount, paymentStatus} = data;
+                                                            invoiceList?.map((data) => {
+                                                                const {id, invoiceNumber, invoice_reason, description, issuedDate, dueDate, total, status} = data;
                                                                 return(
                                                                     <tr>
-                                                                        <td>{invoiceNo}</td>
+                                                                        <td>{invoiceNumber}</td>
                                                                         <td>
                                                                             {
-                                                                                type === 'Rent' ? 
+                                                                                invoice_reason === 'rent' ? 
                                                                                     (<div className="rent-container"><MoneyBag className='rent'/></div>) : 
                                                                                     (<div className="service-container"><LuCalendarCheck className='rent'/></div>)
                                                                             }
-                                                                            <span>{type}</span>
+                                                                            
+                                                                            <span>{invoice_reason.charAt(0).toUpperCase() + invoice_reason.slice(1).toLowerCase()}</span>
                                                                         </td>
                                                                         <td>{description}</td>
-                                                                        <td>{issuedDate}</td>
-                                                                        <td>{dueDate}</td>
-                                                                        <td>{paidAmount}</td>
-                                                                        <td><span className={paymentStatus}>{paymentStatus}</span></td>
+                                                                        <td>{formatDate(issuedDate)}</td>
+                                                                        <td>{formatDate(dueDate)}</td>
+                                                                        <td>₦{Number(total).toLocaleString()}</td>
+                                                                        <td><span className={status}>{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></td>
                                                                         <td>
-                                                                            <Link>View</Link>
+                                                                            <Link to={`/dashboard/user/invoice/${id}`} >View</Link>
                                                                         </td>
                                                                     </tr>
                                                                 )

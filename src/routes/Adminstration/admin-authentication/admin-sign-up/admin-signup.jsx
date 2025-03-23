@@ -1,32 +1,57 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate, } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import {ReactComponent as Logo} from '../../../../assets/x-pacy-logo.svg';
 import FormInput from "../../../../components/form-input/formInput.component";
 import ClipLoader from "react-spinners/ClipLoader";
 import ModalComponent from "../../../../components/modal/modal";
 import "./admin-signup.styles.css";
+import fetchServer from "../../../../utils/serverutils/fetchServer";
+import { UserContext } from "../../../../contexts/userContext";
+import { toast } from "sonner";
 
 const AdminSignUp = () => {
-
+    const location = useLocation();
+    const token = new URLSearchParams(location.search);
+    const {server, userToken} = useContext(UserContext);
+    const navigate = useNavigate();
+    const btnRef = useRef
     const [showLoader, setShowLoader] = useState(false);
     const [isErrorMessage, setIsErrorMessage] = useState(false);
+    const [adminInfo, setAdminInfo] = useState(null);
     const defaultFormFields = {
-        firstname: '',
-        lastname: '',
-        email: '',
         password: '',
         confirmPassword: ''
     };
     const [formFields, setFormFields] = useState(defaultFormFields);
-    const {firstname, lastname, email, password, confirmPassword} = formFields
+    const {password, confirmPassword} = formFields
     const handleChange = (e) => {
         const {name, value} = e.target;
-
+        setFormFields({
+          ...formFields,
+          [name]: value,
+        })
     }
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        btnRef.current.disabled = true;
+        setShowLoader(true);
+        const response = await fetchServer('PUT', {password: password}, '', `admin/complete-registration?token=${token}`, server);
+        if(response.success){
+          toast.success(response.message);
+          navigate('/admin/auth/log-in');
+        }
+        setShowLoader(false);
+        btnRef.current.disabled = false;
     }
+    // const tokenNew = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm91dGUiOiJjb21wbGV0ZS1yZWdpc3RyYXRpb24iLCJpYXQiOjE3NDI2NDkzODAsImV4cCI6MTc0MjY1Mjk4MH0.IYwhdYJ2WslBFvTIxxB3hx1tu3kUph8_9lSjuAnHCsQ'
+    useEffect(() => {
+      const getAdminProfile = async () => {
+        const response = await fetchServer('GET', {}, '', `admin/fetch-admin-information?token=${token}`, server);
+        setAdminInfo(response.admin);
+      };
+      getAdminProfile();
+    }, [])
   return (
     <>
       <div className="admin-signup-container d-flex align-items-start">
@@ -50,8 +75,7 @@ const AdminSignUp = () => {
                     id="first-name"
                     name="firstname"
                     type="text"
-                    onChange={handleChange}
-                    value={firstname}
+                    value={adminInfo?.username.split(" ")[0].charAt(0).toUpperCase() + adminInfo?.username.split(" ")[0].slice(1).toLowerCase()}
                     placeholder="Enter your first name"
                   />
                   <FormInput
@@ -60,8 +84,7 @@ const AdminSignUp = () => {
                     id="last-name"
                     name="lastname"
                     type="text"
-                    onChange={handleChange}
-                    value={lastname}
+                    value={adminInfo?.username.split(" ")[1].charAt(0).toUpperCase() + adminInfo?.username.split(" ")[1].slice(1).toLowerCase()}
                     placeholder="Enter your last name"
                   />
                 </div>
@@ -71,8 +94,7 @@ const AdminSignUp = () => {
                   id="e-mail"
                   name="email"
                   type="email"
-                  onChange={handleChange}
-                  value={email}
+                  value={adminInfo?.email}
                   placeholder="Enter your Email"
                 />
                 <div className="signup-password d-flex flex-column align-items-start">
@@ -131,7 +153,7 @@ const AdminSignUp = () => {
                     </label>
                   </div>
                 </div>
-                <button type="submit">
+                <button type="submit" ref={btnRef}>
                   {showLoader ? (
                     <ClipLoader size={25} color="#fff" />
                   ) : (

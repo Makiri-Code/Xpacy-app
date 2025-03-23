@@ -32,8 +32,10 @@ const AdminLogIn = () => {
           setUserToken(response.token)
           setShowLoader(false);
           buttonRef.current.disabled = false;
-          navigate('/dashboard/admin')
+          navigate('/dashboard/admin');
         }
+        buttonRef.current.disabled = false;
+        setShowLoader(false);
     }
     const handleChange = (e) => {
         const {name, value} = e.target;
