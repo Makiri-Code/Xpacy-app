@@ -100,244 +100,211 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
     ]
     return (
         <>
-            {
-                savedPropertiesArray && userProfile && bookedServices && notifications  ? 
-                (<UserDashboardContainer>
-                    <DashboardTopNav dashboardRoute={'Dashboard Overview'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSideBar} profileImage={profileImage} notifications={notifications}/>
-                    {/* Mobile only Screen */}
-                    {
-                        isMobile && (
-                            <UserDashboardTopNav>
-                                <h5>Dashboard</h5>
-                                <SlOptionsVertical style={{width: '24px', height: '24px'}} onClick={() => setShowMenuOption(!showMenuOption)}/>
-                            </UserDashboardTopNav>
-                        )
-                    }
-                    {/* Mobile only Screen */}
-                    {
-                        isMobile && (
+            (<UserDashboardContainer>
+                <DashboardTopNav dashboardRoute={'Dashboard Overview'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSideBar} profileImage={profileImage} notifications={notifications}/>
+                {/* Mobile only Screen */}
+                {
+                    isMobile && (
+                        <UserDashboardTopNav>
+                            <h5>Dashboard</h5>
+                            <SlOptionsVertical style={{width: '24px', height: '24px'}} onClick={() => setShowMenuOption(!showMenuOption)}/>
+                        </UserDashboardTopNav>
+                    )
+                }
+                {/* Mobile only Screen */}
+                {
+                    isMobile && (
+                        <>
+                        {
                             <>
-                            {
-                                <>
+                                {
+                                    showMenuOption && (
+                                    <MenuOption>
+                                        <MenuOptionContent>
+                                            <MenuItem>
+                                                <CiSearch style={{width: '20px', height: '20px'}}/>
+                                                <span>Search Properties</span>
+                                            </MenuItem>
+                                            <Divider/>
+                                            <MenuItem onClick={() => {
+                                                setShowMenuOption(!showMenuOption)
+                                                navigate('/dashboard/user/book-services')
+                                            }}>
+                                                <LuCalendarCheck style={{width: '20px', height: '20px'}}/>
+                                                <span>Book Services</span>
+                                            </MenuItem>
+                                        </MenuOptionContent>
+                                    </MenuOption>
+                                    )
+                                }
+                                </>
+                        }
+                        </>
+                    )
+                }
+                <UserDashboardMain>
+                    <ProfileName>Welcome {userProfile?.firstname},</ProfileName>
+                    {/* {isMobile && <div className='divider'/>} */}
+                    <ContentLayout>
+                        <PropertyServicesContainer>
+                            <PropertySection>
+                                <PropertySectionTitle>
+                                    <h3>Saved Properties</h3>
                                     {
-                                        showMenuOption && (
-                                        <MenuOption>
-                                            <MenuOptionContent>
-                                                <MenuItem>
-                                                    <CiSearch style={{width: '20px', height: '20px'}}/>
-                                                    <span>Search Properties</span>
-                                                </MenuItem>
-                                                <Divider/>
-                                                <MenuItem onClick={() => {
-                                                    setShowMenuOption(!showMenuOption)
-                                                    navigate('/dashboard/user/book-services')
-                                                }}>
-                                                    <LuCalendarCheck style={{width: '20px', height: '20px'}}/>
-                                                    <span>Book Services</span>
-                                                </MenuItem>
-                                            </MenuOptionContent>
-                                        </MenuOption>
-                                        )
+                                        savedPropertiesArray?.length > 0 && (<Link to={'/dashboard/user/saved-properties'}>View All</Link>)
                                     }
-                                    </>
-                            }
-                            </>
-                        )
-                    }
-                    <UserDashboardMain>
-                        <ProfileName>Welcome {userProfile.firstname},</ProfileName>
-                        {/* {isMobile && <div className='divider'/>} */}
-                        <ContentLayout>
-                            <PropertyServicesContainer>
-                                <PropertySection>
-                                    <PropertySectionTitle>
-                                        <h3>Saved Properties</h3>
-                                        {
-                                            savedPropertiesArray?.length > 0 && (<Link to={'/dashboard/user/saved-properties'}>View All</Link>)
-                                        }
-                                    </PropertySectionTitle>
-                                    <PropertyList>
-                                        {
-                                            savedPropertiesArray?.length > 0 ?
-                                            <>
-                                                {savedPropertiesArray?.toSpliced(3).map((properties) => {
-                                                    return(
-                                                        <Card propertise={properties.propertySaved} cardStyles={cardStytles} savedProperty={true}/>
-                                                    )
-                                                })}
-                                            </> :
-                                            <EmptySavedProperty
-                                                message={'Oops!... You have no saved properties yet.'}
-                                                btnTxt={'Explore New Properties'}
-                                                link={'/buy'}
-                                            />
-                                        }
-                                    </PropertyList>
-                                </PropertySection>
-                                <ServicesSection>
-                                    <PropertySectionTitle>
-                                        <h3>Booked Services</h3>
-                                        {
-                                            bookedServices.length > 0 && (<Link to={'/dashboard/user/book-services'}>View All</Link>)
-                                        }
-                                    </PropertySectionTitle>
+                                </PropertySectionTitle>
+                                <PropertyList>
                                     {
-                                        !isMobile ? (
-                                            // Desktop screen only
-                                            <>
-                                                {
-                                                    bookedServices.length > 0 ?
-                                                    (
-                                                        <BookedTable>
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Services Type</th>
-                                                                    <th>Property</th>
-                                                                    <th>Date</th>
-                                                                    <th>Status</th>
-                                                                </tr>
-                                                            </thead>
-                                                            {
-                                                                bookedServices.toSpliced(4).map((tableData, index) => {
-                                                                    const {service_type, address, scheduled_date, service_status,} = tableData
-                                                                    const formattedDate = new Date(scheduled_date)
-                                                                                                .toLocaleDateString('en-GB')
-                                                                                                .split("/")
-                                                                                                .map((part, index) => (index === 2 ? part.slice(-2) : part) )
-                                                                                                .join("/")
-                                                                        return(
-                                                                        <tbody key={index}>
-                                                                            <tr>
-                                                                                <td>{service_type}</td>
-                                                                                <td>{address}</td>
-                                                                                <td>{formattedDate}</td>
-                                                                                <td ><span className={service_status.toLowerCase()}>{service_status}</span></td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    )
-                                                                })
-                                                            }
-                                                        </BookedTable>
-                                                    ) :
-                                                    (
-                                                        <EmptySavedProperty
-                                                            message={'Oops!... You have no booked services yet.'}
-                                                            btnTxt={'Book A Service'}
-                                                            link={'/admin/book-services'}
-                                                        />
-                                                    )
-                                                }
-                                            </>
-                                        ):
+                                        savedPropertiesArray?.length > 0 ?
                                         <>
-                                            {/* Moible Screen Only */}
+                                            {savedPropertiesArray?.toSpliced(3).map((properties) => {
+                                                return(
+                                                    <Card propertise={properties.propertySaved} cardStyles={cardStytles} savedProperty={true}/>
+                                                )
+                                            })}
+                                        </> :
+                                        <EmptySavedProperty
+                                            message={'Oops!... You have no saved properties yet.'}
+                                            btnTxt={'Explore New Properties'}
+                                            link={'/buy'}
+                                        />
+                                    }
+                                </PropertyList>
+                            </PropertySection>
+                            <ServicesSection>
+                                <PropertySectionTitle>
+                                    <h3>Booked Services</h3>
+                                    {
+                                        bookedServices?.length > 0 && (<Link to={'/dashboard/user/book-services'}>View All</Link>)
+                                    }
+                                </PropertySectionTitle>
+                                {
+                                    !isMobile ? (
+                                        // Desktop screen only
+                                        <>
                                             {
-                                                bookedServices.length > 0 ?
+                                                bookedServices?.length > 0 ?
                                                 (
                                                     <BookedTable>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Services Type</th>
+                                                                <th>Property</th>
+                                                                <th>Date</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
                                                         {
-                                                            bookedServices.map((tableData, index) => {
+                                                            bookedServices?.toSpliced(4).map((tableData, index) => {
                                                                 const {service_type, address, scheduled_date, service_status,} = tableData
                                                                 const formattedDate = new Date(scheduled_date)
-                                                                                                .toLocaleDateString('en-GB')
-                                                                                                .split("/")
-                                                                                                .map((part, index) => (index === 2 ? part.slice(-2) : part) )
-                                                                                                .join("/")
-                                                                return(
+                                                                                            .toLocaleDateString('en-GB')
+                                                                                            .split("/")
+                                                                                            .map((part, index) => (index === 2 ? part.slice(-2) : part) )
+                                                                                            .join("/")
+                                                                    return(
                                                                     <tbody key={index}>
                                                                         <tr>
-                                                                            <tr>
-                                                                                <td colSpan={2}>{formattedDate}</td>
-                                                                            </tr>
-                                                                        <tr>
-                                                                            <td>{service_type} </td>
-                                                                            <td><span className={service_status.toLowerCase()}>{service_status}</span></td>
-                                                                        </tr>
-                                                                            <tr>
-                                                                                <td>Property</td>
-                                                                                <td>{address}</td>
-                                                                            </tr>
+                                                                            <td>{service_type}</td>
+                                                                            <td>{address}</td>
+                                                                            <td>{formattedDate}</td>
+                                                                            <td ><span className={service_status.toLowerCase()}>{service_status}</span></td>
                                                                         </tr>
                                                                     </tbody>
                                                                 )
                                                             })
                                                         }
                                                     </BookedTable>
-                                                ): 
+                                                ) :
                                                 (
                                                     <EmptySavedProperty
-                                                    message={'Oops!... You have no booked services yet.'}
-                                                    btnTxt={'Book A Service'}
-                                                    link={'/admin/book-services'}
+                                                        message={'Oops!... You have no booked services yet.'}
+                                                        btnTxt={'Book A Service'}
+                                                        link={'/admin/book-services'}
                                                     />
                                                 )
                                             }
                                         </>
-
-                                    }
-                                </ServicesSection>
-                            </PropertyServicesContainer>
-                                <NotificationsPaymentContainer>
+                                    ):
+                                    <>
+                                        {/* Moible Screen Only */}
                                         {
-                                            !isMobile && (
-                                                    <NotificationSection>
-                                                        <PropertySectionTitle>
-                                                            <h3>Notification</h3>
-                                                            <Link to={'/dashboard/user/notification'}>View All</Link>
-                                                        </PropertySectionTitle>
-                                                        {
-                                                            notifications.toSpliced(3).map((item, index) => {
-                                                                const {  notification_type, date, message} = item;
-
-                                                                
-                                                                return(
-                                                                    <NotificationList key={index}>
-                                                                        <NotificationIconContainer>
-                                                                            {
-                                                                                 notification_type === 'Properties' && (<CiHeart style={{width: '24px', height: '24px'}} />)
-                                                                            }
-                                                                            {
-                                                                                 notification_type === 'Payment' && (<IoCardOutline style={{width: '24px', height: '24px'}} />)
-                                                                            }
-                                                                            {
-                                                                                 notification_type === 'Services' && (<LuCalendarCheck style={{width: '24px', height: '24px'}} />)
-                                                                            }
-                                                                        </NotificationIconContainer> 
-                                                                        <NotificationContent>
-                                                                            <div className="notification-title">
-                                                                                <p>{notification_type}</p>
-                                                                                <span>{convertDateToTimeAndDays(date)}</span>
-                                                                            </div>
-                                                                            <p>{message}</p>
-                                                                        </NotificationContent>
-                                                                    </NotificationList>
-                                                                )
-                                                            })
-                                                        }
-                                                    </NotificationSection>
+                                            bookedServices?.length > 0 ?
+                                            (
+                                                <BookedTable>
+                                                    {
+                                                        bookedServices?.map((tableData, index) => {
+                                                            const {service_type, address, scheduled_date, service_status,} = tableData
+                                                            const formattedDate = new Date(scheduled_date)
+                                                                                            .toLocaleDateString('en-GB')
+                                                                                            .split("/")
+                                                                                            .map((part, index) => (index === 2 ? part.slice(-2) : part) )
+                                                                                            .join("/")
+                                                            return(
+                                                                <tbody key={index}>
+                                                                    <tr>
+                                                                        <tr>
+                                                                            <td colSpan={2}>{formattedDate}</td>
+                                                                        </tr>
+                                                                    <tr>
+                                                                        <td>{service_type} </td>
+                                                                        <td><span className={service_status.toLowerCase()}>{service_status}</span></td>
+                                                                    </tr>
+                                                                        <tr>
+                                                                            <td>Property</td>
+                                                                            <td>{address}</td>
+                                                                        </tr>
+                                                                    </tr>
+                                                                </tbody>
+                                                            )
+                                                        })
+                                                    }
+                                                </BookedTable>
+                                            ): 
+                                            (
+                                                <EmptySavedProperty
+                                                message={'Oops!... You have no booked services yet.'}
+                                                btnTxt={'Book A Service'}
+                                                link={'/admin/book-services'}
+                                                />
                                             )
                                         }
-                                        <PaymentSection>
-                                            <PropertySectionTitle>
-                                                <h3>Payment</h3>
-                                                <Link to={'/dashboard/user/payments'}>View All</Link>
-                                            </PropertySectionTitle>
-                                            {
-                                                paymentLists?.length > 0 ? 
+                                    </>
 
-                                                (<>
+                                }
+                            </ServicesSection>
+                        </PropertyServicesContainer>
+                            <NotificationsPaymentContainer>
+                                    {
+                                        !isMobile && (
+                                                <NotificationSection>
+                                                    <PropertySectionTitle>
+                                                        <h3>Notification</h3>
+                                                        <Link to={'/dashboard/user/notification'}>View All</Link>
+                                                    </PropertySectionTitle>
                                                     {
-                                                        paymentLists.map((item, index) => {
-                                                            const {title, status, message} = item
+                                                        notifications?.toSpliced(3).map((item, index) => {
+                                                            const {  notification_type, date, message} = item;
+
+                                                            
                                                             return(
                                                                 <NotificationList key={index}>
                                                                     <NotificationIconContainer>
-                                                                        <item.icon style={{width:'24px', height:'24px'}}/>
+                                                                        {
+                                                                                notification_type === 'Properties' && (<CiHeart style={{width: '24px', height: '24px'}} />)
+                                                                        }
+                                                                        {
+                                                                                notification_type === 'Payment' && (<IoCardOutline style={{width: '24px', height: '24px'}} />)
+                                                                        }
+                                                                        {
+                                                                                notification_type === 'Services' && (<LuCalendarCheck style={{width: '24px', height: '24px'}} />)
+                                                                        }
                                                                     </NotificationIconContainer> 
                                                                     <NotificationContent>
                                                                         <div className="notification-title">
-                                                                            <p>{title}</p>
-                                                                            <span className={status}>{status}</span>
+                                                                            <p>{notification_type}</p>
+                                                                            <span>{convertDateToTimeAndDays(date)}</span>
                                                                         </div>
                                                                         <p>{message}</p>
                                                                     </NotificationContent>
@@ -345,32 +312,52 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                                                             )
                                                         })
                                                     }
-                                                </>):
-                                                (
-                                                    <EmptySavedProperty
-                                                    message={'Oops!... You have no payment yet.'}
-                                                    btnTxt={'Buy or Rent Now'}
-                                                    link={'/admin/book-services'}
-                                                    />
-                                                )
-                                            }
-                                        </PaymentSection>
-                                    </NotificationsPaymentContainer>
+                                                </NotificationSection>
+                                        )
+                                    }
+                                    <PaymentSection>
+                                        <PropertySectionTitle>
+                                            <h3>Payment</h3>
+                                            <Link to={'/dashboard/user/payments'}>View All</Link>
+                                        </PropertySectionTitle>
+                                        {
+                                            paymentLists?.length > 0 ? 
 
-                        </ContentLayout>
-                    </UserDashboardMain>
-                </UserDashboardContainer>) :
-                (<PulseLoader
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  alignSelf: "stretch",
-                  height: "100vh",
-                }}
-                margin={5}
-              />)
-            }
+                                            (<>
+                                                {
+                                                    paymentLists.map((item, index) => {
+                                                        const {title, status, message} = item
+                                                        return(
+                                                            <NotificationList key={index}>
+                                                                <NotificationIconContainer>
+                                                                    <item.icon style={{width:'24px', height:'24px'}}/>
+                                                                </NotificationIconContainer> 
+                                                                <NotificationContent>
+                                                                    <div className="notification-title">
+                                                                        <p>{title}</p>
+                                                                        <span className={status}>{status}</span>
+                                                                    </div>
+                                                                    <p>{message}</p>
+                                                                </NotificationContent>
+                                                            </NotificationList>
+                                                        )
+                                                    })
+                                                }
+                                            </>):
+                                            (
+                                                <EmptySavedProperty
+                                                message={'Oops!... You have no payment yet.'}
+                                                btnTxt={'Buy or Rent Now'}
+                                                link={'/admin/book-services'}
+                                                />
+                                            )
+                                        }
+                                    </PaymentSection>
+                                </NotificationsPaymentContainer>
+
+                    </ContentLayout>
+                </UserDashboardMain>
+            </UserDashboardContainer>) 
         </>
     );
 }

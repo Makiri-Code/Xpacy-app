@@ -205,7 +205,7 @@ const Invoice = () => {
 
   useEffect(() => {
     const getInvoice = async () => {
-      const response = await fetchServer("GET", {}, userToken, `invoice/fetch-invoice/${id}`, server);
+      const response = await fetchServer("GET", {}, userToken, `user/fetch-invoice/${id}`, server);
       if (!response.error) {
         setInvoiceData(response);
       }

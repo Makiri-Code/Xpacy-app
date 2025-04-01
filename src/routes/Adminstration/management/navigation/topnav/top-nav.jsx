@@ -37,12 +37,12 @@ const TopNav = ({dashboardRoute, isMobile, userProfile, profileImage}) => {
             {
               link: "Notification",
               icon: GoBell,
-              to: "/dashboard/management/notification",
+              to: "/dashboard/admin/notification",
             },
             {
               link: "Settings",
               icon: RiUserSettingsLine,
-              to: "/dashboard/management/settings",
+              to: "/dashboard/admin/settings",
             },
           ];
         //   Log out user

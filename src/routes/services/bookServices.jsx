@@ -74,7 +74,6 @@ const BookServices = ({userProfile}) => {
             [name]: value,
         });
     };
-    console.log(btnRef.current);
     const handleSubmit = async (e) => {
         e.preventDefault();
         if(isTokenExpired(userToken)){

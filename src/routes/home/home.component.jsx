@@ -248,28 +248,57 @@ const Home = ({ isMobile }) => {
                 </Select>
                 <Select>
                   <option>Location</option>
-                  <option value={"buy"}>Buy</option>
-                  <option value={"rent"}>Rent</option>
+                  <option value={"Abuja"}>Abuja</option>
+                  <option value={"Aba"}>Aba</option>
+                  <option value={"Benin"}>Benin</option>
+                  <option value={"Calabar"}>Calabar</option>
+                  <option value={"Enugu"}>Enugu</option>
+                  <option value={"Ibadan"}>Ibadan</option>
+                  <option value={"Ilorin"}>Ilorin</option>
+                  <option value={"Lagos"}>Lagos</option>
+                  <option value={"Minna"}>Minna</option>
+                  <option value={"Port Harcourt"}>Port Harcourt</option>
+                  <option value={"Uyo"}>Uyo</option>
+                  <option value={"Warri"}>Warri</option>
                 </Select>
                 <Select>
                   <option>Type</option>
-                  <option value={"buy"}>Buy</option>
-                  <option value={"rent"}>Rent</option>
+                  <option value={"All types"}>All types</option>
+                  <option value={"Commercial"}>Commercial</option>
+                  <option value={"Residential"}>Residential</option>
+                  <option value={"Terrace"}>Terrace</option>
+                  <option value={"Flat/Apartment"}>Flat/Apartment</option>
+                  <option value={"Duplex"}>Duplex</option>
+                  <option value={"Semi-detached"}>Semi-detached</option>
+                  <option value={"Fully-detached"}>Fully-detached</option>
+                  <option value={"Villa"}>Villa</option>
                 </Select>
                 <Select>
                   <option>Bedroom</option>
-                  <option value={"buy"}>Buy</option>
-                  <option value={"rent"}>Rent</option>
+                  <option value={"1"}>1</option>
+                  <option value={"2"}>2</option>
+                  <option value={"3"}>3</option>
+                  <option value={"4"}>4</option>
+                  <option value={"5"}>5</option>
+                  <option value={"6"}>6</option>
                 </Select>
                 <Select>
                   <option>Min Price</option>
-                  <option value={"buy"}>Buy</option>
-                  <option value={"rent"}>Rent</option>
+                  <option value={""}>{"<N5m"}</option>
+                  <option value={""}>{"<N5m"}</option>
+                  <option value={""}>{"<N10m"}</option>
+                  <option value={""}>{"<100m"}</option>
+                  <option value={""}>{"<N200m"}</option>
+                  <option value={""}>{">N200m"}</option>
                 </Select>
                 <Select>
                   <option>Max Price</option>
-                  <option value={"buy"}>Buy</option>
-                  <option value={"rent"}>Rent</option>
+                  <option value={""}>{"<N5m"}</option>
+                  <option value={""}>{"<N5m"}</option>
+                  <option value={""}>{"<N10m"}</option>
+                  <option value={""}>{"<100m"}</option>
+                  <option value={""}>{"<N200m"}</option>
+                  <option value={""}>{">N200m"}</option>
                 </Select>
               </MobileOptionContainer>
               <SearchButton buttonType={{ primaryBtn: true }}>
@@ -370,16 +399,16 @@ const Home = ({ isMobile }) => {
                   cardName={"facility-management"}
                   hoverTitle={"Facility Management"}
                   hoverText={
-                    "Keep your property in top shape with our reliable facility management services. From mainteance to security, we handle the details so you can enjoy peace of mind"
+                    "Keep your property in top shape with our reliable facility management services. From maintenance to security, we handle the details so you can enjoy peace of mind"
                   }
                 />
                 <ServicesCard
                   imageSrc={Services05}
                   iconSrc={Icon05}
                   cardName={"space-planing"}
-                  hoverTitle={"Space Planning & Design"}
+                  hoverTitle={"Space-Planning & Design"}
                   hoverText={
-                    "Transform yoour space with our expert planing and design services. We create functional, beautiful envirometns tailore to your unique vision"
+                    "Transform yoour space with our expert planning and design services. We create functional, beautiful enviroments tailored to your unique vision"
                   }
                 />
               </ServicesImgContainer>

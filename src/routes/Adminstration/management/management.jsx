@@ -164,7 +164,7 @@ const Management = ({ isMobile }) => {
   // Get FAQs
   useEffect(() => {
     const getAllFaqs = async () => {
-      const response = await fetchServer("GET", {}, userToken, 'admin/faq/get-all-faqs', server);
+      const response = await fetchServer("GET", {}, userToken, 'faq/get-all-faqs', server);
       console.log(response);
       setFaqs(response.data);
     } 
@@ -180,7 +180,7 @@ const Management = ({ isMobile }) => {
   console.log(userProfile)
   return (
     <>
-      {userProfile && allProperties && allServices && allOwners && allAdmin ? (
+      {userProfile && allProperties && allServices && allOwners && allAdmin && allInvoices && faqs ? (
         <Routes>
           <Route path="*" element={<NotFound />} />
           <Route path="/" element={<AdminSideBar isMobile={isMobile} />}>
@@ -232,7 +232,7 @@ const Management = ({ isMobile }) => {
               element={<AdminPayments isMobile={isMobile} profileImage={profileImage} allInvoices={allInvoices}/>}
             />
             <Route path="settings" element={<Settings isMobile={isMobile} profileImage={profileImage} setProfileImage={setProfileImage} userProfile={userProfile}/>} />
-            <Route path="faq" element={<FaqComponent isMobile={isMobile} profileImage={profileImage} faqs={faqs} />} />
+            <Route path="faq" element={<FaqComponent isMobile={isMobile} profileImage={profileImage} faqs={faqs} setFaqs= {setFaqs}/>} />
           </Route>
           <Route
             path="properties-details/:id"

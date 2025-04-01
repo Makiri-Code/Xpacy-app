@@ -169,7 +169,6 @@ const Referral = ({ notifications, profileImage, isMobile, showDashboardSidebar,
     //   Convert dateStr to date
     const getDateStr = (dateStr) => {
         const date = new Date(dateStr);
-
         return date.toLocaleDateString();
     };
 
@@ -179,7 +178,7 @@ const Referral = ({ notifications, profileImage, isMobile, showDashboardSidebar,
             {
                 isMobile && (
                     <UserDashboardTopNav>
-                        <h5>Refferal</h5>
+                        <h5>Referral</h5>
                         <SlOptionsVertical style={{width: '24px', height: '24px'}} onClick={() => {}}/>
                     </UserDashboardTopNav>
                 )
@@ -230,7 +229,7 @@ const Referral = ({ notifications, profileImage, isMobile, showDashboardSidebar,
                                 <ReferralUsers>
                                     <ReferralUsersContent>
                                         <ReferralUserHeader>
-                                            <h5>Refferd Users</h5>
+                                            <h5>Referred Users</h5>
                                             {referralDownLine && referralDownLine?.length > 0 && (
                                                 <SortBy selectOptions={selectOptions} isMobile={isMobile}/>
                                             )}
@@ -326,7 +325,7 @@ const Referral = ({ notifications, profileImage, isMobile, showDashboardSidebar,
                                 <ReferralUsers>
                                     <ReferralUsersContent>
                                         <ReferralUserHeader>
-                                            <h5>LeaderBoard</h5>
+                                            <h5>Leader Board</h5>
                                         </ReferralUserHeader>
                                         <ReferralTable>
                                             <thead>

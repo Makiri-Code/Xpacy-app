@@ -124,7 +124,7 @@ const DashboardTopNav = ({ dashboardRoute, isMobile, setShowDashboardSidebar, sh
               onClick={() => setShowDropdown(!showDropdown)}
             >
               <ProfileImg
-                src={profileImage}
+                src={`https://app.xpacy.com/src/upload/display_img/${profileImage}`}
                 alt="profile picture"
                 style={{ width: "24px", height: "24px" }}
               />

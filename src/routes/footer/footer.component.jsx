@@ -15,13 +15,41 @@ import {
     ContactInfo,
     Copywright,
  } from './footer.style'
-import { useState } from 'react'
+import { useContext, useRef, useState } from 'react'
+import fetchServer from '../../utils/serverutils/fetchServer'
+import { UserContext } from '../../contexts/userContext'
+import { toast } from 'sonner'
 
 
 const Footer = ()=>{
     const navigate = useNavigate();
+    const btnRef = useRef(null);
+    const {server} = useContext(UserContext);
     const date = new Date;
-    const [year, setYear] = useState(date.getUTCFullYear())
+    const [year, setYear] = useState(date.getUTCFullYear());
+    const [subscribeEmail, setSubscribeEmail] = useState({
+        email: ''
+    });
+    const {email} = subscribeEmail;
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        setSubscribeEmail({
+            ...subscribeEmail,
+            [name]: value,
+        })
+    }
+    const handleSubscribe = async () => {
+        if(!email) return;
+        btnRef.current.disabled = true;
+        const response = await fetchServer("POST", subscribeEmail, '', 'newsletter/subscribe', server);
+        if(!response.err) toast.success(response.message);
+        setSubscribeEmail({
+            email: ''
+        });
+        btnRef.current.disabled = false;
+    }
+
+
     return(
         <>
             <FooterContainer>
@@ -35,8 +63,8 @@ const Footer = ()=>{
                          </FooterInfoTop>
                             <ContactInfo>
                                 <ContactText><b>Address:</b> Wills Court Mbora, Citec Estate, Jabi, FCT, Nigeria</ContactText>
-                                <ContactText><b>Email:</b> support@xpacy.com</ContactText>
-                                <ContactText><b>Phone:</b> 00000000000</ContactText>
+                                <ContactText><b>Email:</b> info@xpacy.com</ContactText>
+                                <ContactText><b>Phone:</b> 09068557780</ContactText>
                             </ContactInfo>
                          <div className='footer-info-bottom'></div>
                     </FooterInfo>
@@ -53,7 +81,7 @@ const Footer = ()=>{
                     <Company>
                         <div className='footer-company-title'>HELP</div>        
                         <div className='footer-company-links'>
-                            <Link>Customer Support</Link>
+                            <Link to={'/contacts'}>Customer Support</Link>
                             <Link>Terms & Conditions</Link>
                             <Link>Privacy Policy</Link>
                         </div>
@@ -64,9 +92,11 @@ const Footer = ()=>{
                             <input
                                 type='email'
                                 name='email'
+                                value={email}
+                                onChange={handleChange}
                                 placeholder='Enter your email address'
                             />
-                            <Button buttonType={{primaryBtn: false}} background={'var(--Secondary-Secondary500)'} >Subscribe Now</Button>
+                            <Button buttonType={{primaryBtn: false}} background={'var(--Secondary-Secondary500)'} onClick={handleSubscribe} btnRef={btnRef} >Subscribe Now</Button>
                         </Newsletter>
                     </Company>
                 </FooterContent>

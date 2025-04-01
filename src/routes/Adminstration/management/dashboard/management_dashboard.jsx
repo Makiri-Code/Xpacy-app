@@ -179,7 +179,7 @@ const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProper
                                             <tr>
                                                 <td>{service.service_type}</td>
                                                 <td>{service.address}</td>
-                                                <td>{service.propertyOwner.first_name}</td>
+                                                <td>{service.propertyOwner?.first_name}</td>
                                                 <td>{service.scheduled_date}</td>
                                                 <td>{service.scheduled_time}</td>
                                                 <td><div className={service.service_status.toLowerCase()} >{service.service_status}</div></td>

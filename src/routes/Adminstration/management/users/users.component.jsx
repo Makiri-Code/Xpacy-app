@@ -310,7 +310,7 @@ const UsersComponent = ({isMobile, userProfile, allUsers, allAdmin, allOwners, p
                                     return (
                                         <tr>
                                             <td className='typeData'>
-                                                <div style = {{width: '32px', height: '32px', background: `url(${user?.display_picture}) lightgray 50% / cover no-repeat`, borderRadius: '50%'}}></div>
+                                                <div style = {{width: '32px', height: '32px', background: `url(https://app.xpacy.com/src/upload/display_img/${user?.display_picture}) lightgray 50% / cover no-repeat`, borderRadius: '50%'}}></div>
                                                 <div><strong>{user.firstname} {user.lastname}</strong></div>
                                             </td>
                                             <td>{user.phone_number}, {user.email}</td>

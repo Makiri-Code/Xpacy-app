@@ -74,8 +74,8 @@ const PrintableInvoice = React.forwardRef(({ invoiceData, formatDate, invoiceSta
         </RecipentDetails>
         <div className={invoiceData?.status}>
           <span className={invoiceData?.status}>
-            {invoiceData?.status.charAt(0).toUpperCase() +
-              invoiceData?.status.slice(1).toLowerCase()}
+            {invoiceData?.status?.charAt(0).toUpperCase() +
+              invoiceData?.status?.slice(1).toLowerCase()}
           </span>
         </div>
       </div>
@@ -206,8 +206,9 @@ const Invoice = () => {
   useEffect(() => {
     const getInvoice = async () => {
       const response = await fetchServer("GET", {}, userToken, `invoice/fetch-invoice/${id}`, server);
+      console.log(response);
       if (!response.error) {
-        setInvoiceData(response);
+        setInvoiceData(response.data);
       }
     };
     getInvoice();

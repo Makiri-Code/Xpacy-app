@@ -95,6 +95,7 @@ const BookServices = ({
       justify-content: center;
       padding: 24px;
   `
+  console.log(bookedServices);
   return (
     <UserDashboardContainer>
       <DashboardTopNav

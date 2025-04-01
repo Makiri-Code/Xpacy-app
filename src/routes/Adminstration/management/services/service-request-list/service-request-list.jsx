@@ -229,10 +229,10 @@ const ServiceRequestList = ({allServices, setAllServices, allServiceProviders, s
                                                             <td>{index + 1}</td>
                                                             <td>{service.service_type}</td>
                                                             <td>{service.address}</td>
-                                                            <td>{service.propertyOwner.first_name}</td>
+                                                            <td>{service?.propertyOwner?.first_name}</td>
                                                             <td>{formattedDate}<br/>{service.scheduled_time && (converTo12HourFormat(service.scheduled_time))}</td>
                                                             <td><div className={service.service_status.toLowerCase()} >{service.service_status}</div></td>
-                                                            <td>{!service.serviceProvider ? 'Unassigned' : service.serviceProvider.provider_name}</td>
+                                                            <td>{!service.serviceProvider ? 'Unassigned' : service.serviceProvider?.provider_name}</td>
                                                             <td>
                                                                 <SlOptions style={{width: '24px', height: '24px', cursor: "pointer", position: 'relative'}} onClick={() => setShowOptionsDropdownId(showOptionsDropdownId === service.id ? null : service.id)} />
                                                                 {

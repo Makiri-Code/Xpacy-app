@@ -260,7 +260,7 @@ const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDash
                                                         <tr>
                                                             <th>Invoice No</th>
                                                             <th>Type</th>
-                                                            <th>Description</th>
+                                                            {/* <th>Description</th> */}
                                                             <th>Issued Date</th>
                                                             <th>Due Date</th>
                                                             <th>Payment Amount</th>
@@ -284,7 +284,7 @@ const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDash
                                                                             
                                                                             <span>{invoice_reason.charAt(0).toUpperCase() + invoice_reason.slice(1).toLowerCase()}</span>
                                                                         </td>
-                                                                        <td>{description}</td>
+                                                                        {/* <td>{description}</td> */}
                                                                         <td>{formatDate(issuedDate)}</td>
                                                                         <td>{formatDate(dueDate)}</td>
                                                                         <td>₦{Number(total).toLocaleString()}</td>

@@ -31,13 +31,13 @@ import { HistoryContainer } from "../../../../Adminstration/management/services/
 import fetchServer from "../../../../../utils/serverutils/fetchServer";
 import { UserContext } from "../../../../../contexts/userContext";
 import { PulseLoader } from "react-spinners";
-const ServiceRequestDetails = () => {
+const ServiceRequestDetails = ({userProfile}) => {
     const {id} = useParams();
     const {userToken, server} = useContext(UserContext);
     const [serviceDetails, setServiceDetails] = useState(null);
     useEffect(() => {
         const getServiceDetails = async () => {
-            const response = await fetchServer("GET", {}, userToken, `service/fetch-service/${id}`, server);
+            const response = await fetchServer("GET", {}, userToken, `user/fetch-service/${id}`, server);
             console.log(response);
             setServiceDetails(response.data);
         }
@@ -46,10 +46,10 @@ const ServiceRequestDetails = () => {
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
     const defaultFormFields = {
-        firstName: serviceDetails?.user.firstname,
-        lastName: serviceDetails?.user.lastname,
-        email: serviceDetails?.user.email,
-        phoneNumber: serviceDetails?.user.phonenumber,
+        firstName: userProfile?.firstname,
+        lastName: userProfile?.lastname,
+        email: userProfile?.email,
+        phoneNumber: userProfile?.phonenumber,
         propertyAddress: serviceDetails?.address,
         serviceType: serviceDetails?.service_type,
         buildingType: serviceDetails?.building_type,
@@ -87,10 +87,11 @@ const ServiceRequestDetails = () => {
         const date = new Date(timeStr);
         return date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true })
     }
+    console.log(userProfile)
     return(
         <>
             {
-                serviceDetails ? 
+                serviceDetails && userProfile? 
 
                 (
                     <BookServicesContainer>
@@ -122,7 +123,7 @@ const ServiceRequestDetails = () => {
                                         id={'first-name'}
                                         name={'firstName'}
                                         type={'text'}
-                                        value={serviceDetails?.user.firstname}
+                                        value={userProfile?.firstname}
                                         // onChange={handleChange}
                                     />
                                     <FormInput
@@ -130,7 +131,7 @@ const ServiceRequestDetails = () => {
                                         id={'last-name'}
                                         name={'lastName'}
                                         type={'text'}
-                                        value={serviceDetails?.user.lastname}
+                                        value={userProfile?.lastname}
                                         // onChange={handleChange}
                                     />
                                 </Names>
@@ -139,7 +140,7 @@ const ServiceRequestDetails = () => {
                                     id={'email'}
                                     name={'email'}
                                     type={'email'}
-                                    value={serviceDetails?.user.email}
+                                    value={userProfile?.email}
                                     // onChange={handleChange}
                                 />
                                 <FormInput
@@ -147,7 +148,7 @@ const ServiceRequestDetails = () => {
                                     id={'phone'}
                                     name={'phoneNumber'}
                                     type={'tel'}
-                                    value={serviceDetails?.user.phonenumber}
+                                    value={userProfile?.phonenumber}
                                     // onChange={handleChange}
                                 />
                                 <FormInput

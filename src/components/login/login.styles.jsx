@@ -137,7 +137,9 @@ export const LoginCarouselContainer = styled.div`
     }
 `
 export const LoginCarouselImg = styled.img`
-    height: 715px;
+    height: 600px;
+    width: 100%;
+    object-fit: cover;
     filter: brightness(65%);
 `
 export const CarouselCaptionTxt = styled.h2`

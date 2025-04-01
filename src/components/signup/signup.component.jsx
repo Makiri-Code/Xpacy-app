@@ -67,7 +67,6 @@ const SignUp = () => {
         );
         const response = await statesArray.json();
         setNigeriaStates(response.state);
-        console.log(response)
       } catch (error) {
         console.error("Error:", error);
       }
@@ -82,6 +81,7 @@ const SignUp = () => {
       [name]: value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowLoader(true);
@@ -105,7 +105,6 @@ const SignUp = () => {
       server
     );
     setSignupUser(userData.user);
-    console.log(userData);
     if (userData.success) {
       setShowLoader(false);
       setFormFields(defaultFormFields);
@@ -222,11 +221,11 @@ const SignUp = () => {
                     onChange={handleChange}
                   >
                     <option >Choose a Location</option>
-                    <option value={"Rivers"}>Rivers</option>
-                    {/* {nigeriaStates.map((stateName) => {
+                    {/* <option value={"Rivers"}>Rivers</option> */}
+                    {nigeriaStates?.map((stateName) => {
                       const { location } = stateName;
                       return <option key={location}>{location}</option>;
-                    })} */}
+                    })}
                   </Select>
                 </SignUpLocation>
                 <CheckboxForgotPasswordContainer>

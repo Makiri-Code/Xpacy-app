@@ -92,7 +92,6 @@ const UserDashboard = () => {
         getSavedPropertiesData();
       }
     }, [userToken]);
-  console.log(savedPropertiesArray);
     // getBookedServicesData
     useEffect(() => {
       const getBookedServicesData = async () => {
@@ -101,10 +100,11 @@ const UserDashboard = () => {
             "GET",
             {},
             userToken,
-            "service/fetch-services",
+            "user/fetch-services",
             "https://app.xpacy.com"
           );
           setBookedServices(resp.data);
+          console.log(resp);
         } catch (error) {
           console.error("Error:", error);
         }
@@ -138,14 +138,19 @@ const UserDashboard = () => {
   useEffect(() => {
     const getInvoiceList = async () => {
       try {
-        const resp = await fetchServer(
-          "GET",
-          {},
-          userToken,
-          "invoice/fetch-invoices",
-          "https://app.xpacy.com"
+        const resp = await fetch(
+          "https://app.xpacy.com/user/fetch-invoices",
+          {
+            method: "GET",
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': userToken,
+            }
+          }
         );
-        setInvoiceList(resp.data);
+        const response =  await resp.json();
+        console.log(response);
+        setInvoiceList(response);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -297,8 +302,8 @@ const UserDashboard = () => {
               } 
               />
           </Route>
-          <Route path="service-details/:id" element={<ServiceRequestDetails/>} />
-          <Route path="reschdeule-request/:id" element={<ServiceRequest/>} />
+          <Route path="service-details/:id" element={<ServiceRequestDetails userProfile ={userProfile}/>} />
+          <Route path="reschdeule-request/:id" element={<ServiceRequest userProfile ={userProfile}/>}  />
           <Route path="invoice/:id" element={<Invoice/>} />
         </Routes>
       )}

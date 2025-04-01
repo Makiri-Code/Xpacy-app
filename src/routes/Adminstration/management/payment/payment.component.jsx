@@ -207,7 +207,7 @@ const AdminPayments = ({isMobile, allInvoices, profileImage}) => {
                         </thead>
                         <tbody>
                             {
-                                allInvoices.map((tableData, index) => {
+                                allInvoices?.map((tableData, index) => {
                                     // const {invoice_no, type, description, issued_date, due_date, payment_amount, payment_status } = tableData
                                     
                                     return (

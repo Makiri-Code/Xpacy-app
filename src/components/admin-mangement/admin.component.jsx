@@ -95,7 +95,7 @@ const AdminMangement = () => {
                         buttonType={{primaryBtn: true}}
                         onClick={() => navigate('/admin/book-services')}
                     >
-                        Book A Service
+                        Book a Service
                     </Button>
                 </div>
 
@@ -165,16 +165,18 @@ const AdminMangement = () => {
                 subHeadingFont={isMobile ? '1rem': '1.125rem'}
                 subHeadinFontFamily={'Unitext Regular'}
             />
-            <GetInTouch
-                width={'100%'}
-                margin={'0px auto 72px auto'}
-                Image1={Image1}
-                Image2={Image2}
-                Image3={Image3}
-                heading={'Your Property Is In Safe Hands With Us!'}
-                message={'Ready to experience ease with our facility management services?'}
-                buttonText={'Get Started'}
-            />
+            <section className="facility-services">
+                <GetInTouch
+                    width={'100%'}
+                    margin={'0px auto 72px auto'}
+                    Image1={Image1}
+                    Image2={Image2}
+                    Image3={Image3}
+                    heading={'Your Property Is In Safe Hands With Us!'}
+                    message={'Ready to experience ease with our facility management services?'}
+                    buttonText={'Get Started'}
+                />
+            </section>
         </>
     );
 }

@@ -208,7 +208,7 @@ const Services = ({isMobile, allServices, setAllServices, profileImage}) => {
                                                     <tr>
                                                         <td>{service.service_type}</td>
                                                         <td>{service.address}</td>
-                                                        <td>{service.propertyOwner.first_name}</td>
+                                                        <td>{service.propertyOwner?.first_name}</td>
                                                         <td>{formattedDate}<br/>{service.scheduled_time && (converTo12HourFormat(service.scheduled_time))}</td>
                                                         <td><div className={service.service_status.toLowerCase()} >{service.service_status}</div></td>
                                                         <td>{!service.serviceProvider ? 'Unassigned' : service.serviceProvider.provider_name}</td>
@@ -223,7 +223,7 @@ const Services = ({isMobile, allServices, setAllServices, profileImage}) => {
                                                                             <VscNote style={{width: '20px', height: '20px', color: '#203645'}}/>
                                                                             <span>View details</span>
                                                                         </div>
-                                                                        <div className="option-item" onClick={() => navigate('/dashboard/admin/assign-service-provider') }>
+                                                                        <div className="option-item" onClick={() => navigate(`/dashboard/admin/assign-service-provider/${service.id}`) }>
                                                                             <RiUserSettingsLine style={{width: '20px', height: '20px', color: '#203645'}}/>
                                                                             {
                                                                                 service.serviceProvider ?

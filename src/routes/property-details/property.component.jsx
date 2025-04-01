@@ -308,7 +308,7 @@ const Property = () => {
                                                 <p className="features-text m-0">{property?.property_square_area}sqm&sup2;</p>
                                             </div>
                                             <div className="d-flex justify-content-between align-items-center align-items-stretch w-100">
-                                                <p className="features-text m-0">land Size</p>
+                                                <p className="features-text m-0">Land Size</p>
                                                 <p className="features-text m-0">{property?.land_area}&sup2;</p>
                                             </div>
                                             <div className="d-flex justify-content-between align-items-center align-items-stretch w-100">
@@ -338,7 +338,7 @@ const Property = () => {
                                                 <p className="features-text m-0">Swimming pool</p>
                                             </div>
                                             <div className="d-flex justify-content-between align-items-center align-items-stretch w-100">
-                                                <p className="features-text m-0">Fittness</p>
+                                                <p className="features-text m-0">Fitness</p>
                                                 <p className="features-text m-0">Fully-equiped gym</p>
                                             </div>
                                         </div>
@@ -429,10 +429,10 @@ const Property = () => {
                                 </div>
                                 <div className="enquires d-flex justify-content-center align-items-center">
                                     <div className="request-tour d-flex flex-column justify-content-center align-items-center">
-                                        <h5>For Enquires</h5>
+                                        <h5>For Enquiries</h5>
                                         <div className="call d-flex justify-content-center align-items-center">
                                             <MdOutlineLocalPhone style={{width: '16px', height: '16px'}}/>
-                                            <span>Call +234 80 00000000 </span>
+                                            <span>Call +2349068557780 </span>
                                         </div>
                                     </div>
                                 </div>

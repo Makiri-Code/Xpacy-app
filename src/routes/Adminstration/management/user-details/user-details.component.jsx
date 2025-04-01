@@ -109,7 +109,7 @@ import { PulseLoader } from "react-spinners";
                             <SubHeading>Personal Information</SubHeading>
                         </HeaderContainer>
                         <Container>
-                            <ProfilePhoto src={userProfile.display_picture ? userProfile.display_picture : profileImage} alt="Profile photo"></ProfilePhoto>
+                            <ProfilePhoto src={userProfile.display_picture ? `https://app.xpacy.com/src/upload/display_img/${userProfile.display_picture}` : profileImage} alt="Profile photo"></ProfilePhoto>
                             <NameContainer>
                                 <FormInput
                                     label={'First Name'}

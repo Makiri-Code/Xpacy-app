@@ -116,7 +116,7 @@
 }
 .facility-services{
     display: flex;
-    padding: 120px 0px;
+    padding: 120px 7%;
     flex-direction: column;
     align-items: center;
     gap: 64px;
@@ -142,7 +142,7 @@
     }
     .facilty-services-cards{
         display: flex;
-        width: 85.69%;
+        width: 100%;
         margin: 0 auto;
         align-items: flex-start;
         flex-wrap: wrap;
