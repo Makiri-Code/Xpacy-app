@@ -107,7 +107,7 @@ export const ServicesCardFooter = styled.div`
         font-weight: 700;
         line-height: 120%; /* 1.8rem */
     }
-    .stats{
+    .stats, .down-stats{
         display: flex;
         justify-content: center;
         align-items: center;

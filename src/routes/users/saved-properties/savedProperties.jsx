@@ -36,7 +36,6 @@ const SavedProperties = ({
       option: "Oldest",
     },
   ];
-  console.log(savedPropertiesArray)
   const cardStytles = {
     cardWidth: "330px",
     cardHeight: "auto",

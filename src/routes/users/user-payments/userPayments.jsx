@@ -13,6 +13,15 @@ import EmptySavedProperty from '../../../components/empty-saved-property/emptySa
 import styled from 'styled-components';
 import { UserDashboardTopNav } from '../../../components/user-dashboard/user-dashboard.styles';
 
+const EmptySavedPropertyContainer = styled.div`
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+`
+
 const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDashboardSidebar, invoiceList, notifications }) => {
     const [showFilter, setShowFilter] = useState(false);
     const selectOptions = [
@@ -34,45 +43,8 @@ const UserPayments = ({profileImage, isMobile, showDashboardSidebar, setShowDash
         const date = new Date(timeStr);
         return date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true })
     }
-    // const invoiceTableData = [
-    //     {
-    //         invoiceNo: 45678,
-    //         type: 'Rent',
-    //         description: 'Rent for 2 bedroom flat, Ikoyi, Lagos',
-    //         issuedDate: '15/09/24',
-    //         dueDate: '19/09/24',
-    //         paidAmount: '₦4,500,000',
-    //         paymentStatus: 'paid'
-    //     },
-    //     {
-    //         invoiceNo: 45679,
-    //         type: 'Services',
-    //         description: 'Plumbing service for 2 bedroom flat, Ikoyi, Lagos',
-    //         issuedDate: '15/09/24',
-    //         dueDate: '19/09/24',
-    //         paidAmount: '₦500,000',
-    //         paymentStatus: 'unpaid'
-    //     },
-    //     {
-    //         invoiceNo: 45679,
-    //         type: 'Services',
-    //         description: 'Plumbing service for 2 bedroom flat, Ikoyi, Lagos',
-    //         issuedDate: '15/09/24',
-    //         dueDate: '19/09/24',
-    //         paidAmount: '₦500,000',
-    //         paymentStatus: 'incomplete'
-    //     },
-    // ]
     const dropdownOptions = ['General', 'Services', 'Properties', 'Payments']
-    const EmptySavedPropertyContainer = styled.div`
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-`
-    console.log(invoiceList)
+
     return (
         <div className="notification-container">
             <DashboardTopNav profileImage={profileImage} dashboardRoute={'Payments'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSidebar} notifications={notifications} />

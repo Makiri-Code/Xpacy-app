@@ -62,10 +62,11 @@ export const PropertySection = styled.div`
         scrollbar-width: none;
     }
 `
-export const PropertySectionTitle = styled.div`
+export const  PropertySectionTitle = styled.div`
     display: flex;
     justify-content: space-between;
     width: 100%;
+    flex-grow: 1;
     h3{
         margin: 0;
         color: var(--Base-Base-Black, #333);
@@ -126,7 +127,7 @@ export const BookedTable = styled.table`
         font-style: normal;
         font-weight: 700;
         line-height: 120%; 
-        padding: 0px 32px;
+        // padding: 0px 32px;
         height: 48px;
         border-bottom: 2px solid var(--Primary-Primary100, #E3ECF2);
     }
@@ -134,6 +135,7 @@ export const BookedTable = styled.table`
         color: var(--Base-Base-Black, #333);
         font-weight: 400;
         .upcoming, .in-progress, .completed, .pending{
+            font-family: "Unitext Regular";
             font-size: 14px;
             height: 24px;
             padding: 4px;

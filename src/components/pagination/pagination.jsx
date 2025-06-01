@@ -43,7 +43,6 @@ const Pagination = () => {
         } catch(error) {
             console.error('Error:', error);
         }
-        console.log(index)
     }
     const handleNumClick = async (num) => {
         setCurrentNum(num);

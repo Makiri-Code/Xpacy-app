@@ -104,7 +104,6 @@ const UserDashboard = () => {
             "https://app.xpacy.com"
           );
           setBookedServices(resp.data);
-          console.log(resp);
         } catch (error) {
           console.error("Error:", error);
         }
@@ -149,7 +148,6 @@ const UserDashboard = () => {
           }
         );
         const response =  await resp.json();
-        console.log(response);
         setInvoiceList(response);
       } catch (error) {
         console.error("Error:", error);
@@ -164,9 +162,7 @@ const UserDashboard = () => {
   useEffect(()=> {
     if (isTokenExpired(userToken)) {
       navigate('/auth/log-in');
-    } else {
-      console.log('Welcome back! Token is valid.');
-    }
+    } 
   }, [userToken]);
 
   return (
@@ -297,7 +293,6 @@ const UserDashboard = () => {
                 bookedServices={bookedServices}
                 notifications = {notifications}
                 profileImage={profileImage}
-                notifications={notifications}
               />
               } 
               />

@@ -10,8 +10,7 @@ const Properties = ({properties}) => {
             <Routes>
                 <Route index element={<Property properties={properties} />} />
                 <Route path="property-photos" element={<Photos/>}/>
-                <Route path="application-form" element={<ApplicationForm/>} />
-                <Route path="*" element={<NotFound/>}/>
+                
             </Routes>
         </>
     )

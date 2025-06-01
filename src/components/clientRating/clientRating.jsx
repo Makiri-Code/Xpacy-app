@@ -15,8 +15,7 @@ const ClientRating = ({image, name, title, comment, rating, index})=>{
             initratingStars = initratingStars.concat(1)
         }
         const rateDiff = rateNo-rateFloorNo
-        // console.log(rateNo, rateFloorNo, rateDiff, initratingStars)
-        if (rateDiff>0){
+        if (rateDiff > 0){
             initratingStars = initratingStars.concat(rateDiff)
         }
         setRatingStars(initratingStars)
@@ -26,10 +25,10 @@ const ClientRating = ({image, name, title, comment, rating, index})=>{
         <>
             <motion.div 
                 className="testimonial"
-                animate={{ x: ["0%", "-100%"] }} // Moves the track to the left infinitely
+                animate={{ x: ["10%", "-250%"] }} // Moves the track to the left infinitely
                 transition={{
                 repeat: Infinity, // Infinite loop
-                duration: 10, // Adjust speed (lower = faster)
+                duration: 20, // Adjust speed (lower = faster)
                 ease: "linear", // Smooth scrolling
                 }}
             >
@@ -37,12 +36,12 @@ const ClientRating = ({image, name, title, comment, rating, index})=>{
                 <div className="reviews-text-container">
                     <p className='testimonial-txt'>{comment}</p>
                     <div className="testimonial-name">
-                        <p>{name} <span className=''>{title}</span></p>
+                        <p className='client-name'>{name} <span className='client-title'>{title}</span></p>
                     </div>
                     <div className="star-icon-container d-flex justify-content-center align-items-center">
                         <span className=''>{rating}</span>
                         <div className="">
-                            {ratingStars.map((starRate,index)=>{
+                            {ratingStars.map((starRate, index) => {
                                 if (starRate===1){
                                     return (
                                         <IoStar key={index} className='star-icon'/>

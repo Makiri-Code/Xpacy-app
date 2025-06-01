@@ -102,7 +102,6 @@ const Services = ({isMobile, allServices, setAllServices, profileImage}) => {
         }
 
     }
-    console.log(allServices)
     return (
         <>
             {
@@ -151,15 +150,15 @@ const Services = ({isMobile, allServices, setAllServices, profileImage}) => {
                                     </div>
                                     <div className="card2">
                                         <span>Properties Under Xpacy</span>
-                                        <p>100</p>
+                                        <p>0</p>
                                     </div>
                                     <div className="card3">
                                         <span>External Properties</span>
-                                        <p>20</p>
+                                        <p>0</p>
                                     </div>
                                     <div className="card4">
                                         <span>Canceled Requests</span>
-                                        <p>4</p>
+                                        <p>0</p>
                                     </div>
                                 </SummaryContainer>
                                 <AnalyticsContainer>

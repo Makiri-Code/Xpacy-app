@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import DashboardTopNav from '../dashoard-top-nav/dashboardTopNav';
 import FormInput from '../../../components/form-input/formInput.component';
 import './help-support.styles.jsx';
@@ -7,6 +7,7 @@ import Faq from '../../../components/faq/faq.component';
 import ModalComponent from '../../../components/modal/modal';
 import { IoClose } from 'react-icons/io5';
 import { SlOptionsVertical } from 'react-icons/sl';
+import { PageContext } from '../../../contexts/page.context.jsx';
 import { UserDashboardTopNav } from '../../../components/user-dashboard/user-dashboard.styles.jsx';
 import { 
     TextArea, 
@@ -22,19 +23,13 @@ import {
     SupportModalContent,
 } from './help-support.styles.jsx';
 const HelpAndSupport = ({notifications, profileImage, isMobile, showDashboardSidebar,setShowDashboardSidebar}) => {
+    const {faqs} = useContext(PageContext); 
     const defaultFormFields = {
         firstName: '',
         lastName: '',
         email: '',
         subject: '',
         message: '',
-    }
-    const showFaqs = {
-        faq1: false,
-        faq2: false,
-        faq3: false,
-        faq4: false,
-        faq5: false,
     }
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {firstName, lastName, email, subject, message} = formFields;
@@ -48,7 +43,6 @@ const HelpAndSupport = ({notifications, profileImage, isMobile, showDashboardSid
     }
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        console.log(formFields)
         setFormFields(defaultFormFields);
         setShowModal(!showModal)
     }
@@ -119,7 +113,7 @@ const HelpAndSupport = ({notifications, profileImage, isMobile, showDashboardSid
                             <Button
                                 buttonType={{primaryBtn: true}}
                                 type={'submit'}
-                                className = 'align-self-stretch'
+                                className = 'align-self-stretch custom-btn'
                             >Send A Message</Button>
                     </SupportForm>
                         {
@@ -141,35 +135,15 @@ const HelpAndSupport = ({notifications, profileImage, isMobile, showDashboardSid
                 <FaqContainer>
                     <h5>Frequently Asked Questions (FAQ)</h5>
                     <div className="align-self-stretch">
-                    <Faq 
-                        heading={"How do I list my property?"}
-                        answer={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."}
-                    />
-                    <Faq 
-                        showDivider={true}
-                        heading={"How do I book facility management services?"}
-                        answer={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."}
-                    />
-                    <Faq 
-                        showDivider={true}
-                        heading={"Can I edit my property details?"}
-                        answer={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."}
-                    />
-                    <Faq 
-                        showDivider={true}
-                        heading={"How do I receive updates on my properties?"}
-                        answer={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."}
-                    />
-                    <Faq 
-                        showDivider={true}
-                        heading={"What payment methods are supported?"}
-                        answer={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."}
-                    />
-                    <Faq 
-                        showDivider={true}
-                        heading={"How do I rent properties?"}
-                        answer={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."}
-                    />
+                        {
+                            faqs?.map(({question, answer}, index) => (
+                                <Faq 
+                                    showDivider={index == 0 ? false : true}
+                                    heading={question}
+                                    answer={answer}
+                                />
+                            ))
+                        }
                     </div>
                 </FaqContainer>
             </SupportContainer>

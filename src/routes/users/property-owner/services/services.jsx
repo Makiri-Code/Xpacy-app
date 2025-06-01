@@ -9,7 +9,6 @@ import { BsGraphUp } from "react-icons/bs";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import propertyImage from "../../../../assets/Property-Image.png"
 import { TableFooter } from "../notification/notification.styles";
 import { BiPlus } from "react-icons/bi";
 import { FiUpload } from "react-icons/fi";
@@ -19,7 +18,7 @@ import SortBy from "../../../../components/sort-by/sortBy";
 import { LuCalendarClock } from "react-icons/lu";
 import { MdOutlineCancel } from "react-icons/md";
 import { CgDetailsMore } from "react-icons/cg";
-const Services = ({isMobile}) => {
+const Services = ({isMobile, ownerServiceList, profileImage}) => {
     const navigate = useNavigate();
     const [showDeletModal, setShowDeleteModal] = useState(false);
     const selectOptions = [
@@ -33,11 +32,18 @@ const Services = ({isMobile}) => {
           option: "Oldest",
         },
       ];
-    const [showPropertyOption, setShowPropertyOption] = useState(false)
+    //   Convert time to 12 hours
+    const converTo12HourFormat = (timeString) => {
+        let [hours, minutes] = timeString?.split(":").map(Number);
+        let period = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12 || 12;   
+        return `${hours}:${minutes.toString().padStart(2, "0")} ${period}`;
+        }
+    const [showPropertyOptionId, setShowPropertyOptionId] = useState(null);
     const dropdownOptions = ['General', 'Services', 'Properties', 'Payments'];
     return(
         <ManagementDashboardContainer>
-            <TopNav dashboardRoute={"Service Request"} isMobile={isMobile}/>
+            <TopNav dashboardRoute={"Service Request"} isMobile={isMobile} profileImage={profileImage}/>
             <ManagementDashboardContent>
                 <HeaderContainer>
                     <Select>
@@ -66,7 +72,7 @@ const Services = ({isMobile}) => {
                                     <p>SERVICE REQUESTS</p>
                                 </IconContainer>
                                 <ServicesCardFooter>
-                                    <span>8</span>
+                                    <span>{ownerServiceList?.length}</span>
                                     <div className="stats">
                                         <IoArrowUp style={{width: '16px', height: '16px', color: '#357B38'}}/>
                                         <span>1.0%</span>
@@ -78,23 +84,23 @@ const Services = ({isMobile}) => {
                         </div>
                         <div className="card2">
                             <span>Completed</span>
-                            <p>3</p>
+                            <p>0</p>
                         </div>
                         <div className="card3">
                             <span>In progress</span>
-                            <p>4</p>
+                            <p>0</p>
                         </div>
                         <div className="card4">
                             <span>Upcoming</span>
-                            <p>1</p>
+                            <p>0</p>
                         </div>
                         <div className="card5">
                             <span>Pending</span>
-                            <p>2</p>
+                            <p>0</p>
                         </div>
                         <div className="card6">
                             <span>Cancelled</span>
-                            <p>4</p>
+                            <p>0</p>
                         </div>
                     </PropertiesCard>
                 </Container>
@@ -104,7 +110,7 @@ const Services = ({isMobile}) => {
                         <p>Service Request List</p>
                         <FilterItem>
                         <SearchBoxContainer>
-                            <SearchBox type="search" placeholder = "Search property, type or name"  />
+                            <SearchBox type="search" placeholder = "Search service request"  />
                             <SearchIcon/>
                         </SearchBoxContainer>
                         <SortBy selectOptions={selectOptions}/>
@@ -121,7 +127,64 @@ const Services = ({isMobile}) => {
                             <th></th>
                         </thead>
                         <tbody>
-                            <tr>
+                            {
+                                ownerServiceList?.map((service) => {
+                                    const formattedDate = new Date(service?.scheduled_date)
+                                            .toLocaleDateString('en-GB')
+                                            .split("/")
+                                            .map((part, index) => (index === 2 ? part.slice(-2) : part) )
+                                            .join("/")
+
+                                    return (
+                                        <tr>
+                                            <td>{service?.service_type}</td>
+                                            <td>{service.address}</td>
+                                            <td>{service.propertyOwner?.first_name}</td>
+                                            <td>{formattedDate}<br/>{service.scheduled_time && (converTo12HourFormat(service.scheduled_time))}</td>
+                                            <td><div className={service.service_status.toLowerCase()} >{service.service_status}</div></td>
+                                            <td>{!service.serviceProvider ? 'Unassigned' : service.serviceProvider.provider_name}</td>
+                                            <td>
+                                                <SlOptions style={{width: '24px', height: '24px', cursor: "pointer", position: 'relative'}} onClick={() => setShowPropertyOptionId(showPropertyOptionId === service.id ? null : service.id)} />
+                                                {
+                                                    showPropertyOptionId === service.id && (
+                                                        <DropdownOption>
+                                                            <DropdownContent onClick={() => {
+                                                                setShowPropertyOptionId(null);
+                                                                navigate('/dashboard/owner/reshedule-service-request')
+                                                            }}>
+                                                                <LuCalendarClock style={{width: '24px', height: '24px'}}/>
+                                                                <span>Reschedule</span>
+                                                            </DropdownContent>
+                                                            <DropdownContent onClick={() => {
+                                                                setShowPropertyOptionId(null);
+                                                                setShowDeleteModal(!showDeletModal)
+                                                            }} >
+                                                                <MdOutlineCancel style={{width: '24px', height: '24px'}}/>
+                                                                <span>Cancel request</span>
+                                                            </DropdownContent>
+                                                            <DropdownContent onClick={() => {
+                                                                setShowPropertyOptionId(null);
+                                                                navigate('/dashboard/owner/service-request-details')
+                                                            }} >
+                                                                <CgDetailsMore style={{width: '24px', height: '24px'}}/>
+                                                                <span>View details</span>
+                                                            </DropdownContent>
+                                                            <DropdownContent className='last' onClick={() => {
+                                                                setShowPropertyOptionId(null);
+                                                                navigate('/dashboard/owner/new-service-request');
+                                                            }}>
+                                                                <RiUserSettingsLine style={{width: '24px', height: '24px'}}/>
+                                                                <span>Submit new request</span>
+                                                            </DropdownContent>
+                                                        </DropdownOption>
+                                                    )
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                            {/* <tr>
                                 <td>Plumbing</td>
                                 <td>22, Awolowo Way, Ikoyi, Lagos </td>
                                 <td style={{textAlign: 'center'}}>Jerry Briggs<br/><small style={{fontFamily: 'Unitext Regular'}}>Tenant</small></td>
@@ -164,7 +227,7 @@ const Services = ({isMobile}) => {
                                             )
                                         }
                                 </td>
-                            </tr>
+                            </tr> */}
                         </tbody>
                     </NotificationTable>
                 </Container>

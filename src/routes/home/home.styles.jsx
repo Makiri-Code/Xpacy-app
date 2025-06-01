@@ -1,26 +1,20 @@
 import styled from "styled-components";
-import { Carousel } from "react-bootstrap";
+import { Carousel, CarouselCaption } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import Button from "../../components/button/button";
 import { IoIosSearch } from "react-icons/io";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
-import ServicesCard from "../../components/services-card/services-card";
 
-export const CarouselContainer = styled(Carousel)`
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-`
-export const CarouselImage = styled.img`
-    width: 100%;
-    max-height: 100vh;
-    object-fit: cover;
-    filter: brightness(60%);
-    @media only screen and (max-width: 600px){
-        height: 431px;
-    }
-`
 
+export const BannerCarouselTitle = styled.h2`
+    color: var(--Base-Base-White, #FFF);
+    text-align: center;
+    font-family: "Florencesans Exp";
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /*33.6px */
+`
 export const BannerContainer = styled.div`
     width: 100%;
     position: absolute;
@@ -33,7 +27,7 @@ export const BannerContainer = styled.div`
     @media only screen and (max-width: 600px){
         width: 100%;
         position: absolute;
-        top: -100px;
+        top: 305px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -303,49 +297,14 @@ export const ServicesContent = styled.div`
 `
 export const ServicesImgContainer = styled.div`
     display: flex;
-    flex-wrap: nowrap;
-    overflow-x: hidden;
-    justify-content: center;
-    position: relative;
     width: 100%;
-    height: 450px;
-    .mobile-call-to-action{
-        display: none;
-    }
-    .services-card-container:nth-of-type(1){
-        left: 0px;
-        top: 0;
-        filter: drop-shadow(5px 0px 40px #FFF);
-        padding: 0px;
-    }
-    .services-card-container:nth-of-type(2){
-        left: 20%;
-        top: 0;
-        filter: drop-shadow(5px 0px 40px #FFF);
-        padding: 0px;
-    }
-    .services-card-container:nth-of-type(3){
-        left: 40%;
-        top: 0;
-        filter: drop-shadow(5px 0px 40px #FFF);
-        padding: 0px;
-    }
-    .services-card-container:nth-of-type(4){
-        left: 60%;
-        top: 0;
-        filter: drop-shadow(5px 0px 40px #FFF);
-        padding: 0px;
-    }
-    .services-card-container:nth-of-type(5){
-        filter: drop-shadow(5px 0px 40px #FFF);
-        left: 80%;
-        padding: 0px;
-    }
-    
+    max-width: 200%;
+    gap: 10px;
+    height: 320px;
     @media only screen and (max-width: 600px){
         position: unset;
         display: block;
-        height: auto;
+        height: 100%;
         margin-top: 48px;
         .services-img{
             width: auto;
@@ -353,26 +312,7 @@ export const ServicesImgContainer = styled.div`
         .services-card-icon{
             top: 40%;
         }
-        .mobile-call-to-action{
-            width: 70%;
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, 50%);
-            h5{
-                color: var(--Base-Base-White, #FFF);
-                text-align: center;
-
-                /* XPACY- Real Estate & Facility Management - 1/Mobile/Headings/Heading 4 */
-                font-family: "Florencesans Exp";
-                font-size: 1.125rem;
-                font-style: normal;
-                font-weight: 400;
-                line-height: 120%; /* 1.35rem */
-            }
+        
         }
     }
         
@@ -538,8 +478,10 @@ export const StoreBtn = styled.button`
             font-style: normal;
             font-weight: 400;
             line-height: normal;
+            
         }
         p{
+            margin: 0px;
             font-size: 1.125rem;
             font-weight: 600;
             line-height: 100%; /* 1.125rem */

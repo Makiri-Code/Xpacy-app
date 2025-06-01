@@ -20,7 +20,10 @@ import {
     InputContainer,
     TableFooter,
  } from "./notification.styles";
-const Notification = ({isMobile}) => {
+import { BiBuildings } from "react-icons/bi";
+import { LuCalendar } from "react-icons/lu"
+;
+const Notification = ({isMobile, ownerNotifications, profileImage}) => {
     const selectOptions = [
         {
           option: "Default",
@@ -35,7 +38,7 @@ const Notification = ({isMobile}) => {
     const dropdownOptions = ['General', 'Services', 'Properties', 'Payments'];
     return(
         <ManagementDashboardContainer>
-            <TopNav dashboardRoute={'Notifications'} isMobile={isMobile} />
+            <TopNav dashboardRoute={'Notifications'} isMobile={isMobile} profileImage={profileImage} />
            <ManagementDashboardContent>
                 <Container>
                     <FilterContainer>
@@ -66,27 +69,44 @@ const Notification = ({isMobile}) => {
                             <th>Delete</th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <InputContainer>
-                                        <input type="checkbox" name="" id="" />
-                                    </InputContainer>
-                                </td>
-                                <td className='typeData'>
-                                    <div className='payment'><MoneyBag style={{width: '20px', height: '20px'}}/></div>
-                                    Payment
-                                </td>
-                                <td>Rent overdue for 2-Bedroom Apartment, Lagos</td>
-                                <td>19/09/24</td>
-                                <td>12:00pm</td>
-                                <td><RiDeleteBin6Line style={{width: '24px', height: '24px' }} /></td>
-                            </tr>
+                        {
+                                ownerNotifications?.map((notification) => {
+                                    const date = new Date(notification.date);
+                                    return(
+                                        <tr>
+                                            <td>
+                                                <InputContainer>
+                                                    <input type="checkbox" name="" id="" />
+                                                </InputContainer>
+                                            </td>
+                                            <td className='typeData'>
+                                                <div className='payment'>
+                                                    {notification.notification_type === 'Properties' && <BiBuildings style={{width: '20px', height: '20px'}}/>}
+                                                    {notification.notification_type === 'Payments' && <MoneyBag style={{width: '20px', height: '20px'}}/>}
+                                                    {notification.notification_type === 'Services' && <LuCalendar style={{width: '20px', height: '20px'}}/>}
+
+                                                </div>
+                                                {notification.notification_type}
+                                            </td>
+                                            <td>{notification.message}</td>
+                                            <td>{date.toLocaleDateString('en-GB')}, {date.toLocaleTimeString('en-US', {hour: 'numeric', minute: '2-digit', hour12: true})}</td>
+                                            <td><Link>Send Reminder</Link></td>
+                                            <td><RiDeleteBin6Line style={{width: '24px', height: '24px' }} /></td>
+                                        </tr>
+                                    )
+                                })
+                            }
                         </tbody>
-                        <TableFooter>
-                            <tr>
-                                <td colSpan={6}><Link>Clear all notification</Link></td>
-                            </tr>
-                        </TableFooter>
+                        {
+                            ownerNotifications?.length > 0 && 
+                            (
+                                <TableFooter>
+                                    <tr>
+                                        <td colSpan={6}><Link>Clear all notification</Link></td>
+                                    </tr>
+                                </TableFooter>
+                            )
+                        }
                     </NotificationTable>
                     {/* <Pagination/> */}
                 </Container>

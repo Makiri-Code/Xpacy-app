@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 import { IoChevronForward } from 'react-icons/io5';
@@ -6,33 +6,43 @@ import hero from '../../assets/contacts-img.png';
 import FormInput from '../../components/form-input/formInput.component';
 import Button from '../../components/button/button';
 import ModalComponent from '../../components/modal/modal';
+import fetchServer from "../../utils/serverutils/fetchServer";
+import { ClipLoader } from 'react-spinners';
+import { UserContext } from './../../contexts/userContext';
 import './contacts.styles.css';
-
 const Contacts = () => {
+    const {server} = useContext(UserContext);
+    const btnRef = useRef(null);
+    const [showLoader, setShowLoader] = useState(false);
     const [showModal, setShowModal] = useState(false)
     const defaultFormFields = {
-        firstName: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         email: '',
-        phoneNumber: '',
+        phone: '',
         message: ''
     }
     const [formFields, setFormFields] = useState(defaultFormFields);
-    const {firstName, lastName, email, phoneNumber, message} = formFields;
+    const {first_name, last_name, email, phone, message} = formFields;
 
     const handleChange = (e) => {
         const {name, value} = e.target;
-
         setFormFields({
             ...formFields,
-            [name]: value
+             [name]: value
         });
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-        console.log(formFields);
-        setShowModal(true)
+        btnRef.current.disabled = true;
+        setShowLoader(true);
+        const response = await fetchServer("POST", formFields, '', 'contact/send-mail', server);
+        if(response.success){
+            setShowModal(true)
+        }
+        btnRef.current.disabled = false;
+        setShowLoader(false);
+        setFormFields(defaultFormFields);
     }
     return (
         <>
@@ -56,18 +66,20 @@ const Contacts = () => {
                                     label={'First Name'}
                                     id={'first-name'}
                                     placeholder={'Enter your first name'}
-                                    name={'firstName'}
+                                    name={'first_name'}
                                     type={'text'}
-                                    value={firstName}
+                                    value={first_name}
+                                    required
                                     onChange={handleChange}
                                 />
                                 <FormInput
                                     label={'Last Name'}
                                     id={'last-name'}
                                     placeholder={'Enter your last name'}
-                                    name={'lastName'}
+                                    name={'last_name'}
                                     type={'text'}
-                                    value={lastName}
+                                    required
+                                    value={last_name}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -77,6 +89,7 @@ const Contacts = () => {
                                 placeholder={'Enter your email address'}
                                 name={'email'}
                                 type={'email'}
+                                required
                                 value={email}
                                 onChange={handleChange}
                             />
@@ -84,20 +97,24 @@ const Contacts = () => {
                                 label={'Phone Number'}
                                 id={'phone'}
                                 placeholder={'+234000 000 0000'}
-                                name={'phoneNumber'}
+                                name={'phone'}
                                 type={'tel'}
-                                value={phoneNumber}
+                                required
+                                value={phone}
                                 onChange={handleChange}
                             />
                             <div className="message-container">
                                 <label>How can we help?</label>
-                                <textarea name="message" id="message" cols="30" rows="10" placeholder='Type your message here' value={message} onChange={handleChange}></textarea>
+                                <textarea name="message" id="message" required cols="30" rows="10" placeholder='Type your message here' value={message} onChange={handleChange}></textarea>
                             </div>
                             <Button
                                 buttonType={{primaryBtn: true}}
                                 type={'submit'}
+                                btnRef={btnRef}
                             >
-                                Send A Message
+                               {
+                                    showLoader ? (<ClipLoader size={25} color='#fff'/>) : 'Send A Message'
+                                } 
                             </Button>
                         </form>
                     </div>

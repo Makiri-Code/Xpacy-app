@@ -1,4 +1,4 @@
-button{
+.custom-btn{
     display: flex;
     height: 48px;
     padding: var(--Spacing-ml, 24px);
@@ -12,10 +12,10 @@ button{
     font-weight: 700;
     line-height: 120%; /* 19.2px */
 }
-button:hover{
+.custom-btn:hover{
     filter: brightness(80%);
 }
-button:disabled{
+.custom-btn:disabled{
     cursor: not-allowed;
     opacity: 0.5;
 }

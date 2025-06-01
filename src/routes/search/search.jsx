@@ -6,7 +6,6 @@ import { PageContext } from "../../contexts/page.context";
 
 const Search = () => {
     const {searchedProperties, searchedPagination} = useContext(PageContext);
-    console.log(searchedProperties)
     const buyPropHeadings = {
         heading: `We've got ${searchedProperties.length} results for you`,
         subHeading: ''

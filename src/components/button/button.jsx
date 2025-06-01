@@ -13,6 +13,7 @@ const Button = ({children, buttonType, type, onClick, background, textColor, but
             {
                 primaryBtn ? 
                     (<button 
+                        className='custom-btn'
                         ref={btnRef}
                         style={{background: '#203645', color: '#FFF', padding: buttonPadding, height: buttonHeight}} 
                         type={type} 
@@ -22,6 +23,7 @@ const Button = ({children, buttonType, type, onClick, background, textColor, but
                         {children}
                     </button>) :
                     (<button 
+                        className='custom-btn'
                         ref={btnRef}
                         style={{background: buttonColor, color:color , border: '1px solid #203645', padding: buttonPadding, height: buttonHeight}} type={type} 
                         onClick={onClick} 

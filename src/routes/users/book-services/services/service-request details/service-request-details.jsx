@@ -38,7 +38,6 @@ const ServiceRequestDetails = ({userProfile}) => {
     useEffect(() => {
         const getServiceDetails = async () => {
             const response = await fetchServer("GET", {}, userToken, `user/fetch-service/${id}`, server);
-            console.log(response);
             setServiceDetails(response.data);
         }
         getServiceDetails();
@@ -87,7 +86,6 @@ const ServiceRequestDetails = ({userProfile}) => {
         const date = new Date(timeStr);
         return date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true })
     }
-    console.log(userProfile)
     return(
         <>
             {

@@ -17,12 +17,12 @@ const Faq = ({ heading, answer, showDivider}) => {
             }
             <div className='col d-flex justify-content-between' onClick={handleClick}>
                 <h5 className='faq-heading'>{heading}</h5>
-                {showFaq ? (<FiMinusCircle className='minus-icon' onClick={handleClick}/>) : (<PlusIcon className='plus-icon' onClick={handleClick}/>)}
+                {showFaq ? (<FiMinusCircle className='plus-icon' onClick={handleClick}/>) : (<PlusIcon className='plus-icon' onClick={handleClick}/>)}
             </div>
             {
                 showFaq && 
                 (
-                    <p>
+                    <p className="faq-p">
                         {answer}
                     </p>
                 )

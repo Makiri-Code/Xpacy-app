@@ -42,7 +42,7 @@ const Footer = ()=>{
         if(!email) return;
         btnRef.current.disabled = true;
         const response = await fetchServer("POST", subscribeEmail, '', 'newsletter/subscribe', server);
-        if(!response.err) toast.success(response.message);
+        if(!response.err) toast.error(response.message);
         setSubscribeEmail({
             email: ''
         });
@@ -81,7 +81,7 @@ const Footer = ()=>{
                     <Company>
                         <div className='footer-company-title'>HELP</div>        
                         <div className='footer-company-links'>
-                            <Link to={'/contacts'}>Customer Support</Link>
+                            <Link to={'/contact'}>Customer Support</Link>
                             <Link>Terms & Conditions</Link>
                             <Link>Privacy Policy</Link>
                         </div>

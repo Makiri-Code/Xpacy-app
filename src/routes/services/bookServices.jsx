@@ -38,7 +38,6 @@ const BookServices = ({userProfile}) => {
     const {userToken, server} = useContext(UserContext);
     const navigate = useNavigate();
     const btnRef = useRef(null);
-    console.log(isTokenExpired(userToken));
     const [showModal, setShowModal] = useState(false);
     const [disabled, setDisabled] = useState(false);
     const [showLoader, setShowLoader] = useState(false);
@@ -64,6 +63,7 @@ const BookServices = ({userProfile}) => {
         } = formFields;
     
     if(!userProfile){
+        toast.error("Please log in to continue")
         navigate('/auth/log-in');
     }
    
@@ -103,7 +103,6 @@ const BookServices = ({userProfile}) => {
                 body: data,
             });
             const resp = await response.json();
-            console.log(resp)
             if(resp.success){
                 setShowModal(true);
                 setFormFields(defaultFormFields);
@@ -116,9 +115,6 @@ const BookServices = ({userProfile}) => {
             setShowLoader(false)
             btnRef.current.disabled = false;
 
-        }
-        for (let pair of data.entries()) {
-            console.log(pair[0], pair[1]);
         }
         setShowLoader(false);
 

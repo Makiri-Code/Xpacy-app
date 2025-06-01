@@ -143,7 +143,7 @@ export const NotificationTable = styled.table`
         font-style: normal;
         font-weight: 400;
         line-height: 120%; /* 1.05rem */
-        .rented, .unavailable, .available,  .unpaid, .vacant, .for-sale, .in-progress, .completed, .incomplete, .paid, .active, .verified{
+        .rented, .sold, .unavailable, .available,  .unpaid, .vacant, .for-sale, .in-progress, .completed, .incomplete, .paid, .active, .verified{
             display: flex;
             justify-content: center;
             align-items: center;
@@ -167,7 +167,7 @@ export const NotificationTable = styled.table`
             font-weight: 700;
             width: fit-content;
         }
-        .for-sale, .upcoming{
+        .for-sale, .upcoming, .sold{
             color: #477899;
             background-color: #C7D9E5;
         }

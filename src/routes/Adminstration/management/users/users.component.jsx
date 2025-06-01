@@ -34,10 +34,11 @@ import fetchServer from "../../../../utils/serverutils/fetchServer";
 import { UserContext } from "../../../../contexts/userContext";
 import { MdOutlineError } from "react-icons/md";
 import { PiUsersThreeBold } from "react-icons/pi";
+import { toast } from "sonner";
+import { MdOutlineAlternateEmail } from "react-icons/md";
 const UsersComponent = ({isMobile, userProfile, allUsers, allAdmin, allOwners, profileImage}) => {
     const {userToken, server} = useContext(UserContext);
-    console.log(allOwners);
-    console.log(allUsers);
+    const navigate = useNavigate();
     const defaultFormFields = {
         first_name: '',
         last_name: '',
@@ -50,7 +51,6 @@ const UsersComponent = ({isMobile, userProfile, allUsers, allAdmin, allOwners, p
     const [showOptionsDropdownAdminListId, setShowOptionsDropdownAdminListId] = useState(null);    
     const [showOptionsDropdownOwnerListId, setShowOptionsDropdownOwnerListId] = useState(null);    
     const [showAddOwnerModal, setShowAddOwnerModal] = useState(false);
-    const navigate = useNavigate();
     const [showDeletModal, setShowDeleteModal] = useState(false);
     const [showKYCModal, setShowKYCModal] = useState(false);
     const [showAddPropertyModal, setShowAddPropertyModal] = useState(false);
@@ -58,26 +58,36 @@ const UsersComponent = ({isMobile, userProfile, allUsers, allAdmin, allOwners, p
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [message, setMessage] = useState('')
     const [success, setSuccess] = useState(true);
-    const [disabledBtn, setDisabledBtn] = useState(false)
-    const btnRef = useRef(null)
-    const handleSubmit = (e) => {
+    const btnRef = useRef(null);
+    const btnRef2 = useRef(null);
+    // invite propert owner 
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formFields);
-        setShowAddOwnerModal(!showAddOwnerModal);
-        setShowAddPropertyModal(!showAddPropertyModal);
+        btnRef2.current.disabled = true;
+        try{
+            const response = await fetchServer("POST", formFields, userToken, 'admin/register-propertyowner', server);
+            btnRef2.current.disabled = false;
+            if(response.success){
+                setShowAddPropertyModal(true);
+                setShowAddOwnerModal(false);
+            } else if(!response.succes) {
+                toast.error(response.message)
+            }   
+            setFormFields(defaultFormFields);
+        } catch(error){
+            console.error("Error add owner", error.message)
+        }
     }
+    // Invite admin
     const handleAddAdminSumit = async (e) => {
         e.preventDefault();
         btnRef.current.disabled = true
         const response = await fetchServer('POST', formFields, userToken, 'admin/create-admin', server);
-        console.log(response);
         if(response.success){
-            setDisabledBtn(false)
             setMessage(response.message);
             setShowSuccessModal(!showSuccessModal);
             setFormFields(defaultFormFields);
         } else {
-            setDisabledBtn(false)
             setSuccess(false);
             setShowSuccessModal(!showSuccessModal);
             setMessage(response.message);
@@ -100,6 +110,7 @@ const UsersComponent = ({isMobile, userProfile, allUsers, allAdmin, allOwners, p
     { name: "Ibadan", value: 5, color: "#203645" },
     { name: "Kano", value: 3, color: "#203645" },
   ];
+
   const handleChange = (e) =>{
     const {name, value} = e.target;
     setFormFields({
@@ -119,6 +130,13 @@ const UsersComponent = ({isMobile, userProfile, allUsers, allAdmin, allOwners, p
         option: "Oldest",
       },
     ];
+    // Handle Resend Email
+    const handleResendEmail = async (ownerEmail) => {
+        const response = await fetchServer("POST", {email: ownerEmail}, userToken, 'property-owner/resend-registration-email', server );
+        if(response.success){
+            toast.success(response.message)
+        }
+    }
     return (
         <ManagementDashboardContainer>
             <TopNav dashboardRoute={'Users'} isMobile={isMobile} profileImage={profileImage} />
@@ -569,7 +587,6 @@ const UsersComponent = ({isMobile, userProfile, allUsers, allAdmin, allOwners, p
                                     <ModalComponent>
                                         <PropertyModalContainer>
                                             <IoClose style={{width: '24px', height: '24px', alignSelf: 'flex-end', cursor: 'pointer'}} onClick={() => {
-                                                setDisabledBtn(false);
                                                 setShowSuccessModal(!showSuccessModal);
                                             }}/>
                                             <div className="property-modal-content">
@@ -608,7 +625,7 @@ const UsersComponent = ({isMobile, userProfile, allUsers, allAdmin, allOwners, p
                                     return(
                                         <tr>
                                             <td className='typeData'>
-                                                <div style = {{width: '32px', height: '32px', background: `url(${ownerProfile.display_picture}) lightgray 50% / cover no-repeat`, borderRadius: '50%'}}></div>
+                                                <div style = {{width: '32px', height: '32px', background: `url(https://app.xpacy.com/src/upload/display_img/${ownerProfile.display_picture}) lightgray 50% / cover no-repeat`, borderRadius: '50%'}}></div>
                                                 <div><strong>{ownerProfile.first_name} {ownerProfile.last_name}</strong></div>
                                             </td>
                                             <td>{ownerProfile.phone}, {ownerProfile.email}</td>
@@ -627,6 +644,10 @@ const UsersComponent = ({isMobile, userProfile, allUsers, allAdmin, allOwners, p
                                                             <div className="option-item" onClick={() => navigate('/dashboard/admin/issue-invoice') }>
                                                                 <RiUserSettingsLine style={{width: '20px', height: '20px', color: '#203645'}}/>
                                                                 <span>Issue Invoice</span>
+                                                            </div>
+                                                            <div className="option-item" onClick={() => handleResendEmail(ownerProfile.email) }>
+                                                                <MdOutlineAlternateEmail style={{width: '20px', height: '20px', color: '#203645'}}/>
+                                                                <span>Resend Email</span>
                                                             </div>
                                                             <div className="option-item" onClick={() => {
                                                                 setShowDeleteModal(true);
@@ -711,6 +732,7 @@ const UsersComponent = ({isMobile, userProfile, allUsers, allAdmin, allOwners, p
                                     />
                                     <Button
                                         type={"submit"}
+                                        btnRef={btnRef2}
                                         buttonType={{primaryBtn: true}} 
                                     >
                                         Send Invitation

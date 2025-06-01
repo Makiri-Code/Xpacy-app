@@ -32,7 +32,7 @@ import { toast } from "sonner";
 import { PulseLoader } from "react-spinners";
 import userImage from "../../../assets/user-profile-img.svg";
 const Management = ({ isMobile }) => {
-  const [profileImage, setProfileImage] = useState('')
+  const [profileImage, setProfileImage] = useState('');
   const [userProfile, setUserProfile] = useState(null);
   const [allProperties, setAllProperties] = useState(null);
   const [allServices, setAllServices] = useState(null);
@@ -44,8 +44,7 @@ const Management = ({ isMobile }) => {
   const [faqs, setFaqs] = useState(null);
   const [allNotifications, setAllNotifications] = useState(null);
   const navigate = useNavigate();
-  const {} = useContext(PageContext);
-  const { userToken, server } = useContext(UserContext);
+  const { userToken, server, homePageBanners, setHomePageBanners } = useContext(UserContext);
   // Get admin profile
   useEffect(() => {
     const getAdminProfile = async () => {
@@ -165,11 +164,12 @@ const Management = ({ isMobile }) => {
   useEffect(() => {
     const getAllFaqs = async () => {
       const response = await fetchServer("GET", {}, userToken, 'faq/get-all-faqs', server);
-      console.log(response);
       setFaqs(response.data);
     } 
     getAllFaqs();
   }, []);
+  // Get all banners
+
   // If token is expired
   useEffect(() => {
     if (isTokenExpired(userToken)) {
@@ -177,7 +177,7 @@ const Management = ({ isMobile }) => {
       toast.error("Session expired please log-in to continue");
     }
   }, [userToken]);
-  console.log(userProfile)
+
   return (
     <>
       {userProfile && allProperties && allServices && allOwners && allAdmin && allInvoices && faqs ? (
@@ -231,7 +231,19 @@ const Management = ({ isMobile }) => {
               path="payments"
               element={<AdminPayments isMobile={isMobile} profileImage={profileImage} allInvoices={allInvoices}/>}
             />
-            <Route path="settings" element={<Settings isMobile={isMobile} profileImage={profileImage} setProfileImage={setProfileImage} userProfile={userProfile}/>} />
+            <Route 
+              path="settings" 
+              element={
+                <Settings 
+                isMobile={isMobile} 
+                profileImage={profileImage} 
+                homePageBanners={homePageBanners} 
+                setHomePageBanners={setHomePageBanners}
+                setProfileImage={setProfileImage} 
+                userProfile={userProfile}
+                />
+              } 
+            />
             <Route path="faq" element={<FaqComponent isMobile={isMobile} profileImage={profileImage} faqs={faqs} setFaqs= {setFaqs}/>} />
           </Route>
           <Route

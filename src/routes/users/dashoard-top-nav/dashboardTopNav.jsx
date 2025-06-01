@@ -68,7 +68,6 @@ const DashboardTopNav = ({ dashboardRoute, isMobile, setShowDashboardSidebar, sh
         const response = await fetchServer('GET', {}, '', `property/fetch-properties?search=${search}`, 'https://app.xpacy.com');
         setSearchedProperties(response.properties);;
         setSearchedPagination(response.pagination);
-        console.log(response);
         navigate('/search');
     }
   };
@@ -78,9 +77,7 @@ const DashboardTopNav = ({ dashboardRoute, isMobile, setShowDashboardSidebar, sh
     setLoggedInUser(null);
     if (isTokenExpired(userToken)) {
       navigate('/auth/log-in');
-    } else {
-      console.log('Welcome back! Token is valid.');
-    }
+    } 
   }
   // Log-out user
   return (

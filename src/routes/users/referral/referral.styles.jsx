@@ -116,7 +116,7 @@ export const ReferralCode = styled.div`
         display: flex;
         padding: 8px 16px;
         align-items: center;
-        gap: 32px;
+        gap: 13px;
     }
 `
 export const ReferralPoints = styled.div`
@@ -211,6 +211,7 @@ export const ReferralTable = styled.table`
             color: #357B38;
             border-radius: var(--Radius-Round, 999px);
             background: var(--Success-Success100, #C3E5C4);
+            font-family: "Unitext Regular";
             font-weight: 700;
         }
         .pending, .faarrowdown{

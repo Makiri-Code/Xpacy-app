@@ -410,6 +410,12 @@ export const FooterLogoContent = styled.div`
     @media only screen and (max-width: 600px){
         flex-direction: column;
         gap: 32px;
+        .right-content {
+            width: auto;
+        }
+        img {
+            align-self: center;
+        }
     }
 `
 export const ButtonContainer = styled.div`

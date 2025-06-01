@@ -90,7 +90,6 @@ const IssueInvoice = () => {
     useEffect(() => {
         const getUserProfile = async () => {
         const response = await fetchServer('GET', {}, userToken, `admin/users/fetch-user/${id}`, server);
-        console.log(response);
         setUserProfile(response);
         }
         getUserProfile();
@@ -110,14 +109,12 @@ const IssueInvoice = () => {
     const handleClick = async () => {
         btnRef.current.disabled = true;
         const response = await fetchServer('POST', formFields, userToken, 'invoice/create-invoice', server);
-        console.log(response);
         if(response.success){
             toast.success(response.message)
         }
         if(!response.success){
             toast.error(response.message)
         }
-        console.log(formFields);
         btnRef.current.disabled = false;
     }
     return(

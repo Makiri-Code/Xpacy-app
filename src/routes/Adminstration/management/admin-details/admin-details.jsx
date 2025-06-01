@@ -38,7 +38,6 @@ const AdminDetails = () => {
                 return;
             }
             const response = await fetchServer("GET", {}, userToken, `admin/property-owner/fetch-propertowner/${id}`, server);
-            console.log(response);
             setAdminProfile(response);
         }
         getAdminProfile()

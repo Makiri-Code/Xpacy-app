@@ -1,68 +1,111 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FormInput from '../../components/form-input/formInput.component';
 import { BsUpload } from "react-icons/bs";
 import Button from '../../components/button/button'
 import { IoClose } from 'react-icons/io5';
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import './application-form.styles.css';
 import ModalComponent from '../../components/modal/modal';
 import styled from 'styled-components';
-
-const ApplicationForm = () => {
-    const DocumentBtnContainer = styled.div`
-        display: flex;
-        flex-direction: column;
-        p, sapn{
-            margin-bottom: 8px;
-            color: var(--Base-02, #090914);
-            font-family: "Unitext Regular";
-            font-size: 0.875rem;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 120%; /* 1.05rem */
-            span{
-                color: var(--Neutrals-Neutrals900, #585858);
-            }
-        }
-        .document-btn{
-            align-self: flex-start;
-            position: relative;
-            display: flex;
-            height: 48px;
-            padding: var(--Spacing-ml, 24px);
-            justify-content: center;
-            align-items: center;
-            gap: var(--Spacing-s, 8px);
-            border-radius: 8px;
-            border: 1px solid var(--Primary-Primary, #203645);
-            background: var(--Base-Base-White, #FFF);
-            color: var(--Primary-Primary, #203645);
-            font-family: "Unitext Regular";
-            font-size: 1rem;
-            font-style: normal;
-            font-weight: 700;
-            line-height: 120%; /* 1.2rem */
-            margin-bottom: 8px;
-            input[type="file"]{
-                position: absolute;
-                left: 0;
-                opacity: 0;
-            }
-        }
+import { UserContext } from '../../contexts/userContext';
+import { IoArrowBack } from 'react-icons/io5';
+import xpacyLogo from "../../assets/x-pacy-logo.svg";
+import './application-form.styles.css';
+const DocumentBtnContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    p, sapn{
+        margin-bottom: 8px;
+        color: var(--Base-02, #090914);
+        font-family: "Unitext Regular";
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 120%; /* 1.05rem */
         span{
             color: var(--Neutrals-Neutrals900, #585858);
-            font-family: "Unitext Regular";
-            font-size: 0.75rem;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 141.4%; /* 1.0605rem */
-            letter-spacing: 0.0075rem;
         }
-        .document-btn:hover{
-            filter: brightness(80%);
-            cursor: pointer;
+    }
+    .document-btn{
+        align-self: flex-start;
+        position: relative;
+        display: flex;
+        height: 48px;
+        padding: var(--Spacing-ml, 24px);
+        justify-content: center;
+        align-items: center;
+        gap: var(--Spacing-s, 8px);
+        border-radius: 8px;
+        border: 1px solid var(--Primary-Primary, #203645);
+        background: var(--Base-Base-White, #FFF);
+        color: var(--Primary-Primary, #203645);
+        font-family: "Unitext Regular";
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%; /* 1.2rem */
+        margin-bottom: 8px;
+        input[type="file"]{
+            position: absolute;
+            left: 0;
+            opacity: 0;
         }
-    `
+    }
+    span{
+        color: var(--Neutrals-Neutrals900, #585858);
+        font-family: "Unitext Regular";
+        font-size: 0.75rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 141.4%; /* 1.0605rem */
+        letter-spacing: 0.0075rem;
+    }
+    .document-btn:hover{
+        filter: brightness(80%);
+        cursor: pointer;
+    }
+`
+const NavigationContainer = styled.nav`
+    width: 100%;
+    height: 80px;
+    display: flex;
+    padding: 24px 120px;
+    align-items: start;
+    border-bottom: 1px solid #E3ECF2;
+`
+const LogoContainer = styled.div`
+    display: flex;
+    width: 60%;
+    justify-content: space-between;
+    align-items: center;
+    img{
+        width: 153.6px;
+        height: 31.725px;
+    }
+    @media only screen and (max-width: 600px){
+        width: 100%;
+    }
+`
+const BackNav = styled.div`
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    cursor: pointer;
+    span{
+        color: var(--Base-Base-Black, #333);
+        font-family: "Unitext Regular";
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 120%; /* 1.05rem */
+    }
+    &:hover{
+        text-decoration: underline;
+    }
+`
+const ApplicationForm = () => {
+    const navigate = useNavigate();
+    const {userProfile} = useContext(UserContext)
     const inputRef = useRef(null);
     const defaultFormFields = {
         firstname: '',
@@ -96,22 +139,18 @@ const ApplicationForm = () => {
                     sizeOfFile: Math.floor((uploadFile.size / (1024 * 1024))),
                 });
             }
-            console.log(file);
         }
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formFields);
         setShowSuccessModal(!showSuccessModal);
 
     }
     const handleDragOver = (e) => {
-        console.log('File is in the drop zone');
         e.preventDefault(); // Prevent default browser behavior
     };
     
     const handleDrop = (e) => {
-        console.log('File is dropped');
         e.preventDefault();
     
         const files = e.dataTransfer.items;
@@ -125,11 +164,11 @@ const ApplicationForm = () => {
     
                 // Validate the file type
                 if (allowedTypes.includes(file.type)) {
-                    console.log('Valid File:', {
-                        name: file.name,
-                        size: file.size,
-                        type: file.type,
-                    });
+                    // console.log('Valid File:', {
+                    //     name: file.name,
+                    //     size: file.size,
+                    //     type: file.type,
+                    // });
     
                     // Access the file content using FileReader
                     const reader = new FileReader();
@@ -158,10 +197,19 @@ const ApplicationForm = () => {
     
     return (
         <>
+            <NavigationContainer>
+              <LogoContainer>
+                <BackNav onClick={() => navigate(-1)}>
+                  <IoArrowBack style={{ width: '24px', height: '24px' }} />
+                  <span>Back</span>
+                </BackNav>
+                <img src={xpacyLogo} alt="x-pacy logo" />
+              </LogoContainer>
+            </NavigationContainer>
             <div className="apply-form-container">
                 <div className="apply-form-content">
                     <header>
-                        <h1>Proerty Application Form</h1>
+                        <h1>Property Application Form</h1>
                         <p>Please fill in the required information below</p>
                     </header>
                     <main>
@@ -175,7 +223,7 @@ const ApplicationForm = () => {
                                     name='firstname'
                                     type="text"
                                     onChange={handleChange}
-                                    value={firstname}
+                                    value={userProfile?.firstname}
                                     placeholder="Enter your first name"
                                 />
                                 <FormInput
@@ -185,7 +233,7 @@ const ApplicationForm = () => {
                                     name='lastname'
                                     type="text"
                                     onChange={handleChange}
-                                    value={lastname}
+                                    value={userProfile?.lastname}
                                     placeholder="Enter your last name"
                                 />
                             </div>
@@ -196,7 +244,7 @@ const ApplicationForm = () => {
                                 name='email'
                                 type="email"
                                 onChange={handleChange}
-                                value={email}
+                                value={userProfile?.email}
                                 placeholder="Enter your Email"
                             />
                             <FormInput
@@ -206,7 +254,7 @@ const ApplicationForm = () => {
                                 name='phoneNum'
                                 type="tel"
                                 onChange={handleChange}
-                                value={phoneNum}
+                                value={userProfile?.phoneNum}
                                 placeholder="+234 000 000 000"
                             />
                             <DocumentBtnContainer>
@@ -264,7 +312,7 @@ const ApplicationForm = () => {
                             <Button
                                 buttonType={{primaryBtn: true}}
                                 type={'submit'}
-                                className='align-self-center'
+                                className='align-self-center custom-btn'
                             >
                                 Submit Application
                             </Button>

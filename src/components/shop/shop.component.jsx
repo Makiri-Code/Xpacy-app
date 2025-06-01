@@ -27,6 +27,7 @@ const Shop = ({
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
   const [showPlacholderImg, setShowPlaceHolderImg] = useState(false);
+  const [latestProperties] = useState(propertiesArray.toSpliced(6))
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 600);
@@ -42,11 +43,7 @@ const Shop = ({
     showDivider: true,
     isMobile: isMobile,
   };
-  const latestProperties = propertiesArray.toSpliced(6);
   return (
-    <>
-      {" "}
-      {propertiesArray && pagination ? (
         <div className="shop-container d-flex flex-column align-items-center align-self-stretch">
           <div className="header d-flex flex-column align-items-start">
             <div className="header-navigation">
@@ -101,29 +98,58 @@ const Shop = ({
                             <option value={"rent"}>Rent</option>
                           </Form.Select>
                           <Form.Select className="select-option">
-                            <option>Purpose</option>
-                            <option value={"buy"}>Buy</option>
-                            <option value={"rent"}>Rent</option>
+                          <option>Location</option>
+                            <option value={"Abuja"}>Abuja</option>
+                            <option value={"Aba"}>Aba</option>
+                            <option value={"Benin"}>Benin</option>
+                            <option value={"Calabar"}>Calabar</option>
+                            <option value={"Enugu"}>Enugu</option>
+                            <option value={"Ibadan"}>Ibadan</option>
+                            <option value={"Ilorin"}>Ilorin</option>
+                            <option value={"Lagos"}>Lagos</option>
+                            <option value={"Minna"}>Minna</option>
+                            <option value={"Port Harcourt"}>Port Harcourt</option>
+                            <option value={"Uyo"}>Uyo</option>
+                            <option value={"Warri"}>Warri</option>
                           </Form.Select>
                           <Form.Select className="select-option">
-                            <option>Purpose</option>
-                            <option value={"buy"}>Buy</option>
-                            <option value={"rent"}>Rent</option>
+                          <option>Type</option>
+                            <option value={"All types"}>All types</option>
+                            <option value={"Commercial"}>Commercial</option>
+                            <option value={"Residential"}>Residential</option>
+                            <option value={"Terrace"}>Terrace</option>
+                            <option value={"Flat/Apartment"}>Flat/Apartment</option>
+                            <option value={"Duplex"}>Duplex</option>
+                            <option value={"Semi-detached"}>Semi-detached</option>
+                            <option value={"Fully-detached"}>Fully-detached</option>
+                            <option value={"Villa"}>Villa</option>
                           </Form.Select>
                           <Form.Select className="select-option">
-                            <option>Purpose</option>
-                            <option value={"buy"}>Buy</option>
-                            <option value={"rent"}>Rent</option>
+                          <option>Bedroom</option>
+                            <option value={"1"}>1</option>
+                            <option value={"2"}>2</option>
+                            <option value={"3"}>3</option>
+                            <option value={"4"}>4</option>
+                            <option value={"5"}>5</option>
+                            <option value={"6"}>6</option>
                           </Form.Select>
                           <Form.Select className="select-option">
-                            <option>Purpose</option>
-                            <option value={"buy"}>Buy</option>
-                            <option value={"rent"}>Rent</option>
+                            <option>Min Price</option>
+                            <option value={""}>{"<N5m"}</option>
+                            <option value={""}>{"<N5m"}</option>
+                            <option value={""}>{"<N10m"}</option>
+                            <option value={""}>{"<100m"}</option>
+                            <option value={""}>{"<N200m"}</option>
+                            <option value={""}>{">N200m"}</option>
                           </Form.Select>
                           <Form.Select className="select-option">
-                            <option>Purpose</option>
-                            <option value={"buy"}>Buy</option>
-                            <option value={"rent"}>Rent</option>
+                            <option>Max Price</option>
+                            <option value={""}>{"<N5m"}</option>
+                            <option value={""}>{"<N5m"}</option>
+                            <option value={""}>{"<N10m"}</option>
+                            <option value={""}>{"<100m"}</option>
+                            <option value={""}>{"<N200m"}</option>
+                            <option value={""}>{">N200m"}</option>
                           </Form.Select>
                         </Form>
                         <div className="filter-btn-container d-flex flex-column align-items-start">
@@ -139,11 +165,11 @@ const Shop = ({
                     {/* Latest side bar */}
                     <div className="latest-propertises d-flex flex-column">
                       <h1 className="latest-propertises-header">
-                        Latest Propertises
+                        Latest Properties
                       </h1>
                       {/* Latest Sidebar Card */}
                       <div className="latest-propertises-card d-flex flex-column">
-                        {latestProperties.map((properties) => {
+                        {latestProperties.map((property, index) => {
                           const {
                             images,
                             property_name,
@@ -154,9 +180,9 @@ const Shop = ({
                             total_bedrooms,
                             id,
                             property_type,
-                          } = properties;
+                          } = property;
                           return (
-                            <div className="latest-card-container d-flex">
+                            <div className="latest-card-container d-flex" key={index}>
                               <img
                                     src={
                                      images[0] == undefined
@@ -304,14 +330,15 @@ const Shop = ({
                 {/* Latest side bar */}
                 <div className="latest-propertises d-flex flex-column">
                   <h1 className="latest-propertises-header">
-                    Latest Propertises
+                    Latest Properties
                   </h1>
                   {/* Latest Sidebar Card */}
                   <div className="latest-propertises-card d-flex flex-column">
-                    {latestProperties.map((properties) => {
+                    {latestProperties.map((properties, index) => {
                       const {
                         images,
                         property_name,
+                        property_type,
                         property_status,
                         city,
                         state,
@@ -320,7 +347,7 @@ const Shop = ({
                         id,
                       } = properties;
                       return (
-                        <div className="latest-card-container d-flex">
+                        <div className="latest-card-container d-flex" key={index}>
                           <img
                             src={
                               images[0] == undefined
@@ -373,7 +400,7 @@ const Shop = ({
             <div className="main-content-container">
               <div className="results-header">
                 <div className="results-summary">
-                  <p>Showing 1 - 10 of {pagination.total} results</p>
+                  <p>Showing 1 - 10 of {propertiesArray.length} results</p>
                 </div>
                 {isMobile && (
                   <div
@@ -402,34 +429,42 @@ const Shop = ({
                 </div>
               </div>
               <div className="propertises-container">
-                {propertiesArray.map((propertise) => {
-                  return (
-                    <Card
-                      cardStyles={cardStyles}
-                      propertise={propertise}
-                      propType={propType}
+                {
+                  propertiesArray && pagination ? 
+                  (
+                    <>
+                      {propertiesArray.map((propertise, index) => {
+                      return (
+                        <Card
+                          key={index}
+                          cardStyles={cardStyles}
+                          propertise={propertise}
+                          propType={propType}
+                        />
+                      );
+                    })}
+                    </>
+                  ) :
+                  (
+                    <PulseLoader
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        alignSelf: "stretch",
+                        // height: "100vh",
+                      }}
+                      margin={5}
                     />
-                  );
-                })}
+                  )
+                }
+                
               </div>
             </div>
           </div>
           <Pagination />
         </div>
-      ) : (
-        <PulseLoader
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            alignSelf: "stretch",
-            height: "100vh",
-          }}
-          margin={5}
-        />
-      )}
-    </>
-  );
-};
+      );
+}
 
 export default Shop;

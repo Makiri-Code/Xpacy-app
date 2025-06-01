@@ -220,13 +220,14 @@ export const OptionsContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 152px;
+    // width: 152px;
     border-radius: 8px;
     border: 1.5px solid var(--Primary-Primary200, #C7D9E5);
     background: var(--Base-Base-White, #FFF);
     box-shadow: 0px 10px 10px 0px rgba(32, 54, 69, 0.10);
     z-index: 100;
     .option-item{
+        user-select: none;
         align-self: stretch;
         display: flex;
         gap: 8px;

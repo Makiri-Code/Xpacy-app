@@ -12,21 +12,26 @@ export const PageContext = createContext({
   setSearchedProperties: () => {},
   searchedPagination: null,
   setSearchedPagination: () => {},
-  showDashboardSidebar: false,
-  setShowDashboardSidebar: () => {},
+  faqs: null,
+  setFaqs: () => {},
   nigerianStates: [],
   setNigerianStates: () => {},
+  showDashboardSidebar: null,
+  setShowDashboardSidebar: () => {},
+  isOnline: navigator.onLine,
 });
 
 export const PageProvider = ({ children }) => {
-  const [showDashboardSidebar, setShowDashboardSidebar] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [faqs, setFaqs] = useState(null);
   const [propertiesArray, setPropertiesArray] = useState(null);
   const [propertyObj, setPropertyObj] = useState(null);
   const [pagination, setPagination] = useState(null);
   const [searchedProperties, setSearchedProperties] = useState(null);
   const [searchedPagination, setSearchedPagination] = useState(null);
   const [nigerianStates, setNigerianStates] = useState([]);
-  
+  const [showDashboardSidebar, setShowDashboardSidebar] = useState(null);
+
   // get properties
   useEffect(() => {
     const getProperties = async () => {
@@ -44,7 +49,36 @@ export const PageProvider = ({ children }) => {
     };
     getProperties();
   }, []);
-  // get Nigerian states
+
+  // check for network conectivity
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    }
+  }, [isOnline]);
+
+
+  //Get FAQs
+  useEffect(() => {
+    const getFAQs = async () => {
+      try {
+        const response = await fetch("https://app.xpacy.com/faq/get-all-faqs", {method: 'GET'});
+        const faq = await response.json();
+        setFaqs(faq.data);
+      } catch(error) {
+        console.error("Error fetching faqs", error);
+      }
+    }
+    getFAQs();
+  }, []);
+  
   useEffect(() => {
     const states = async () => {
       try {
@@ -72,10 +106,13 @@ export const PageProvider = ({ children }) => {
     setSearchedPagination,
     searchedProperties,
     setSearchedProperties,
-    showDashboardSidebar,
-    setShowDashboardSidebar,
+    faqs,
+    setFaqs,
     nigerianStates, 
     setNigerianStates,
+    showDashboardSidebar,
+    setShowDashboardSidebar,
+    isOnline,
   };
 
   

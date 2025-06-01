@@ -21,7 +21,7 @@ const fetchServer = async (method, body, token, endpoint, server)=>{
         const response = await resp.json();
         return {err: false, ...response}
     } catch (error) {
-        console.log(error);
+        console.log(error.status);
         toast.error("Could not connect to server. Please check your internet connection")
         return {err: true, mess: "Could not connect to server. Please check your internet connection"}
 

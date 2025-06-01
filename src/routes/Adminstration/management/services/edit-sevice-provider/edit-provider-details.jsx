@@ -98,7 +98,6 @@ const EditServiceProvider = () => {
         e.preventDefault();
         btnRef.current.disabled = true;
         const response = await fetchServer("PUT", formFields, userToken, `service-provider/update-service-provider/${id}`, server);
-        console.log(response);
         toast.success(response.message);
 
         btnRef.current.disabled = false;

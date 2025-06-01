@@ -2,10 +2,17 @@
     align-self: stretch;
     gap: 24px;
     margin-bottom: 24px;
+    color: var(--Base-Base-Black);
+    transition: transform 0.38s ease-in-out;
+    transition: color 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.faq:hover{
+    cursor: pointer;
+    transform: scale(0.99);
+    color: dodgerblue;
 }
 .faq-heading{
     margin: 0;
-    color: var(--Base-Base-Black);
     font-family: "Unitext Regular";
     font-size: 18px;
     font-style: normal;
@@ -13,22 +20,23 @@
     line-height: 120%; /* 21.6px */
     user-select: none;
 }
-.faq:hover{
-    cursor: pointer;
-    transform: scale(0.97);
-    color: dodgerblue;
-}
-.faq-heading:hover{
-    color: dodgerblue;
-}
 
-.minus-icon, .plus-icon{
+
+.plus-icon{
     width: 24px;
     height: 24px;
     cursor: pointer;
     user-select: none;
-    color: dodgerblue;
 }
 .faq-divider{
     border: 1px solid #DADADA;
+}
+
+.faq-p{
+    font-family: "Unitext Regular";
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--Base-Base-Black);
+    line-height: 120%; /* 21.6px */
+    user-select: none;
 }

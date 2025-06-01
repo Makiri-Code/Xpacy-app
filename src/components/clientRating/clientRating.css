@@ -1,5 +1,5 @@
 
-p, span{
+.client-name, .client-title{
     color: var(--Base-Base-Black, #333);
     font-family: "Unitext Regular";
     font-size: 16px;
@@ -11,7 +11,7 @@ p, span{
 }
 .testimonial {
     display: flex;
-    width: 547px;
+    width: 545px;
     padding: 24px;
     align-items: flex-start;
     gap: 16px;

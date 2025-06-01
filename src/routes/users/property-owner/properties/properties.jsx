@@ -20,19 +20,18 @@ import { BsGraphUp } from "react-icons/bs";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import propertyImage from "../../../../assets/Property-Image.png"
 import { TableFooter } from "../notification/notification.styles";
 import { BiPlus } from "react-icons/bi";
 import { FiUpload } from "react-icons/fi";
 import DashboardFilter from "../../../../components/dashboard-filter/dasboardFilter";
 
-const Properties = ({isMobile}) => {
+const Properties = ({isMobile, ownerProperties, profileImage}) => {
     const dropdownOptions = ['General', 'Services', 'Properties', 'Payments'];
     const navigate = useNavigate();
-    const [showPropertyOption, setShowPropertyOption] = useState(false)
+    const [showPropertyOptionId, setShowPropertyOptionId] = useState(null);
     return(
         <ManagementDashboardContainer>
-            <TopNav dashboardRoute={"My Properties"} isMobile={isMobile}/>
+            <TopNav dashboardRoute={"My Properties"} isMobile={isMobile} profileImage= {profileImage}/>
             <ManagementDashboardContent>
                 <HeaderContainer>
                     <Select>
@@ -60,30 +59,30 @@ const Properties = ({isMobile}) => {
                                     </Icon>
                                     <p>Properties Owned</p>
                                 </IconContainer>
-                                <h3>9</h3>
+                                <h3>{ownerProperties.length}</h3>
                             </div>
                             <div className="circle1"></div>
                             <div className="circle2"></div>
                         </div>
                         <div className="card2">
                             <span>Rented</span>
-                            <p>4</p>
+                            <p>0</p>
                         </div>
                         <div className="card3">
                             <span>Vacant</span>
-                            <p>1</p>
+                            <p>0</p>
                         </div>
                         <div className="card4">
                             <span>Under Maintenance</span>
-                            <p>1</p>
+                            <p>0</p>
                         </div>
                         <div className="card5">
                             <span>For Sale</span>
-                            <p>2</p>
+                            <p>0</p>
                         </div>
                         <div className="card6">
                             <span>Sold</span>
-                            <p>4</p>
+                            <p>0</p>
                         </div>
                     </PropertiesCard>
                 </Container>
@@ -110,7 +109,60 @@ const Properties = ({isMobile}) => {
                             <th></th>
                         </thead>
                         <tbody>
-                            <tr>
+                            {
+                                ownerProperties.map((property) => {
+                                    return(
+                                        <tr key={property.id}>
+                                            <td className='typeData'>
+                                                <div style = {{width: '64px', height: '48px', background: `url(https://app.xpacy.com/src/upload/properties/${property?.images[0]}) lightgray 50% / cover no-repeat`}}></div>
+                                                {property.property_name} 
+                                            </td>
+                                            <td>{property.state}</td>
+                                            <td><strong>{property.propertyOwner.first_name} {property.propertyOwner.last_name}</strong><br/> {property.propertyOwner.phone},<br/> {property.propertyOwner.email}</td>
+                                            <td><div className={property.availability_status.toLowerCase()} >{property.availability_status}</div></td>
+                                            <td><strong>₦{property.property_price.toLocaleString()}/year</strong></td>
+                                            <td>
+                                                <SlOptions style={{width: '24px', height: '24px', cursor: 'pointer', position: 'relative'}} onClick={() => setShowPropertyOptionId( showPropertyOptionId === property.id ? null : property.id)} />
+                                                {
+                                                    showPropertyOptionId === property.id && (
+                                                        <DropdownOption>
+                                                            <DropdownContent onClick={() => {
+                                                                setShowPropertyOptionId(null);
+                                                                navigate(`/dashboard/owner/properties-details/${property.id}`)
+                                                            }}>
+                                                                <Details/>
+                                                                <span>View property details</span>
+                                                            </DropdownContent>
+                                                            <DropdownContent onClick={() => {
+                                                                setShowPropertyOptionId(null)
+                                                                navigate('/dashboard/owner/new-service-request')
+                                                            }} >
+                                                                <RiUserSettingsLine style={{width: '24px', height: '24px'}}/>
+                                                                <span>Submit service request</span>
+                                                            </DropdownContent>                      
+                                                            <DropdownContent onClick={() => {
+                                                                setShowPropertyOptionId(null)
+                                                                navigate('')
+                                                            }} >
+                                                                <BsGraphUp style={{width: '24px', height: '24px'}}/>
+                                                                <span>Property valuation</span>
+                                                            </DropdownContent>  
+                                                            <DropdownContent className='last' onClick={() => {
+                                                                setShowPropertyOptionId(null);
+                                                                navigate('/dashboard/owner/new-property-listing');
+                                                            }}>
+                                                                <BiBuildings style={{width: '24px', height: '24px'}}/>
+                                                                <span>New property listing</span>
+                                                            </DropdownContent>                            
+                                                        </DropdownOption>
+                                                    )
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                            {/* <tr>
                                 <td className='typeData'>
                                     <div style = {{width: '64px', height: '48px', background: `url(${propertyImage}) lightgray 50% / cover no-repeat`}}></div>
                                     4 bedroom Villa, Mokola, Ibadan  
@@ -157,7 +209,7 @@ const Properties = ({isMobile}) => {
                                             )
                                         }
                                 </td>
-                            </tr>
+                            </tr> */}
                         </tbody>
                         <TableFooter>
                             <tr>

@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.11",
     "@mui/material": "^6.4.7",
     "@react-google-maps/api": "^2.20.6",
     "@testing-library/jest-dom": "^5.17.0",
@@ -23,6 +24,7 @@
     "react-router-dom": "^6.28.0",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.15.0",
+    "react-to-pdf": "^2.0.0",
     "react-to-print": "^3.0.5",
     "react-use": "^17.6.0",
     "recharts": "^2.15.1",

@@ -48,7 +48,7 @@ import { useNavigate } from 'react-router-dom';
 const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, userProfile, profileImage, setProfileImage, notifications}) => {
     const {userToken, server} = useContext(UserContext);
     const passwordBtnRef = useRef(null);
-    const [showPropertyStatus, setShowPropertyStatus] = useState(true);
+    const [showPropertyStatus, setShowPropertyStatus] = useState(false);
     const [nigerianStates, setNigerianStates] = useState([]);
     // Get NigerianStates
     useEffect(() => {
@@ -110,9 +110,7 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
             navigate("/auth/log-in");
             return;
         }
-        const response = await fetchServer("PUT", personalFormFields, userToken, 'user/update-profile', server);
-        console.log(response);
-        console.log(personalFormFields);
+        await fetchServer("PUT", personalFormFields, userToken, 'user/update-profile', server);
     }
     // Update password
     const handlePasswordClick = async () => {
@@ -122,7 +120,6 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
         }
         passwordBtnRef.current.disabled = true;
         const response = await fetchServer("POST", passwordFields, userToken, 'user/reset-password', server);
-        console.log(response);
         if(response.success){
             toast.success(response.message);
 
@@ -142,7 +139,6 @@ const ProfileSettings = ({isMobile, showDashboardSidebar, setShowDashboardSideba
         setState({
             [name]: value
         });
-        console.log(state)
     }
     const uploadPhoto = async (file) => {
         const formData = new FormData();

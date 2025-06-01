@@ -8,6 +8,7 @@ import { IoClose } from "react-icons/io5";
 import fetchServer from "../../../../utils/serverutils/fetchServer";
 import { UserContext } from "../../../../contexts/userContext";
 import Cookies from "js-cookie";
+import { toast } from "sonner";
 import "./admin-login.styles.css";
 
 const AdminLogIn = () => {
@@ -27,12 +28,15 @@ const AdminLogIn = () => {
         setShowLoader(true);
         buttonRef.current.disabled = true
         const response = await fetchServer('POST', formFields, '', 'admin/admin-login', server);
-        if(response?.success){
+        if(response.success){
           Cookies.set('gt-jwt-br', response.token);
           setUserToken(response.token)
           setShowLoader(false);
           buttonRef.current.disabled = false;
           navigate('/dashboard/admin');
+        } else {
+          toast.error(response.message);
+          setFormFields(defaultFormFields);
         }
         buttonRef.current.disabled = false;
         setShowLoader(false);
@@ -43,7 +47,6 @@ const AdminLogIn = () => {
           ...formFields,
           [name]: value,
         })
-
     }
   return (
     <>

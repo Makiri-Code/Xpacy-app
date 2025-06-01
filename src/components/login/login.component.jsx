@@ -56,20 +56,6 @@ const LogIn = () => {
         })
     }
 
-    // const getUserProfile = async (token) => {
-    //     try {
-    //       const resp = await fetchServer(
-    //         "GET",
-    //         {},
-    //         token,
-    //         "user/fetch-profile",
-    //         server
-    //       );
-    //       setUserProfile(resp.user);
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -82,7 +68,6 @@ const LogIn = () => {
         const userData = await fetchServer('POST', body, '', 'user/login', server,);
         if(!userData.success){
             if(userData.error === "Internal Server Error"){
-                console.log("error")
                 setIsUserValid(!userData.success);
                 setErrorMessage("Something went wrong. Please try again later");
                 

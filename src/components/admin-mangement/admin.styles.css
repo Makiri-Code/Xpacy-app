@@ -1,7 +1,7 @@
 .management-hero-container{
     img{
         width: 100%;
-        height: 100vh;
+        height: 615px;
         object-fit: cover;
         filter: brightness(60%);
         position: relative;

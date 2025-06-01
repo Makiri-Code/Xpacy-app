@@ -22,7 +22,6 @@ const FaqComponent = ({isMobile, profileImage, faqs, setFaqs}) => {
         const response = await fetchServer("GET", {}, userToken, 'faq/get-all-faqs', server);
         setFaqs(response.data);
     }
-    console.log(faqs)
     const {userToken, server} = useContext(UserContext);
     const [editFaq, setEditFaq] = useState({
         question: '',

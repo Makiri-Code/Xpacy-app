@@ -18,6 +18,15 @@ import { UserDashboardTopNav, UserDashboardContainer } from "../../../components
 import EmptySavedProperty from "../../../components/empty-saved-property/emptySavedProperty";
 import styled from "styled-components";
 
+const EmptySavedPropertyContainer = styled.div`
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+`
+
 const BookServices = ({
   profileImage,
   isMobile,
@@ -87,15 +96,7 @@ const BookServices = ({
       }
     }
   };
-  const EmptySavedPropertyContainer = styled.div`
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-  `
-  console.log(bookedServices);
+
   return (
     <UserDashboardContainer>
       <DashboardTopNav
@@ -280,7 +281,6 @@ const BookServices = ({
                       service_status,
                       id,
                     } = service;
-                    console.log(bookedServices)
                     const formattedDate = new Date(scheduled_date)
                                                         .toLocaleDateString('en-GB')
                                                         .split("/")

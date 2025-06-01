@@ -66,7 +66,6 @@ const ServiceRequest = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formFields);
         setShowModal(!showModal);
     }
     return(

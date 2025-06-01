@@ -50,9 +50,7 @@ const TopNav = ({dashboardRoute, isMobile, userProfile, profileImage}) => {
             setUserToken(Cookies.remove('gt-jwt-br'));
             if (isTokenExpired(userToken)) {
               navigate('/auth/log-in');
-            } else {
-              console.log('Welcome back! Token is valid.');
-            }
+            } 
           }
     return(
         <DashboardTopNavContainer>

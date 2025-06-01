@@ -36,7 +36,6 @@ const ResetPassword = () => {
       "user/reset-password",
       server
     );
-    console.log(userData);
     setShowSuccess(userData.success);
   };
   const handleClick = () => navigate("/auth/log-in");

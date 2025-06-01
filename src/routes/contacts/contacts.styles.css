@@ -75,6 +75,31 @@
         }
     }
 }
+.book-services-modal{
+    display: flex;
+    width: 488px;
+    padding: 40px 64px;
+    top: 50%;
+    left: 50%;
+    transform: translate(80%, 80%);
+    flex-direction: column;
+    border-radius: 8px;
+    background: var(--Base-Base-White, #FFF);
+    h3, p{
+        color: var(--Base-Base-Black, #333);
+        font-family: "Unitext Regular";
+        font-size: 1.125rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%; /* 1.35rem */
+    }
+    p{
+        color: var(--Neutrals-Neutrals700, #7D7D7D);
+        font-size: 0.875rem;
+        font-weight: 400;
+        margin-bottom: 48px;
+    }
+}
 
 @media only screen and (max-width: 600px){
     .contacts-container{
@@ -94,5 +119,11 @@
                 display: none;
             }
         }
+    }
+    .book-services-modal{
+        width: 90%;
+        margin: 50% auto;
+        padding: 16px 38px;
+        transform: unset;
     }
 }

@@ -30,9 +30,7 @@ const AssignServiceRequest= ({allServices}) => {
 
     const handleAssign = async (serviceId) => {
         const response = await fetchServer("PUT", {provider_id: id}, userToken, `service/assign-provider/${serviceId}`, server);
-        console.log(response);
     }
-    console.log(allServices)
     return(
         <BookServicesContainer>
                 <NavigationContainer>

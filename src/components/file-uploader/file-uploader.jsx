@@ -47,7 +47,6 @@ const FileUploader = ({onFilesSelected, filesData, setFilesData}) => {
       setFiles(updatedFiles);
       onFilesSelected(updatedFiles);
     };
-  console.log(files)
   return (
     <div>
       {

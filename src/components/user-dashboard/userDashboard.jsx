@@ -9,7 +9,7 @@ import { LuCalendarCheck } from "react-icons/lu";
 import { CiHeart } from "react-icons/ci";
 import { IoCardOutline } from "react-icons/io5";
 import Card from '../card/card.component';
-import { PulseLoader } from 'react-spinners';
+import { ClipLoader, PulseLoader } from 'react-spinners';
 import {PageContext} from '../../contexts/page.context'
 import { SlOptionsVertical } from "react-icons/sl";
 import { CiSearch } from "react-icons/ci";
@@ -42,6 +42,11 @@ import EmptySavedProperty from '../empty-saved-property/emptySavedProperty';
 const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDashboardSidebar, showDashboardSideBar, bookedServices, notifications, profileImage}) => {
     const navigate = useNavigate();
     const [showMenuOption, setShowMenuOption] = useState(false);
+    const [savedProperties, setSavedProperties] = useState(null);
+    
+    useEffect(() => {
+        setSavedProperties(savedPropertiesArray)
+    }, [savedPropertiesArray])
     const cardStytles = {
         cardWidth: '209px',
         cardHeight: '294px',
@@ -100,7 +105,7 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
     ]
     return (
         <>
-            (<UserDashboardContainer>
+            <UserDashboardContainer>
                 <DashboardTopNav dashboardRoute={'Dashboard Overview'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSideBar} profileImage={profileImage} notifications={notifications}/>
                 {/* Mobile only Screen */}
                 {
@@ -156,19 +161,36 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                                 </PropertySectionTitle>
                                 <PropertyList>
                                     {
-                                        savedPropertiesArray?.length > 0 ?
-                                        <>
-                                            {savedPropertiesArray?.toSpliced(3).map((properties) => {
-                                                return(
-                                                    <Card propertise={properties.propertySaved} cardStyles={cardStytles} savedProperty={true}/>
-                                                )
-                                            })}
-                                        </> :
-                                        <EmptySavedProperty
-                                            message={'Oops!... You have no saved properties yet.'}
-                                            btnTxt={'Explore New Properties'}
-                                            link={'/buy'}
-                                        />
+                                        savedProperties ? 
+                                        (
+                                            <>
+                                            {
+                                                savedPropertiesArray?.length > 0 ?
+                                                <>
+                                                    {savedPropertiesArray?.toSpliced(3).map((properties) => {
+                                                        return(
+                                                            <Card propertise={properties.propertySaved} cardStyles={cardStytles} savedProperty={true}/>
+                                                        )
+                                                    })}
+                                                </> :
+                                                <EmptySavedProperty
+                                                    message={'Oops!... You have no saved properties yet.'}
+                                                    btnTxt={'Explore New Properties'}
+                                                    link={'/buy'}
+                                                />
+                                            }
+                                            </>
+                                        ) :
+                                        (
+                                            <PulseLoader
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    margin: '0 auto',
+                                                    height: '260px'
+                                                }}
+                                            />
+                                        )
                                     }
                                 </PropertyList>
                             </PropertySection>
@@ -196,7 +218,7 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                                                             </tr>
                                                         </thead>
                                                         {
-                                                            bookedServices?.toSpliced(4).map((tableData, index) => {
+                                                            bookedServices?.toSpliced(3).map((tableData, index) => {
                                                                 const {service_type, address, scheduled_date, service_status,} = tableData
                                                                 const formattedDate = new Date(scheduled_date)
                                                                                             .toLocaleDateString('en-GB')
@@ -284,7 +306,7 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                                                         <Link to={'/dashboard/user/notification'}>View All</Link>
                                                     </PropertySectionTitle>
                                                     {
-                                                        notifications?.toSpliced(3).map((item, index) => {
+                                                        notifications?.toSpliced(2).map((item, index) => {
                                                             const {  notification_type, date, message} = item;
 
                                                             
@@ -348,7 +370,7 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                                                 <EmptySavedProperty
                                                 message={'Oops!... You have no payment yet.'}
                                                 btnTxt={'Buy or Rent Now'}
-                                                link={'/admin/book-services'}
+                                                link={'/buy'}
                                                 />
                                             )
                                         }
@@ -357,7 +379,7 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
 
                     </ContentLayout>
                 </UserDashboardMain>
-            </UserDashboardContainer>) 
+            </UserDashboardContainer>
         </>
     );
 }

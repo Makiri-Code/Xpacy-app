@@ -102,7 +102,6 @@ const ServicesProviderDetails = () => {
     useEffect(() => {
         const getProviderDetails = async () => {
             const response = await fetchServer('GET', {}, userToken, `service-provider/get-service-provider/${id}`, server);
-            console.log(response);
             if(response.success){
                 setFormFields(response.serviceProvider);
             }

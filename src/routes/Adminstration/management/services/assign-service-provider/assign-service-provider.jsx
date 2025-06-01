@@ -30,11 +30,9 @@ const AssignServiceProvider = ({allServiceProviders}) => {
     const navigate = useNavigate();
     const handleAssign = async (providerId) => {
         const response = await fetchServer("PUT", {provider_id: providerId}, userToken, `service/assign-provider/${id}`, server);
-        console.log(response);
         setServiceMessae(response.message)
         setAssignUser(!assignUser);
     }
-    console.log(allServiceProviders)
     return(
         <BookServicesContainer>
                 <NavigationContainer>

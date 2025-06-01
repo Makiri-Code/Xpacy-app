@@ -1,15 +1,5 @@
-import { useEffect, useRef, useState, useContext } from "react";
-import { Carousel, CarouselItem, Form } from "react-bootstrap";
-import Button from "../../components/button/button";
-import { IoIosSearch } from "react-icons/io";
+import { useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { GoArrowLeft } from "react-icons/go";
-import { GoArrowRight } from "react-icons/go";
-import Services01 from "../../assets/homepage-assets/services-section-images/service-1.png";
-import Services02 from "../../assets/homepage-assets/services-section-images/service-2.png";
-import Services03 from "../../assets/homepage-assets/services-section-images/service-3.png";
-import Services04 from "../../assets/homepage-assets/services-section-images/service-4.png";
-import Services05 from "../../assets/homepage-assets/services-section-images/service-5.png";
 import Icon01 from "../../assets/homepage-assets/services-section-images/icon-1.svg";
 import Icon02 from "../../assets/homepage-assets/services-section-images/icon-2.svg";
 import Icon03 from "../../assets/homepage-assets/services-section-images/icon-3.svg";
@@ -17,14 +7,11 @@ import Icon04 from "../../assets/homepage-assets/services-section-images/icon-4.
 import Icon05 from "../../assets/homepage-assets/services-section-images/icon-5.svg";
 import Faq from "../../components/faq/faq.component";
 import Card from "../../components/card/card.component";
-import ClientRating from "../../components/clientRating/clientRating";
 import Image1 from "../../assets/homepage-assets/getintouch-section-images/image1.png";
 import Image2 from "../../assets/homepage-assets/getintouch-section-images/image2.png";
 import Image3 from "../../assets/homepage-assets/getintouch-section-images/image3.png";
 import lmpimg from "../../assets/homepage-assets/listproperty-section-images/listproperty-image.png";
 import mobileimg from "../../assets/homepage-assets/download-section-images/mobile-img.png";
-import { FaApple } from "react-icons/fa";
-import FaPlayStore from "../../assets/homepage-assets/download-section-images/play-store.png";
 import insightimg1 from "../../assets/homepage-assets/insights-section-images/insight-image1.png";
 import insightimg2 from "../../assets/homepage-assets/insights-section-images/insight-image2.png";
 import insightimg3 from "../../assets/homepage-assets/insights-section-images/insight-image3.png";
@@ -37,24 +24,7 @@ import ServicesCard from "../../components/services-card/services-card";
 import GetInTouch from "../../components/get-in-touch/getInTouch";
 import { PulseLoader } from "react-spinners";
 import {
-  BannerContainer,
   Brow,
-  BannerContent,
-  BannerHeading,
-  BannerSubHeading,
-  CarouselContainer,
-  CarouselImage,
-  FilterHeading,
-  FormContainer,
-  SearchContainer,
-  Select,
-  SelectOptionContainer,
-  HeadingsContainer,
-  SearchButton,
-  SearchIcon,
-  MobileSearchContainer,
-  MobileSearchForm,
-  MobileOptionContainer,
   Featured,
   Heading,
   SubHeading,
@@ -84,14 +54,17 @@ import {
   InsightCardBottom,
 } from "./home.styles.jsx";
 import AOS from "aos";
-import "aos/dist/aos.css"; // You can also use <link> for styles
+import "aos/dist/aos.css";
+import Hero from "../../components/Hero/hero.component.jsx";
+import Filter from "../../components/search-filter/filter.component.jsx";
 
 const Home = ({ isMobile }) => {
   AOS.init();
-  const { propertiesArray } = useContext(PageContext);
+  const { propertiesArray, faqs } = useContext(PageContext);
   const navigate = useNavigate();
-  const featured = propertiesArray.filter((item) => item.featured);
+  const featured = propertiesArray?.filter((item) => item.featured);
   const featuredCard = useRef(null);
+
   const cardStyles = {
     cardWidth: "373px",
     showDivider: true,
@@ -100,7 +73,6 @@ const Home = ({ isMobile }) => {
   const handleFeatureClick = (e) => {
     const name = e.target.getAttribute("name");
     if (name && featuredCard.current) {
-      console.log(featuredCard);
       if (name === "fclickright") {
         featuredCard.current.scrollBy(397, 0);
       } else {
@@ -108,249 +80,106 @@ const Home = ({ isMobile }) => {
       }
     }
   };
+  const backgroundImg = [
+    "https://images.unsplash.com/photo-1605146769289-440113cc3d00?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
+    "https://images.unsplash.com/photo-1668911493514-2aeed8439227?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", "https://images.unsplash.com/photo-1460317442991-0ec209397118?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
+    "https://cdn.pixabay.com/photo/2024/03/22/21/32/ai-generated-8650513_1280.jpg", 
+    "https://cdn.pixabay.com/photo/2023/06/09/15/29/bedroom-8052036_1280.png",
+  ];
+  const icons = [Icon01, Icon02, Icon03, Icon04, Icon05];
+  const hoverDetails = [
+    {
+      title: 'Property Sale',
+      body: "Find your ideal home or investment property with ease. Our curated listings and expert guidance make the buying process smooth and secure.",
+    },
+    {
+      title: "Property Rental",
+      body: "Discover rental properties that fit your lifestyle and budget. From short stays to long leases, we make finding your next home effortless.",
+    },
+    {
+      title: "Property Listing",
+      body: "Showcase your property to the right audience. Our end-to-end list services handles everything from marketing to management, making it easy to sell or rent your property.",
+    },
+    {
+      title: "Facility Management",
+      body:  "Keep your property in top shape with our reliable facility management services. From maintenance to security, we handle the details so you can enjoy peace of mind",
+    },
+    {
+      title: "Space-Planning & Design",
+      body: "Transform your space with our expert planning and design services. We create functional, beautiful enviroments tailored to your unique vision",
+    },
+  ];
+
   return (
-    <>
-      {propertiesArray ? (
         <>
           {/* Hero Section */}
-          <CarouselContainer controls={false} wrap={true} indicators={false}>
-            <CarouselItem>
-              <CarouselImage
-                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Hero-image"
-              />
-            </CarouselItem>
-            <CarouselItem>
-              <CarouselImage
-                src="https://images.unsplash.com/photo-1633119713175-c53c29479984?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Hero"
-              />
-            </CarouselItem>
-            <CarouselItem>
-              <CarouselImage
-                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Hero"
-              />
-            </CarouselItem>
-            <CarouselItem>
-              <CarouselImage
-                src="https://images.unsplash.com/photo-1513584684374-8bab748fbf90?q=80&w=2065&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Hero"
-              />
-            </CarouselItem>
-          </CarouselContainer>
-          <BannerContainer>
-            <BannerContent>
-              <FilterHeading>
-                <HeadingsContainer
-                  data-aos="fade-down"
-                  data-aos-anchor-placement="top-bottom"
-                  data-aos-easing="linear"
-                  data-aos-duration="1500"
-                >
-                  <BannerHeading>
-                    Experience Ease, <br /> Find Your Dream Property
-                  </BannerHeading>
-                  <BannerSubHeading>
-                    Search, buy, or rent properties across Nigeria
-                  </BannerSubHeading>
-                </HeadingsContainer>
-                <SearchContainer
-                  data-aos="fade-up"
-                  data-aos-anchor-placement="top-bottom"
-                  data-aos-easing="linear"
+          <Hero 
+            isMobile={isMobile}
+          />
+          <Filter 
+            isMobile={isMobile}
+          />
+          {/* Featured Section */}
+          {
+            propertiesArray ? 
+            (
+              <Featured>
+                <Brow>
+                  <Heading
+                    data-aos="slide-down"
+                    data-aos-easing="linear"
+                    data-aos-duration="1000"
+                  >
+                    Featured Properties
+                  </Heading>
+                  <SubHeading
+                    data-aos="slide-up"
+                    data-aos-easing="linear"
+                    data-aos-duration="1000"
+                  >
+                    Discover Exceptional Spaces Curated Just for You
+                  </SubHeading>
+                </Brow>
+                <FeaturedScroll
+                  data-aos="slide-up"
+                  data-aos-easing="ease-in"
                   data-aos-duration="1000"
                 >
-                  <FormContainer>
-                    <SelectOptionContainer>
-                      <Select>
-                        <option>Purpose</option>
-                        <option value={"buy"}>Buy</option>
-                        <option value={"rent"}>Rent</option>
-                      </Select>
-                      <Select>
-                        <option>Location</option>
-                        <option value={"Abuja"}>Abuja</option>
-                        <option value={"Aba"}>Aba</option>
-                        <option value={"Benin"}>Benin</option>
-                        <option value={"Calabar"}>Calabar</option>
-                        <option value={"Enugu"}>Enugu</option>
-                        <option value={"Ibadan"}>Ibadan</option>
-                        <option value={"Ilorin"}>Ilorin</option>
-                        <option value={"Lagos"}>Lagos</option>
-                        <option value={"Minna"}>Minna</option>
-                        <option value={"Port Harcourt"}>Port Harcourt</option>
-                        <option value={"Uyo"}>Uyo</option>
-                        <option value={"Warri"}>Warri</option>
-                      </Select>
-                      <Select>
-                        <option>Type</option>
-                        <option value={"All types"}>All types</option>
-                        <option value={"Commercial"}>Commercial</option>
-                        <option value={"Residential"}>Residential</option>
-                        <option value={"Terrace"}>Terrace</option>
-                        <option value={"Flat/Apartment"}>Flat/Apartment</option>
-                        <option value={"Duplex"}>Duplex</option>
-                        <option value={"Semi-detached"}>Semi-detached</option>
-                        <option value={"Fully-detached"}>Fully-detached</option>
-                        <option value={"Villa"}>Villa</option>
-                      </Select>
-                      <Select>
-                        <option>Bedroom</option>
-                        <option value={"1"}>1</option>
-                        <option value={"2"}>2</option>
-                        <option value={"3"}>3</option>
-                        <option value={"4"}>4</option>
-                        <option value={"5"}>5</option>
-                        <option value={"6"}>6</option>
-                      </Select>
-                      <Select>
-                        <option>Min Price</option>
-                        <option value={""}>{"<N5m"}</option>
-                        <option value={""}>{"<N5m"}</option>
-                        <option value={""}>{"<N10m"}</option>
-                        <option value={""}>{"<100m"}</option>
-                        <option value={""}>{"<N200m"}</option>
-                        <option value={""}>{">N200m"}</option>
-                      </Select>
-                      <Select>
-                        <option>Max Price</option>
-                        <option value={""}>{"<N5m"}</option>
-                        <option value={""}>{"<N5m"}</option>
-                        <option value={""}>{"<N10m"}</option>
-                        <option value={""}>{"<100m"}</option>
-                        <option value={""}>{"<N200m"}</option>
-                        <option value={""}>{">N200m"}</option>
-                      </Select>
-                    </SelectOptionContainer>
-                    <SearchButton buttonType={{ primaryBtn: true }}>
-                      {" "}
-                      <SearchIcon /> Search
-                    </SearchButton>
-                  </FormContainer>
-                </SearchContainer>
-              </FilterHeading>
-            </BannerContent>
-          </BannerContainer>
-          {/* Mobile search container */}
-          <MobileSearchContainer
-            data-aos="fade-up"
-            data-aos-anchor-placement="top-bottom"
-            data-aos-easing="linear"
-            data-aos-duration="1000"
-          >
-            <MobileSearchForm>
-              <MobileOptionContainer>
-                <Select>
-                  <option>Purpose</option>
-                  <option value={"buy"}>Buy</option>
-                  <option value={"rent"}>Rent</option>
-                </Select>
-                <Select>
-                  <option>Location</option>
-                  <option value={"Abuja"}>Abuja</option>
-                  <option value={"Aba"}>Aba</option>
-                  <option value={"Benin"}>Benin</option>
-                  <option value={"Calabar"}>Calabar</option>
-                  <option value={"Enugu"}>Enugu</option>
-                  <option value={"Ibadan"}>Ibadan</option>
-                  <option value={"Ilorin"}>Ilorin</option>
-                  <option value={"Lagos"}>Lagos</option>
-                  <option value={"Minna"}>Minna</option>
-                  <option value={"Port Harcourt"}>Port Harcourt</option>
-                  <option value={"Uyo"}>Uyo</option>
-                  <option value={"Warri"}>Warri</option>
-                </Select>
-                <Select>
-                  <option>Type</option>
-                  <option value={"All types"}>All types</option>
-                  <option value={"Commercial"}>Commercial</option>
-                  <option value={"Residential"}>Residential</option>
-                  <option value={"Terrace"}>Terrace</option>
-                  <option value={"Flat/Apartment"}>Flat/Apartment</option>
-                  <option value={"Duplex"}>Duplex</option>
-                  <option value={"Semi-detached"}>Semi-detached</option>
-                  <option value={"Fully-detached"}>Fully-detached</option>
-                  <option value={"Villa"}>Villa</option>
-                </Select>
-                <Select>
-                  <option>Bedroom</option>
-                  <option value={"1"}>1</option>
-                  <option value={"2"}>2</option>
-                  <option value={"3"}>3</option>
-                  <option value={"4"}>4</option>
-                  <option value={"5"}>5</option>
-                  <option value={"6"}>6</option>
-                </Select>
-                <Select>
-                  <option>Min Price</option>
-                  <option value={""}>{"<N5m"}</option>
-                  <option value={""}>{"<N5m"}</option>
-                  <option value={""}>{"<N10m"}</option>
-                  <option value={""}>{"<100m"}</option>
-                  <option value={""}>{"<N200m"}</option>
-                  <option value={""}>{">N200m"}</option>
-                </Select>
-                <Select>
-                  <option>Max Price</option>
-                  <option value={""}>{"<N5m"}</option>
-                  <option value={""}>{"<N5m"}</option>
-                  <option value={""}>{"<N10m"}</option>
-                  <option value={""}>{"<100m"}</option>
-                  <option value={""}>{"<N200m"}</option>
-                  <option value={""}>{">N200m"}</option>
-                </Select>
-              </MobileOptionContainer>
-              <SearchButton buttonType={{ primaryBtn: true }}>
-                {" "}
-                <SearchIcon /> Search
-              </SearchButton>
-            </MobileSearchForm>
-          </MobileSearchContainer>
-          {/* Featured Section */}
-          <Featured>
-            <Brow>
-              <Heading
-                data-aos="slide-down"
-                data-aos-easing="linear"
-                data-aos-duration="1000"
-              >
-                Featured Properties
-              </Heading>
-              <SubHeading
-                data-aos="slide-up"
-                data-aos-easing="linear"
-                data-aos-duration="1000"
-              >
-                Discover Exceptional Spaces Curated Just for You
-              </SubHeading>
-            </Brow>
-            <FeaturedScroll
-              data-aos="slide-up"
-              data-aos-easing="ease-in"
-              data-aos-duration="1000"
-            >
-              <FeaturedContainer ref={featuredCard}>
-                {/* Horizontal Scroll Buttons */}
-                <HorizontalScrollBtnContainer onClick={handleFeatureClick}>
-                  <LeftArrowContainer name="fclickleft">
-                    <LeftArrowIcon name="fclickleft" />
-                  </LeftArrowContainer>
-                  <RightArrowContainer name="fclickright">
-                    <RightArrowIcon name="fclickright" />
-                  </RightArrowContainer>
-                </HorizontalScrollBtnContainer>
-                <FeaturedInnerContainer>
-                  {/* Featured Cards */}
-                  {featured.map((properties, id) => {
-                    return (
-                      <Card cardStyles={cardStyles} propertise={properties} />
-                    );
-                  })}
-                </FeaturedInnerContainer>
-              </FeaturedContainer>
-            </FeaturedScroll>
-          </Featured>
+                  <FeaturedContainer ref={featuredCard}>
+                    {/* Horizontal Scroll Buttons */}
+                    <HorizontalScrollBtnContainer onClick={handleFeatureClick}>
+                      <LeftArrowContainer name="fclickleft">
+                        <LeftArrowIcon name="fclickleft" />
+                      </LeftArrowContainer>
+                      <RightArrowContainer name="fclickright">
+                        <RightArrowIcon name="fclickright" />
+                      </RightArrowContainer>
+                    </HorizontalScrollBtnContainer>
+                    <FeaturedInnerContainer>
+                      {/* Featured Cards */}
+                      {featured?.map((properties, id) => {
+                        return (
+                          <Card cardStyles={cardStyles} propertise={properties} key={id} />
+                        );
+                      })}
+                    </FeaturedInnerContainer>
+                  </FeaturedContainer>
+                </FeaturedScroll>
+              </Featured> 
+            ) :
+            (
+              <PulseLoader
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  alignSelf: "stretch",
+                  height: "100vh",
+                }}
+                margin={5}
+              />
+            )
+          }
           {/* Services section */}
           <ServicesContainer
             data-aos="fade-down"
@@ -367,49 +196,9 @@ const Home = ({ isMobile }) => {
               </Brow>
               <ServicesImgContainer>
                 <ServicesCard
-                  imageSrc={Services01}
-                  iconSrc={Icon01}
-                  cardName={"property-sale"}
-                  hoverTitle={"Property Sale"}
-                  hoverText={
-                    "Find your ideal home or investment property with ease. Our curated listings and expert guidance make the buying process smooth and secure."
-                  }
-                />
-                <ServicesCard
-                  imageSrc={Services02}
-                  iconSrc={Icon02}
-                  cardName={"property-rental"}
-                  hoverTitle={"Property Rental"}
-                  hoverText={
-                    "Discover rental properties that fit your lifestyle and budget. From short stays to long leases, we make finding your next home effortless."
-                  }
-                />
-                <ServicesCard
-                  imageSrc={Services03}
-                  iconSrc={Icon03}
-                  cardName={"property-listing"}
-                  hoverTitle={"Property Listing"}
-                  hoverText={
-                    "Showcase your property to the right audience. Our end-to-end list services handles everything from marketing to management, making it easy to sell or rent your property."
-                  }
-                />
-                <ServicesCard
-                  imageSrc={Services04}
-                  iconSrc={Icon04}
-                  cardName={"facility-management"}
-                  hoverTitle={"Facility Management"}
-                  hoverText={
-                    "Keep your property in top shape with our reliable facility management services. From maintenance to security, we handle the details so you can enjoy peace of mind"
-                  }
-                />
-                <ServicesCard
-                  imageSrc={Services05}
-                  iconSrc={Icon05}
-                  cardName={"space-planing"}
-                  hoverTitle={"Space-Planning & Design"}
-                  hoverText={
-                    "Transform yoour space with our expert planning and design services. We create functional, beautiful enviroments tailored to your unique vision"
-                  }
+                  imageSrc={backgroundImg}
+                  iconSrc={icons}
+                  hoverDetails = {hoverDetails}
                 />
               </ServicesImgContainer>
             </ServicesContent>
@@ -417,7 +206,6 @@ const Home = ({ isMobile }) => {
           {/* Testimonial Section */}
           <Reviews scrollWidth={"100%"} />
           {/* Frequently asked questions session */}
-          {/* FAQ Container */}
           {/* FAQs */}
           <Faqs>
             <Brow
@@ -432,48 +220,17 @@ const Home = ({ isMobile }) => {
               </SubHeading>
             </Brow>
             <FaqScroll>
-              <Faq
-                showDivider={false}
-                heading={"How do I list my property?"}
-                answer={
-                  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."
-                }
-              />
-              <Faq
-                showDivider={true}
-                heading={"How do I book facility management services?"}
-                answer={
-                  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."
-                }
-              />
-              <Faq
-                showDivider={true}
-                heading={"How do I book facility management services?"}
-                answer={
-                  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."
-                }
-              />
-              <Faq
-                showDivider={true}
-                heading={"How do I book facility management services?"}
-                answer={
-                  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."
-                }
-              />
-              <Faq
-                showDivider={true}
-                heading={"How do I book facility management services?"}
-                answer={
-                  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."
-                }
-              />
-              <Faq
-                showDivider={true}
-                heading={"How do I book facility management services?"}
-                answer={
-                  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid nam incidunt accusamus. Pariatur, ad id mollitia iure sit deserunt expedita nemo, repellat iusto consequatur ut, explicabo autem nisi debitis doloribus."
-                }
-              />
+              {
+                faqs?.map(({question, answer}, index) => (
+                    <Faq
+                      showDivider={index == 0 ? false : true}
+                      heading = {question}
+                      answer = {answer}
+                      key={index}
+                    />
+                ))
+              }
+
             </FaqScroll>
             <GetInTouch
               Image1={Image1}
@@ -526,8 +283,8 @@ const Home = ({ isMobile }) => {
                 Take Xpacy with you Anywhere!
               </h3>
               <p className="download-content-subtext">
-                Downlaod our mobile app and enjoy seamless property mangement at
-                a go.
+                Our mobile app for seamless property mangement at
+                a go is coming soon.
               </p>
               <DownloadIconContainer>
                 <StoreBtn>
@@ -629,19 +386,6 @@ const Home = ({ isMobile }) => {
             </div>
           </Insight>
         </>
-      ) : (
-        <PulseLoader
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            alignSelf: "stretch",
-            height: "100vh",
-          }}
-          margin={5}
-        />
-      )}
-    </>
   );
 };
 

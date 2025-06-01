@@ -38,6 +38,7 @@ import {
     Location,
     UploadModalContainer,
     FinishBtn,
+    Paragraph
  } from './add-new-property.styles';
 import { useNavigate, Link } from 'react-router-dom';
 import fetchServer from '../../../../../utils/serverutils/fetchServer';
@@ -48,6 +49,52 @@ import isTokenExpired from '../../../../../utils/token/handleUserToken';
 import styled from 'styled-components';
 import Button from '../../../../../components/button/button';
 import { PulseLoader } from 'react-spinners';
+import { Autocomplete, Paper, TextField } from '@mui/material';
+
+
+
+
+const ErrorList = styled.ul`
+    padding-left: 1rem;
+    font-size: 14px;
+    color: #C4170B;
+    font-family: "Unitext Regular"
+
+    li {
+        margin-bottom: 4px;
+    }
+`
+// Styled Retry Button
+const RetryButton = styled.button`
+  align-self: center;
+  margin-top: 12px;
+  font-family: "Unitext Regular", sans-serif;
+  background-color: white;
+  color: #c4170b;
+  border: 1px solid #c4170b;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #c4170b;
+    color: white;
+  }
+`
+const CustomPaper = (props) => {
+    return <Paper sx={{
+        "& .MuiAutocomplete-option" : {
+        fontFamily: 'Unitext Regular',
+        fontSize: '1rem',
+        borderBottom: '1px solid #DADADA',
+        padding: '8px'
+        }
+    }} {...props} />
+}
+
+
+
 const AddNewProperty = ({allOwners}) => {
     const {userToken, server} = useContext(UserContext);
     const {nigerianStates} = useContext(PageContext)
@@ -144,9 +191,6 @@ const AddNewProperty = ({allOwners}) => {
         phonenumber: '',
         address: '',
     }
-    const defaultSearchField = {
-        owner: ''
-    }
     const defaultPropertyInfo = {
         property_owner_id: '',
         property_name: '',
@@ -203,15 +247,14 @@ const AddNewProperty = ({allOwners}) => {
     }
     const [showSuccessModal, setShowSuccessModal] = useState(false)
     const [ownerInfo , setOwnerInfo] = useState({});
-    const [searchField, setSearchField] = useState(defaultSearchField);
-    const {owner} = searchField;
+    const [searchField, setSearchField] = useState(null);
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [showError, setShowError] = useState(false);
     const [selectImages, setSelectImages] = useState([]);
     const [selectedAmenities, setSelectedAmenities] = useState([]);
     const [showSearchDropdown, setShowSearchDropdown] = useState(false);
     const [filteredPropertyOwner, setFilteredPropertyOwner] = useState([])
-    const [filesData, setFilesData] = useState(defaultFilesData)
+    const [filesData, setFilesData] = useState(defaultFilesData);
     const steps = [
         {
             id: 1,
@@ -241,18 +284,9 @@ const AddNewProperty = ({allOwners}) => {
 
     
     const handleSearchChange = (e) => {
-        const {name, value} = e.target;
-        setSearchField({
-            ...searchField,
-            [name]: value,
-        });
-        setShowError(false);
-        setShowSearchDropdown(true);
+        const {value} = e.target;
         const owner = allOwners.filter((item) => item.first_name.includes(value))
         setFilteredPropertyOwner(owner);
-        if(!value.length > 0){
-            setShowSearchDropdown(false);
-        }
     }
 
 
@@ -262,34 +296,7 @@ const AddNewProperty = ({allOwners}) => {
             images: [...prev.images, ...acceptedFiles ],
         }));
     }
-    const ErrorList = styled.ul`
-        padding-left: 1rem;
-        font-size: 14px;
-        color: #C4170B;
-        font-family: "Unitext Regular"
 
-        li {
-            margin-bottom: 4px;
-        }
-    `;
-// Styled Retry Button
-const RetryButton = styled.button`
-  align-self: center;
-  margin-top: 12px;
-  font-family: "Unitext Regular", sans-serif;
-  background-color: white;
-  color: #c4170b;
-  border: 1px solid #c4170b;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: #c4170b;
-    color: white;
-  }
-`;
     // Submit form
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -429,7 +436,7 @@ const RetryButton = styled.button`
                                 <h3>Owner Information</h3>
                                 <SearchField>
                                     <label>Search for owner's account</label>
-                                    <div className="search">
+                                    {/* <div className="search">
                                         <input type="search" name="owner" id="" placeholder="Enter property owner’s name or email" value={owner}  ref={inputRef} onChange={handleSearchChange} />
                                         <SearchIcon/>
                                         {
@@ -464,9 +471,29 @@ const RetryButton = styled.button`
                                                 </div>
                                             )
                                         }
-                                    </div>
-                                    {showError && <span>Please select the property owner</span>}
-                                    
+                                    </div> */}
+                                    <Autocomplete
+                                        sx={{
+                                                width: '100%',
+                                                "& .MuiOutlinedInput-notchedOutline" : {
+                                                    border: '1.5px solid #DADADA',
+                                                    borderRadius: '8px',
+                                                },
+                                                "&:hover .MuiOutlinedInput-notchedOutline" : {
+                                                    borderColor: '#DADADA'
+                                                }
+                                        }}
+                                        PaperComponent={CustomPaper}
+                                        options={allOwners}
+                                        // onBlur={(event) => event.target.value !== searchField ? setSearchField(event.target.value) : null}
+                                        getOptionLabel={(option) => typeof option === 'string' ? option :`${option?.first_name} ${option?.last_name}`} 
+                                        getOptionKey={(option) => option.id}
+                                        renderInput={(params) => <TextField {...params} placeholder='Search..' inputRef={inputRef}/>}
+                                        value={searchField}
+                                        onChange={(event, newValue) => {
+                                            setSearchField(newValue)
+                                        }}
+                                    />
                                 </SearchField>
                                 <FormContainer>
                                     <OwnerInfo>
@@ -476,14 +503,14 @@ const RetryButton = styled.button`
                                                 id="first-name"
                                                 name="firstname"
                                                 type="text"
-                                                value={ownerInfo?.first_name}
+                                                value={ !searchField ? ' ' : searchField?.first_name}
                                             />
                                             <FormInput
                                                 label={"Last Name"}
                                                 id="last-name"
                                                 name="lastname"
                                                 type="text"
-                                                value={ownerInfo?.last_name}
+                                                value={!searchField ? ' ' : searchField?.last_name}
                                             />
                                         </NameContainer>
                                         <FormInput
@@ -491,14 +518,14 @@ const RetryButton = styled.button`
                                             id="email"
                                             name="email"
                                             type="email"
-                                            value={ownerInfo?.email}
+                                            value={ !searchField ? ' ' : searchField?.email}
                                         />
                                         <FormInput
                                             label={"Phone Number"}
                                             id="phone-num"
                                             name="phone"
                                             type="text"
-                                            value={ownerInfo?.phonenumber}
+                                            value={!searchField ? ' ' : searchField?.phonenumber}
                                         />
                                         <FormInput
                                             label={"Address"}
@@ -509,14 +536,16 @@ const RetryButton = styled.button`
                                         />  
                                         <NextBtn 
                                             onClick={() => {
-                                                if(owner.length <= 0){
-                                                    setShowError(true);
-                                                    inputRef.current.focus();
-                                                    console.log(showError);
+                                                if(!searchField){
+                                                    toast.error('Please select a property onwer')
+                                                    inputRef.current?.focus();
                                                     return;
                                                 } 
                                                 setPageNum(2);
-                                                console.log(propertyInfo)
+                                                setPropertyInfo({
+                                                    ...propertyInfo,
+                                                    property_owner_id: searchField.id
+                                                })
                                             }
                                             }
                                         >
@@ -746,8 +775,8 @@ const RetryButton = styled.button`
                                     </NameContainer>
                                     <NameContainer>
                                         <SelectContainer>
-                                            <label>Select Amenties</label>
-                                            <AmenitiesContainer>
+                                            <label>Select Amenities</label>
+                                            {/* <AmenitiesContainer>
                                                 {
                                                     amenitites.map((item, index) => {
                                                         const isSelected = selectedAmenities.includes(item);
@@ -775,7 +804,39 @@ const RetryButton = styled.button`
                                                         )
                                                     })
                                                 }
-                                            </AmenitiesContainer>
+                                            </AmenitiesContainer> */}
+                                            <Autocomplete 
+                                                freeSolo
+                                                sx={{
+                                                    bgcolor: '#fff',
+                                                    "& .MuiInputBase-input" : {
+                                                        height: '2rem'
+                                                    },
+                                                    "& > div > placeholder" : {
+                                                        color : 'red'
+                                                    },
+                                                    "& .MuiOutlinedInput-notchedOutline" : {
+                                                        border: '1.5px solid #DADADA',
+                                                        borderRadius: '8px',
+                                                    },
+                                                    "&:hover .MuiOutlinedInput-notchedOutline" : {
+                                                        borderColor: '#DADADA'
+                                                    },
+                                                    "& .MuiAutocomplete-inputRoot > input::placeholder" : {
+                                                        fontFamily: 'Unitext Regular'
+                                                    }
+                                                }}
+                                                ChipProps={{
+                                                    sx: {bgcolor: '#E3ECF2', color: '#585858', fontFamily: 'Unitext Regular',   }}}
+                                                multiple
+                                                options={amenitites}
+                                                value={selectedAmenities}
+                                                renderInput={(params) => <TextField {...params} placeholder='Select amenities' />}
+                                                onChange={(event, newValue) => {
+                                                    setSelectedAmenities(newValue)
+                                                }}
+                                                PaperComponent={CustomPaper}
+                                            />
                                         </SelectContainer>
                                     </NameContainer>
                                     <NameContainer>
@@ -790,8 +851,15 @@ const RetryButton = styled.button`
                                         </NextBtn>
                                         <NextBtn 
                                             onClick={() => {
+                                                if(selectedAmenities.length <= 0){
+                                                    toast.error('Please type property amenities');
+                                                    return
+                                                }
+                                                setPropertyInfo({
+                                                    ...propertyInfo,
+                                                    property_amenities: selectedAmenities
+                                                })
                                                 setPageNum(() => pageNum + 1);
-                                                console.log(propertyInfo)
                                             }
                                             }
                                         >
@@ -832,13 +900,13 @@ const RetryButton = styled.button`
                                         id="virtual_tour"
                                         name="virtual_tour_url"
                                         type="url"
-                                        required
                                         placeholder= "Enter virtual tour link"
                                         value={virtual_tour_url}
                                         onChange={handleChange}
                                     />
                                     <Location>
                                         Location Coordinates 
+
                                         <Link 
                                             to={'#'} 
                                             onClick={(e) => {
@@ -846,7 +914,7 @@ const RetryButton = styled.button`
                                                 window.open("https://www.latlong.net", "_blank", "noopener,noreferrer")
                                             }}
                                         >
-                                            (Get coordinates)
+                                             (Get coordinates)
                                         </Link>
                                     </Location>
                                     <NameContainer>
@@ -872,7 +940,7 @@ const RetryButton = styled.button`
                                         />
                                     </NameContainer>
                                         <TwoFactorContainer>
-                                        <p>Featured</p>
+                                        <Paragraph>Feature this property</Paragraph>
                                         <div class="form-switch" >
                                             <input type="checkbox" class="form-check-input" name='featured' value={featured} style={{width: '40px', height: '25px',}} onChange={(e) => {
                                                 setPropertyInfo({

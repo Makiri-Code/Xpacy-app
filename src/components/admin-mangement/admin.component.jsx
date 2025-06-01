@@ -143,7 +143,7 @@ const AdminMangement = () => {
                                     </div>
                                     <Button
                                         buttonType={{primaryBtn: true}}
-                                        className = 'align-self-stretch'
+                                        className = 'align-self-stretch custom-btn'
                                         onClick={() => {
                                             navigate('/admin/book-services');
                                         }}

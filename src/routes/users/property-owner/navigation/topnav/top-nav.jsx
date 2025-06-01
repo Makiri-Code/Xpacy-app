@@ -25,24 +25,32 @@ import {
    } from "./top-nav.styles";
 import { PageContext } from "../../../../../contexts/page.context";
 import { UserContext } from "../../../../../contexts/userContext";
-
-const TopNav = ({dashboardRoute, isMobile}) => {
+import Cookies from "js-cookie";
+import isTokenExpired from "../../../../../utils/token/handleUserToken";
+const TopNav = ({dashboardRoute, isMobile, profileImage, notifications}) => {
         const {setSearchedPagination, setSearchedProperties, setShowDashboardSidebar, showDashboardSidebar, } = useContext(PageContext);
-        const {userProfile, notifications} = useContext(UserContext);
+        const {userToken, setUserToken} = useContext(UserContext);
         const navigate = useNavigate();
         const [showDropdown, setShowDropdown] = useState(false);
         const dropDown = [
             {
               link: "Notification",
               icon: GoBell,
-              to: "/dashboard/management/notification",
+              to: "/dashboard/owner/notification",
             },
             {
               link: "Settings",
               icon: RiUserSettingsLine,
-              to: "/dashboard/management/settings",
+              to: "/dashboard/owner/profile-settings",
             },
           ];
+        //   LogOut 
+          const logOut = () => {
+              setUserToken(Cookies.remove('gt-jwt-br'));
+              if (isTokenExpired(userToken)) {
+                navigate('/owner/auth/log-in');
+              } 
+            }
     return(
         <DashboardTopNavContainer>
             <DashboardTitle>
@@ -80,7 +88,7 @@ const TopNav = ({dashboardRoute, isMobile}) => {
                 >
                     <ProfileImg
                         // src={userImage}
-                        src={userProfile?.display_picture ? userProfile.display_picture : userImage }
+                        src={`https://app.xpacy.com/src/upload/display_img/${profileImage}`}
                         alt="profile picture"
                         style={{ width: "24px", height: "24px" }}
                     />
@@ -96,7 +104,7 @@ const TopNav = ({dashboardRoute, isMobile}) => {
                             </DropdownLink>
                         );
                         })}
-                        <DropdownLink className="log-out">
+                        <DropdownLink className="log-out" onClick={logOut}>
                             {" "}
                             <LogOutIcon style={{width: '20px', height: '20px'}} /> Log out{" "}
                         </DropdownLink>

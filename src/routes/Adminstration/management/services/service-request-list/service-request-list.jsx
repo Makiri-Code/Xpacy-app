@@ -98,7 +98,6 @@ const ServiceRequestList = ({allServices, setAllServices, allServiceProviders, s
             }
             btn2Ref.current.disabled = true;
             const response = await fetchServer("DELETE", {}, userToken, `service-provider/delete-service-provider/${id}`, server);
-            console.log(response);
             if(response.message) {
                 toast.success(response.message);
                 setShowRequestOptionId(null);
@@ -107,13 +106,11 @@ const ServiceRequestList = ({allServices, setAllServices, allServiceProviders, s
                 btn2Ref.current.disabled = false;
             }
             btn2Ref.current.disabled = false;
-            console.log(id)
         }
         // Get all service providers list
         useEffect(() => {
          const getAllServiceProviders = async () => {
           const response = await fetchServer("GET", {}, userToken, 'service-provider/get-all-service-providers', server);
-          console.log(response);
           setAllServiceProviders(response.data);
          }
          getAllServiceProviders();

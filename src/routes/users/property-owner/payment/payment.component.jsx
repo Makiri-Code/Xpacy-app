@@ -11,7 +11,7 @@ import { Container } from "../dashboard/owner-dashboard.styles"
 import { SummaryPayments, Icon, ServicesCardFooter,  } from "./payment.styles";
 import { IconContainer } from "../dashboard/owner-dashboard.styles";
 import {ReactComponent as RecievePayments} from "../../../../assets/recieve-money.svg";
-import { IoArrowUp } from "react-icons/io5"
+import { IoArrowDown, IoArrowUp } from "react-icons/io5"
 import CustomBarChart from "../../../../components/services-barchart/custom-barchart"
 import { FilterItem, FilterContainer } from "../notification/notification.styles"
 import SortBy from "../../../../components/sort-by/sortBy"
@@ -19,7 +19,7 @@ import DashboardFilter from "../../../../components/dashboard-filter/dasboardFil
 import {ReactComponent as MoneyBag} from "../../../../assets/money-bag.svg";
 import { InvoiceStatusContext } from "../../../../contexts/invoice.context"
 
-const OwnerPayments = ({isMobile}) => {
+const OwnerPayments = ({isMobile, profileImage}) => {
     const navigate = useNavigate();
     const {setInvoiceStatus} = useContext(InvoiceStatusContext)
     const dropdownOptions = ['General', 'Services', 'Properties', 'Payments'];
@@ -44,28 +44,10 @@ const OwnerPayments = ({isMobile}) => {
             payment_amount: '4,500,000',
             payment_status: 'Paid',
         },
-        {
-            invoice_no: '45678',
-            type: 'Rent',
-            description: 'Rent for 2 bedroom flat, Ikoyi, Lagos',
-            issued_date: '15/09/24',
-            due_date: '19/09/24',
-            payment_amount: '4,500,000',
-            payment_status: 'Unpaid',
-        },
-        {
-            invoice_no: '45678',
-            type: 'Rent',
-            description: 'Rent for 2 bedroom flat, Ikoyi, Lagos',
-            issued_date: '15/09/24',
-            due_date: '19/09/24',
-            payment_amount: '4,500,000',
-            payment_status: 'Incomplete',
-        },
     ]
     return(
         <ManagementDashboardContainer>
-            <TopNav dashboardRoute={'Payments'} isMobile={isMobile} />
+            <TopNav dashboardRoute={'Payments'} isMobile={isMobile} profileImage={profileImage}/>
             <ManagementDashboardContent>
                 <HeaderContainer>
                     <Form>
@@ -96,10 +78,10 @@ const OwnerPayments = ({isMobile}) => {
                                     <p>TOTAL PAYMENTS</p>
                                 </IconContainer>
                                 <ServicesCardFooter>
-                                    <span className="title">₦450,500,000</span>
-                                    <div className="stats">
-                                        <IoArrowUp style={{width: '16px', height: '16px', color: '#357B38'}}/>
-                                        <span className="up">2.0%</span>
+                                    <span className="title">₦0</span>
+                                    <div className="down-stats">
+                                        <IoArrowDown style={{width: '16px', height: '16px', color: '#C4170B'}}/>
+                                        <span className="down">0.0%</span>
                                     </div>
                                 </ServicesCardFooter>
                             </div>
@@ -109,19 +91,19 @@ const OwnerPayments = ({isMobile}) => {
                         <div className="card2">
                             <span>Pending payments</span>
                             <ServicesCardFooter>
-                                <p className="title">₦ 4,500,000,000</p>
+                                <p className="title">₦ 0</p>
                             </ServicesCardFooter>
                         </div>
                         <div className="card3">
                             <span>Upcoming payments</span>
                             <ServicesCardFooter>
-                                <p className="title">₦ 4,050,000,000</p>
+                                <p className="title">₦ 0</p>
                             </ServicesCardFooter>
                         </div>
                         <div className="card4">
                             <span>Expenditure</span>
                             <ServicesCardFooter>
-                                <p className="title">₦ 50,000,000</p>
+                                <p className="title">₦ 0</p>
                             </ServicesCardFooter>
                         </div>
                     </SummaryPayments>
@@ -148,7 +130,7 @@ const OwnerPayments = ({isMobile}) => {
                         </thead>
                         <tbody>
                             {
-                                dataSet.map((tableData, index) => {
+                                dataSet?.map((tableData, index) => {
                                     const {invoice_no, type, description, issued_date, due_date, payment_amount, payment_status } = tableData
                                     
                                     return (

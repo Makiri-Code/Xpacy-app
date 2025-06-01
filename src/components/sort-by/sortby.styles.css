@@ -47,8 +47,8 @@
 }
 .sort-dropdown{
     position: absolute;
-    top: 45px;
-    left: 0px;
+    top: 49px;
+    left: 28px;
     list-style: none;
     width: 138px;
     height: auto;
@@ -58,7 +58,8 @@
     box-shadow: 0px 10px 10px 0px var(--Neutrals-Neutrals100, #ECECEC);
     padding: unset;
     margin: unset;
-    padding: 10px;
+    padding: 10px 20px;
+    z-index: 100;
     li{
         cursor: pointer;
         padding: 12px 0px;

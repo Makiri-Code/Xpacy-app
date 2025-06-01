@@ -67,6 +67,7 @@ export const Company = styled.div`
         font-size: 18px;
         line-height: 21.6px;
         color: rgb(233, 229, 229);
+        margin-top: 32px;
     }
     .footer-company-links{
         display: flex;

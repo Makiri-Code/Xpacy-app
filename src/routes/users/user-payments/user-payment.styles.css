@@ -154,6 +154,7 @@
                 }
                 .filter-dropdown{
                     position: absolute;
+                    right: 0px;
                     top: 50px;
                     width: 290px;
                     display: flex;
@@ -276,6 +277,14 @@
                             width: 14px;
                             height: 14px;
                         }
+                        span {
+                            color: var(--Base-Base-Black, #333);
+                            font-family: "Unitext Regular";
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: 120%; /* 16.8px */
+                        }
                         a{
                             color: var(--Primary-Primary, #203645);
                             font-family: "Unitext Regular";
@@ -293,6 +302,7 @@
                     }
                     .paid, .unpaid, .incomplete{
                         padding: 4px 8px;
+                        font-family: "Unitext Regular";
                         font-weight: 700;
                         border-radius: var(--Radius-Round, 999px);
                         background: var(--Success-Success100, #C3E5C4);

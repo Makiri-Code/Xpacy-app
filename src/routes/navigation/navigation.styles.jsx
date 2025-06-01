@@ -23,6 +23,7 @@ export const NavigationContainer = styled.div`
 `
 export const PageWrapper = styled.div`
     padding-top: 92px;
+    overflow: hidden;
 `
 export const LogoContainer = styled.div`
     padding: 8px;
@@ -95,7 +96,7 @@ export const MobileNavContainer = styled.div`
         width: 100%;
         background: #FFF;
         transform: ${({showNav}) => showNav ? 'translateY(0%)' : 'translateY(-150%)'};
-        transition: ${({showNav}) => showNav ? 'transform 0.3s ease-in' : 'transform 0.3s ease-in'};
+        transition: ${({showNav}) => showNav ? 'transform 0.5s ease-in' : 'transform 0.3s ease-in'};
 `
 export const NavTitle = styled.h3`
             color: var(--Base-Base-Black, #333);

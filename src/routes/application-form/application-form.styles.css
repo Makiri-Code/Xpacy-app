@@ -9,6 +9,7 @@
         gap: 48px;
         justify-content: center;
         align-items: center;
+        margin-top: 32px;
         header{
             h1{
                 align-self: stretch;
@@ -76,7 +77,7 @@
     height: 100%;
     .file-upload-modal{
         position: absolute;
-        top: 20%;
+        top: 6%;
         left: 5%;
         width: 90%;
         display: flex;

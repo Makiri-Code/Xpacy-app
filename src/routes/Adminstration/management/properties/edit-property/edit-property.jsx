@@ -52,23 +52,22 @@ import isTokenExpired from '../../../../../utils/token/handleUserToken';
 import styled from 'styled-components';
 import { TwoFactorContainer } from '../../settings/setings.styles';
 const EditProperty = () => {
+    const [propertyInfo, setPropertyInfo] = useState(null);
     const navigate = useNavigate();
     const {id} = useParams();
     const {userToken, server} = useContext(UserContext)
     const {nigerianStates} = useContext(PageContext)
     const inputRef = useRef(null);
     const itemRef = useRef(null);
-        // fetch property details
+    // fetch property details
         useEffect(() => {
             const getPropertyDetails = async () => {
                 const response = await fetchServer("GET", {}, userToken, `admin/fetch-property/${id}`, server );
-                console.log(response)
                 setPropertyInfo(response.property);
                 setOwnerInfo(response.property.propertyOwner);
             }
             getPropertyDetails()
         }, []);
-
     // options for property type
     const propertyType = [
         {
@@ -152,43 +151,10 @@ const EditProperty = () => {
         "Swimming Pool",
         "Fully-equiped Gym",
     ]
-    // Default formfields
-    // const defaultOwnerFormFields = {
-    //     firstname: '',
-    //     lastname: '',
-    //     email: '',
-    //     phonenumber: '',
-    //     address: '',
-    // }
-    // defaullt search fields
+
     const defaultSearchField = {
         owner: ''
     }
-    // Default property information
-    // const defaultPropertyInfo = {
-    //     property_owner_id: '',
-    //     property_name: '',
-    //     property_address: '',
-    //     city: '',
-    //     state: '',
-    //     property_type: '',
-    //     availability_status: '',
-    //     property_price: '',
-    //     property_status: '',
-    //     description: '',
-    //     total_bedrooms: '',
-    //     total_baths: '',
-    //     total_toilets: '',
-    //     parking_area: '',
-    //     property_square_area: '',
-    //     land_area: '',
-    //     property_amenities: [],
-    //     images: [], 
-    //     videos: [],
-    //     virtual_tour_url: '',
-    //     long: '',
-    //     lat: '',
-    // }
 
 
     // handle delete photo
@@ -200,31 +166,6 @@ const EditProperty = () => {
         });
 
     }
-    const [propertyInfo, setPropertyInfo] = useState(null);
-    // const {
-    //         property_owner_id,
-    //         property_address, 
-    //         property_name, 
-    //         city, 
-    //         state, 
-    //         property_price, 
-    //         property_status, 
-    //         property_type,
-    //         description,
-    //         availability_status,
-    //         property_amenities,
-    //         property_square_area,
-    //         land_area,
-    //         parking_area,
-    //         images,
-    //         videos,
-    //         virtual_tour_url,
-    //         long,
-    //         lat,
-    //         total_baths,
-    //         total_bedrooms,
-    //         total_toilets,
-    //     } = propertyInfo;
 
     const [ownerInfo , setOwnerInfo] = useState(null);
     const [showOwnerInfo, setShowOwnerInfo] = useState(true);
@@ -276,7 +217,7 @@ const EditProperty = () => {
         setShowError(false);
     }
     const handleFileSelect = (acceptedFiles) => {
-        console.log("Selected Files:", acceptedFiles)
+        // console.log("Selected Files:", acceptedFiles)
         setPropertyInfo((prev) => ({
             ...prev,
             images: [...prev.images, ...acceptedFiles ],
@@ -330,7 +271,6 @@ const EditProperty = () => {
                 body: data,
             });
             const resp = await response.json();
-            console.log(resp)
             setDisabled(false)
             if(!resp.success){
                 console.log(resp.errors.message)
@@ -823,7 +763,7 @@ const EditProperty = () => {
                                     <TwoFactorContainer>
                                         <p>Featured</p>
                                         <div class="form-switch" >
-                                            <input type="checkbox" class="form-check-input" name='featured' value={propertyInfo.featured} style={{width: '40px', height: '25px',}} onChange={(e) => {
+                                            <input type="checkbox" class="form-check-input" name='featured' checked={propertyInfo.featured} style={{width: '40px', height: '25px',}} onChange={(e) => {
                                                 setPropertyInfo({
                                                     ...propertyInfo,
                                                     featured: e.target.checked

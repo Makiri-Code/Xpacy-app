@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
+import { Margin, usePDF } from "react-to-pdf";
 import { IoArrowBack } from "react-icons/io5";
 import xpacyLogo from "../../../../assets/x-pacy-logo.svg";
 import { 
@@ -222,24 +223,25 @@ const Invoice = () => {
       .join("/");
   };
 
-  const handleDownload = useReactToPrint({
-    contentRef: componentRef,
-    documentTitle: `Invoice_${invoiceData?.invoiceNumber || "invoice"}`,
+  const {toPDF, targetRef} = usePDF({
+    filename: `Invoice_${invoiceData?.invoiceNumber || "invoice"}`,
+    page: { margin: Margin.MEDIUM, orientation: 'portrait' },
   });
+
 
   if (!invoiceData) return <div>Loading...</div>;
 
   return (
     <InvoiceContainer>
       <PrintableInvoice
-        ref={componentRef}
+        ref={targetRef}
         invoiceData={invoiceData}
         formatDate={formatDate}
         invoiceStatus={invoiceStatus}
         navigate={navigate}
       />
       <ButtonContainer>
-        <Button buttonType={{ primaryBtn: false }} onClick={handleDownload}>
+        <Button buttonType={{ primaryBtn: false }} onClick={toPDF}>
           <LuDownload style={{ width: '24px', height: '24px' }} /> Download Invoice
         </Button>
         <Button buttonType={{ primaryBtn: true }}>Pay Now</Button>

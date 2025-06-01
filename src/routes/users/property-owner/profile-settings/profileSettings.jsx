@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { UserDashboardTopNav } from '../../../../components/user-dashboard/user-dashboard.styles.jsx';
 import TopNav from '../navigation/topnav/top-nav.jsx';
 import userImage from '../../../../assets/user-profile-img.svg';
@@ -41,38 +41,26 @@ import {
 } from './profile-settings.styles.jsx';
 import fetchServer from '../../../../utils/serverutils/fetchServer.js';
 import { UserContext } from '../../../../contexts/userContext.jsx';
-
-const ProfileSettingsOwner = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, userProfile, profileImage, setProfileImage, notifications}) => {
-    const {userToken} = useContext(UserContext);
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import isTokenExpired from '../../../../utils/token/handleUserToken.js';
+const ProfileSettingsOwner = ({isMobile, showDashboardSidebar, setShowDashboardSidebar, ownerProfile, setOwnerProfile, profileImage, setProfileImage, notifications}) => {
+    const {userToken, server} = useContext(UserContext);
     const [showPropertyStatus, setShowPropertyStatus] = useState(true);
-    const [nigerianStates, setNigerianStates] = useState([]);
-    // Get NigerianStates
-    useEffect(() => {
-        const getStatesData = async () => {
-            try {
-                const response = await fetch("https://app.xpacy.com/location/fetch-states", {method: "GET"});
-                const data = await response.json();
-                setNigerianStates(data.state);
-            } catch (error) {
-                console.error("Error", error);
-            }
-        }
-        getStatesData();
-    }, []);
-
+    const navigate = useNavigate()
 
     const defaultPersonalFormFields = {
-        firstname: userProfile?.firstname,
-        lastname: userProfile?.lastname,
-        email: userProfile?.email,
-        phoneNumber: userProfile?.phoneNumber,
-        address: userProfile?.address,
+        first_name: ownerProfile?.first_name,
+        last_name: ownerProfile?.last_name,
+        email: ownerProfile?.email,
+        phone: ownerProfile?.phone,
+        address: ownerProfile?.address,
     }
     const defaultPasswords = {
         currentPassword: '',
         newPassword: ''
     }
-    
+    const btnRef = useRef(null)
     const [personalFormFields, setPersonalFormFields] = useState(defaultPersonalFormFields);
     const {firstname, lastname, email, phoneNumber, address} = personalFormFields;
     const [passwordFields, setPassWordFields] = useState(defaultPasswords);
@@ -95,9 +83,19 @@ const ProfileSettingsOwner = ({isMobile, showDashboardSidebar, setShowDashboardS
             [name]: value,
         })
     }
-    const handlePersonalFormSubmit = (e) => {
+    const handlePersonalFormSubmit = async (e) => {
         e.preventDefault();
-        console.log(personalFormFields);
+        if(isTokenExpired(userToken)) {
+            navigate("/auth/log-in");
+            return;
+        }
+        btnRef.current.disabled = true;
+        const response = await fetchServer("PUT", personalFormFields, userToken, 'property-owner/update-profile', server);
+        if(response.success) {
+            toast.success(response.message);
+            setOwnerProfile(response.user);
+        }
+        btnRef.current.disabled = false;
     }
 
     const handlePasswordClick = () => {
@@ -115,13 +113,12 @@ const ProfileSettingsOwner = ({isMobile, showDashboardSidebar, setShowDashboardS
         setState({
             [name]: value
         });
-        console.log(state)
     }
     const uploadPhoto = async (file) => {
         const formData = new FormData();
         formData.append("display_picture", file); // 👈 Must match the server's expected field name
         try {
-            const response = await fetch("https://app.xpacy.com/user/upload-display-image", {
+            const response = await fetch("https://app.xpacy.com/property-owner/upload-display-image", {
               method: "PUT",
               headers: {
                 Authorization: `Bearer ${userToken}`, // Include token if needed
@@ -134,6 +131,7 @@ const ProfileSettingsOwner = ({isMobile, showDashboardSidebar, setShowDashboardS
             setShowLoader(false);
           } catch (error) {
             console.error("Upload error:", error);
+            setShowLoader(false);
           }
     }
   const handlePhotoUpload = async(e) => {
@@ -142,12 +140,14 @@ const ProfileSettingsOwner = ({isMobile, showDashboardSidebar, setShowDashboardS
         await uploadPhoto(files[0]);
     }  
     // display picture loading
-
+    const adjustProfilePicture = () => {
+        if(profileImage.includes(" ")){
+            const adjusted = profileImage.replace(" ", "%20");
+            return adjusted
+        }
+    }
     return(
         <>
-            {
-                !userProfile ? 
-                (
                     <ProfileSettingsContainer>
                         <TopNav dashboardRoute={'Profile Settings'} isMobile={isMobile} setShowDashboardSidebar={setShowDashboardSidebar} showDashboardSidebar={showDashboardSidebar} profileImage={profileImage} notifications={notifications}/>
                         {
@@ -187,7 +187,7 @@ const ProfileSettingsOwner = ({isMobile, showDashboardSidebar, setShowDashboardS
                                 <ProfilePhotoTxt>Profile Photo</ProfilePhotoTxt>
                                 <ProfileUploadSection>
                                     <PhotoInfo>
-                                        <div style={{width: '100px', height: '100px', background: `url(${profileImage}) lightgray 50% / cover no-repeat` ,  borderRadius: '100px', objectFit: 'contain'} } >
+                                        <div style={{width: '100px', height: '100px', background: `url(https://app.xpacy.com/src/upload/display_img/${profileImage?.includes(" ") ? profileImage.replace(" ", "%20") : profileImage}) lightgray 50% / cover no-repeat` ,  borderRadius: '100px', objectFit: 'contain'} } >
                                             {
                                                 showLoader && <ClipLoader size={25} color="#fff" />
                                             }
@@ -200,7 +200,7 @@ const ProfileSettingsOwner = ({isMobile, showDashboardSidebar, setShowDashboardS
                                     <UploadControls>
                                         <UploadPictureLabel htmlFor="upload-photo" >
                                             <UploadInput type="file" accept='.jpg, .png' name="display_picture" id="upload-photo" onChange={handlePhotoUpload}  />
-                                            {userProfile?.display_picture ? "Change Photo" : "Upload Picture"}
+                                            {ownerProfile?.display_picture ? "Change Photo" : "Upload Picture"}
                                         </UploadPictureLabel>
                                         <DeleteBtnContainer>
                                             <RiDeleteBin6Line style={{width: '24px', height: '24px'}}/>
@@ -215,40 +215,37 @@ const ProfileSettingsOwner = ({isMobile, showDashboardSidebar, setShowDashboardS
                                         <FormInput
                                             label={'First Name'}
                                             name={'firstname'}
-                                            placeholder={userProfile?.firstname}
                                             id="firstname"
                                             type="text"
                                             onChange={handleChange}
-                                            value={firstname}
+                                            value={ownerProfile?.first_name}
                                         />
                                         <FormInput
                                             label={'Last Name'}
                                             name={'lastname'}
-                                            placeholder={userProfile?.lastname}
+                                            value={ownerProfile?.last_name}
                                             id="lastname"
                                             type="text"
                                             onChange={handleChange}
-                                            value={lastname}
                                         />
                                     </NameInputs>
                                     <FormInput
                                         label={'email'}
                                         name={'email'}
-                                        placeholder={userProfile?.email}
+                                        value={ownerProfile?.email}
                                         id="email"
                                         type="email"
                                         onChange={handleChange}
-                                        value={email}
                                     />
                                     <FormInput
                                         label={'Phone number'}
-                                        name={'phoneNumber'}
+                                        name={'phone'}
                                         placeholder={'+234 000 0000'}
                                         id="email"
                                         type="tel"
                                         pattern="[0-9]{11}"
                                         onChange={handleChange}
-                                        value={phoneNumber}
+                                        value={ownerProfile?.phone}
                                     />
                                     <FormInput
                                         label={'Address'}
@@ -257,10 +254,10 @@ const ProfileSettingsOwner = ({isMobile, showDashboardSidebar, setShowDashboardS
                                         id="address"
                                         type="text"
                                         onChange={handleChange}
-                                        value={address}
+                                        value={ownerProfile?.address}
                                     />
                                     <SubmitControls>
-                                        <Button buttonType={{primaryBtn: true}} type={'submit'}>Save Changes</Button>
+                                        <Button buttonType={{primaryBtn: true}} type={'submit'} btnRef={btnRef}>Save Changes</Button>
                                         <Button buttonType={{primaryBtn: false}} type={'button'}>Cancel</Button>
                                     </SubmitControls>
                                 </PersonalFormContainer>
@@ -353,21 +350,6 @@ const ProfileSettingsOwner = ({isMobile, showDashboardSidebar, setShowDashboardS
                             }
                         </ProfileContainer>
                     </ProfileSettingsContainer>
-                ) :
-                (
-                    <PulseLoader
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            alignSelf: "stretch",
-                            height: "100vh",
-                            width: '100%'
-                        }}
-                        margin={5}
-                    />
-                )
-            }
         </>
     );
 }

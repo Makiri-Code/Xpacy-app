@@ -1,8 +1,8 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import DashboardTopNav from '../dashoard-top-nav/dashboardTopNav';
 import { MdContentCopy } from "react-icons/md";
 import {ReactComponent as Divider} from '../../../assets/referral/referral-divider.svg';
-import {ReactComponent as Gmail} from '../../../assets/referral/gmail.svg';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import {ReactComponent as Facebook} from '../../../assets/referral/facebook.svg';
 import {ReactComponent as Instagram} from '../../../assets/referral/instagram.svg';
 import {ReactComponent as TickTok} from '../../../assets/referral/tictok.svg';
@@ -10,7 +10,6 @@ import {ReactComponent as Twitter} from '../../../assets/referral/twitter.svg';
 import Pagination from '../../../components/pagination/pagination';
 import SortBy from '../../../components/sort-by/sortBy';
 import { FaArrowUp, FaArrowDown } from "react-icons/fa6";
-import './referral.styles.jsx';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { UserContext } from '../../../contexts/userContext';
 import { UserDashboardTopNav } from '../../../components/user-dashboard/user-dashboard.styles';
@@ -33,41 +32,47 @@ import {
     ReferralTable,
     ReferralUserHeader
 } from './referral.styles.jsx';
-
-const Referral = ({ notifications, profileImage, isMobile, showDashboardSidebar, setShowDashboardSidebar, userProfile, }) => {
-    const EmptySavedPropertyContainer = styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    text-align: center;
-    button {
-        display: none;
-    }
+import {IconButton} from '@mui/material';
+import { toast } from 'sonner';
+const EmptySavedPropertyContainer = styled.div`
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 24px;
+text-align: center;
+button {
+    display: none;
+}
 `
+const Referral = ({ notifications, profileImage, isMobile, showDashboardSidebar, setShowDashboardSidebar, userProfile, }) => {
     const {userToken} = useContext(UserContext);
-
+    const urlRef = useRef(null);
     const [showCopied, setShowCopied] = useState(false);
+    const [shareUrl] = useState(`https://xpacy.com/auth/sign-up?referral_code=${userProfile.referralCode}`)
     const [referralDownLine, setReferralDownLine] = useState(null);
-    const handleButtonClick = () => {
-        // Create a temporary element to trigger the copy event
-        const tempInput = document.createElement("input");
-        tempInput.value = "fidamilolaolojede/xpacy.com";
-        document.body.appendChild(tempInput);
+    // const handleButtonClick = () => {
+    //     // Create a temporary element to trigger the copy event
+    //     const tempInput = document.createElement("input");
+    //     tempInput.value = urlRef.current.textContent;
+    //     document.body.appendChild(tempInput);
 
-        // Select and copy the text
-        tempInput.select();
-        document.execCommand("copy", true);
+    //     // Select and copy the text
+    //     tempInput.select();
+    //     document.execCommand("copy", true);
 
-        // Remove the temporary input
-        document.body.removeChild(tempInput);
+    //     // Remove the temporary input
+    //     document.body.removeChild(tempInput);
         
-        setShowCopied(true)
-        setTimeout(() => {
-            setShowCopied(false);
-        }, 2000);
-    };
+    //     setShowCopied(true)
+    //     setTimeout(() => {
+    //         setShowCopied(false);
+    //     }, 2000);
+    // };
+    const handleButtonClick = () => {
+        navigator.clipboard.writeText(shareUrl);
+        toast.success('Referral link copied')
+    }
     const selectOptions = [
         {
             option: 'Default'
@@ -82,65 +87,13 @@ const Referral = ({ notifications, profileImage, isMobile, showDashboardSidebar,
             option: 'Last 90 days'
         },
     ];
-    const referralTable = [
-        {
-            name: 'Mabel Olu',
-            email: 'mabelolu@gmail.com',
-            dateSent: '29/09/24',
-            status: 'success'
-        },
-        {
-            name: 'Mabel Olu',
-            email: 'mabelolu@gmail.com',
-            dateSent: '29/09/24',
-            status: 'pending'
-        },
-        {
-            name: 'Mabel Olu',
-            email: 'mabelolu@gmail.com',
-            dateSent: '29/09/24',
-            status: 'success'
-        },
-        {
-            name: 'Mabel Olu',
-            email: 'mabelolu@gmail.com',
-            dateSent: '29/09/24',
-            status: 'pending'
-        },
-        {
-            name: 'Mabel Olu',
-            email: 'mabelolu@gmail.com',
-            dateSent: '29/09/24',
-            status: 'success'
-        },
-        {
-            name: 'Mabel Olu',
-            email: 'mabelolu@gmail.com',
-            dateSent: '29/09/24',
-            status: 'pending'
-        },
-        {
-            name: 'Mabel Olu',
-            email: 'mabelolu@gmail.com',
-            dateSent: '29/09/24',
-            status: 'success'
-        },
-    ]
     const leaderBoard = [
         {
             rank: '1st',
-            name: 'John Doe',
-            points: '2000 points',
+            name: 'Mercy John',
+            points: '20 points',
             trendIndicator: '10%',
             icon: FaArrowUp
-
-        },
-        {
-            rank: '1st',
-            name: 'John Doe',
-            points: '1000 points',
-            trendIndicator: '10%',
-            icon: FaArrowDown
 
         },
     ];
@@ -156,7 +109,6 @@ const Referral = ({ notifications, profileImage, isMobile, showDashboardSidebar,
               "https://app.xpacy.com"
             );
             setReferralDownLine(resp.data.downline);
-            console.log(referralDownLine)
           } catch (error) {
             console.error("Error:", error);
           }
@@ -171,6 +123,7 @@ const Referral = ({ notifications, profileImage, isMobile, showDashboardSidebar,
         const date = new Date(dateStr);
         return date.toLocaleDateString();
     };
+
 
     return(
         <ReferralMainContainer>
@@ -196,7 +149,7 @@ const Referral = ({ notifications, profileImage, isMobile, showDashboardSidebar,
                                     <ReferralCode>
                                         <p>Referral code</p>
                                         <div className="copy-referral">
-                                            <span>https://xpacy.com/auth/sign-up?referral_code={userProfile.referralCode}</span>
+                                            <span ref={urlRef}>{shareUrl}</span>
                                             <MdContentCopy style={{height: '24px', width: '24px', cursor: 'pointer'}} onClick={handleButtonClick}/>
                                             {
                                                 showCopied && 
@@ -212,11 +165,47 @@ const Referral = ({ notifications, profileImage, isMobile, showDashboardSidebar,
                                         </div>
                                         <p className='share-link-text'>Share link via</p>
                                         <div className="share-link-icons">
-                                            <Gmail/>
-                                            <Facebook/>
-                                            <Instagram/>
-                                            <TickTok/>
-                                            <Twitter/>
+                                            <IconButton
+                                                component = 'a'
+                                                href={`https://api.whatsapp.com/send?text=Join%20me%20on%20Xpacy%20and%20earn%20rewards!%20${shareUrl}`}
+                                                target='_blank'
+                                                rel="noopener noreferrer"
+                                                sx={{color: ' #25D366', "& > .MuiSvgIcon-root" : {fontSize: '1.8rem'}}}
+                                            >
+                                                <WhatsAppIcon/>
+                                            </IconButton>
+                                            <IconButton 
+                                                component = "a"
+                                                href = {`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                                                target='_blank'
+                                                rel="noopener noreferrer"
+                                            >
+                                                <Facebook/>
+                                            </IconButton>
+                                            <IconButton
+                                                onClick={() => {
+                                                    navigator.clipboard.writeText(shareUrl);
+                                                    toast.success('Referral link copied! Share it in your Instagram bio or story.')
+                                                }}
+                                            >
+                                                <Instagram/>
+                                            </IconButton>
+                                            <IconButton
+                                                 onClick={() => {
+                                                    navigator.clipboard.writeText(shareUrl);
+                                                    toast.success('Referral link copied! Share it in your TikTok bio.');
+                                                }}
+                                            >
+                                                <TickTok/>
+                                            </IconButton>
+                                            <IconButton
+                                                component = "a"
+                                                href= {`https://twitter.com/intent/tweet?url=${shareUrl}&text=Join%20me%20on%20Xpacy%20and%20earn%20rewards!`}
+                                                target='_blank'
+                                                rel='noopener noreferrer'
+                                            >
+                                                <Twitter/>
+                                            </IconButton>
                                         </div>
                                     </ReferralCode>
                                 </ReferralCodeContainer>

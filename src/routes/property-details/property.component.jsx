@@ -13,20 +13,17 @@ import {ReactComponent as Naira} from '../../assets/mdi_naira.svg';
 import { ReactComponent as ToiletIcon} from '../../assets/Toilets-icon.svg'
 import { MdOutlineShare, MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import Review01 from '../../assets/homepage-assets/testimonial-section-images/review-img01.png';
-import image01 from '../../assets/property-details/property-image-01.png';
 import Card from '../../components/card/card.component';
 import ClientRating from '../../components/clientRating/clientRating';
 import './property.styles.css';
-import Photos from '../all-photos/photos.component';
 import { PageContext } from '../../contexts/page.context';
 import { UserContext } from '../../contexts/userContext';
 import { PulseLoader } from 'react-spinners';
-
+import Maps from "../../components/maps/maps.component"
 
 const Property = () => {
     const navigate = useNavigate();
     const {id} = useParams();
-    console.log(id)
     const {propertyObj, propertiesArray} = useContext(PageContext);
     const [property, setProperty] = useState(null);
     const {userProfile} = useContext(UserContext);
@@ -56,100 +53,25 @@ const Property = () => {
             }
           }
         fetchProperty();
-    }, [])
+    }, []);
+
     const tourDate = {
         bookTourDate: 'Select tour date'
     }
+
     const [selectedDate, setSelectedDate] = useState(tourDate);
-    // const {
-    //     property_name,
-    //     property_type,
-    //     address,
-    //     city,
-    //     state,
-    //     property_price,
-    //     availabilty_status,
-    //     description,
-    //     property_status,
-    //     total_bedrooms,
-    //     total_bathrooms,
-    //     total_toilets,
-    //     parking_area,
-    //     property_square_area,
-    //     land_area,
-    //     property_amenities,
-    //     images,
-    //     virtual_tour_url,
-    //     videos,
-    //     long,
-    //     lat,
-    // } = property;
+    
     const cardStyles = {
         cardWidth: '100%',
         showDivider: true,
         isMobile: isMobile
     }
-    const latestPropertises = [
-        {
-            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            title: 'Duplex',
-            heading: '4-Bedroom Semi-detached Duplex with BQ',
-            location: 'Ikoyi, Lagos',
-            price: '1,000,000', 
-            bedrooms: 4,
-            bathrooms: 4,
-        },
-        {
-            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            title: 'Duplex',
-            heading: '4-Bedroom Semi-detached Duplex with BQ',
-            location: 'Ikoyi, Lagos',
-            price: '1,000,000', 
-            bedrooms: 4,
-            bathrooms: 4,
-        },
-        {
-            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            title: 'Duplex',
-            heading: '4-Bedroom Semi-detached Duplex with BQ',
-            location: 'Ikoyi, Lagos',
-            price: '1,000,000', 
-            bedrooms: 4,
-            bathrooms: 4,
-        },
-        {
-            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            title: 'Duplex',
-            heading: '4-Bedroom Semi-detached Duplex with BQ',
-            location: 'Ikoyi, Lagos',
-            price: '1,000,000', 
-            bedrooms: 4,
-            bathrooms: 4,
-        },
-        {
-            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            title: 'Duplex',
-            heading: '4-Bedroom Semi-detached Duplex with BQ',
-            location: 'Ikoyi, Lagos',
-            price: '1,000,000', 
-            bedrooms: 4,
-            bathrooms: 4,
-        },
-        {
-            src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            title: 'Duplex',
-            heading: '4-Bedroom Semi-detached Duplex with BQ',
-            location: 'Ikoyi, Lagos',
-            price: '1,000,000', 
-            bedrooms: 4,
-            bathrooms: 4,
-        }
-    ];
+;
     const handleGetPropertyClick = () => {
         if(!userProfile){
             navigate('/auth/log-in');
         } else {
-            navigate('application-form');
+            navigate(`/application-form/${id}`);
         }
         
     }
@@ -157,29 +79,28 @@ const Property = () => {
 
     }
     const clientRatings = [
-        {
-            Reviewer: Review01,
-            comment: '“Listing my property with Xpacy was the best decision I made. Their team handled everything, from photos to tenant management, giving me peace of mind and steady income!”',
-            name: 'Deola Alade',
-            title:'Property owner',
-            rating: 5
-        },
-        {
-            Reviewer: Review01,
-            comment: '“Listing my property with Xpacy was the best decision I made. Their team handled everything, from photos to tenant management, giving me peace of mind and steady income!”',
-            name: 'Deola Alade',
-            title:'Property owner',
-            rating: 5
-        },
-        {
-            Reviewer: Review01,
-            comment: '“Listing my property with Xpacy was the best decision I made. Their team handled everything, from photos to tenant management, giving me peace of mind and steady income!”',
-            name: 'Deola Alade',
-            title:'Property owner',
-            rating: 5
-        },
-    ];
-    console.log(property)
+            {
+                Reviewer: Review01,
+                comment: '“Listing my property with Xpacy was the best decision I made. Their team handled everything, from photos to tenant management, giving me peace of mind and steady income!”',
+                name: 'Deola Alade',
+                title:'Property owner',
+                rating: 5
+            },
+            {
+                Reviewer: "https://images.unsplash.com/photo-1611432579699-484f7990b127?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8aGVhZHNob3R8ZW58MHx8MHx8fDA%3D",
+                comment: '"Renting through Xpacy has been a fantastic experience. Their team made everything smooth and stress-free, and I’ve felt well taken care of from the start!"',
+                name: 'Dara Ojo',
+                title:'Property tenant',
+                rating: 4.5
+            },
+            {
+                Reviewer: "https://images.unsplash.com/photo-1573496358961-3c82861ab8f4?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                comment: '"I am so glad I found my place through Xpacy. The whole process was easy, the team was super helpful, and I’ve been really happy and comfortable ever since!"',
+                name: 'Dami Adeola',
+                title:'Property buyer',
+                rating: 5
+            },
+        ]
     return(
         <>
         {
@@ -442,7 +363,11 @@ const Property = () => {
                         <div className="map d-flex flex-column align-items-center align-self-stretch">
                             <div className="map-container">
                                 <h2 className="property-details-heading m-0">Map</h2>
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.4799799652396!2d3.4302829736896436!3d6.460710223892519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103bf4b89ac3fa9b%3A0x62d618ff7a5c486c!2s12%20Osborne%20Rd%2C%20Ikoyi%2C%20Lagos%20106104%2C%20Lagos!5e0!3m2!1sen!2sng!4v1733204254918!5m2!1sen!2sng" style={{border: '0px'}} width="100%" height="455" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                <Maps 
+                                    latitude={property?.lat} 
+                                    longitude={property?.long}
+                                />
+                                {/* <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.4799799652396!2d3.4302829736896436!3d6.460710223892519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103bf4b89ac3fa9b%3A0x62d618ff7a5c486c!2s12%20Osborne%20Rd%2C%20Ikoyi%2C%20Lagos%20106104%2C%20Lagos!5e0!3m2!1sen!2sng!4v1733204254918!5m2!1sen!2sng" style={{border: '0px'}} width="100%" height="455" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
                             </div>
                         </div>
                         {/* Reviews Section */}

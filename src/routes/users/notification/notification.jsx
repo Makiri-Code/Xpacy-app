@@ -81,7 +81,6 @@ const Notification = ({profileImage, isMobile, showDashboardSidebar, setShowDash
               `notification/mark-as-read/${id}`,
               "https://app.xpacy.com"
             );
-            console.log(resp)
           } catch (error) {
             console.error("Error:", error);
           }       

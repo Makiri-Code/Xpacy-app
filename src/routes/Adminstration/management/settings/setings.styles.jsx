@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { TbPhotoEdit } from "react-icons/tb";
+import { IoClose } from "react-icons/io5";
 
 export const ProfileSettingsContainer = styled.div`
     width: 100%;
@@ -298,4 +300,76 @@ export const PaymentNotification = styled.div`
     &.pending{
       background-color: #FFF8BE;
     }
+`
+export const WebContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+`
+export const ImageContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    border: 1px solid #333;
+    gap: 8px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    flex-wrap: wrap;
+`
+export const EditImageContainer = styled.div`
+    flex: 1 0 273px;
+    min-width: 24%;
+    // height: 300px;
+    // padding: 16px;
+    display: flex;
+    align-items: end;
+    position: relative;
+    .edit-btn-wrapper{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.75);
+        transition: transform 0.2s ease-in;
+    }
+    .edit-btn-wrapper:hover{
+        transform: scale(1.1);
+        background: rgba(255, 255, 255, 1);
+    }
+`
+export const BannerImg = styled.img`
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit: contain;
+`
+export const EditBtn = styled(TbPhotoEdit)`
+    width: 24px;
+    height: 24px;
+
+`
+export const UploadModalContainer = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    padding: 56px 84px 153px 85px;
+    flex-direction: column;
+    gap: 64px;
+    background: var(--Base-Base-White, #FFF);
+    width: 80%;
+`
+export const CloseIcon = styled(IoClose)`
+    width: 32px;
+    height: 32px;
+    align-self: flex-end;
+    cursor: pointer;
 `

@@ -22,7 +22,6 @@ import { CgCalendarDates } from "react-icons/cg"
 
 const AdminPayments = ({isMobile, allInvoices, profileImage}) => {
     const navigate = useNavigate();
-    console.log(allInvoices)
     const {setInvoiceStatus} = useContext(InvoiceStatusContext)
     const dropdownOptions = ['General', 'Services', 'Properties', 'Payments'];
     const selectOptions = [

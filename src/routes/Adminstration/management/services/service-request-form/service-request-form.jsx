@@ -56,7 +56,6 @@ const ServicesRequestForm = () => {
     useEffect(() => {
         const getServiceDetails = async () => {
             const response = await fetchServer("GET", {}, userToken, `service/fetch-service/${id}`, server);
-            console.log(response);
             setServiceDetails(response.data)
         }
         getServiceDetails();

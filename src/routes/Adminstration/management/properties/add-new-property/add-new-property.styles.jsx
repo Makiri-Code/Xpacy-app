@@ -383,6 +383,7 @@ export const UploadContainer = styled.div`
         font-style: normal;
         font-weight: 700;
         line-height: 120%; /* 1.2rem */
+        margin-bottom: 0px;
     }
     input{
         position: absolute;
@@ -466,4 +467,13 @@ export const FinishBtn = styled.button`
         cursor: not-allowed;
         opacity: 0.5;
     }
+`
+export const Paragraph = styled.p`
+    color: #585858;
+    font-family: "Unitext Regular";
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 1.2rem */
+    margin-bottom: 0px;
 `

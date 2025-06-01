@@ -72,6 +72,14 @@ export const MainContent = styled.main`
     align-self: stretch;
     p{
         margin: 24px 0px 0px 0px;
+        color: var(--Base-Base-Black, #333);
+        font-family: "Unitext Regular";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%; /* 24px */
+        letter-spacing: 0.16px;
+        margin: 0;
     }
 `
 
@@ -80,6 +88,7 @@ export const FormContainer = styled.form`
     flex-direction: column;
     align-items: start;
     gap: 16px;
+    margin-bottom: 24px;
     button{
         width: 100%;
     }

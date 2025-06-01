@@ -18,7 +18,6 @@ import {ReactComponent as Edit} from '../../../../assets/edit.svg';
 import {ReactComponent as Delete} from '../../../../assets/delete.svg';
 import { RiUserSettingsLine } from "react-icons/ri";
 import PropertiesMultiplePieChart from "../../../../components/properties-pie-chart/properties-multiple-piechart";
-import propertyImage from '../../../../assets/Property-Image.png';
 import { 
     HeaderContainer,
     Select,
@@ -242,7 +241,7 @@ const Properties = ({isMobile, allProperties, setAllProperties, profileImage}) =
                                                     </td>
                                                     <td>{property.state}</td>
                                                     <td><strong>{property.propertyOwner.first_name} {property.propertyOwner.last_name}</strong><br/> {property.propertyOwner.phone},<br/> {property.propertyOwner.email}</td>
-                                                    <td><div className='rented' >Rented</div></td>
+                                                    <td><div className={property.availability_status.toLowerCase()} >{property.availability_status}</div></td>
                                                     <td><strong>₦{property.property_price.toLocaleString()}/year</strong></td>
                                                     <td>
                                                         <SlOptions style={{width: '24px', height: '24px', cursor: 'pointer', position: 'relative'}} onClick={() => setShowPropertyOptionId( showPropertyOptionId === property.id ? null : property.id)} />

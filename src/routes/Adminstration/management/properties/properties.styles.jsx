@@ -202,7 +202,7 @@ export const PropertyTableList = styled.table`
         font-style: normal;
         font-weight: 400;
         line-height: 120%; /* 1.05rem */
-        .rented, .vacant, .for-sale, .in-progress, .pending, .completed, .paid{
+        .rented, .vacant, .for-sale, .in-progress, .pending, .completed, .paid, .available, .sold{
             display: flex;
             justify-content: center;
             align-items: center;
@@ -214,11 +214,11 @@ export const PropertyTableList = styled.table`
             font-weight: 700;
             width: fit-content;
         }
-        .vacant, .pending, .overdue {
+        .vacant, .pending, .overdue, .available {
             color: #C4170B;
             background-color: #FBC0BC;
         }
-        .for-sale, .upcoming{
+        .for-sale, .upcoming, .sold{
             color: #477899;
             background-color: #C7D9E5;
         }

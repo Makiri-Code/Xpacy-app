@@ -40,7 +40,6 @@ const Navigation = () => {
       ...classNames,
       [name]: true,
     });
-    console.log({ home });
     setShowNav(false);
   };
  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
@@ -100,14 +99,14 @@ const Navigation = () => {
                 >
                   Management
                 </NavItem>
-                <NavItem
+                {/* <NavItem
                   classname={classname.blog}
                   onClick={clickHandler}
                   to="/blog"
                   name="blog"
                 >
                   Blog
-                </NavItem>
+                </NavItem> */}
                 <NavItem
                   classname={classname.contact}
                   onClick={clickHandler}
@@ -192,14 +191,14 @@ const Navigation = () => {
                 Management
               </NavItem>
 
-              <NavItem
+              {/* <NavItem
                 classname={classname.blog}
                 onClick={clickHandler}
                 to="/blog"
                 name="blog"
               >
                 Blog
-              </NavItem>
+              </NavItem> */}
 
               <NavItem
                 classname={classname.contact}

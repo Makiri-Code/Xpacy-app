@@ -155,7 +155,6 @@ const Referral = ({ notifications, profileImage, isMobile, showDashboardSidebar,
               "https://app.xpacy.com"
             );
             setReferralDownLine(resp.data.downline);
-            console.log(referralDownLine)
           } catch (error) {
             console.error("Error:", error);
           }

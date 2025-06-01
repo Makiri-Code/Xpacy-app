@@ -19,16 +19,14 @@ import { BiBuildings } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { LuUserRoundCog } from "react-icons/lu";
 import { HiOutlineCreditCard } from "react-icons/hi";
-import propertyImage from "../../../../assets/Property-Image.png"
+import { TbCalendarMonth } from "react-icons/tb";
 
-
-const Dashboard = ({isMobile}) => {
-
+const Dashboard = ({isMobile, ownerProfile, ownerProperties, ownerServiceList, profileImage, ownerNotifications}) => {
     return(
         <ManagementDashboardContainer>
-            <TopNav dashboardRoute={'Dashboard Overview'} isMobile={isMobile} />
+            <TopNav dashboardRoute={'Dashboard Overview'} isMobile={isMobile} profileImage={profileImage} />
             <ManagementDashboardContent>
-            <Heading>Welcome Fidamilola,</Heading>
+            <Heading>Welcome {ownerProfile?.first_name},</Heading>
             {/* Overview */}
             <Container>
                 <p>Key Metrics</p>
@@ -41,31 +39,31 @@ const Dashboard = ({isMobile}) => {
                                 </Icon>
                                 <p>Properties Owned</p>
                             </IconContainer>
-                            <h3>9</h3>
+                            <h3>{ownerProperties?.length}</h3>
                         </div>
                         <div className="circle1"></div>
                         <div className="circle2"></div>
                     </div>
                 <div className="card2">
                     <span>Rented</span>
-                    <p>4</p>
+                    <p>0</p>
                 </div>
                 
                 <div className="card3">
                     <span>Vacant</span>
-                    <p>1</p>
+                    <p>0</p>
                 </div>
                 <div className="card4">
                     <span>Under Maintenance</span>
-                    <p>1</p>
+                    <p>0</p>
                 </div>
                 <div className="card5">
                     <span>For Sale</span>
-                    <p>2</p>
+                    <p>0</p>
                 </div>
                 <div className="card6">
                     <span>Sold</span>
-                    <p>4</p>
+                    <p>0</p>
                 </div>
                 </PropertiesCard>
                 <ServiceRequestCard>
@@ -77,22 +75,22 @@ const Dashboard = ({isMobile}) => {
                                 </Icon>
                                 <p>Service Request</p>
                             </IconContainer>
-                            <h3>15</h3>
+                            <h3>{ownerServiceList?.length}</h3>
                         </div>
                         <div className="circle1"></div>
                         <div className="circle2"></div>
                     </div>
                     <div className="card2">
                         <span>Completed</span>
-                        <p>10</p>
+                        <p>0</p>
                     </div>
                     <div className="card3">
                         <span>In progress</span>
-                        <p>1</p>
+                        <p>0</p>
                     </div>
                     <div className="card4">
                         <span>Pending</span>
-                        <p>1</p>
+                        <p>0</p>
                     </div>
                 </ServiceRequestCard>
                 <div style={{display: 'flex', alignSelf: 'stretch', justifyContent: 'space-between', alignItems: 'start'}}>
@@ -105,18 +103,18 @@ const Dashboard = ({isMobile}) => {
                                     </Icon>
                                     <p>Service Request</p>
                                 </IconContainer>
-                                <h3>₦300,000,000</h3>
+                                <h3>₦0</h3>
                             </div>
                             <div className="circle1"></div>
                             <div className="circle2"></div>
                         </div>
                         <div className="card2">
                             <span>Rent</span>
-                            <p>₦300,000,000</p>
+                            <p>₦0</p>
                         </div>
                         <div className="card3">
                             <span>Sale</span>
-                            <p>₦300,000,000</p>
+                            <p>₦0</p>
                         </div>
                     </RevenueCard>
                     <Upcoming>
@@ -124,8 +122,8 @@ const Dashboard = ({isMobile}) => {
                             <div className="revenue">
                                 <HiOutlineCreditCard className="icon1"/>
                             </div>
-                            <p>UPCOMING PAYMENTS</p>
-                            <h3>₦300,000,000</h3>
+                            <p>MAINTEANCE CHARGE</p>
+                            <h3>₦0</h3>
                         </div>
                     </Upcoming>
                 </div>
@@ -134,7 +132,7 @@ const Dashboard = ({isMobile}) => {
             <Container>
                 <Header>
                     <p>Notifications</p>
-                    <Link>View All</Link>
+                    <Link to={'/dashboard/owner/notification'}>View All</Link>
                 </Header>
                 <NotificationTable>
                     <thead>
@@ -144,15 +142,33 @@ const Dashboard = ({isMobile}) => {
                         <th>Time</th>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className='typeData'>
-                                <div className='type'><MoneyBag style={{width: '20px', height: '20px'}}/></div>
-                                Payment
-                            </td>
-                            <td>Rent has been paid for your property</td>
-                            <td>19/09/24</td>
-                            <td>12:00pm</td>
-                        </tr>
+                        {
+                            ownerNotifications?.toSpliced(3).map((item) => {
+                                const dateStr = new Date(item?.date);
+
+                                return(
+                                    <tr>
+                                        <td className='typeData'>
+                                            <div className='type'>
+                                                {
+                                                    item.notification_type === 'Payment' && <MoneyBag style={{width: '20px', height: '20px'}}/>
+                                                }
+                                                {
+                                                    item.notification_type === 'Property Update' && <BiBuildings style={{width: '20px', height: '20px'}}/>
+                                                }
+                                                {
+                                                    item.notification_type === 'Service Request' && <TbCalendarMonth style={{width: '20px', height: '20px'}}/>
+                                                }
+                                            </div>
+                                            {item?.notification_type}
+                                        </td>
+                                        <td>{item?.message}</td>
+                                        <td>{dateStr.toLocaleDateString('en-GB')}</td>
+                                        <td>{dateStr.toLocaleTimeString('en-US', {hour: 'numeric', minute: '2-digit', hour12: true})}</td>
+                                    </tr>
+                                )
+                            })
+                        }
                     </tbody>
                 </NotificationTable>
             </Container>
@@ -160,7 +176,7 @@ const Dashboard = ({isMobile}) => {
             <Container>
                 <Header>
                     <p>Property List</p>
-                    <Link>View All</Link>
+                    <Link to={'/dashboard/owner/properties'}>View All</Link>
                 </Header>
                 <NotificationTable>
                     <thead>
@@ -172,21 +188,26 @@ const Dashboard = ({isMobile}) => {
                         <th>Current Price</th>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className='typeData'>
-                                <div style = {{width: '64px', height: '48px', background: `url(${propertyImage}) lightgray 50% / cover no-repeat`}}></div>
-                                4 bedroom Villa, Mokola, Ibadan  
-                            </td>
-                            <td>N/A</td>
-                            <td><div className="rented">Rented</div></td>
-                            <td><div className='for-sale' >For-Sale</div></td>
-                            <td>N/A</td>
-                            <td><strong>₦4,500,000/year</strong></td>
-                        </tr>
+                            {
+                                ownerProperties.toSpliced(5).map((property) => {
+                                    return(
+                                        <tr key={property.id}>
+                                            <td className='typeData'>
+                                                <div style = {{width: '64px', height: '48px', background: `url(https://app.xpacy.com/src/upload/properties/${property?.images[0]}) lightgray 50% / cover no-repeat`}}></div>
+                                                {property.property_name} 
+                                            </td>
+                                            <td>{property.state}</td>
+                                            <td><strong>{property.propertyOwner.first_name}</strong><br/> {property.propertyOwner.phone},<br/> {property.propertyOwner.email}</td>
+                                            <td><div className={property.availability_status.toLowerCase()} >{property.availability_status}</div></td>
+                                            <td><strong>₦{property.property_price.toLocaleString()}/year</strong></td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        
                     </tbody>
                 </NotificationTable>
             </Container>
-            {/* Service Request Overview */}
         </ManagementDashboardContent>
     </ManagementDashboardContainer>
     );

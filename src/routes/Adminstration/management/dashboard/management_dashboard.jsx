@@ -7,9 +7,7 @@ import { FaBuildingUser } from "react-icons/fa6";
 import { TbUsersGroup } from "react-icons/tb";
 import { TbCalendarMonth } from "react-icons/tb";
 import TopNav from '../navigation/topnav/top-nav';
-import propertyImage from '../../../../assets/Property-Image.png';
 import {ReactComponent as MoneyBag} from "../../../../assets/money-bag.svg"
-import profileImage from '../../../../assets/profile-picture.png';
 import { 
     ManagementDashboardContainer,
     ManagementDashboardContent,
@@ -20,7 +18,7 @@ import {
     NotificationTable,
  } from './management_dashboard.styles';
 const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProperties, allServices, allOwners, allUsers, profileImage}) => {
-    
+
     const navigate = useNavigate();
     const [firstName, setFirstName] = useState(userProfile?.username.split(" ")[0])
     

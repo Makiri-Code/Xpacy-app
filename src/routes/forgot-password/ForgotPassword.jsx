@@ -47,7 +47,6 @@ const ForgotPassword = () => {
         const userData = await fetchServer('POST', body, 'user/request-password-reset', server);
         setIsUserValid(!userData.success)
         setResetMessage(userData.message)
-        console.log(isUserValid);
 
     }
     return(

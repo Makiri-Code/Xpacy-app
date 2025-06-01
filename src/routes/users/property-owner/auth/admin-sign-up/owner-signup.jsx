@@ -1,168 +1,233 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useContext, useRef } from "react";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import {ReactComponent as Logo} from '../../../../../assets/x-pacy-logo.svg';
 import FormInput from "../../../../../components/form-input/formInput.component";
 import ClipLoader from "react-spinners/ClipLoader";
 import ModalComponent from "../../../../../components/modal/modal";
+import { UserContext } from "../../../../../contexts/userContext";
+import fetchServer from "../../../../../utils/serverutils/fetchServer";
+import { toast } from "sonner";
+import { PulseLoader } from "react-spinners";
 import "./admin-signup.styles.css";
 
 const OwnerSignUp = () => {
+  const btnRef = useRef(null);
+  const navigate = useNavigate();
+  const {server} = useContext(UserContext);
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token');
+  const [ownerInfo, setOwnerInfo] = useState(null);
+  const [showError, setShowError] = useState(false);
+  // Fetch Registered Owner Info
+  useEffect(() => {
+    const getOwnerProfileInfo = async () => {
+      const response = await fetchServer('GET', {}, '', `property-owner/fetch-owner-information?token=${token}`, server);
+      if(response.success){
+        setOwnerInfo(response?.property_owner);
+      }else {
+        toast.error(response.message)
+        setShowError(true);
+      }
+    };
+    getOwnerProfileInfo();
+  }, []); 
+  
 
     const [showLoader, setShowLoader] = useState(false);
-    const [isErrorMessage, setIsErrorMessage] = useState(false);
     const defaultFormFields = {
-        firstname: '',
-        lastname: '',
-        email: '',
         password: '',
         confirmPassword: ''
     };
     const [formFields, setFormFields] = useState(defaultFormFields);
-    const {firstname, lastname, email, password, confirmPassword} = formFields
+    const {password, confirmPassword} = formFields;
+
     const handleChange = (e) => {
         const {name, value} = e.target;
+        setFormFields({
+          ...formFields,
+          [name]: value,
+        })
 
     }
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        btnRef.current.disabled = true;
+        setShowLoader(true);
+        try{
+          const response = await fetchServer("PUT", {password: password}, '', `property-owner/complete-registration?token=${token}`, server);
+          if(response.success){
+            toast.success(response.message);
+            navigate('/owner/auth/log-in');
+          }
+          setShowLoader(false);
+          btnRef.current.disabled = false;
+        } catch(error){
+
+        }
+        btnRef.current.disabled = false;
+        setShowLoader(false);
     }
+    // if(!ownerInfo) return (<h5>Please contact admin to signup as a property owner</h5>)
   return (
     <>
-      <div className="admin-signup-container d-flex align-items-start">
-        <div className="signup-form d-flex flex-column justify-content-center align-items-center">
-          <div className="d-flex justify-content-center align-items-center">
-            <Link className="logo-container" to="/">
-              <Logo className="logo" />
-            </Link>
-          </div>
-          <div className="signup-content d-flex flex-column align-items-start">
-            <header className="signup-header">
-              <h1>Welcome Fidamilola,</h1>
-              <p>You're just a few steps away from completing your account setup.<br/> 
-              Please set up your password below to secure your account and get started.</p>
-            </header>
-            <main>
-              <form onSubmit={handleSubmit}>
-                <div className="signup-name">
-                  <FormInput
-                    label={"First Name"}
-                    required
-                    id="first-name"
-                    name="firstname"
-                    type="text"
-                    onChange={handleChange}
-                    value={firstname}
-                    placeholder="Enter your first name"
-                  />
-                  <FormInput
-                    label={"Last Name"}
-                    required
-                    id="last-name"
-                    name="lastname"
-                    type="text"
-                    onChange={handleChange}
-                    value={lastname}
-                    placeholder="Enter your last name"
-                  />
-                </div>
-                <FormInput
-                  label={"Email"}
-                  required
-                  id="e-mail"
-                  name="email"
-                  type="email"
-                  onChange={handleChange}
-                  value={email}
-                  placeholder="Enter your Email"
-                />
-                <div className="signup-password d-flex flex-column align-items-start">
-                  <FormInput
-                    label={"Password"}
-                    id="password"
-                    name="password"
-                    type="password"
-                    onChange={handleChange}
-                    value={password}
-                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
-                    placeholder="Enter your password"
-                  />
-                  <p id="password-txt">
-                    * At least 8 characters, including an uppercase letter, a
-                    lowercase letter, and a number.
-                  </p>
-                </div>
-                <div className="signup-password d-flex flex-column align-items-start">
-                  <FormInput
-                    label={"Confirm Password"}
-                    className={
-                      password !== confirmPassword
-                        ? "form-input invalid"
-                        : "form-input"
-                    }
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    onChange={handleChange}
-                    value={confirmPassword}
-                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
-                    placeholder="Confirm your password"
-                  />
-                  <p
-                    className={
-                      password !== confirmPassword
-                        ? "password-nomatch"
-                        : "password-match"
-                    }
-                  >
-                    Passwords must match and meet the criteria. Please try
-                    again.
-                  </p>
-                </div>
-                <div className="checkbox d-flex justify-content-between align-items-start w-100">
-                  <div className="checkbox-container">
-                    <input
-                      type="checkbox"
-                      name="agreement"
-                      id="agreement"
+    { 
+      ownerInfo ?
+      (
+        <div className="admin-signup-container d-flex align-items-start">
+          <div className="signup-form d-flex flex-column justify-content-center align-items-center">
+            <div className="d-flex justify-content-center align-items-center">
+              <Link className="logo-container" to="/">
+                <Logo className="logo" />
+              </Link>
+            </div>
+            <div className="signup-content d-flex flex-column align-items-start">
+              <header className="signup-header">
+                <h1>Welcome {ownerInfo?.first_name},</h1>
+                <p>You're just a few steps away from completing your account setup.<br/> 
+                Please set up your password below to secure your account and get started.</p>
+              </header>
+              <main>
+                <form onSubmit={handleSubmit}>
+                  <div className="signup-name">
+                    <FormInput
+                      label={"First Name"}
                       required
+                      id="first-name"
+                      name="firstname"
+                      type="text"
+                      value={ownerInfo?.first_name}
+                      placeholder="Enter your first name"
                     />
-                    <label htmlFor="agreement">
-                      I agree to Xpacy’s Terms & Conditions and Privacy Policy.
-                    </label>
+                    <FormInput
+                      label={"Last Name"}
+                      required
+                      id="last-name"
+                      name="lastname"
+                      type="text"
+                      value={ownerInfo?.last_name}
+                      placeholder="Enter your last name"
+                    />
                   </div>
-                </div>
-                <button type="submit">
-                  {showLoader ? (
-                    <ClipLoader size={25} color="#fff" />
-                  ) : (
-                    "Set Up Account"
-                  )}
-                </button>
-              </form>
-              <p>
-                Having trouble? <Link to={""}>Contact Support</Link>
-              </p>
-            </main>
+                  <FormInput
+                    label={"Email"}
+                    required
+                    id="e-mail"
+                    name="email"
+                    type="email"
+                    value={ownerInfo?.email}
+                    placeholder="Enter your Email"
+                  />
+                  <div className="signup-password d-flex flex-column align-items-start">
+                    <FormInput
+                      label={"Password"}
+                      id="password"
+                      name="password"
+                      type="password"
+                      onChange={handleChange}
+                      value={password}
+                      pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
+                      placeholder="Enter your password"
+                    />
+                    <p id="password-txt">
+                      * At least 8 characters, including an uppercase letter, a
+                      lowercase letter, and a number.
+                    </p>
+                  </div>
+                  <div className="signup-password d-flex flex-column align-items-start">
+                    <FormInput
+                      label={"Confirm Password"}
+                      className={
+                        password !== confirmPassword
+                          ? "form-input invalid"
+                          : "form-input"
+                      }
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type="password"
+                      onChange={handleChange}
+                      value={confirmPassword}
+                      pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
+                      placeholder="Confirm your password"
+                    />
+                    <p
+                      className={
+                        password !== confirmPassword
+                          ? "password-nomatch"
+                          : "password-match"
+                      }
+                    >
+                      Passwords must match and meet the criteria. Please try
+                      again.
+                    </p>
+                  </div>
+                  <div className="checkbox d-flex justify-content-between align-items-start w-100">
+                    <div className="checkbox-container">
+                      <input
+                        type="checkbox"
+                        name="agreement"
+                        id="agreement"
+                        required
+                      />
+                      <label htmlFor="agreement">
+                        I agree to Xpacy’s Terms & Conditions and Privacy Policy.
+                      </label>
+                    </div>
+                  </div>
+                  <button type="submit" ref={btnRef}>
+                    {showLoader ? (
+                      <ClipLoader size={25} color="#fff" />
+                    ) : (
+                      "Set Up Account"
+                    )}
+                  </button>
+                </form>
+                <p>
+                  Having trouble? <Link to={""}>Contact Support</Link>
+                </p>
+              </main>
+            </div>
           </div>
         </div>
-        {isErrorMessage && (
-          <ModalComponent>
-            <div className="invalid-signup-content">
-              <h3>Opps!</h3>
-              <p>Email already exits. Please use a different email.</p>
-              <IoClose
-                style={{ width: "24px", height: "24px" }}
-                className="close-email"
-                onClick={() => {
-                  setShowLoader(false);
-                  setIsErrorMessage(false);
+      ):
+      (
+        <>
+        {
+          !showError ?
+          (
+            <PulseLoader
+                style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                alignSelf: "stretch",
+                height: "100vh",
                 }}
+                margin={5}
               />
+          ) : 
+          (
+            <div className="admin-signup-container d-flex align-items-start">
+              <div className="signup-form d-flex flex-column justify-content-center align-items-center">
+                <div className="d-flex justify-content-center align-items-center">
+                  <Link className="logo-container" to="/">
+                    <Logo className="logo" />
+                  </Link>
+                </div>
+                <div className="signup-content d-flex flex-column align-items-start">
+                  <header className="signup-header">
+                    <h1>Welcome,</h1>
+                    <p>Your token is expired.<br/> 
+                    Please contact the admin to continue account set-up.</p>
+                  </header>
+                </div>
+              </div>
             </div>
-          </ModalComponent>
-        )}
-      </div>
+          )
+        }
+        </>
+      )
+    }
     </>
   );
 };

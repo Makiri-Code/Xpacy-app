@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ReactComponent as Logo } from "../../assets/x-pacy-logo.svg";
 import FormInput from "../form-input/formInput.component";
-import { Carousel, CarouselCaption, CarouselItem } from "react-bootstrap";
+import { Carousel, CarouselItem } from "react-bootstrap";
 import sliderImg from "../../assets/log-asset/carousel-photo01.png";
 import { UserContext } from "../../contexts/userContext";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -10,6 +10,7 @@ import fetchServer from "../../utils/serverutils/fetchServer";
 import ModalComponent from "../modal/modal";
 import { IoClose } from "react-icons/io5";
 import Button from "../button/button.jsx";
+import { Autocomplete, TextField, Paper } from "@mui/material";
 import {
   LoginLogoContainer,
   LoginContent,
@@ -38,41 +39,46 @@ import {
   SignUpCarouselCaption,
   PasswordError,
 } from "./signup.styles.jsx";
+import { PageContext } from "../../contexts/page.context.jsx";
+
+
 const SignUp = () => {
+  const textStyles = {
+      color: '#585858',
+      fontFamily: "Unitext Regular",
+      fontSize: '16px',
+      fontStyle: 'normal',
+      fontWeight: 400,
+      lineHeight: '150%',
+      letterSpacing: '0.16px',
+  }
+
+  const CustomPaper = (props) => {
+    return <Paper { ...props } sx={{"& .MuiAutocomplete-option" : {
+        ...textStyles
+    }}}/>
+  }
   const { setSignupUser } = useContext(UserContext);
+  const [searchParams] = useSearchParams();
+  const referralCode = searchParams.get('referral_code');
+  const {nigerianStates} = useContext(PageContext);
   const navigate = useNavigate();
-  const [nigeriaStates, setNigeriaStates] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
- 
+  const options = ["Rivers", "Cross River", "Lagos"]
   const defaultFormFields = {
     firstname: "",
     lastname: "",
     email: "",
     password: "",
     confirmPassword: "",
-    state: "",
+    state: null,
   };
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { firstname, lastname, email, password, confirmPassword, state } =
     formFields;
-  // Fetch nigerian states
-  useEffect(() => {
-    const states = async () => {
-      try {
-        const statesArray = await fetch(
-          "https://app.xpacy.com/location/fetch-states",
-          { method: "GET" }
-        );
-        const response = await statesArray.json();
-        setNigeriaStates(response.state);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-    states();
-  }, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -101,7 +107,7 @@ const SignUp = () => {
       "POST",
       body,
       "",
-      "user/register",
+      `user/register?referralCode=${referralCode}`,
       server
     );
     setSignupUser(userData.user);
@@ -214,19 +220,45 @@ const SignUp = () => {
                 </SignUpPasswordField>
                 <SignUpLocation>
                   <Label htmlFor="state">Choose a Location</Label>
-                  <Select
+                  {/* <Select
                     name="state"
                     required
                     value={state}
                     onChange={handleChange}
                   >
                     <option >Choose a Location</option>
-                    {/* <option value={"Rivers"}>Rivers</option> */}
-                    {nigeriaStates?.map((stateName) => {
+                    {nigerianStates?.map((stateName) => {
                       const { location } = stateName;
                       return <option key={location}>{location}</option>;
                     })}
-                  </Select>
+                  </Select> */}
+                  <Autocomplete 
+                    sx={{
+                      "& .css-1n04w30-MuiInputBase-root-MuiOutlinedInput-root" : {
+                        borderRadius: '8px',
+                        border: '1px solid #C7D9E5',
+                        background: '#FCFEFF',
+                        "& .MuiOutlinedInput-input" : {
+                          fontSize: '16px',
+                          color: '#585858',
+                          fontStyle: 'normal',
+                          fontWeight: 400,
+                          "&::placeholder" : {
+                            color: 'rgb(0, 0, 0)',
+                            fontSize: '16px'
+                          }
+                        }
+                      },
+                    }}
+                    noOptionsText={<span style={{...textStyles}}>Please type a Nigerain State</span>}
+                    PaperComponent={CustomPaper}
+                    value={state}
+                      
+                    onChange={(event, newValue) => !newValue ? null : setFormFields({...formFields, state: newValue.location})  }
+                    options={nigerianStates}
+                    getOptionLabel={(option) => typeof option === 'string' ? option : option.location}
+                    renderInput={(params) => <TextField {...params} placeholder="Enter your location" />}
+                  />
                 </SignUpLocation>
                 <CheckboxForgotPasswordContainer>
                   <div className="checkbox-container">
@@ -249,7 +281,7 @@ const SignUp = () => {
                   )}
                 </Button>
               </SignUpFormContainer>
-              <p>
+              <p className="paragraph">
                 Already have an account? <AnchorTag fontWeight={700} to={"/auth/log-in"}>Log In</AnchorTag>
               </p>
             </MainContent>

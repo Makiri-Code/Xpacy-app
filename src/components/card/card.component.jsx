@@ -112,6 +112,13 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, 
       getSavedPropertiesData();
     }
   };
+  
+  const adJustImage = () => {
+    if(images[0].includes(" ")){
+      const adjustedImages = images[0].replace(" ", "%20");
+      return adjustedImages;
+    }
+  }
   return (
     <div
       className="propertise-card d-flex flex-column align-items-start"
@@ -120,7 +127,11 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, 
       <div className="card-img-container position-relative align-self-stretch">
         <div
           className="card-image"
-          style={{ height: imgHeight, background: `url(${images[0] == undefined ? "https://placehold.co/600x400" : `https://app.xpacy.com/src/upload/properties/${images[0]}`}) lightgray 50% / cover no-repeat` }}
+          style={{ 
+            background: `url(https://app.xpacy.com/src/upload/properties/${images[0].includes(" ") ? adJustImage() : images[0]}) lightgray 50% / cover no-repeat`,
+            color: 'red',
+            height: imgHeight, 
+           }}
           onClick={handleClick}
 
         />
