@@ -33,9 +33,12 @@ import { MdEditCalendar } from "react-icons/md";
 import { TbClockEdit } from "react-icons/tb";
 import { toast } from "sonner";
 import { ClipLoader } from "react-spinners";
+import CustomToast from './../../components/custom-toast/CustomToast';
+import LoginModal from "../../components/login-modal/LoginModal.jsx";
+import fetchServer from "../../utils/serverutils/fetchServer.js";
 
-const BookServices = ({userProfile}) => {
-    const {userToken, server} = useContext(UserContext);
+const BookServices = () => {
+    const {userToken, server, setUserProfile, userProfile, setLoggedInUser} = useContext(UserContext);
     const navigate = useNavigate();
     const btnRef = useRef(null);
     const [showModal, setShowModal] = useState(false);
@@ -50,6 +53,7 @@ const BookServices = ({userProfile}) => {
         service_description: '',
         images: [],
     }
+    const [showLogInModal, setShowLogInModal] = useState(false);
     const [formFields, setFormFields] = useState(defaultFormFields);
     const [showUploadModal, setShowUploadModal] = useState(false)
     const {
@@ -62,11 +66,24 @@ const BookServices = ({userProfile}) => {
             images,
         } = formFields;
     
-    if(!userProfile){
-        toast.error("Please log in to continue")
-        navigate('/auth/log-in');
-    }
-   
+    useEffect(() => {
+        if(isTokenExpired(userToken)){
+            toast.custom((t) => (<CustomToast title={"Error!"} message={"You have to log in to continue"} type={'error'}/>))
+            setShowLogInModal(true);
+        }
+    }, [showLogInModal])
+       useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const response = await fetchServer("GET", {}, userToken, "user/fetch-profile", server);
+                setUserProfile(response.user);
+                setLoggedInUser(response.user)
+            } catch (error) {
+                console.log("Error getting user", error)
+            }            
+        }
+        fetchUserProfile();
+    }, [showLogInModal])
     const handleChange = (e) => {
         const {name, value} = e.target;
         setFormFields({
@@ -130,6 +147,7 @@ const BookServices = ({userProfile}) => {
     return (
         <>
             <BookServicesContainer>
+                {showLogInModal && <LoginModal setShowLogInModal={setShowLogInModal}/>}
                 <BookServicesNav>
                     <IoMdArrowBack/>
                     <span>Back To Dashboard</span>

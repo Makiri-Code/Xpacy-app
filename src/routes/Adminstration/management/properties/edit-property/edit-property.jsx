@@ -1,6 +1,6 @@
 import { useState, useRef, useContext, useEffect } from 'react';
 import xpacyLogo from '../../../../../assets/x-pacy-logo.svg';
-import { IoArrowBack } from "react-icons/io5";
+import { IoArrowBack, IoClose } from "react-icons/io5";
 import { PageContext } from '../../../../../contexts/page.context';
 import FormInput from '../../../../../components/form-input/formInput.component';
 import { MdOutlineArrowForwardIos, MdOutlineArrowBackIos } from "react-icons/md";
@@ -10,6 +10,7 @@ import FileUploader from '../../../../../components/file-uploader/file-uploader'
 import ModalComponent from '../../../../../components/modal/modal';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Button from '../../../../../components/button/button';
+import { Autocomplete, Paper, TextField } from '@mui/material';
 import { 
     NavigationContainer,
     LogoContainer,
@@ -51,9 +52,126 @@ import { toast } from 'sonner';
 import isTokenExpired from '../../../../../utils/token/handleUserToken';
 import styled from 'styled-components';
 import { TwoFactorContainer } from '../../settings/setings.styles';
-const EditProperty = () => {
-    const [propertyInfo, setPropertyInfo] = useState(null);
+
+    // Styled Retry Button
+    const RetryButton = styled.button`
+      align-self: center;
+      margin-top: 12px;
+      font-family: "Unitext Regular", sans-serif;
+      background-color: white;
+      color: #c4170b;
+      border: 1px solid #c4170b;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    
+      &:hover {
+        background-color: #c4170b;
+        color: white;
+      }
+    `
+    const CustomPaper = (props) => {
+        return <Paper sx={{
+            "& .MuiAutocomplete-option" : {
+            fontFamily: 'Unitext Regular',
+            fontSize: '1rem',
+            borderBottom: '1px solid #DADADA',
+            padding: '8px'
+            }
+        }} {...props} />
+    }
+    const ToastContainer = styled.div`
+        display: flex;
+        background-color: white;
+        padding: 0px;
+        border-radius: 0px 8px 8px 0px;
+        color: #203645;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        max-width: 300px;
+        font-family: "Unitext Regular";
+    `;
+
+    const Title = styled.p`
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0px;
+        font-family: "Unitext Regular";
+    `;
+
+    const Description = styled.p`
+        font-size: 1rem;
+        color: #555;
+        margin: 0px;
+        font-style: italic;
+        font-family: "Unitext Regular";
+    `;
+    const Content = styled.div`
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 8px;
+    `
+    const Block = styled.div`
+        width: 10px;
+        background-color:rgba(68, 243, 68, 0.46);
+    `
+const EditProperty = ({allOwners}) => {
+    const defaultPropertyInfo = {
+        property_owner_id: '',
+        property_name: '',
+        address: '',
+        city: '',
+        state: '',
+        property_type: '',
+        availability_status: '',
+        property_price: '',
+        property_status: '',
+        description: '',
+        total_bedrooms: '',
+        total_bathrooms: '',
+        total_toilets: '',
+        parking_area: '',
+        kitchen_type: '',
+        property_square_area: '',
+        land_area: '',
+        property_amenities: [],
+        images: [], 
+        videos: [],
+        virtual_tour_url: '',
+        long: '',
+        lat: '',
+        featured: false,
+    }
+    const [propertyInfo, setPropertyInfo] = useState(defaultPropertyInfo);
+    const [isFetchingPropertyInfo, setIsFetchingPropertyInfo] = useState(false);
+    const [imageFiles, setImageFiles] = useState([]);
     const navigate = useNavigate();
+        const {
+            address, 
+            property_name, 
+            city, 
+            state, 
+            property_price, 
+            property_status, 
+            property_type,
+            description,
+            availability_status,
+            property_amenities,
+            property_square_area,
+            land_area,
+            parking_area,
+            images,
+            videos,
+            kitchen_type,
+            virtual_tour_url,
+            long,
+            lat,
+            total_bathrooms,
+            total_bedrooms,
+            total_toilets,
+            featured,
+        } = propertyInfo;
     const {id} = useParams();
     const {userToken, server} = useContext(UserContext)
     const {nigerianStates} = useContext(PageContext)
@@ -64,10 +182,14 @@ const EditProperty = () => {
             const getPropertyDetails = async () => {
                 const response = await fetchServer("GET", {}, userToken, `admin/fetch-property/${id}`, server );
                 setPropertyInfo(response.property);
+                setImageFiles(response.property.images)
                 setOwnerInfo(response.property.propertyOwner);
+                setIsFetchingPropertyInfo(response.success)
             }
             getPropertyDetails()
         }, []);
+
+        
     // options for property type
     const propertyType = [
         {
@@ -84,7 +206,7 @@ const EditProperty = () => {
         },
         {
             id: 4,
-            type: 'Flat/Appartment',
+            type: 'Flat/Apartment',
         },
         {
             id: 5,
@@ -132,6 +254,10 @@ const EditProperty = () => {
             id: 3,
             status: 'Lease',
         },
+        {
+            id: 4,
+            status: 'Shortlet',
+        },
     ];
     // Amenities 
     const amenitites = [
@@ -156,25 +282,24 @@ const EditProperty = () => {
         owner: ''
     }
 
-
-    // handle delete photo
-    const handleDeleteImg = (imgSrc) => {
-        const newImageSrcArray = propertyInfo?.images.filter((item) => item !== imgSrc);
-        setPropertyInfo({
-            ...propertyInfo,
-            images: newImageSrcArray,
-        });
-
+    const handleDeleteImg = (image) => {
+        const newImageSrcArray = imageFiles?.filter((item) => item !== image);
+        setImageFiles(newImageSrcArray);
+    }
+    const handleDeletePropertyImg = (image) => {
+        const newImgArray = propertyInfo?.images.filter((filterImg) => filterImg !== image);
+        setPropertyInfo((prev) => ({
+            ...prev,
+             images: [...newImgArray]
+        }))
     }
 
+
     const [ownerInfo , setOwnerInfo] = useState(null);
-    const [showOwnerInfo, setShowOwnerInfo] = useState(true);
     const [searchField, setSearchField] = useState(defaultSearchField);
     const {owner} = searchField;
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [showError, setShowError] = useState(false);
-    const [selectImages, setSelectImages] = useState([]);
-    const [selectedAmenities, setSelectedAmenities] = useState([]);
     const [disabled, setDisabled] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     // Progress bar steps
@@ -204,49 +329,40 @@ const EditProperty = () => {
         const {name, value} = e.target;
         setPropertyInfo({
             ...propertyInfo,
-            [name]: value,
+            [name]: value
         })
+    }
 
-    }
-    const handleSearchChange = (e) => {
-        const {name, value} = e.target;
-        setSearchField({
-            ...searchField,
-            [name]: value,
-        });
-        setShowError(false);
-    }
     const handleFileSelect = (acceptedFiles) => {
-        // console.log("Selected Files:", acceptedFiles)
+        setImageFiles((prevImg) => (
+            [...prevImg, ...acceptedFiles]
+        ));
+    }
+    useEffect(() => {
         setPropertyInfo((prev) => ({
             ...prev,
-            images: [...prev.images, ...acceptedFiles ],
-        }));
-    }
-    // Styled Retry Button
-    const RetryButton = styled.button`
-      align-self: center;
-      margin-top: 12px;
-      font-family: "Unitext Regular", sans-serif;
-      background-color: white;
-      color: #c4170b;
-      border: 1px solid #c4170b;
-      padding: 8px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    
-      &:hover {
-        background-color: #c4170b;
-        color: white;
-      }
-    `;
+            images: imageFiles
+        }))
+    }, [imageFiles])
     // Submit form
     const handleSubmit = async (e) => {
         e.preventDefault();
         if(isTokenExpired(userToken)){
-           toast.error("Session expired. Log in again to continue");
-          navigate("/admin/auth/log-in");
+            toast('Session Expired!', {
+                description: 'Your session has expired please log-in again to continue',
+                action: {
+                    label: 'Go to Log-in',
+                    onClick: () => navigate("/admin/auth/log-in"),
+                },
+                duration: 100000,
+                position: 'top-center',
+                style: {
+                    fontFamily: "inherit",
+                    backgroundColor: '#fff',
+                    color: '#212121',
+                    borderRadius: '12px',
+                },
+            });
           return;
        }
         setDisabled(true);
@@ -305,10 +421,30 @@ const EditProperty = () => {
                   });
             }
             if(resp.success){
-                toast.success(resp.message, {
-                    duration: 5000,
-                    position: "bottom-center",
-                  });
+                // toast('Upload Complete', {
+                //     description: 'Your property was uploaded successfully.',
+                //     icon: '📁',
+                //     duration: 5000,
+                //     position: 'bottom-right',
+                //     style: {
+                //         backgroundColor: '#edffdb',
+                //         color: '#fffefe',
+                //         fontFamily: 'Unitext Regular',
+                //         border: '1px solid #4a4a4a',
+                //     },
+                // });
+                toast.custom((t) => (
+                    <ToastContainer>
+                        <Block/>
+                        <Content>
+                            <Title>Upload Successful</Title>
+                            <Description>Your property has been saved successfully.</Description>
+                        </Content>
+                    </ToastContainer>
+                ), {
+                    position: 'bottom-center',
+                    duration: 6000,
+                });
                 setShowSuccessModal(false);
                 setPageNum(1);
             }
@@ -323,10 +459,11 @@ const EditProperty = () => {
         setDisabled(false)
     }
     const [pageNum, setPageNum] = useState(1);
+    console.log(propertyInfo)
     return(
         <>
         {
-            propertyInfo && ownerInfo ? 
+            isFetchingPropertyInfo ? 
             (<PropertyDetails>
                 <NavigationContainer>
                     <LogoContainer>
@@ -363,7 +500,7 @@ const EditProperty = () => {
                                     const {id, label} = item;
                                     return(
                                         <ProgressBarItem key={id}>
-                                            <span className={ pageNum === id ? 'active' : pageNum < id ? 'inactive' : 'completed' } >
+                                            <span className={ pageNum === id ? 'active' : pageNum < id ? 'inactive' : 'completed' } onClick={() => pageNum > id ? setPageNum((prev) => prev -= 1) : setPageNum((prev) => prev += 1)} >
                                                 {pageNum > id ? <IoMdCheckmark style={{width: '24px', height: '24px', color: '#fff'}} /> : id}
                                             </span>
                                             <span>{label}</span>
@@ -380,11 +517,28 @@ const EditProperty = () => {
                                 <h3>Owner Information</h3>
                                 <SearchField>
                                     <label>Search for owner's account</label>
-                                    <div className="search">
-                                        <input type="search" name="owner" id="" placeholder="Enter property owner’s name or email" value={owner} ref={inputRef} onChange={handleSearchChange} />
-                                        <SearchIcon/>
-                                    </div>
-                                    {showError && <span>Please select the property owner</span>}
+                                    <Autocomplete
+                                        sx={{
+                                                width: '100%',
+                                                "& .MuiOutlinedInput-notchedOutline" : {
+                                                    border: '1.5px solid #DADADA',
+                                                    borderRadius: '8px',
+                                                },
+                                                "&:hover .MuiOutlinedInput-notchedOutline" : {
+                                                    borderColor: '#DADADA'
+                                                }
+                                        }}
+                                        PaperComponent={CustomPaper}
+                                        options={allOwners}
+                                        // onBlur={(event) => event.target.value !== searchField ? setSearchField(event.target.value) : null}
+                                        getOptionLabel={(option) => typeof option === 'string' ? option :`${option?.first_name} ${option?.last_name}`} 
+                                        getOptionKey={(option) => option.id}
+                                        renderInput={(params) => <TextField {...params} placeholder='Search..' inputRef={inputRef}/>}
+                                        // value={searchField}
+                                        // onChange={(event, newValue) => {
+                                        //     setSearchField(newValue)
+                                        // }}
+                                    />
                                 </SearchField>
                                 <FormContainer>
                                     <OwnerInfo>
@@ -516,7 +670,7 @@ const EditProperty = () => {
                                     </NameContainer>
                                     <NameContainer> 
                                         <SelectContainer>
-                                            <label>Property Type</label>
+                                            <label>Property Amount</label>
                                             <Price>
                                                 <FormInput type="number" name="property_price" id=""  value={propertyInfo?.property_price} onChange={handleChange}/>
                                                 <Currnecy></Currnecy>
@@ -592,8 +746,13 @@ const EditProperty = () => {
                                         </SelectContainer>
                                         <SelectContainer>
                                             <label>Bathrooms</label>
-                                            <Option name = "total_baths" value={propertyInfo?.total_bathrooms} onChange={handleChange}>
+                                            <Option 
+                                                name = "total_bathrooms" 
+                                                value={propertyInfo?.total_bathrooms} 
+                                                onChange={handleChange}
+                                            >
                                                 <option value="" disabled>Number of bathrooms</option>
+                                                <option value="0">0</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -621,13 +780,25 @@ const EditProperty = () => {
                                             <Option name = "parking_area" value={propertyInfo?.parking_area} onChange={handleChange}>
                                                 <option value="" disabled>Number of cars that fit</option>
                                                 <option value="Fit 1 car">Fit 1 car</option>
-                                                <option value="Fit 2 car">Fit 2 car</option>
-                                                <option value="Fit 3 car">Fit 3 car</option>
-                                                <option value="Fit 4 car">Fit 4 car</option>
-                                                <option value="Fit 5 car">Fit 5 car</option>
-                                                <option value="Fit 6 car">Fit 6 car</option>
+                                                <option value="Fit 2 cars">Fit 2 cars</option>
+                                                <option value="Fit 3 cars">Fit 3 cars</option>
+                                                <option value="Fit 4 cars">Fit 4 cars</option>
+                                                <option value="Fit 5 cars">Fit 5 cars</option>
+                                                <option value="Fit 6 cars">Fit 6 cars</option>
                                             </Option>
                                         </SelectContainer>
+                                    </NameContainer>
+                                    <NameContainer>
+                                        <FormInput
+                                            label={"Kitchen Type"}
+                                            id="kitchen_type"
+                                            placeholder="Enter type of Kitchen"
+                                            name="kitchen_type"
+                                            type="text"
+                                            required
+                                            value={propertyInfo?.kitchen_type}
+                                            onChange = {handleChange}
+                                        />
                                     </NameContainer>
                                     <NameContainer>
                                         <FormInput
@@ -652,7 +823,42 @@ const EditProperty = () => {
                                     <NameContainer>
                                         <SelectContainer>
                                             <label>Select Amenties</label>
-                                            <AmenitiesContainer>
+                                            <Autocomplete 
+                                                freeSolo
+                                                sx={{
+                                                    bgcolor: '#fff',
+                                                    "& .MuiInputBase-input" : {
+                                                        height: '2rem'
+                                                    },
+                                                    "& > div > placeholder" : {
+                                                        color : 'red'
+                                                    },
+                                                    "& .MuiOutlinedInput-notchedOutline" : {
+                                                        border: '1.5px solid #DADADA',
+                                                        borderRadius: '8px',
+                                                    },
+                                                    "&:hover .MuiOutlinedInput-notchedOutline" : {
+                                                        borderColor: '#DADADA'
+                                                    },
+                                                    "& .MuiAutocomplete-inputRoot > input::placeholder" : {
+                                                        fontFamily: 'Unitext Regular'
+                                                    }
+                                                }}
+                                                ChipProps={{
+                                                    sx: {bgcolor: '#E3ECF2', color: '#585858', fontFamily: 'Unitext Regular',   }}}
+                                                multiple
+                                                options={amenitites}
+                                                value={propertyInfo?.property_amenities}
+                                                renderInput={(params) => <TextField {...params} placeholder='Select amenities' />}
+                                                onChange={(event, newValue) => {
+                                                    setPropertyInfo({
+                                                        ...propertyInfo,
+                                                        property_amenities: newValue
+                                                    });
+                                                }}
+                                                PaperComponent={CustomPaper}
+                                            />
+                                            {/* <AmenitiesContainer>
                                                 {
                                                     propertyInfo?.property_amenities.map((item, index) => {
                                                         const isSelected = selectedAmenities.includes(item);
@@ -675,7 +881,7 @@ const EditProperty = () => {
                                                         )
                                                     })
                                                 }
-                                            </AmenitiesContainer>
+                                            </AmenitiesContainer> */}
                                         </SelectContainer>
                                     </NameContainer>
                                     <NameContainer>
@@ -709,14 +915,35 @@ const EditProperty = () => {
                                 <FormContainer>
                                     <PhotosContainer>
                                         {
-                                            propertyInfo?.images.map((imageSrc) => {
+                                            imageFiles?.map((imageSrc, index) => {
                                                 return (
-                                                    <div className='img-container'>
-                                                        <img src={`https://app.xpacy.com/src/upload/properties/${imageSrc}`} alt="house photo" /> 
-                                                        <DeleteBtn onClick={() => handleDeleteImg(imageSrc) }>
-                                                                <RiDeleteBin6Line style={{width: '15px', height: '15px'}}/>
-                                                        </DeleteBtn>                                                  
-                                                    </div>
+                                                    <>
+                                                        {
+                                                            !imageSrc.preview ? (
+                                                                <div className='img-container' key={index}>
+                                                                        <img src={`https://app.xpacy.com/src/upload/properties/${imageSrc}`} alt="house" />
+                                                                    
+                                                                        <DeleteBtn onClick={() => handleDeleteImg(imageSrc) }>
+                                                                                <RiDeleteBin6Line style={{width: '15px', height: '15px'}}/>
+                                                                        </DeleteBtn>                                                  
+                                                                </div>
+                                                            ) : 
+                                                            null
+                                                        }
+                                                       {
+                                                        imageSrc.preview && 
+                                                        (
+                                                             <div className='img-container' key={index}>
+                                                                <img src={imageSrc.preview} alt="house"/>
+                                                                <DeleteBtn onClick={() => handleDeleteImg(imageSrc) }>
+                                                                        <RiDeleteBin6Line style={{width: '15px', height: '15px'}}/>
+                                                                </DeleteBtn>                                                  
+                                                            </div>
+                                                        )
+                                                       }
+                                                         
+                                                    </>
+                                                    
                                                 )
                                             })
                                         }
@@ -794,7 +1021,7 @@ const EditProperty = () => {
                         <ModalComponent>
                             <UploadModalContainer>
                                 <CloseIcon onClick={() => setShowUploadModal(false)}></CloseIcon>
-                                <FileUploader onFilesSelected={handleFileSelect}/>
+                                <FileUploader onFilesSelected={handleFileSelect} />
                             </UploadModalContainer>
                         </ModalComponent>
                     )

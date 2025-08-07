@@ -16,7 +16,10 @@
         position: absolute;
         top: 25%;
         padding-left: 7%;
+        color: var(--Base-Base-White, #FFF);
+        font-family: "Florencesans Exp", sans-serif;
         h1{
+            margin: 0;
             color: var(--Base-Base-White, #FFF);
             font-size: 2.25rem;
             font-style: normal;
@@ -24,8 +27,7 @@
             line-height: 120%; /* 2.7rem */
         }
         p{
-            color: var(--Base-Base-White, #FFF);
-            font-family: "Florencesans Exp";
+            margin: 0;
             font-size: 1.125rem;
             font-style: normal;
             font-weight: 400;
@@ -43,7 +45,12 @@
     background: var(--Background-Color, #FCFCFC);
     .heading{
         align-self: stretch;
+        display: flex;
+        flex-direction: column; 
+        gap: 16px;
         h1{
+            margin: 0px;
+            font-family: 'Florencesans Exp', sans-serif;
             color: var(--Primary-Primary, #203645);
             text-align: center;
             font-size: 1.75rem;
@@ -52,7 +59,9 @@
             line-height: 120%; /* 2.1rem */
         }
         p{
+            margin: 0px;
             color: var(--Neutrals-Base-Black, #333);
+            font-family: "Unitext Regular";
             text-align: center;
             font-size: 1.125rem;
             font-style: normal;
@@ -76,6 +85,7 @@
             align-items: flex-start;
             border-radius: 8px;
             background: var(--Primary-Primary900, #2D4C61);
+            transition: all .3s ease-in-out;
             h2{
                 width: 56px;
                 height: 56px;
@@ -103,6 +113,7 @@
                 margin-bottom: 16px;
             }   
             p{
+                margin: 0px;
                 color: var(--Base-Base-White, #FFF);
                 font-family: "Unitext Regular";
                 font-size: 1rem;
@@ -110,6 +121,9 @@
                 font-weight: 400;
                 line-height: 150%; /* 1.5rem */
                 letter-spacing: 0.01rem;
+            }
+            &:hover{
+                transform: translateY(-1.8rem) scale(1.05);
             }
         }
     }
@@ -123,21 +137,28 @@
     align-self: stretch;
     .heading{
         align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
         h1{
+            font-family: 'Florencesans Exp', sans-serif;
             color: var(--Primary-Primary, #203645);
             text-align: center;
             font-size: 1.75rem;
             font-style: normal;
             font-weight: 700;
             line-height: 120%; /* 2.1rem */
+            margin: 0px;
         }
         p{
             color: var(--Neutrals-Base-Black, #333);
+            font-family: "Unitext Regular";
             text-align: center;
             font-size: 1.125rem;
             font-style: normal;
             font-weight: 400;
             line-height: 120%; /* 1.35rem */
+            margin: 0px;
         }
     }
     .facilty-services-cards{
@@ -175,12 +196,13 @@
                 gap: 16px;
                 align-self: stretch;
                 h3{
+                    font-family: 'Florencesans Exp', sans-serif;
                     margin: 0;
                     color: var(--Base-Base-Black, #333);
                     text-align: center;
                     font-size: 1.125rem;
                     font-style: normal;
-                    font-weight: 400;
+                    font-weight: 700;
                     line-height: 120%; /* 1.35rem */
                 }
                 p{
@@ -211,6 +233,7 @@
             left: 0;
             padding: 20px;
             h1{
+                margin: 0;
                 font-size: 1.375rem;
             }
             p{

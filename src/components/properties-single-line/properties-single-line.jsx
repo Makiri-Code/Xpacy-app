@@ -1,5 +1,6 @@
 
 const PropertiesSingleLineChart = () => {
+ 
   return (
     <div style={styles.container}>
       <div style={styles.line}>
@@ -9,8 +10,8 @@ const PropertiesSingleLineChart = () => {
       
       {/* Labels Below Line */}
       <div style={styles.labels}>
-        <span style={{ color: "#585858" }}>Sold</span>
-        <span style={{ color: "#585858" }}>Available for sale</span>
+        <span style={spanStyles}>Sold</span>
+        <span style={spanStyles}>Available for sale</span>
       </div>
     </div>
   );
@@ -45,5 +46,8 @@ const styles = {
     fontWeight: "bold",
   },
 };
-
+ const spanStyles = {
+    color: "#585858",
+    fontFamily: "Unitext Regular",
+  }
 export default PropertiesSingleLineChart;

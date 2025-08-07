@@ -333,3 +333,52 @@ export const Divider = styled.div`
     align-self: stretch;
     border: 1px solid #C7D9E5;
 `
+
+export const MobileBookServiceTable = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 0px;
+    border-top: 1.5px solid #E3EBF2;
+    & .upcoming, .in-progress, .completed, .pending{
+            font-family: "Unitext Regular";
+            font-size: 14px;
+            height: 24px;
+            padding: 4px;
+            border-radius: 999px;
+            font-weight: 700;
+            color: var(--Error-Error300, #C4170B);
+            background: #FBC0BC;
+        }
+     &  .in-progress{
+            padding: 4px 0.5px;
+            color: #9D7B40;
+            background: #FFF8BE;
+        }
+      & .completed{
+            color: #357B38;
+            background-color: #C3E5C4;
+        }
+    & span, p {
+        color: #333;
+        font-family: "Unitext Regular";
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 120%; /* 1.05rem */
+        margin: 0;
+        &.property-s{
+            color: #7D7D7D;
+        }
+    }
+    & .space {
+        display: flex;
+        justify-content: space-between;
+        align-self: stretch;
+    }
+`
+export const MobileBookServiceContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+`

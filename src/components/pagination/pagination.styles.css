@@ -9,13 +9,15 @@
         align-items: center;
         gap: 16px;
         .pagination-link{
-            display: flex;
-            height: 40px;
-            padding: var(--Spacing-s, 8px) var(--Spacing-m, 16px);
+            display: inline-flex;
+            padding: var(--Spacing-s, 8px) 0;
             justify-content: center;
             align-items: center;
+            border: none;
+            margin-top: unset;
+            align-self: unset;
             gap: var(--Spacing-xxs, 4px);
-            border-radius: var(--Radius-m, 10px);
+            /* border-radius: var(--Radius-m, 10px); */
             cursor: pointer;
             span{
                 color: var(--Base-Base-Black, #333);
@@ -25,10 +27,15 @@
                 font-weight: 700;
                 line-height: 120%; /* 1.05rem */
             }
+            &:disabled{
+                cursor: not-allowed;
+                opacity: 0.6;
+            }
+            &:hover{
+                border-bottom: 1px solid #333;
+            }
         }
-        .pagination-link:hover{
-            text-decoration: underline;
-        }
+        
         .page-numbers{
             display: flex;
             align-items: center;

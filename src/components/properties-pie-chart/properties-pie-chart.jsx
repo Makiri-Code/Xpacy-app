@@ -36,7 +36,7 @@ const PropertiesPieChart = () => {
         {data.map((item, index) => (
           <div key={index} style={styles.labelItem}>
             <div style={{ ...styles.colorBox, backgroundColor: item.color }} />
-            <span>{item.name}</span>
+            <span style={styles.span}>{item.name}</span>
           </div>
         ))}
       </div>
@@ -69,6 +69,9 @@ const styles = {
     bottom: "4px",
     right: '-31px',
     flexWrap: "wrap",
+  },
+  span: {
+    fontFamily: "Unitext Regular",
   },
   labelItem: {
     display: "flex",

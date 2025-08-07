@@ -200,7 +200,7 @@ const Invoice = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [invoiceData, setInvoiceData] = useState(null);
-  
+  console.log(invoiceData)
   // Create a ref for the printable content
   const componentRef = useRef();
 
@@ -209,6 +209,7 @@ const Invoice = () => {
       const response = await fetchServer("GET", {}, userToken, `user/fetch-invoice/${id}`, server);
       if (!response.error) {
         setInvoiceData(response);
+        console.log(response)
       }
     };
     getInvoice();

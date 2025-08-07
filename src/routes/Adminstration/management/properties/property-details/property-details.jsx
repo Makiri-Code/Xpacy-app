@@ -573,6 +573,18 @@ const PropertyDetailsComponent = () => {
                                     </NameContainer>
                                     <NameContainer>
                                         <FormInput
+                                            label={"Kitchen Type"}
+                                            id="kitchen_type"
+                                            placeholder="Enter type of Kitchen"
+                                            name="kitchen_type"
+                                            type="text"
+                                            required
+                                            value={propertyInfo?.kitchen_type}
+                                           
+                                        />
+                                    </NameContainer>
+                                    <NameContainer>
+                                        <FormInput
                                             label={"Property Size (square area)"}
                                             id="property-size"
                                             placeholder="Sqm2"

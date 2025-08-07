@@ -11,10 +11,19 @@
     font-style: normal;
     font-weight: 700;
     line-height: 120%; /* 19.2px */
+    transition: all .2s;
+        &:hover{
+            transform: translateY(-.2rem);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, .2);
+        }
+            &:active{
+            transform: translateY(-.1rem);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .2);
+        }
 }
-.custom-btn:hover{
+/* .custom-btn:hover{
     filter: brightness(80%);
-}
+} */
 .custom-btn:disabled{
     cursor: not-allowed;
     opacity: 0.5;

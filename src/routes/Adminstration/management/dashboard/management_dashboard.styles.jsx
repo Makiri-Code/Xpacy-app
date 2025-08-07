@@ -155,7 +155,7 @@ export const NotificationTable = styled.table`
             font-weight: 700;
             width: fit-content;
         }
-        .vacant, .available, .pending, .overdue, .declined, .unpaid {
+        .vacant, .available, .pending, .overdue, .declined, .unpaid, .booked {
             color: #C4170B;
             background-color: #FBC0BC;
             display: flex;

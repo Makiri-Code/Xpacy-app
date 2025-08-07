@@ -129,6 +129,7 @@ export const ProgressBarItem = styled.div`
             display: flex;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
         }
         &.inactive{
             background-color: #E3ECF2;
@@ -376,6 +377,13 @@ export const UploadContainer = styled.div`
     border: 1px solid var(--Base-Base-White, #FFF);
     background: var(--Primary-Primary, #203645);
     cursor: pointer;
+    &.img-upload{
+        background: #fff;
+        border: 1px solid #333;
+        width: 100%;
+        align-items: start;
+        justify-content: unset;
+    }
     p{
         color: var(--Base-Base-White, #FFF);
         font-family: "Unitext Regular";
@@ -393,10 +401,15 @@ export const UploadContainer = styled.div`
         left: 0;
         cursor: pointer;
     }
-    img{
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
+    .img-container{
+        position: relative;
+        width: 200px;
+        height: auto;
+        img{
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
     }
 `
 export const MediaContent = styled.div`
@@ -463,7 +476,7 @@ export const FinishBtn = styled.button`
     &:hover{
         filter: unset;
     }
-    &:disabbled{
+    &:disabled{
         cursor: not-allowed;
         opacity: 0.5;
     }
@@ -476,4 +489,17 @@ export const Paragraph = styled.p`
     font-weight: 700;
     line-height: 120%; /* 1.2rem */
     margin-bottom: 0px;
+`
+export const DeleteBtn = styled.div`
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: #E3ECF2;
 `

@@ -109,9 +109,11 @@ const Photos = () => {
                                     isMobile ? 
                                     (
                                         <div className="mobile-photos-container">
-                                            <img src={`https://app.xpacy.com/src/upload/properties/${property?.images[0]}`} alt="" />
-                                            <img src={`https://app.xpacy.com/src/upload/properties/${property?.images[1]}`} alt="" />
-                                            <img src={`https://app.xpacy.com/src/upload/properties/${property?.images[1]}`} alt="" />
+                                            {
+                                                property?.images.map((image) => (
+                                                    <img src={`https://app.xpacy.com/src/upload/properties/${image}`} alt="x-pacy property" />
+                                                ))
+                                            }
                                         </div>
                                     ) : 
 
@@ -131,49 +133,35 @@ const Photos = () => {
                                                         </div>
                                                     }
                                                     nextIcon={
-                                                        <div className="prevIcon-container d-flex justify-content-center align-items-center">
+                                                        <div className="prevIcon-container d-flex justify-content-center align-items-center" >
                                                             <IoArrowForward style={{width: '24px', height: '24px', color: '#333333'}}/> 
                                                         </div>
                                                     }
                                                 >
-                                                    <CarouselItem className="view-photos-carousel">
-                                                        <img
-                                                            className="d-block w-100"
-                                                            src={`https://app.xpacy.com/src/upload/properties/${property?.images[0]}`}
-                                                            alt="Second slide"
-                                                        />
-                                                    </CarouselItem>
-                                                    <CarouselItem className="view-photos-carousel">
-                                                        <img
-                                                            className="d-block w-100"
-                                                            src={`https://app.xpacy.com/src/upload/properties/${property?.images[1]}`}
-                                                            alt="Hero"
-                                                        />
-                                                    </CarouselItem>
-                                                    <CarouselItem className="view-photos-carousel">
-                                                        <img
-                                                            className="d-block w-100"
-                                                            src={`https://app.xpacy.com/src/upload/properties/${property?.images[2]}`}
-                                                            alt="Second slide"
-                                                            />
-                                                    </CarouselItem>
+                                                    {
+                                                        property?.images.map((image, index) => {
+                                                            return (
+                                                                <CarouselItem className="view-photos-carousel" key={index}>
+                                                                    <img
+                                                                        className="d-block w-100"
+                                                                        src={`https://app.xpacy.com/src/upload/properties/${image}`}
+                                                                        alt="slides"
+                                                                    />
+                                                                </CarouselItem>
+                                                            )
+                                                        } )
+                                                    }
+                                                    
                                                 </Carousel>
                                                 <div className="other-photos d-flex ">
-                                                    <img
-                                                        className={index == 0 ? 'active-carousel' : ''}
-                                                        src={`https://app.xpacy.com/src/upload/properties/${property?.images[0]}`}
-                                                        alt="Second slide"
-                                                    />
-                                                    <img
-                                                        className={index == 1 ? 'active-carousel' : ''}
-                                                        src={`https://app.xpacy.com/src/upload/properties/${property?.images[1]}`}
-                                                        alt="Hero"
-                                                    />
-                                                    <img
-                                                        className={index == 2 ? 'active-carousel' : ''}
-                                                        src={`https://app.xpacy.com/src/upload/properties/${property?.images[2]}`}
-                                                        alt="Second slide"
-                                                    />
+                                                    {
+                                                        property?.images.map((image, i) => (<img
+                                                        className={index === i ? 'active-carousel' : ' '}
+                                                        src={`https://app.xpacy.com/src/upload/properties/${image}`}
+                                                        alt="Property"
+                                                        key={i}
+                                                    />))
+                                                    }
                                                 </div>
                                             </div>
                                         </div>

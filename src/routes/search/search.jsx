@@ -1,24 +1,64 @@
-import { useContext } from "react";
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Shop from "../../components/shop/shop.component";
 import Properties from "../property/property.component";
-import { PageContext } from "../../contexts/page.context";
+import { PulseLoader } from "react-spinners";
+import { useFetchResult } from "../../components/useFetchResult/useFetchResult";
+import { useScrollTop } from "../../components/scroll-top/useScrollTop";
+const Search = ({ isMobile }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchedProperties, setSearchedProperties] = useState(null);
+  const formFields = JSON.parse(localStorage.getItem("form-fields"));
+  const { purpose, location, type, minBedrooms, minPrice, maxPrice } =
+    formFields;
+  const url = `https://app.xpacy.com/property/fetch-properties?purpose=${purpose}&type=${type}&location=${location}&minBedrooms=${minBedrooms}&minPrice=${
+    minPrice ? minPrice : ""
+  }&maxPrice=${maxPrice ? maxPrice : ""}&page=${currentPage}`;
 
-const Search = () => {
-    const {searchedProperties, searchedPagination} = useContext(PageContext);
-    const buyPropHeadings = {
-        heading: `We've got ${searchedProperties.length} results for you`,
-        subHeading: ''
-    }
+  // Get next page
+  useFetchResult(currentPage, setSearchedProperties, purpose, url);
+  useScrollTop(currentPage);
 
-    return (
-        <>
-            <Routes>
-                <Route index element={<Shop propHeadings={buyPropHeadings} page={'Rent'} propType={'Rent'} propertiesArray = {searchedProperties} pagination={searchedPagination}/>} />
-                <Route path="property/*" element={<Properties/>} />
-            </Routes>
-        </>
-    )
+  const buyPropHeadings = {
+    heading: `We've got ${searchedProperties?.pagination?.total} results for you`,
+    subHeading: "",
+  };
+
+  return (
+    <>
+      {searchedProperties ? (
+        <Routes>
+          <Route
+            index
+            element={
+              <Shop
+                propHeadings={buyPropHeadings}
+                page={"Results"}
+                propType={"Rent"}
+                propertiesArray={searchedProperties?.properties}
+                pagination={searchedProperties.pagination}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                isMobile={isMobile}
+              />
+            }
+          />
+          <Route path="property/*" element={<Properties />} />
+        </Routes>
+      ) : (
+        <PulseLoader
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            alignSelf: "stretch",
+            height: "80vh",
+          }}
+          margin={5}
+        />
+      )}
+    </>
+  );
 };
 
-export default Search; 
+export default Search;

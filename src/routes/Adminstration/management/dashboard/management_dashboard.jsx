@@ -17,7 +17,18 @@ import {
     Header,
     NotificationTable,
  } from './management_dashboard.styles';
-const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProperties, allServices, allOwners, allUsers, profileImage}) => {
+const ManagementDashboard = ({
+        isMobile,
+        propertiesPagination, 
+        allNotifications, 
+        userProfile, 
+        allProperties, 
+        allServices, 
+        allOwners, 
+        allUsers, 
+        profileImage,
+        allBookings,
+    }) => {
 
     const navigate = useNavigate();
     const [firstName, setFirstName] = useState(userProfile?.username.split(" ")[0])
@@ -33,7 +44,7 @@ const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProper
         {
             icon: BiBuildings,
             name: 'Properties Managed',
-            number: allProperties?.pagination.total
+            number: propertiesPagination?.total
         },
         {
             icon: MdOutlineManageAccounts,
@@ -92,7 +103,7 @@ const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProper
                         </thead>
                         <tbody>
                             {
-                                allNotifications?.toSpliced(3).map((item) => {
+                                allNotifications?.bookings?.toSpliced(3).map((item) => {
                                     const dateStr = new Date(item?.date);
 
                                     return(
@@ -137,7 +148,7 @@ const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProper
                         </thead>
                         <tbody>
                             {
-                                allProperties?.properties.toSpliced(5).map((property) => {
+                                allProperties?.toSpliced(5).map((property) => {
                                     return(
                                         <tr key={property.id}>
                                             <td className='typeData'>
@@ -215,6 +226,39 @@ const ManagementDashboard = ({isMobile, allNotifications, userProfile, allProper
                                 <td>15/04/24</td>
                                 <td><strong>₦4,500,000/year</strong></td>
                             </tr>
+                        </tbody>
+                    </NotificationTable>
+                </Container>
+                {/* Bookings */}
+                <Container>
+                    <Header>
+                        <p>Property Bookings List</p>
+                        <Link>View All</Link>
+                    </Header>
+                    <NotificationTable>
+                        <thead>
+                            <th>Name</th>
+                            <th>Property Name</th>
+                            <th>Property Type</th>
+                            <th>Property Status</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </thead>
+                        <tbody>
+                            {
+                                [...allBookings.bookings]?.map(({id, start_date, end_date, property, user, status}) => (
+                                    <tr key={id}>
+                                        <td className='typeData'>
+                                            <div><strong>{user.firstname} {user.lastname}</strong><br/>{user.email}</div>
+                                        </td>
+                                        <td>{property?.property_name}</td>
+                                        <td>{property?.property_type}</td>
+                                        <td>{status}</td>
+                                        <td>{start_date.split('-').reverse().join('-')}</td>
+                                        <td>{end_date.split('-').reverse().join('-')}</td>
+                                    </tr>
+                                ))
+                            }
                         </tbody>
                     </NotificationTable>
                 </Container>

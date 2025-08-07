@@ -129,6 +129,7 @@ export const ProgressBarItem = styled.div`
             display: flex;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
         }
         &.inactive{
             background-color: #E3ECF2;
@@ -359,6 +360,7 @@ export const UploadContainer = styled.div`
     background: var(--Primary-Primary, #203645);
     cursor: pointer;
     p{
+        margin: 0;
         color: var(--Base-Base-White, #FFF);
         font-family: "Unitext Regular";
         font-size: 1rem;
@@ -408,7 +410,7 @@ export const UploadModalContainer = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    display: inline-flex;
+    display: flex;
     padding: 56px 84px 153px 85px;
     flex-direction: column;
     gap: 64px;

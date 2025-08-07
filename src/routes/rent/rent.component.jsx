@@ -1,33 +1,39 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Shop from "../../components/shop/shop.component";
 import Properties from "../property/property.component";
 import NotFound from "../not-found/not-found";
 import { PulseLoader } from "react-spinners";
-const Rent = ({ propertiesArray, pagination }) => {
+import { useFetchResult } from "../../components/useFetchResult/useFetchResult";
+import { useScrollTop } from "../../components/scroll-top/useScrollTop";
+import { useTitle } from "../../components/useTitle/useTitle";
+
+const Rent = ({ isMobile }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rentProperties, setRentProperties] = useState(null);
+  useTitle("Rent");
   const buyPropHeadings = {
-    heading: "Properties For Rent",
+    heading: "Properties For Available Rent",
     subHeading: "Search for properties on rent",
   };
-  const [rentalProperties, setRentalProperties] = useState(propertiesArray?.filter((property) => property.property_status === 'Rent'));
-      // get properties
-      useEffect(() => {
-        setRentalProperties(propertiesArray?.filter((property) => property.property_status === 'Rent'))
-      }, [propertiesArray]);
-      if(!propertiesArray || !rentalProperties) {
-          return (
-              <PulseLoader
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  alignSelf: "stretch",
-                  height: "100vh",
-                }}
-                margin={5}
-              />
-          )
-      }
+  // Get next page
+  useFetchResult(currentPage, setRentProperties, "rent");
+  useScrollTop(currentPage);
+  // get properties
+  if (!rentProperties) {
+    return (
+      <PulseLoader
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          alignSelf: "stretch",
+          height: "100vh",
+        }}
+        margin={5}
+      />
+    );
+  }
   return (
     <>
       <Routes>
@@ -38,13 +44,16 @@ const Rent = ({ propertiesArray, pagination }) => {
               propHeadings={buyPropHeadings}
               page={"Rent"}
               propType={"Rent"}
-              propertiesArray={rentalProperties}
-              pagination={pagination}
+              propertiesArray={rentProperties.properties}
+              pagination={rentProperties.pagination}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              isMobile={isMobile}
             />
           }
         />
         <Route path="property/:id/*" element={<Properties />} />
-        <Route path="*" element={<NotFound/>}/>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

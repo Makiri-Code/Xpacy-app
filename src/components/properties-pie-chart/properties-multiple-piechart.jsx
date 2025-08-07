@@ -55,7 +55,7 @@ const PropertiesMultiplePieChart = ({chart_data = data}) => {
         {chart_data.map((item, index) => (
           <div key={index} style={styles.labelItem}>
             <div style={{ ...styles.colorBox, backgroundColor: item.color }} />
-            <span>{item.name}</span>
+            <span style={{fontFamily: "Unitext Regular"}}>{item.name}</span>
           </div>
         ))}
       </div>
@@ -88,6 +88,7 @@ const styles = {
     bottom: "-7px",
     right: '-44px',
     flexWrap: "wrap",
+    fontFamily: "Unitext Regular",
   },
   labelItem: {
     display: "flex",

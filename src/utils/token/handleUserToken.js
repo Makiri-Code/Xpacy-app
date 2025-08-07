@@ -1,4 +1,4 @@
-const isTokenExpired = (userToken) => {
+const isTokenExpired = (userToken, setTokenRole=()=>{}) => {
     if (!userToken) {
       return true; // If no token is found, consider it expired
     }
@@ -6,7 +6,7 @@ const isTokenExpired = (userToken) => {
       // Decode the JWT payload (middle part of the token)
       const payloadBase64 = userToken.split('.')[1]; // JWT structure: header.payload.signature
       const payload = JSON.parse(atob(payloadBase64)); // Decode Base64 to JSON
-  
+      setTokenRole(payload.role)
       const now = Math.floor(Date.now() / 1000); // Current time in seconds
   
       if (payload.exp < now) {

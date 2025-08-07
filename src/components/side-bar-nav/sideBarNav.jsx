@@ -25,6 +25,7 @@ import {
   SideBarContent,
   MobileSidebarNav,
   MobileSidebarLogoContainer,
+  OutletMargin,
 } from "./side-bar.styles.jsx";
 
 const SideBarNav = ({
@@ -97,9 +98,7 @@ const SideBarNav = ({
   return (
     <DashboardContainer>
       {isMobile ? (
-        <MobileSidebarNav
-        className= {showDashboardSidebar && 'hide-dropdown' }
-        >
+        <MobileSidebarNav className={showDashboardSidebar && "hide-dropdown"}>
           <SideBarContent>
             <NavLinkContainer>
               <MobileSidebarLogoContainer>
@@ -151,7 +150,7 @@ const SideBarNav = ({
               <ReferralCard
                 onClick={() => navigate("/dashboard/user/referral")}
               >
-                <Elipse/>
+                <Elipse />
                 <ReferralCardContent>
                   <div className="referral-header">
                     <RiGift2Fill style={{ width: "42px", height: "42px" }} />
@@ -192,7 +191,15 @@ const SideBarNav = ({
                       }}
                     >
                       <content.icon
-                        style={{ width: "24px", height: "24px", color: `${className[content.name] === "nav-link active" ? '#CDB385' : '#fff'}` }}
+                        style={{
+                          width: "24px",
+                          height: "24px",
+                          color: `${
+                            className[content.name] === "nav-link active"
+                              ? "#CDB385"
+                              : "#fff"
+                          }`,
+                        }}
                       />{" "}
                       <NavLinkItem>{content.link}</NavLinkItem>{" "}
                     </div>
@@ -237,7 +244,9 @@ const SideBarNav = ({
           </SideBarContent>
         </SideBarNavContainer>
       )}
-      <Outlet />
+      <OutletMargin>
+        <Outlet />
+      </OutletMargin>
     </DashboardContainer>
   );
 };

@@ -85,9 +85,9 @@ export const BannerContent = styled.div`
 export const FilterHeading = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    // justify-content: center;
     align-items: center;
-    gap: 112px;
+    gap: 5rem;
 `
 
 export const BannerSubHeading = styled.h3`
@@ -121,7 +121,7 @@ export const FormContainer = styled(Form)`
 export const BannerContainer = styled.div`
     width: 100%;
     position: absolute;
-    bottom: 0;
+    bottom: 10vh;
     display: flex;
     flex-direction: column;
     justify-content: center;

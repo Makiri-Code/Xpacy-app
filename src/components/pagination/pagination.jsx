@@ -1,58 +1,24 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { PageContext } from "../../contexts/page.context";
 import './pagination.styles.css';
 
-const Pagination = () => {
-    const [currentNum, setCurrentNum] = useState(1)
-    let index = 1;
-    
-    const {pagination, setPropertiesArray} = useContext(PageContext);
-    const pageNum = [];
-    for(let i=1; i<=pagination?.totalPages; i++){
-        pageNum.push(i);
-    }
-    const handleNext = async () => {
-        if(index < pageNum.length){
-            index = index + 1
-            setCurrentNum(index);
-            try{
-                const nextPageProperties = await fetch(`https://app.xpacy.com/property/fetch-properties?page=${index}`, {method: 'GET'});
-                const response = await nextPageProperties.json();
-                setPropertiesArray(response.properties);
-            } catch(error) {
-                console.error('Error:', error);
-            }
-        } else {
-            return;
-        }
-        
-    }
-    const handlePrevious = async () => {
-        if(index > 1){
-            index = index - 1
-            setCurrentNum(index)
-        } else {
-            index = 1
-        }
-        try{
-            const nextPageProperties = await fetch(`https://app.xpacy.com/property/fetch-properties?page=${index}`, {method: 'GET'});
-            const response = await nextPageProperties.json();
-            setPropertiesArray(response.properties);
-        } catch(error) {
-            console.error('Error:', error);
+const Pagination = ({totalPages, currentPage, onPageChange, className=''}) => {
+    const pageNum = Array.from({length: totalPages}, (_, i) => i+1);
+    console.log(pageNum);
+    const handleNext = () => {
+        if(currentPage < totalPages){
+            onPageChange(currentPage + 1);
         }
     }
-    const handleNumClick = async (num) => {
-        setCurrentNum(num);
-        try{
-            const nextPageProperties = await fetch(`https://app.xpacy.com/property/fetch-properties?page=${num}`, {method: 'GET'});
-            const response = await nextPageProperties.json();
-            setPropertiesArray(response.properties);
-        } catch(error) {
-            console.error('Error:', error);
+    const handlePrevious = () => {
+        if(currentPage > 1){
+            onPageChange(currentPage - 1);
         }
+    }
+    const handleNumClick = (num) => {
+        onPageChange(num)
     }
     return(
         <section className="pagination-container">
@@ -65,7 +31,7 @@ const Pagination = () => {
                     {
                         pageNum.map((num) => {
                             return (
-                                <li key={num} onClick={() => handleNumClick(num)} className={currentNum === num ? 'active': ''} >
+                                <li key={num} onClick={() => handleNumClick(num)} className={currentPage === num ? 'active': ''} >
                                     {num}
                                 </li>
                             )

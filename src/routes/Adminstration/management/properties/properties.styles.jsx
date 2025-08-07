@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import { Form } from "react-bootstrap";
 export const HeaderContainer = styled.div`
  align-self: stretch;
@@ -98,6 +98,7 @@ export const Upstats = styled.div`
     padding: 4px 8px;
     gap: 3px;
     p{
+        margin: 0;
         color: var(--Success-Success300, #357B38);
         font-family: "Unitext Regular";
         font-size: 0.875rem;
@@ -108,6 +109,7 @@ export const Upstats = styled.div`
     &.down-trend{
         background: #FBC0BC;
         p{
+            margin: 0;
             color: #C4170B;
         }
     }
@@ -132,6 +134,7 @@ export const CardHeader = styled.div`
     span{
         font-weight: 700;
         font-size: 1rem;
+        font-family: "Unitext Regular";
     }
     .services-icon{
         width: 32px;
@@ -159,6 +162,7 @@ export const TotalRentCards = styled.div`
             font-style: normal;
             font-weight: 400;
             line-height: 120%; 
+            margin: 0;
         }
         span{
             color: var(--Neutrals-Base-Black, #333);
@@ -249,12 +253,16 @@ export const PropertyTableList = styled.table`
             font: inherit;
         }
 `
-
+const fadeIn = keyframes`
+    0% {
+        opacity: 0;
+    } 100% {
+        opacity: 1; 
+    }
+`
 export const DropdownOption = styled.div`
     position: absolute;
-    right: 24px;
-    // width: 225px;
-    // height: 192px;
+    right: 3%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -262,8 +270,9 @@ export const DropdownOption = styled.div`
     padding: 0px 17px;
     border: 1.5px solid var(--Primary-Primary200, #C7D9E5);
     background: var(--Base-Base-White, #FFF);
-    box-shadow: 0px 10px 10px 0px rgba(32, 54, 69, 0.10);
+    box-shadow: 0px .5rem 1rem rgba(32, 54, 69, 0.20);
     z-index: 10;
+    animation: ${fadeIn} .3s ease-in-out;
 `
 export const DropdownContent = styled.div`
     height: 64px;
@@ -308,6 +317,7 @@ export const DeleteModalContent = styled.div`
         font-style: normal;
         font-weight: 700;
         line-height: 120%; /* 1.2rem */
+        margin: 0;
     }
     .btn-container {
         align-self: stretch;

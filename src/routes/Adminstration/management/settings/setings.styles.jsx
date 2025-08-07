@@ -3,373 +3,373 @@ import { TbPhotoEdit } from "react-icons/tb";
 import { IoClose } from "react-icons/io5";
 
 export const ProfileSettingsContainer = styled.div`
-    width: 100%;
-`
+  width: 100%;
+`;
 export const ProfileContainer = styled.main`
-    width: 65%;
-    margin: 24px auto;
-    display: flex;
-    /* padding: 0px 24px; */
-    flex-direction: column;
-    align-items: center;
-    gap: 48px;
-    @media only screen and (max-width: 600px){
-        width: 100%;
-        padding: 0px 24px;
-    }
-`
+  width: 65%;
+  margin: 24px auto;
+  display: flex;
+  /* padding: 0px 24px; */
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+    padding: 0px 24px;
+  }
+`;
 export const ProfileInfo = styled.div`
-    align-self: stretch;
-    display: flex;
-    padding: 24px;
-    flex-direction: column;
-    gap: 48px;
-    border-radius: 8px;
-    border: 1.5px solid var(--Primary-Primary200, #C7D9E5);
-    background: var(--Base-Base-White, #FFF);
-`
+  align-self: stretch;
+  display: flex;
+  padding: 24px;
+  flex-direction: column;
+  gap: 48px;
+  border-radius: 8px;
+  border: 1.5px solid var(--Primary-Primary200, #c7d9e5);
+  background: var(--Base-Base-White, #fff);
+`;
 export const ProfilePhotoTxt = styled.h3`
-    margin: 0;
-    color: var(--Base-Base-Black, #333);
-    font-family: "Florencesans Exp";
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 120%; /* 21.6px */
-`
+  margin: 0;
+  color: var(--Base-Base-Black, #333);
+  font-family: "Florencesans Exp";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%; /* 21.6px */
+`;
 export const ProfileUploadSection = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    align-self: stretch;
-    border-radius: 8px;
-    @media only screen and (max-width: 600px){
-        flex-direction: column;
-        align-items: start;
-        gap: 32px;
-    }
-`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 8px;
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+    align-items: start;
+    gap: 32px;
+  }
+`;
 export const PhotoInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  div {
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 16px;
-    div{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-`
+  }
+`;
 export const PhotoInfoWrapper = styled.div`
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    h5{
-        color: var(--Base-Base-Black, #333);
-        font-family: "Unitext Regular";
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 150%; /* 24px */
-        letter-spacing: 0.16px;
-        margin-bottom: 6px;
-    }
-    p{
-        color: var(--Neutrals-Neutrals900, #585858);
-        font-family: "Unitext Regular";
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 141.4%; /* 16.968px */
-        letter-spacing: 0.12px;
-    }
-`
-export const UploadControls = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 14px;
-`
-export const UploadPictureLabel = styled.label`
-    color: var(--Base-Base-White, #FFF);
-    font-family: 'Unitext Regular';
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%; /* 19.2px */
-    cursor: pointer;
-    display: flex;
-    height: 48px;
-    padding: var(--Spacing-ml, 24px);
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    background: var(--Primary-Primary, #203645);
-    &:hover{
-        filter: brightness(70%);
-    }
-`
-export const UploadInput = styled.input`
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-`
-
-export const DeleteBtnContainer = styled.div`
-    display: flex;
-    width: 48px;
-    height: 48px;
-    padding: var(--Spacing-s, 8px);
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    border: 1px solid var(--Primary-Primary100, #E3ECF2);
-    cursor: pointer;
-    &:hover{
-        filter: brightness(70%);
-    }
-`
-export const PersonalInfo = styled.div`
-    align-self: stretch;
-    display: flex;
-    padding: 24px;
-    flex-direction: column;
-    gap: 48px;
-    border-radius: 8px;
-    border: 1.5px solid var(--Primary-Primary200, #C7D9E5);
-    background: var(--Base-Base-White, #FFF);
-`
-export const PersonalInfoHeading = styled.h3`
-    margin: 0;
-    color: var(--Base-Base-Black, #333);
-    font-family: "Florencesans Exp";
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 120%; /* 21.6px */
-`
-export const PersonalFormContainer = styled.form`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-    align-self: stretch;
-`
-export const NameInputs = styled.div`
-    justify-content: space-between;
-    align-self: stretch;
-    display: flex;
-    gap: 40px;
-    @media only screen and (max-width: 600px){
-        flex-direction: column;
-        gap: 24px;
-    }
-`
-export const SubmitControls = styled.div`
-    margin-top: 24px;
-    display: flex;
-    justify-content: center;
-    align-self: stretch;
-    gap: 16px;
-`
-export const ResetButtonContainer = styled.div`
-    align-self: stretch;
-    display: flex;
-    justify-content: flex-end;
-`
-export const Divider = styled.div`
-    align-self: stretch;
-    border: 1px solid #DADADA;
-`
-export const TwoFactorContainer = styled.div`
-    align-self: stretch;    
-    display: flex;
-    justify-content: space-between;
-`
-export const NotificationPrefrenceContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    align-self: stretch;
-`
-export const NotificationPrefrenceHeading = styled.p`
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  h5 {
     color: var(--Base-Base-Black, #333);
     font-family: "Unitext Regular";
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 150%;
+    line-height: 150%; /* 24px */
     letter-spacing: 0.16px;
-    margin: 0;
-`
+    margin-bottom: 6px;
+  }
+  p {
+    color: var(--Neutrals-Neutrals900, #585858);
+    font-family: "Unitext Regular";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 141.4%; /* 16.968px */
+    letter-spacing: 0.12px;
+  }
+`;
+export const UploadControls = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 14px;
+`;
+export const UploadPictureLabel = styled.label`
+  color: var(--Base-Base-White, #fff);
+  font-family: "Unitext Regular";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 19.2px */
+  cursor: pointer;
+  display: flex;
+  height: 48px;
+  padding: var(--Spacing-ml, 24px);
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background: var(--Primary-Primary, #203645);
+  &:hover {
+    filter: brightness(70%);
+  }
+`;
+export const UploadInput = styled.input`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+`;
+
+export const DeleteBtnContainer = styled.div`
+  display: flex;
+  width: 48px;
+  height: 48px;
+  padding: var(--Spacing-s, 8px);
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid var(--Primary-Primary100, #e3ecf2);
+  cursor: pointer;
+  &:hover {
+    filter: brightness(70%);
+  }
+`;
+export const PersonalInfo = styled.div`
+  align-self: stretch;
+  display: flex;
+  padding: 24px;
+  flex-direction: column;
+  gap: 48px;
+  border-radius: 8px;
+  border: 1.5px solid var(--Primary-Primary200, #c7d9e5);
+  background: var(--Base-Base-White, #fff);
+`;
+export const PersonalInfoHeading = styled.h3`
+  margin: 0;
+  color: var(--Base-Base-Black, #333);
+  font-family: "Florencesans Exp";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%; /* 21.6px */
+`;
+export const PersonalFormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  align-self: stretch;
+`;
+export const NameInputs = styled.div`
+  justify-content: space-between;
+  align-self: stretch;
+  display: flex;
+  gap: 40px;
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+    gap: 24px;
+  }
+`;
+export const SubmitControls = styled.div`
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  align-self: stretch;
+  gap: 16px;
+`;
+export const ResetButtonContainer = styled.div`
+  align-self: stretch;
+  display: flex;
+  justify-content: flex-end;
+`;
+export const Divider = styled.div`
+  align-self: stretch;
+  border: 1px solid #dadada;
+`;
+export const TwoFactorContainer = styled.div`
+  align-self: stretch;
+  display: flex;
+  justify-content: space-between;
+`;
+export const NotificationPrefrenceContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  align-self: stretch;
+`;
+export const NotificationPrefrenceHeading = styled.p`
+  color: var(--Base-Base-Black, #333);
+  font-family: "Unitext Regular";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: 0.16px;
+  margin: 0;
+`;
 export const NotificationsInputsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 259px;
+  align-self: stretch;
+  .radio-btns {
     display: flex;
     align-items: center;
-    gap: 259px;
-    align-self: stretch;
-    .radio-btns{
-        display: flex;
-        align-items: center;
-        gap: var(--Spacing-s, 8px);
-        label{
-            color: var(--Base-Base-Black, #333);
-            font-family: "Unitext Regular";
-            font-size: 16px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 150%; /* 24px */
-            letter-spacing: 0.16px;
-        }
-    }
-    @media only screen and (max-width: 600px){
-        gap: unset;
-        justify-content: space-between;
-    }
-`
-export const NotificationsTypeContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    align-self: stretch;
-    .radio-btns{
-        display: flex;
-        align-items: center;
-        gap: var(--Spacing-s, 8px);
-        label{
-            color: var(--Base-Base-Black, #333);
-            font-family: "Unitext Regular";
-            font-size: 16px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 150%; /* 24px */
-            letter-spacing: 0.16px;
-        }
-    }
-`
-export const DeactivateModalContent = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    width: 320px;
-    flex-direction: column;
-    align-items: flex-start;
-    border-radius: 8px;
-    border: 1px solid var(--Primary-Primary200, #C7D9E5);
-    background: var(--Base-Base-White, #FFF);
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
-`
-export const DeactivateModalHeading = styled.div`
-    display: flex;
-    padding: var(--Spacing-ml, 24px);
-    flex-direction: column;
-    align-items: flex-start;
     gap: var(--Spacing-s, 8px);
-    h5, p{
-        color: var(--Error-Error, #F44336);
-        font-family: "Unitext Regular";
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 120%; /* 19.2px */
+    label {
+      color: var(--Base-Base-Black, #333);
+      font-family: "Unitext Regular";
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%; /* 24px */
+      letter-spacing: 0.16px;
     }
-    p{
-        color: var(--Neutrals-Neutrals900, #585858);
-        font-size: 14px;
-        font-weight: 400;
-    }
-`
-export const ModalCardFooter = styled.div`
-    display: flex;
-    height: 64px;
-    padding: 0px var(--Spacing-ml, 24px) var(--Spacing-ml, 24px) var(--Spacing-ml, 24px);
+  }
+  @media only screen and (max-width: 600px) {
+    gap: unset;
     justify-content: space-between;
+  }
+`;
+export const NotificationsTypeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: stretch;
+  .radio-btns {
+    display: flex;
     align-items: center;
-    align-self: stretch;
-`
+    gap: var(--Spacing-s, 8px);
+    label {
+      color: var(--Base-Base-Black, #333);
+      font-family: "Unitext Regular";
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%; /* 24px */
+      letter-spacing: 0.16px;
+    }
+  }
+`;
+export const DeactivateModalContent = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  width: 320px;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 8px;
+  border: 1px solid var(--Primary-Primary200, #c7d9e5);
+  background: var(--Base-Base-White, #fff);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+`;
+export const DeactivateModalHeading = styled.div`
+  display: flex;
+  padding: var(--Spacing-ml, 24px);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-s, 8px);
+  h5,
+  p {
+    color: var(--Error-Error, #f44336);
+    font-family: "Unitext Regular";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 19.2px */
+  }
+  p {
+    color: var(--Neutrals-Neutrals900, #585858);
+    font-size: 14px;
+    font-weight: 400;
+  }
+`;
+export const ModalCardFooter = styled.div`
+  display: flex;
+  height: 64px;
+  padding: 0px var(--Spacing-ml, 24px) var(--Spacing-ml, 24px)
+    var(--Spacing-ml, 24px);
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+`;
 export const PaymentNotification = styled.div`
-    padding: 16px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin: 24px;
-    button{
-        align-self: flex-end;
-    }
-    &.pending{
-      background-color: #FFF8BE;
-    }
-`
-export const WebContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-
-`
-export const ImageContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    border: 1px solid #333;
-    gap: 8px;
-    padding: 16px 24px;
-    border-radius: 8px;
-    flex-wrap: wrap;
-`
-export const EditImageContainer = styled.div`
-    flex: 1 0 273px;
-    min-width: 24%;
-    // height: 300px;
-    // padding: 16px;
-    display: flex;
-    align-items: end;
-    position: relative;
-    .edit-btn-wrapper{
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        background-color: rgba(255, 255, 255, 0.75);
-        transition: transform 0.2s ease-in;
-    }
-    .edit-btn-wrapper:hover{
-        transform: scale(1.1);
-        background: rgba(255, 255, 255, 1);
-    }
-`
-export const BannerImg = styled.img`
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-    object-fit: contain;
-`
-export const EditBtn = styled(TbPhotoEdit)`
-    width: 24px;
-    height: 24px;
-
-`
-export const UploadModalContainer = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: inline-flex;
-    padding: 56px 84px 153px 85px;
-    flex-direction: column;
-    gap: 64px;
-    background: var(--Base-Base-White, #FFF);
-    width: 80%;
-`
-export const CloseIcon = styled(IoClose)`
-    width: 32px;
-    height: 32px;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 24px;
+  button {
     align-self: flex-end;
+  }
+  &.pending {
+    background-color: #fff8be;
+  }
+`;
+export const WebContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+export const ImageContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  border: 1px solid #333;
+  gap: 8px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  flex-wrap: wrap;
+`;
+export const EditImageContainer = styled.div`
+  flex: 1 0 273px;
+  min-width: 24%;
+  // height: 300px;
+  // padding: 16px;
+  display: flex;
+  align-items: end;
+  position: relative;
+  .edit-btn-wrapper {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-`
+    background-color: rgba(255, 255, 255, 0.75);
+    transition: transform 0.2s ease-in;
+  }
+  .edit-btn-wrapper:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 1);
+  }
+`;
+export const BannerImg = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: contain;
+`;
+export const EditBtn = styled(TbPhotoEdit)`
+  width: 24px;
+  height: 24px;
+`;
+export const UploadModalContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  padding: 56px 84px 153px 85px;
+  flex-direction: column;
+  gap: 64px;
+  background: var(--Base-Base-White, #fff);
+  width: 80%;
+`;
+export const CloseIcon = styled(IoClose)`
+  width: 32px;
+  height: 32px;
+  align-self: flex-end;
+  cursor: pointer;
+`;

@@ -21,17 +21,17 @@ const Hero = ({isMobile}) => {
                     <>
                         <CarouselContainer controls={false}  indicators={false} slide={true}>    
                             {
-                                homePageBanners?.map((banner) => {
-                                    const {image_url} = banner
+                                homePageBanners?.map((banner, index) => {
+                                    const {image_url, title} = banner
                                     return (
-                                    <CarouselItem>
+                                    <CarouselItem key={index}>
                                         <CarouselImage
                                         src={`https://app.xpacy.com/src/upload/homepage_slider/${image_url}`}
                                         alt="Hero-image"
                                         />
                                         <BannerCarouselCaption>
                                             <BannerHeading className="carousel-caption-txt">
-                                                Experience Ease, <br /> Find Your Dream Property
+                                                {title}
                                             </BannerHeading>
                                         </BannerCarouselCaption>
                                     </CarouselItem>
@@ -41,9 +41,7 @@ const Hero = ({isMobile}) => {
                             
                         </CarouselContainer>
                          {  isMobile && 
-                        (<HeadingsContainer
-                            
-                        >
+                        (<HeadingsContainer>
                             <BannerSubHeading>
                                 Search, buy, or rent properties across Nigeria
                             </BannerSubHeading>

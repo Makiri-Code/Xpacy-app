@@ -8,6 +8,12 @@ export const PageContext = createContext({
   propertyObj: null,
   setPropertyObj: () => {},
   pagination: null,
+  rentProperties: null,
+  setRentProperties: () => {},
+  saleProperties: null,
+  setSaleProperties: () => {},
+  shortletProperties: null,
+  setShortletProperties: () => {},
   searchedProperties: null,
   setSearchedProperties: () => {},
   searchedPagination: null,
@@ -18,6 +24,8 @@ export const PageContext = createContext({
   setNigerianStates: () => {},
   showDashboardSidebar: null,
   setShowDashboardSidebar: () => {},
+  featuredProperties: null,
+  setFeaturedProperties: () => {},
   isOnline: navigator.onLine,
 });
 
@@ -25,12 +33,39 @@ export const PageProvider = ({ children }) => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [faqs, setFaqs] = useState(null);
   const [propertiesArray, setPropertiesArray] = useState(null);
+  const [rentProperties, setRentProperties] = useState(null);
+  const [saleProperties, setSaleProperties] = useState(null);
+  const [shortletProperties, setShortletProperties] = useState(null);
   const [propertyObj, setPropertyObj] = useState(null);
   const [pagination, setPagination] = useState(null);
   const [searchedProperties, setSearchedProperties] = useState(null);
   const [searchedPagination, setSearchedPagination] = useState(null);
   const [nigerianStates, setNigerianStates] = useState([]);
   const [showDashboardSidebar, setShowDashboardSidebar] = useState(null);
+  const [featuredProperties, setFeaturedProperties] = useState(null);
+
+  useEffect(() => {
+    const getAllPropertiesData = async () => {
+      try {
+        const [
+          rentProperties,
+          saleProperties,
+          shortletProperties,
+
+        ] = Promise.all([
+          fetchServer("GET", {}, '', 'property/fetch-properties?purpose=rent', 'https://app.xpacy.com'),
+          fetchServer("GET", {}, '', 'property/fetch-properties?purpose=sale', 'https://app.xpacy.com'),
+          fetchServer("GET", {}, '', 'property/fetch-properties?purpose=shortlet', 'https://app.xpacy.com'),
+        ]);
+        setRentProperties(rentProperties);
+        setSaleProperties(saleProperties);
+        setShortletProperties(shortletProperties);
+      } catch (error) {
+        console.log("Error fetching properties", error);
+      }
+    }
+
+  },[])
 
   // get properties
   useEffect(() => {
@@ -49,7 +84,16 @@ export const PageProvider = ({ children }) => {
     };
     getProperties();
   }, []);
-
+  // get featured properties
+  useEffect(() => {
+    const fecthFeaturedProperties = async () => {
+      const response = await fetch('https://app.xpacy.com/property/fetch-featured-properties', {method: "GET"});
+      const properties = await response.json();
+      console.log(properties)
+      setFeaturedProperties(properties.data);
+    }
+    fecthFeaturedProperties();
+  }, [])
   // check for network conectivity
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -98,6 +142,12 @@ export const PageProvider = ({ children }) => {
 
   const value = {
     propertiesArray,
+    rentProperties,
+    setRentProperties,
+    saleProperties,
+    setSaleProperties,
+    shortletProperties,
+    setShortletProperties,
     pagination,
     propertyObj,
     setPropertyObj,
@@ -112,6 +162,7 @@ export const PageProvider = ({ children }) => {
     setNigerianStates,
     showDashboardSidebar,
     setShowDashboardSidebar,
+    featuredProperties,
     isOnline,
   };
 

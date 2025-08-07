@@ -35,7 +35,8 @@ import {
     MenuOptionContent,
     MenuItem,
     Divider,
-
+    MobileBookServiceTable,
+    MobileBookServiceContainer,
 } from './user-dashboard.styles';
 import EmptySavedProperty from '../empty-saved-property/emptySavedProperty';
 
@@ -264,21 +265,21 @@ const DashboardPage = ({userProfile, savedPropertiesArray, isMobile, setShowDash
                                                                                             .map((part, index) => (index === 2 ? part.slice(-2) : part) )
                                                                                             .join("/")
                                                             return(
-                                                                <tbody key={index}>
-                                                                    <tr>
-                                                                        <tr>
-                                                                            <td colSpan={2}>{formattedDate}</td>
-                                                                        </tr>
-                                                                    <tr>
-                                                                        <td>{service_type} </td>
-                                                                        <td><span className={service_status.toLowerCase()}>{service_status}</span></td>
-                                                                    </tr>
-                                                                        <tr>
-                                                                            <td>Property</td>
-                                                                            <td>{address}</td>
-                                                                        </tr>
-                                                                    </tr>
-                                                                </tbody>
+                                                                <MobileBookServiceContainer key={index}>
+                                                                    <MobileBookServiceTable>
+                                                                        <div>
+                                                                            <p>{formattedDate}</p>
+                                                                        </div>
+                                                                        <div className='space'>
+                                                                            <span>{service_type} </span>
+                                                                            <span><span className={service_status.toLowerCase()}>{service_status}</span></span>
+                                                                        </div>
+                                                                        <div className='space'>
+                                                                            <span className='property-s'>Property</span>
+                                                                            <span>{address}</span>
+                                                                        </div>
+                                                                    </MobileBookServiceTable>
+                                                                </MobileBookServiceContainer>
                                                             )
                                                         })
                                                     }

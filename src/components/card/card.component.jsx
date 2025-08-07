@@ -37,30 +37,19 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, 
   const {
     images,
     property_name,
+    property_type,
     property_status,
+    total_bathrooms,
     city,
     state,
     property_price,
     total_bedrooms,
     id,
+    property_id,
   } = propertise;
-  // console.log(savedPropertiesArray)
-  // const fetchProperty = async (id) => {
-  //   try {
-  //     const property = await fetch(
-  //       `https://app.xpacy.com/property/fetch-property/${id}`,
-  //       { method: "GET" }
-  //     );
-  //     const response = await property.json();
-  //     setPropertyObj(response);
-  //     // console.log(propertyObj.property);
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // };
 
   const handleClick = async () => {
-    navigate(`/buy/property/${id}`);
+    navigate(`/buy/property/${id || property_id}`);
   };
   const handleSavedProperties = async () => {
     if (!userProfile) {
@@ -112,13 +101,7 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, 
       getSavedPropertiesData();
     }
   };
-  
-  const adJustImage = () => {
-    if(images[0].includes(" ")){
-      const adjustedImages = images[0].replace(" ", "%20");
-      return adjustedImages;
-    }
-  }
+ 
   return (
     <div
       className="propertise-card d-flex flex-column align-items-start"
@@ -128,7 +111,7 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, 
         <div
           className="card-image"
           style={{ 
-            background: `url(https://app.xpacy.com/src/upload/properties/${images[0].includes(" ") ? adJustImage() : images[0]}) lightgray 50% / cover no-repeat`,
+            background: `url(https://app.xpacy.com/src/upload/properties/${images[0]?.includes(" ") ? images[0]?.replace(" ", "%20") : images[0]}) lightgray 50% / cover no-repeat`,
             color: 'red',
             height: imgHeight, 
            }}
@@ -172,7 +155,7 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, 
           style={{ gap: headerGap }}
         >
           <p className="card-title" style={{ fontSize: titleSize }}>
-            Terrace
+            {`${property_type || 'Terrace'}` }
           </p>
           <h1
             className="card-heading"
@@ -216,7 +199,7 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, 
               style={{ width: iconWidth, height: iconHeight }}
             />
             <p className="card-footer-text" style={{ fontSize: titleSize }}>
-              Bath: {4}
+              Bath: {total_bathrooms}
             </p>
           </div>
         </div>

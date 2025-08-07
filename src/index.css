@@ -1,7 +1,6 @@
 @import url('https://fonts.cdnfonts.com/css/florencesans');
 @import url('https://db.onlinewebfonts.com/c/8e38c9cc931e43e959d8341ad03741ab?family=Unitext+Regular');
 body {
-  margin: 0;
   font-family: 'Florencesans Exp', sans-serif;
   background-color: #FCFCFC;
 }
@@ -18,11 +17,11 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Florencesans Exp', sans-serif;
-};
+  /* font-family: 'Florencesans Exp', sans-serif; */
+}
 
-*:before, 
-*:after {
+*::before, 
+*::after {
   box-sizing: border-box;
 }
 

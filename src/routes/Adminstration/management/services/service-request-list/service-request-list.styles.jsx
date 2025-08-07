@@ -85,6 +85,7 @@ export const MenuContent = styled.div`
     cursor: pointer;
     user-select: none;
     p{
+        margin: 0;
         color: var(--Base-Base-Black, #333);
         font-family: "Unitext Regular";
         font-size: 0.875rem;

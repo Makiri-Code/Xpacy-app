@@ -14,7 +14,13 @@ import {
   UserDashboardTopNav,
 } from "../../../components/user-dashboard/user-dashboard.styles";
 import styled from "styled-components";
-
+const EmptySavedPropertyContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+`;
 const SavedProperties = ({
   profileImage,
   savedPropertiesArray,
@@ -51,18 +57,11 @@ const SavedProperties = ({
     showDivider: false,
     showButtons: true,
     bodyPadding: "16px",
-    
   };
-  const EmptySavedPropertyContainer = styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  `;
+
   return (
     <>
-      {savedPropertiesArray.length > 0 && notifications ? (
+      {savedPropertiesArray?.length > 0 && notifications ? (
         <UserDashboardContainer>
           <DashboardTopNav
             dashboardRoute={"Saved Properties"}

@@ -5,7 +5,7 @@ const containerMapStyle = {
     height: '455px'
 }
 const Maps = ({latitude, longitude}) => {
-    const apiKey = 'AIzaSyANr-phi6P3AdJkTfOjBeyU7kRtlo_4e4E';
+    const apiKey = import.meta.env.MAPS_API_KEY
     const center = {
         lat: Number(latitude),
         lng: Number(longitude),
