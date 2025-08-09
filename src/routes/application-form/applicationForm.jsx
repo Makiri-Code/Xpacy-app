@@ -145,10 +145,13 @@ const ApplicationForm = () => {
       });
       const data = await response.json();
       console.log(data);
-    } catch (error) {}
-    setShowSuccessModal(!showSuccessModal);
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      btnRef.current.disabled = false;
+      setShowSuccessModal(!showSuccessModal);
+    }
   };
-
   // Fetch userProfile on mount
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -263,6 +266,7 @@ const ApplicationForm = () => {
                 buttonType={{ primaryBtn: true }}
                 type={"submit"}
                 className="align-self-center custom-btn"
+                btnRef={btnRef}
               >
                 Submit Application
               </Button>
