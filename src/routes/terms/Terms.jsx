@@ -40,7 +40,6 @@ const TermsContainer = styled.div`
 function Terms() {
   return (
     <TermsContainer>
-      {/* <DraftEditor content={content} setContent={setContent} /> */}
       <h2>Xpacy Terms and Conditions</h2>
       <p>
         Welcome to <strong>Xpacy</strong>. These Terms and Conditions (“Terms”)

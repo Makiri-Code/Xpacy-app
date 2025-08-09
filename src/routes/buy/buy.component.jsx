@@ -7,10 +7,10 @@ import { PulseLoader } from "react-spinners";
 import { useFetchResult } from "./../../components/useFetchResult/useFetchResult";
 import { useScrollTop } from "./../../components/scroll-top/useScrollTop";
 import { useTitle } from "../../components/useTitle/useTitle";
-const Buy = ({ isMobile }) => {
+const Buy = ({ isMobile, formFields, setFormFields }) => {
   const [saleProperties, setSaleProperties] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  useTitle("Sale");
+  useTitle("Buy Properties");
   const buyPropHeadings = {
     heading: "Properties For Sale",
     subHeading: "Search for properties on sale",
@@ -45,6 +45,8 @@ const Buy = ({ isMobile }) => {
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               isMobile={isMobile}
+              formFields={formFields}
+              setFormFields={setFormFields}
             />
           }
         />

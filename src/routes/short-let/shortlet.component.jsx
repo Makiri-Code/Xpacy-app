@@ -7,7 +7,7 @@ import { useFetchResult } from "../../components/useFetchResult/useFetchResult";
 import { useScrollTop } from "../../components/scroll-top/useScrollTop";
 import { useTitle } from "../../components/useTitle/useTitle";
 
-const Shortlet = ({ isMobile }) => {
+const Shortlet = ({ isMobile, formFields, setFormFields }) => {
   const [shortletProperties, setShortletProperties] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const buyPropHeadings = {
@@ -46,6 +46,8 @@ const Shortlet = ({ isMobile }) => {
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               isMobile={isMobile}
+              formFields={formFields}
+              setFormFields={setFormFields}
             />
           }
         />

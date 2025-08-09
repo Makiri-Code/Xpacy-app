@@ -8,10 +8,10 @@ import { useFetchResult } from "../../components/useFetchResult/useFetchResult";
 import { useScrollTop } from "../../components/scroll-top/useScrollTop";
 import { useTitle } from "../../components/useTitle/useTitle";
 
-const Rent = ({ isMobile }) => {
+const Rent = ({ isMobile, formFields, setFormFields }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rentProperties, setRentProperties] = useState(null);
-  useTitle("Rent");
+  useTitle("Rent Properties");
   const buyPropHeadings = {
     heading: "Properties For Available Rent",
     subHeading: "Search for properties on rent",
@@ -49,6 +49,8 @@ const Rent = ({ isMobile }) => {
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               isMobile={isMobile}
+              formFields={formFields}
+              setFormFields={setFormFields}
             />
           }
         />

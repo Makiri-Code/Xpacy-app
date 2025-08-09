@@ -691,7 +691,7 @@ const Property = ({ status }) => {
                 You many also like these properties
               </h2>
               <div className="related-cards">
-                {propertiesArray.map((propertise) => {
+                {propertiesArray?.toSpliced(4).map((propertise) => {
                   return (
                     <Card
                       propertise={propertise}

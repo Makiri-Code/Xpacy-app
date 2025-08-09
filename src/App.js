@@ -44,6 +44,7 @@ import isTokenExpired from "./utils/token/handleUserToken";
 import fetchServer from "./utils/serverutils/fetchServer";
 import CustomToast from "./components/custom-toast/CustomToast";
 import { toast } from "sonner";
+import Privacy from "./routes/privacy/Privacy";
 const EmptyState = styled.div`
   display: flex;
   height: 100dvh;
@@ -164,7 +165,12 @@ const App = () => {
           <Route
             path="rent/*"
             element={
-              <Rent propertiesArray={propertiesArray} pagination={pagination} />
+              <Rent
+                propertiesArray={propertiesArray}
+                pagination={pagination}
+                formFields={formFields}
+                setFormFields={setFormFields}
+              />
             }
           />
           <Route
@@ -175,6 +181,8 @@ const App = () => {
                 pagination={pagination}
                 setPropertiesArray={setPropertiesArray}
                 isMobile={isMobile}
+                formFields={formFields}
+                setFormFields={setFormFields}
               />
             }
           />
@@ -186,12 +194,15 @@ const App = () => {
                 pagination={pagination}
                 setPropertiesArray={setPropertiesArray}
                 isMobile={isMobile}
+                formFields={formFields}
+                setFormFields={setFormFields}
               />
             }
           />
           <Route path="search/*" element={<Search isMobile={isMobile} />} />
           <Route path="blog/*" element={<Blog />} />
           <Route path="terms" element={<Terms />} />
+          <Route path="privacy" element={<Privacy />} />
         </Route>
         <Route path="auth/" element={<Authentication />}>
           <Route path="log-in" element={<LogIn />} />

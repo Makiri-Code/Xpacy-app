@@ -24,8 +24,7 @@ const Footer = () => {
   const navigate = useNavigate();
   const btnRef = useRef(null);
   const { server } = useContext(UserContext);
-  const date = new Date();
-  const [year, setYear] = useState(date.getUTCFullYear());
+  const year = new Date().getFullYear();
   const [subscribeEmail, setSubscribeEmail] = useState({
     email: "",
   });
@@ -69,14 +68,14 @@ const Footer = () => {
             </FooterInfoTop>
             <ContactInfo>
               <ContactText>
-                <b>Address:</b> Wills Court Mbora, Citec Estate, Jabi, FCT,
-                Nigeria
+                <strong>Address:</strong> No. 1 Joe Akonobi Street, Ojodu
+                Berger.
               </ContactText>
               <ContactText>
-                <b>Email:</b> info@xpacy.com
+                <strong>Email:</strong> info@xpacy.com
               </ContactText>
               <ContactText>
-                <b>Phone:</b> 09068557780
+                <strong>Phone:</strong> 09068557780
               </ContactText>
             </ContactInfo>
             <div className="footer-info-bottom"></div>
@@ -96,7 +95,7 @@ const Footer = () => {
             <div className="footer-company-links">
               <Link to={"/contact"}>Customer Support</Link>
               <Link to={"/terms"}>Terms & Conditions</Link>
-              <Link>Privacy Policy</Link>
+              <Link to={"/privacy"}>Privacy Policy</Link>
             </div>
           </Company>
           <Company>

@@ -28,7 +28,7 @@ const Filter = ({ isMobile, formFields, onSetFormFields }) => {
   useEffect(() => {
     localStorage.setItem("form-fields", JSON.stringify(formFields));
   }, [formFields]);
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!purpose) return;
     navigate("/search");

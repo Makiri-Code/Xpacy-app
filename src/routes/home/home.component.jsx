@@ -52,18 +52,6 @@ const Home = ({ isMobile, formFields, onSetFormFields }) => {
   AOS.init();
   const { faqs, featuredProperties } = useContext(PageContext);
   const navigate = useNavigate();
-  // const featuredCard = useRef(null);
-
-  // const handleFeatureClick = (e) => {
-  //   const name = e.target.getAttribute("name");
-  //   if (name && featuredCard.current) {
-  //     if (name === "fclickright") {
-  //       featuredCard.current.scrollBy({ left: 500, behavior: "smooth" });
-  //     } else {
-  //       featuredCard.current.scrollBy({ left: -500, behavior: "smooth" });
-  //     }
-  //   }
-  // };
   const backgroundImg = [
     "https://images.unsplash.com/photo-1605146769289-440113cc3d00?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "https://images.unsplash.com/photo-1668911493514-2aeed8439227?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
