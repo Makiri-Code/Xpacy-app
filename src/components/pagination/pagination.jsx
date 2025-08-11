@@ -13,12 +13,12 @@ const Pagination = ({
   const pageNum = Array.from({ length: totalPages }, (_, i) => i + 1);
   const handleNext = () => {
     if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
+      onPageChange((prev) => prev + 1);
     }
   };
   const handlePrevious = () => {
     if (currentPage > 1) {
-      onPageChange(currentPage - 1);
+      onPageChange((prev) => prev - 1);
     }
   };
   const handleNumClick = (num) => {

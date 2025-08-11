@@ -99,7 +99,7 @@ const ProfileSettingsOwner = ({isMobile, showDashboardSidebar, setShowDashboardS
     }
 
     const handlePasswordClick = () => {
-        console.log(passwordFields);
+        // console.log(passwordFields);
     }
     const handleRadioChange = (e) => {
         const {name, value} = e.target;

@@ -41,6 +41,8 @@ function ShopSidebar({
                 onSetFormFields={setFormFields}
                 onSetSearchedProperties={onSetSearchedProperties}
                 setIsLoading={setIsLoading}
+                setShowMobileSidebar={setShowMobileSidebar}
+                isMobile={isMobile}
               />
 
               {/* Latest side bar */}

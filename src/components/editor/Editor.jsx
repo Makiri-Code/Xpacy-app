@@ -44,7 +44,6 @@ const DraftEditor = ({ content, setContent }) => {
     const contentState = editorState.getCurrentContent();
     const html = stateToHTML(contentState);
     setContent(html);
-    console.log("Saved HTML", content);
   };
   // FOR INLINE STYLES
   const styleMap = {

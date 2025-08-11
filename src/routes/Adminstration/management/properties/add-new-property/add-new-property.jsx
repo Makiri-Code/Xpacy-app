@@ -455,7 +455,6 @@ const AddNewProperty = ({ allOwners }) => {
       }
     } catch (error) {
       console.error("Error:", error);
-      console.log(error);
       // toast.error(error.message);
       finishRef.current.disabled = false;
     }

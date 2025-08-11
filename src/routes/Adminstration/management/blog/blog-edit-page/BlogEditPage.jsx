@@ -107,7 +107,6 @@ const BlogEditPage = () => {
         "blog/all-categories",
         server
       );
-      console.log(response);
       setCategories(response.data);
     };
     fetchCategory();
@@ -134,7 +133,6 @@ const BlogEditPage = () => {
         body: data,
       });
       const resp = await response.json();
-      console.log(resp);
     } catch (error) {
       console.log("error creating blog post", error);
     }

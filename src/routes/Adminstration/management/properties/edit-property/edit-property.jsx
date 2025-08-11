@@ -459,7 +459,6 @@ const EditProperty = ({allOwners}) => {
         setDisabled(false)
     }
     const [pageNum, setPageNum] = useState(1);
-    console.log(propertyInfo)
     return(
         <>
         {

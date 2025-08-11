@@ -1,4 +1,11 @@
-import { useContext, useEffect, useRef, useState, Fragment } from "react";
+import {
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  Fragment,
+  useReducer,
+} from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Navigation from "./routes/navigation/navigation.component";
 import Mangement from "./routes/admin/management";
@@ -45,6 +52,10 @@ import fetchServer from "./utils/serverutils/fetchServer";
 import CustomToast from "./components/custom-toast/CustomToast";
 import { toast } from "sonner";
 import Privacy from "./routes/privacy/Privacy";
+import Property from "./routes/property-details/property.component";
+import Shop from "./components/shop/shop.component";
+import Photos from "./routes/all-photos/photos.component";
+import Properties from "./routes/property/properties.component";
 const EmptyState = styled.div`
   display: flex;
   height: 100dvh;
@@ -84,9 +95,42 @@ const StyledToaster = styled(Toaster)`
   font-family: "Unitext Regular";
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 `;
+const initialState = {
+  rentProperties: [],
+  currentPage: 1,
+  buyProperties: [],
+  shortletProperties: [],
+  searchedProperties: [],
+};
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "setRentProperties":
+      return { ...state, rentProperties: action.payload };
+    case "setCurrentPage":
+      return { ...state, currentPage: action.payload };
+    case "setBuyProperties":
+      return { ...state, buyProperties: action.payload };
+    case "setShortletProperties":
+      return { ...state, shortletProperties: action.payload };
+    case "setSearchedProperties":
+      return { ...state, searchedProperties: action.payload };
+    default:
+      throw new Error("Undefined type");
+  }
+};
 const App = () => {
   const { userProfile, setUserProfile, setLoggedInUser, userToken, server } =
     useContext(UserContext);
+  const [
+    {
+      rentProperties,
+      buyProperties,
+      shortletProperties,
+      searchedProperties,
+      currentPage,
+    },
+    dispatch,
+  ] = useReducer(reducer, initialState);
   const defaultFormFields = {
     purpose: "",
     location: "",
@@ -114,30 +158,6 @@ const App = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  // Fetch user if token is available
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await fetch(
-          "https://app.xpacy.com/user/fetch-profile"
-        );
-        const data = response.json();
-        setUserProfile(data.user);
-        setLoggedInUser(data.user);
-      } catch (error) {
-        console.log("Error Fetching User", error);
-      }
-    };
-
-    if (
-      userToken !== undefined &&
-      !isTokenExpired(userToken, setTokenRole) &&
-      tokenRole !== "Admin"
-    ) {
-      fetchUserProfile();
-    }
-  }, [userToken, setTokenRole, setLoggedInUser, setUserProfile, tokenRole]);
   return (
     <>
       <StyledToaster />
@@ -158,48 +178,116 @@ const App = () => {
             }
           />
           <Route
-            path="admin/*"
+            path="services/*"
             element={<Mangement userProfile={userProfile} />}
           />
           <Route path="contact" element={<Contacts />} />
           <Route
-            path="rent/*"
+            path="rent"
             element={
-              <Rent
-                propertiesArray={propertiesArray}
-                pagination={pagination}
-                formFields={formFields}
-                setFormFields={setFormFields}
-              />
+              <Rent dispatch={dispatch} rentProperties={rentProperties} />
             }
-          />
+          >
+            <Route
+              index
+              element={
+                <Shop
+                  formFields={formFields}
+                  setFormFields={setFormFields}
+                  page={"Rent"}
+                  propType={"Rent"}
+                  dispatch={dispatch}
+                  dispatchType={"setRentProperties"}
+                  propertyType={"rent"}
+                  propertiesArray={rentProperties.properties}
+                  pagination={rentProperties.pagination}
+                  heading={"Properties For Available Rent"}
+                  subHeading={"Search for properties on rent"}
+                  isMobile={isMobile}
+                />
+              }
+            />
+            <Route path="property/:id" element={<Property />} />
+            <Route path="property-photos/:id" element={<Photos />} />
+          </Route>
           <Route
-            path="buy/*"
+            path="sale"
             element={
               <Buy
-                propertiesArray={propertiesArray}
-                pagination={pagination}
-                setPropertiesArray={setPropertiesArray}
+                currentPage={currentPage}
+                dispatch={dispatch}
                 isMobile={isMobile}
-                formFields={formFields}
-                setFormFields={setFormFields}
               />
             }
-          />
+          >
+            <Route
+              index
+              element={
+                <Shop
+                  formFields={formFields}
+                  setFormFields={setFormFields}
+                  page={"Buy"}
+                  dispatch={dispatch}
+                  dispatchType={"setBuyProperties"}
+                  propertyType={"buy"}
+                  propertiesArray={buyProperties.properties}
+                  pagination={buyProperties.pagination}
+                  heading={"Properties For Sale"}
+                  subHeading={"Search for properties on sale"}
+                  isMobile={isMobile}
+                />
+              }
+            />
+            <Route path="property/:id" element={<Property />} />
+            <Route path="property-photos/:id" element={<Photos />} />
+          </Route>
           <Route
-            path="shortlet/*"
-            element={
-              <Shortlet
-                propertiesArray={propertiesArray}
-                pagination={pagination}
-                setPropertiesArray={setPropertiesArray}
-                isMobile={isMobile}
-                formFields={formFields}
-                setFormFields={setFormFields}
-              />
-            }
-          />
-          <Route path="search/*" element={<Search isMobile={isMobile} />} />
+            path="shortlet"
+            element={<Shortlet currentPage={currentPage} dispatch={dispatch} />}
+          >
+            <Route
+              index
+              element={
+                <Shop
+                  formFields={formFields}
+                  setFormFields={setFormFields}
+                  page={"Shortlet"}
+                  dispatch={dispatch}
+                  dispatchType={"setShortletProperties"}
+                  propertyType={"shortlet"}
+                  propertiesArray={shortletProperties.properties}
+                  pagination={shortletProperties.pagination}
+                  heading={"Properties For Shortlet"}
+                  subHeading={"Search for properties on Shortlet"}
+                  isMobile={isMobile}
+                />
+              }
+            />
+            <Route path="property/:id" element={<Property />} />
+            <Route path="property-photos/:id" element={<Photos />} />
+          </Route>
+          <Route path="search/*" element={<Search isMobile={isMobile} />}>
+            <Route
+              index
+              element={
+                <Shop
+                  formFields={formFields}
+                  setFormFields={setFormFields}
+                  page={"Result"}
+                  dispatch={dispatch}
+                  dispatchType={"setSearchedProperties"}
+                  propertyType={"searched"}
+                  propertiesArray={searchedProperties.properties}
+                  pagination={searchedProperties.pagination}
+                  heading={`We've got ${searchedProperties?.pagination?.total} results for you`}
+                  subHeading={""}
+                  isMobile={isMobile}
+                />
+              }
+            />
+            <Route path="property/:id" element={<Property />} />
+            <Route path="property-photos/:id" element={<Photos />} />
+          </Route>
           <Route path="blog/*" element={<Blog />} />
           <Route path="terms" element={<Terms />} />
           <Route path="privacy" element={<Privacy />} />

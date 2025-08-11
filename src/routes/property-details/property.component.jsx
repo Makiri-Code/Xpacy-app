@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext, useRef } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   IoChevronForward,
   IoLocationOutline,
@@ -33,6 +33,7 @@ import { ClipLoader } from "react-spinners";
 import isTokenExpired from "./../../utils/token/handleUserToken";
 import CustomToast from "./../../components/custom-toast/CustomToast";
 import Button from "../../components/button/button";
+import BookPropertyModal from "../../components/book-property-modal/BookPropertyModal";
 
 const Property = ({ status }) => {
   const tourBtnRef = useRef(null);
@@ -50,6 +51,8 @@ const Property = ({ status }) => {
   const [showDescription, setShowDescription] = useState(false);
   const [showLikeBtn, setShowLikeBtn] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+  const location = useLocation();
+  const path = location.pathname.slice("").split("/")[1];
   // mobile viewport
   useEffect(() => {
     const handleResize = () => {
@@ -97,7 +100,7 @@ const Property = ({ status }) => {
       }
     };
     fetchProperty();
-  }, []);
+  }, [id]);
   // Fetch booking slots on mount
   useEffect(() => {
     const fetchBookingSlots = async () => {
@@ -261,11 +264,7 @@ const Property = ({ status }) => {
                     )}
                     Save
                   </button>
-                  <ShareBtn id={id} />
-                  {/* <button className="d-flex justify-content-center align-items-center px-2 py-1 rounded">
-                                            <MdOutlineShare className='actions-icon'/>
-                                            Share
-                                        </button> */}
+                  <ShareBtn />
                 </div>
               </div>
             </div>
@@ -284,7 +283,7 @@ const Property = ({ status }) => {
             </div>
             <div className="property-other-images">
               <Link
-                to={"property-photos"}
+                to={`/${path}/property-photos/${id}`}
                 className="d-flex justify-content-center align-items-center position-absolute"
               >
                 <MdOutlinePhotoSizeSelectActual
@@ -446,14 +445,6 @@ const Property = ({ status }) => {
                     )}
                   </div>
                   <div className="left-features d-flex flex-column align-items-start">
-                    {/* <div className="d-flex justify-content-between align-items-center align-items-stretch w-100">
-                                                <p className="features-text m-0">Tech</p>
-                                                <p className="features-text m-0">Smart Home</p>
-                                            </div> */}
-                    {/* <div className="d-flex justify-content-between align-items-center align-items-stretch w-100">
-                                                <p className="features-text m-0">Outdoor</p>
-                                                <p className="features-text m-0">Garden Area</p>
-                                            </div> */}
                     {property?.kitchen_type && (
                       <div className="d-flex justify-content-between align-items-center align-items-stretch w-100">
                         <p className="features-text m-0">Kitchen</p>
@@ -466,14 +457,6 @@ const Property = ({ status }) => {
                       <p className="features-text m-0">Bathrooms</p>
                       <p className="features-text m-0">Fully-fitted</p>
                     </div>
-                    {/* <div className="d-flex justify-content-between align-items-center align-items-stretch w-100">
-                                                <p className="features-text m-0">Recreation</p>
-                                                <p className="features-text m-0">Swimming pool</p>
-                                            </div>
-                                            <div className="d-flex justify-content-between align-items-center align-items-stretch w-100">
-                                                <p className="features-text m-0">Fitness</p>
-                                                <p className="features-text m-0">Fully-equiped gym</p>
-                                            </div> */}
                   </div>
                 </div>
               </div>
@@ -549,29 +532,42 @@ const Property = ({ status }) => {
                         property?.property_price.toLocaleString()}
                     </h5>
                   </div>
-                  <Button
-                    buttonType={{ primaryBtn: true }}
-                    onClick={handleGetPropertyClick}
-                  >
-                    {property?.property_status === "Sale" &&
-                      "Get This Property"}
-                    {property?.property_status === "Rent" &&
-                      "Rent This Property"}
-                    {property?.property_status === "Shortlet" &&
-                      "Book This Property"}
-                  </Button>
-                  {showLogInModal && (
-                    <LoginModal
-                      setShowLogInModal={setShowLogInModal}
-                      navigateLink={`/application-form/${id}`}
+                  {property?.property_status === "Sale" && (
+                    <Button
+                      buttonType={{ primaryBtn: true }}
+                      onClick={handleGetPropertyClick}
+                    >
+                      Get This Property
+                    </Button>
+                  )}
+                  {property?.property_status === "Rent" && (
+                    <Button
+                      buttonType={{ primaryBtn: true }}
+                      onClick={handleGetPropertyClick}
+                    >
+                      Rent This Property
+                    </Button>
+                  )}
+                  {property?.property_status === "Shortlet" && (
+                    <BookPropertyModal
+                      property_id={id}
+                      onShowLogInModal={setShowLogInModal}
                     />
                   )}
-                  <div className="virtual-tour d-flex align-items-center">
+                  {showLogInModal && (
+                    <LoginModal setShowLogInModal={setShowLogInModal} />
+                  )}
+                  <a
+                    className="virtual-tour d-flex align-items-center"
+                    href={property?.virtual_tour_url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     <BiSearchAlt className="virtual-tour-icon" />
                     <p>
                       Take a <br /> virtual tour <br /> now!
                     </p>
-                  </div>
+                  </a>
                 </div>
               </div>
               <div className="book-tour d-flex justify-content-center align-items-center">

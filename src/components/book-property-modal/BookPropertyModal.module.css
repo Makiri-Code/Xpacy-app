@@ -1,0 +1,35 @@
+.modalContainer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 40%;
+  border-radius: 8px;
+  transform: translate(-50%, -50%);
+  background-color: whitesmoke;
+  padding: 24px;
+}
+
+.modalContainer form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 6px;
+}
+.modalContainer form > p {
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  text-transform: capitalize;
+}
+.btnContainer {
+  display: flex;
+  align-self: stretch;
+  justify-content: space-between;
+  margin-top: 14px;
+}
+
+@media only screen and (max-width: 600px) {
+  .modalContainer {
+    width: 95%;
+  }
+}

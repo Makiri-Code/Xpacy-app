@@ -109,7 +109,9 @@ export default function Navigation() {
           <DesktopNavigation
             onLogOut={handleLogOut}
             onNavigate={navigate}
+            userToken={userToken}
             userProfile={userProfile}
+            onTokenExpired={isTokenExpired}
           >
             <DesktopNavList />
           </DesktopNavigation>
@@ -139,7 +141,7 @@ const DesktopNavList = () => {
         <span>Explore Properties</span>
         <IoMdArrowDropdown className="arrow-head" />
         <div className="dropdown-content">
-          <NavItemLink to="/buy" name="buy">
+          <NavItemLink to="/sale" name="buy">
             Buy
           </NavItemLink>
           <NavItemLink to="/rent" name="rent">
@@ -151,7 +153,7 @@ const DesktopNavList = () => {
         </div>
       </div>
       <NavLink
-        to="/admin"
+        to="/services"
         name="management"
         className={({ isActive }) =>
           isActive ? " active-item" : "pending-item"
@@ -183,17 +185,24 @@ const DesktopNavList = () => {
   );
 };
 
-const DesktopNavigation = ({ userProfile, children, onNavigate, onLogOut }) => {
+const DesktopNavigation = ({
+  userToken,
+  userProfile,
+  children,
+  onNavigate,
+  onLogOut,
+  onTokenExpired,
+}) => {
   return (
     <>
       <NavItemContainer>{children}</NavItemContainer>
-      {userProfile ? (
+      {!onTokenExpired(userToken) && userProfile ? (
         <NavProfile>
           <div
             className="user-profile-img"
             style={{
-              backgroundImage: userProfile.display_picture
-                ? `url(https://app.xpacy.com/src/upload/display_img/${userProfile.display_picture})`
+              backgroundImage: userProfile?.display_picture
+                ? `url(https://app.xpacy.com/src/upload/display_img/${userProfile?.display_picture})`
                 : `url(${userImage})`,
               backgroundSize: "cover",
             }}
@@ -246,7 +255,7 @@ const MobileNavList = ({ loggedInUser, onShowNav }) => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/buy" onClick={() => onShowNav(false)}>
+        <NavLink to="/sale" onClick={() => onShowNav(false)}>
           Buy
         </NavLink>
       </li>
@@ -261,7 +270,7 @@ const MobileNavList = ({ loggedInUser, onShowNav }) => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/admin" onClick={() => onShowNav(false)}>
+        <NavLink to="/services" onClick={() => onShowNav(false)}>
           Management
         </NavLink>
       </li>

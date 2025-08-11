@@ -5,44 +5,50 @@ import { useFetchResult } from "../useFetchResult/useFetchResult";
 function FilterSidebar({
   formFields,
   onSetFormFields,
-  onSetSearchedProperties,
-  setIsLoading,
+  isMobile,
+  setShowMobileSidebar,
 }) {
   const navigate = useNavigate();
-  const locations = useLocation();
   const { purpose, location, type, minBedrooms, minPrice, maxPrice } =
     formFields;
 
-  const url = `https://app.xpacy.com/property/fetch-properties?purpose=${purpose}&type=${type}&location=${location}&minBedrooms=${minBedrooms}&minPrice=${
-    minPrice ? minPrice : ""
-  }&maxPrice=${maxPrice ? maxPrice : ""}`;
   const handleChange = (e) => {
     const { name, value } = e.target;
     onSetFormFields((prev) => ({ ...prev, [name]: value }));
   };
-  const fetchNextPage = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(url);
-      const data = await response.json();
-      onSetSearchedProperties(data);
-    } catch (error) {
-      console.log("Error fetching property", error);
-    } finally {
-      setIsLoading(false);
-    }
+  // const fetchNextPage = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     const response = await fetch(url);
+  //     const data = await response.json();
+  //     onSetSearchedProperties(data);
+  //   } catch (error) {
+  //     console.log("Error fetching property", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  const handleSubmit = () => {
+    if (!purpose) return;
+    if (isMobile) setShowMobileSidebar(false);
+    navigate(
+      `/search?purpose=${purpose}&type=${type}&location=${location}&minBedRooms=${
+        minBedrooms ? minBedrooms : ""
+      }&minPrice=${minPrice ? minPrice : ""}&maxPrice=${
+        maxPrice ? maxPrice : ""
+      }`
+    );
   };
-  useEffect(() => {
-    localStorage.setItem("form-fields", JSON.stringify(formFields));
-  }, [formFields]);
-  const handleSubmit = async () => {
-    console.log(formFields, "working");
-    if (locations.pathname === "/search") {
-      console.log(locations.pathname);
-      await fetchNextPage();
-      // Get next page
-    }
-    navigate("/search");
+  const handleClearFilter = () => {
+    onSetFormFields({
+      purpose: "",
+      type: "",
+      location: "",
+      minBedroms: "",
+      minPrice: "",
+      maxPrice: "",
+    });
   };
   return (
     <div className="filter-options d-flex flex-column align-items-start">
@@ -172,6 +178,7 @@ function FilterSidebar({
           </button>
           <button
             type="button"
+            onClick={handleClearFilter}
             className="filter-btn-white d-flex justify-content-center align-items-center"
           >
             Clear Filter

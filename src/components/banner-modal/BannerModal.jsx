@@ -97,7 +97,6 @@ const BannerModal = ({ onShowModal, onBannerUpload, bannerID, userToken }) => {
   const handleSelectedFile = (acceptedFiles) => {
     setSelectedFile([...acceptedFiles]);
   };
-  console.log(selectedFile[0]);
   const handleBannerSubmit = async (e) => {
     e.preventDefault();
     setShowLoader(true);
@@ -120,11 +119,7 @@ const BannerModal = ({ onShowModal, onBannerUpload, bannerID, userToken }) => {
       const data = await response.json();
       !data.success && toast.error(data.message);
       data.success && toast.success(data.message);
-      console.log(data);
       setShowLoader(false);
-      //   setHomePageBanners((prev) => {
-      //     return [...prev, data.homeSlider];
-      //   });
       btnRef.current.disabled = false;
     } catch (error) {}
 

@@ -11,11 +11,18 @@ import { UserContext } from "../../contexts/userContext";
 import fetchServer from "../../utils/serverutils/fetchServer";
 import { toast } from "sonner";
 import "./card.styles.css";
-const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, setSavedPropertiesArray, setSavedPropertiesPagination }) => {
+const Card = ({
+  propertise,
+  cardStyles,
+  savedProperty = false,
+  savedPropertyId,
+  setSavedPropertiesArray,
+  setSavedPropertiesPagination,
+}) => {
   const [showPlacholderImg, setShowPlaceHolderImg] = useState(false);
   const [showLikeBtn, setShowLikeBtn] = useState(false);
-  const { setPropertyObj, propertyObj, } = useContext(PageContext);
-  const { server, userProfile, userToken} = useContext(UserContext);
+  const { setPropertyObj, propertyObj } = useContext(PageContext);
+  const { server, userProfile, userToken } = useContext(UserContext);
   const navigate = useNavigate();
   const {
     cardWidth,
@@ -49,13 +56,13 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, 
   } = propertise;
 
   const handleClick = async () => {
-    navigate(`/buy/property/${id || property_id}`);
+    navigate(`/${property_status.toLowerCase()}/property/${id || property_id}`);
   };
   const handleSavedProperties = async () => {
     if (!userProfile) {
-      toast.error("Please log in to continue")
+      toast.error("Please log in to continue");
       navigate("/auth/log-in");
-      return
+      return;
     }
     const body = {
       propertyId: id,
@@ -67,7 +74,7 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, 
       "user-property/saved-properties",
       server
     );
-    if(response.success){
+    if (response.success) {
       toast.success(response.message);
       setShowLikeBtn(!showLikeBtn);
     }
@@ -81,7 +88,7 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, 
         "user-property/saved-properties",
         "https://app.xpacy.com"
       );
-      
+
       setSavedPropertiesArray(resp.data);
       setSavedPropertiesPagination(resp.pagination);
     } catch (error) {
@@ -96,27 +103,33 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, 
       `user-property/delete-saved-property/${savedPropertyId}`,
       server
     );
-    if(response.success){
+    if (response.success) {
       toast.success(response.message);
       getSavedPropertiesData();
     }
   };
- 
+
   return (
     <div
       className="propertise-card d-flex flex-column align-items-start"
-      style={{ width: `${isMobile ? "313px" : cardWidth}`, maxHeight: cardHeight }}
+      style={{
+        width: `${isMobile ? "313px" : cardWidth}`,
+        maxHeight: cardHeight,
+      }}
     >
       <div className="card-img-container position-relative align-self-stretch">
         <div
           className="card-image"
-          style={{ 
-            background: `url(https://app.xpacy.com/src/upload/properties/${images[0]?.includes(" ") ? images[0]?.replace(" ", "%20") : images[0]}) lightgray 50% / cover no-repeat`,
-            color: 'red',
-            height: imgHeight, 
-           }}
+          style={{
+            background: `url(https://app.xpacy.com/src/upload/properties/${
+              images[0]?.includes(" ")
+                ? images[0]?.replace(" ", "%20")
+                : images[0]
+            }) lightgray 50% / cover no-repeat`,
+            color: "red",
+            height: imgHeight,
+          }}
           onClick={handleClick}
-
         />
         <div className="card-image-btns d-flex justify-content-between align-items-center position-absolute">
           <div className="btn rounded-pill d-flex justify-content-center align-items-center">
@@ -155,12 +168,9 @@ const Card = ({ propertise, cardStyles, savedProperty = false, savedPropertyId, 
           style={{ gap: headerGap }}
         >
           <p className="card-title" style={{ fontSize: titleSize }}>
-            {`${property_type || 'Terrace'}` }
+            {`${property_type || "Terrace"}`}
           </p>
-          <h1
-            className="card-heading"
-            style={{ fontSize: headingSize }}
-          >
+          <h1 className="card-heading" style={{ fontSize: headingSize }}>
             {property_name}
           </h1>
           <div className="location d-flex justify-content-center align-items-center">

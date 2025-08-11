@@ -61,7 +61,6 @@ const PropertyDetailsComponent = () => {
     useEffect(() => {
         const getPropertyDetails = async () => {
             const response = await fetchServer("GET", {}, userToken, `admin/fetch-property/${id}`, server );
-            console.log(response);
             setPropertyInfo(response.property);
             setOwnerInfo(response.property.propertyOwner);
         }

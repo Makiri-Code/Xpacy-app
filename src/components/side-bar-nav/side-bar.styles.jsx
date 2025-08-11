@@ -176,7 +176,7 @@ export const MobileSidebarLogoContainer = styled.div`
 `;
 export const OutletMargin = styled.div`
   margin-left: 20%;
-  @media screen only and (max-width: 600px) {
-    margin-left: unset;
+  @media only screen and (max-width: 600px) {
+    margin-left: 0;
   }
 `;

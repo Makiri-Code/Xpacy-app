@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useRef } from "react";
+import { Link, useSearchParams, useLocation } from "react-router-dom";
 import { IoChevronForward } from "react-icons/io5";
 import { Form } from "react-bootstrap";
 import { IoLocationOutline } from "react-icons/io5";
@@ -13,25 +13,45 @@ import Pagination from "../pagination/pagination";
 import { PulseLoader } from "react-spinners";
 import "./shop.styles.css";
 import ShopSidebar from "../shop-side-bar/ShopSidebar";
-
+import { useScrollTop } from "../scroll-top/useScrollTop";
+import { useFetchResult } from "../useFetchResult/useFetchResult";
 const Shop = ({
-  propHeadings,
   page,
   propType,
   propertiesArray,
   pagination,
-  currentPage,
-  setCurrentPage,
+  dispatch,
+  dispatchType,
   isMobile,
   formFields,
   setFormFields,
   onSetSearchedProperties,
-  setIsLoading,
+  propertyType,
+  heading,
+  subHeading,
 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const url = useRef(null);
+  const [searchParams] = useSearchParams();
+  const purpose = searchParams.get("purpose");
+  const type = searchParams.get("type");
+  const location = searchParams.get("location");
+  const minBedrooms = searchParams.get("minBedRooms");
+  const minPrice = searchParams.get("minPrice");
+  const maxPrice = searchParams.get("maxPrice");
+  if (purpose) {
+    url.current = `https://app.xpacy.com/property/fetch-properties?purpose=${purpose}&type=${type}&location=${location}&minBedrooms=${minBedrooms}&minPrice=${minPrice}&maxPrice=${maxPrice}&page=${currentPage}`;
+  }
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
   const latestProperties = propertiesArray?.toSpliced(6);
-
-  const { heading, subHeading } = propHeadings;
+  const [isLoading] = useFetchResult(
+    currentPage,
+    dispatch,
+    propertyType,
+    dispatchType,
+    url.current
+  );
+  useScrollTop(currentPage);
   const cardStyles = {
     cardWidth: "48%",
     showDivider: true,
@@ -65,7 +85,6 @@ const Shop = ({
           formFields={formFields}
           setFormFields={setFormFields}
           onSetSearchedProperties={onSetSearchedProperties}
-          setIsLoading={setIsLoading}
         />
         <div className="main-content-container">
           <div className="results-header">
@@ -99,7 +118,19 @@ const Shop = ({
             </div>
           </div>
           <div className="propertises-container">
-            {propertiesArray && pagination ? (
+            {isLoading ? (
+              <PulseLoader
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  alignSelf: "stretch",
+                  height: "50vh",
+                  width: "100%",
+                }}
+                margin={5}
+              />
+            ) : (
               <>
                 {propertiesArray?.map((propertise, index) => {
                   return (
@@ -112,17 +143,6 @@ const Shop = ({
                   );
                 })}
               </>
-            ) : (
-              <PulseLoader
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  alignSelf: "stretch",
-                  // height: "100vh",
-                }}
-                margin={5}
-              />
             )}
           </div>
         </div>

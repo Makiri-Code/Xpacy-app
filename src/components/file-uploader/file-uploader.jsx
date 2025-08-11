@@ -157,14 +157,6 @@ const FileUploader = ({ onFilesSelected, showUI = true }) => {
     onFilesSelected(updatedFiles);
   };
 
-  // useEffect(() => {
-  //   return () => {
-  //     filesData.forEach((file) => {
-  //       if (file?.preview) URL.revokeObjectURL(file.preview);
-  //     });
-  //   };
-  // }, [filesData]);
-  // console.log(filesData)
   return (
     <div>
       {filesData.length > 0 ? (

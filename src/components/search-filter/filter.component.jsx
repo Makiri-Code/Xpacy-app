@@ -15,23 +15,31 @@ import {
   HeadingsContainer,
 } from "./filter.styles";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Filter = ({ isMobile, formFields, onSetFormFields }) => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { purpose, location, type, minBedrooms, minPrice, maxPrice } =
     formFields;
   const handleChange = (e) => {
     const { name, value } = e.target;
     onSetFormFields((prev) => ({ ...prev, [name]: value }));
   };
-  useEffect(() => {
-    localStorage.setItem("form-fields", JSON.stringify(formFields));
-  }, [formFields]);
+  // useEffect(() => {
+  //   setSearchParams({ ...formFields });
+  //   // localStorage.setItem("form-fields", JSON.stringify(formFields));
+  // }, [formFields]);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!purpose) return;
-    navigate("/search");
+    navigate(
+      `search?purpose=${purpose}&type=${type}&location=${location}&minBedRooms=${
+        minBedrooms ? minBedrooms : ""
+      }&minPrice=${minPrice ? minPrice : ""}&maxPrice=${
+        maxPrice ? maxPrice : ""
+      }`
+    );
   };
 
   return (

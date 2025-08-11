@@ -144,7 +144,6 @@ const ApplicationForm = () => {
         body: formData, // Send FormData (NOT JSON)
       });
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error(error.message);
     } finally {

@@ -44,29 +44,6 @@ export const PageProvider = ({ children }) => {
   const [showDashboardSidebar, setShowDashboardSidebar] = useState(null);
   const [featuredProperties, setFeaturedProperties] = useState(null);
 
-  useEffect(() => {
-    const getAllPropertiesData = async () => {
-      try {
-        const [
-          rentProperties,
-          saleProperties,
-          shortletProperties,
-
-        ] = Promise.all([
-          fetchServer("GET", {}, '', 'property/fetch-properties?purpose=rent', 'https://app.xpacy.com'),
-          fetchServer("GET", {}, '', 'property/fetch-properties?purpose=sale', 'https://app.xpacy.com'),
-          fetchServer("GET", {}, '', 'property/fetch-properties?purpose=shortlet', 'https://app.xpacy.com'),
-        ]);
-        setRentProperties(rentProperties);
-        setSaleProperties(saleProperties);
-        setShortletProperties(shortletProperties);
-      } catch (error) {
-        console.log("Error fetching properties", error);
-      }
-    }
-
-  },[])
-
   // get properties
   useEffect(() => {
     const getProperties = async () => {
@@ -87,42 +64,45 @@ export const PageProvider = ({ children }) => {
   // get featured properties
   useEffect(() => {
     const fecthFeaturedProperties = async () => {
-      const response = await fetch('https://app.xpacy.com/property/fetch-featured-properties', {method: "GET"});
+      const response = await fetch(
+        "https://app.xpacy.com/property/fetch-featured-properties",
+        { method: "GET" }
+      );
       const properties = await response.json();
-      console.log(properties)
       setFeaturedProperties(properties.data);
-    }
+    };
     fecthFeaturedProperties();
-  }, [])
+  }, []);
   // check for network conectivity
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    }
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
   }, [isOnline]);
-
 
   //Get FAQs
   useEffect(() => {
     const getFAQs = async () => {
       try {
-        const response = await fetch("https://app.xpacy.com/faq/get-all-faqs", {method: 'GET'});
+        const response = await fetch("https://app.xpacy.com/faq/get-all-faqs", {
+          method: "GET",
+        });
         const faq = await response.json();
         setFaqs(faq.data);
-      } catch(error) {
+      } catch (error) {
         console.error("Error fetching faqs", error);
       }
-    }
+    };
     getFAQs();
   }, []);
-  
+
   useEffect(() => {
     const states = async () => {
       try {
@@ -138,7 +118,6 @@ export const PageProvider = ({ children }) => {
     };
     states();
   }, []);
-
 
   const value = {
     propertiesArray,
@@ -158,15 +137,13 @@ export const PageProvider = ({ children }) => {
     setSearchedProperties,
     faqs,
     setFaqs,
-    nigerianStates, 
+    nigerianStates,
     setNigerianStates,
     showDashboardSidebar,
     setShowDashboardSidebar,
     featuredProperties,
     isOnline,
   };
-
-  
 
   return <PageContext.Provider value={value}>{children}</PageContext.Provider>;
 };
