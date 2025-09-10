@@ -2,19 +2,15 @@ import { useState, useRef } from "react";
 import { Link, useSearchParams, useLocation } from "react-router-dom";
 import { IoChevronForward } from "react-icons/io5";
 import { Form } from "react-bootstrap";
-import { IoLocationOutline } from "react-icons/io5";
-import { ReactComponent as Naira } from "../../assets/mdi_naira.svg";
-import { TbBed } from "react-icons/tb";
-import { LuBath } from "react-icons/lu";
 import { CiFilter } from "react-icons/ci";
-import { IoClose } from "react-icons/io5";
 import Card from "../card/card.component";
 import Pagination from "../pagination/pagination";
-import { PulseLoader } from "react-spinners";
-import "./shop.styles.css";
 import ShopSidebar from "../shop-side-bar/ShopSidebar";
 import { useScrollTop } from "../scroll-top/useScrollTop";
 import { useFetchResult } from "../useFetchResult/useFetchResult";
+import LoadingCardState from "../loading-card-state/LoadingCardState";
+import "./shop.styles.css";
+
 const Shop = ({
   page,
   propType,
@@ -29,6 +25,7 @@ const Shop = ({
   propertyType,
   heading,
   subHeading,
+  isLoading,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const url = useRef(null);
@@ -44,7 +41,7 @@ const Shop = ({
   }
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
   const latestProperties = propertiesArray?.toSpliced(6);
-  const [isLoading] = useFetchResult(
+  useFetchResult(
     currentPage,
     dispatch,
     propertyType,
@@ -55,7 +52,7 @@ const Shop = ({
   const cardStyles = {
     cardWidth: "48%",
     showDivider: true,
-    isMobile: isMobile,
+    isMobile,
   };
   return (
     <div className="shop-container d-flex flex-column align-items-center align-self-stretch">
@@ -119,17 +116,14 @@ const Shop = ({
           </div>
           <div className="propertises-container">
             {isLoading ? (
-              <PulseLoader
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  alignSelf: "stretch",
-                  height: "50vh",
-                  width: "100%",
-                }}
-                margin={5}
-              />
+              <>
+                {Array.from({ length: 4 }, (_, i) => (
+                  <LoadingCardState
+                    key={i}
+                    cardWidth={isMobile ? "313px" : "48%"}
+                  />
+                ))}
+              </>
             ) : (
               <>
                 {propertiesArray?.map((propertise, index) => {

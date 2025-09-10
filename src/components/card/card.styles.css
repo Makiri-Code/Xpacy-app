@@ -18,6 +18,7 @@
   height: 280px;
   border-radius: 8px 8px var(--Radius-Sharp, 0px) var(--Radius-Sharp, 0px);
   border: 1px solid var(--Neutrals-Neutrals200, #dadada);
+  transition: transform 0.3s ease-in;
 }
 .card-image:hover {
   cursor: pointer;

@@ -96,14 +96,16 @@ const StyledToaster = styled(Toaster)`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 `;
 const initialState = {
+  isLoading: true,
   rentProperties: [],
-  currentPage: 1,
   buyProperties: [],
   shortletProperties: [],
   searchedProperties: [],
 };
 const reducer = (state, action) => {
   switch (action.type) {
+    case "setIsLoading":
+      return { ...state, isLoading: action.payload };
     case "setRentProperties":
       return { ...state, rentProperties: action.payload };
     case "setCurrentPage":
@@ -112,6 +114,7 @@ const reducer = (state, action) => {
       return { ...state, buyProperties: action.payload };
     case "setShortletProperties":
       return { ...state, shortletProperties: action.payload };
+
     case "setSearchedProperties":
       return { ...state, searchedProperties: action.payload };
     default:
@@ -128,6 +131,7 @@ const App = () => {
       shortletProperties,
       searchedProperties,
       currentPage,
+      isLoading,
     },
     dispatch,
   ] = useReducer(reducer, initialState);
@@ -199,6 +203,7 @@ const App = () => {
                   dispatch={dispatch}
                   dispatchType={"setRentProperties"}
                   propertyType={"rent"}
+                  isLoading={isLoading}
                   propertiesArray={rentProperties.properties}
                   pagination={rentProperties.pagination}
                   heading={"Properties For Available Rent"}
@@ -235,6 +240,7 @@ const App = () => {
                   heading={"Properties For Sale"}
                   subHeading={"Search for properties on sale"}
                   isMobile={isMobile}
+                  isLoading={isLoading}
                 />
               }
             />
@@ -255,6 +261,7 @@ const App = () => {
                   dispatch={dispatch}
                   dispatchType={"setShortletProperties"}
                   propertyType={"shortlet"}
+                  isLoading={isLoading}
                   propertiesArray={shortletProperties.properties}
                   pagination={shortletProperties.pagination}
                   heading={"Properties For Shortlet"}
@@ -282,6 +289,7 @@ const App = () => {
                   heading={`We've got ${searchedProperties?.pagination?.total} results for you`}
                   subHeading={""}
                   isMobile={isMobile}
+                  isLoading={isLoading}
                 />
               }
             />

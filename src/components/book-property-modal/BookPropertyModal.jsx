@@ -20,16 +20,23 @@ function BookPropertyModal({ onShowLogInModal, property_id }) {
     e.preventDefault();
     setShowModal(false);
   };
+
   const handleSubmitBooking = async (e) => {
     e.preventDefault();
+    const formattedStartDate = startDate
+      .slice("")
+      .split("-")
+      .reverse()
+      .join("-");
+    const formattedEndDate = endDate.slice("").split("-").reverse().join("-");
     try {
       setShowLoader(true);
       const response = await fetchServer(
         "POST",
         {
           property_id,
-          start_date: startDate,
-          end_date: endDate,
+          start_date: formattedStartDate,
+          end_date: formattedEndDate,
         },
         userToken,
         "user/create-booking",
@@ -37,7 +44,7 @@ function BookPropertyModal({ onShowLogInModal, property_id }) {
       );
       toast.custom(() => (
         <CustomToast
-          title={response.succes ? "Great!" : "Oops!"}
+          title={response.success ? "Great!" : "Oops!"}
           message={response.message}
           type={response.success ? "success" : "error"}
         />
@@ -56,6 +63,7 @@ function BookPropertyModal({ onShowLogInModal, property_id }) {
       setShowModal(false);
     }
   };
+
   return (
     <>
       <Button

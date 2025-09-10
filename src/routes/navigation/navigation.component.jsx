@@ -37,6 +37,7 @@ const NavProfile = styled.div`
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
+  font-family: "Unitext Regular", sans-serif;
   transition: all 0.3s ease-in;
 
   &:hover {

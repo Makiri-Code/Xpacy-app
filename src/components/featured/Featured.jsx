@@ -3,6 +3,7 @@ import Card from "../card/card.component";
 import styled from "styled-components";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { PulseLoader } from "react-spinners";
+import LoadingCardState from "../loading-card-state/LoadingCardState";
 const FeaturedContainer = styled.div`
   width: 100%;
   margin: 0 auto;
@@ -141,42 +142,42 @@ const Featured = ({ featuredProperties, isMobile }) => {
     isMobile: isMobile,
   };
   return (
-    <>
-      {featuredProperties ? (
-        <FeaturedContainer>
-          <Brow>
-            <Heading
-              data-aos="slide-down"
-              data-aos-easing="linear"
-              data-aos-duration="1000"
-            >
-              Featured Properties
-            </Heading>
-            <SubHeading
-              data-aos="slide-up"
-              data-aos-easing="linear"
-              data-aos-duration="1000"
-            >
-              Discover Exceptional Spaces Curated Just for You
-            </SubHeading>
-          </Brow>
-          <FeaturedScroll
-            data-aos="slide-up"
-            data-aos-easing="ease-in"
-            data-aos-duration="1000"
-          >
-            <FeaturedContent ref={featuredCard}>
-              {/* Horizontal Scroll Buttons */}
-              <HorizontalScrollBtnContainer>
-                <LeftArrowContainer name="fclickleft" onClick={handlePrevious}>
-                  <LeftArrowIcon name="fclickleft" />
-                </LeftArrowContainer>
-                <RightArrowContainer name="fclickright" onClick={handleNext}>
-                  <RightArrowIcon name="fclickright" />
-                </RightArrowContainer>
-              </HorizontalScrollBtnContainer>
-              <FeaturedInnerContainer>
-                {/* Featured Cards */}
+    <FeaturedContainer>
+      <Brow>
+        <Heading
+          data-aos="slide-down"
+          data-aos-easing="linear"
+          data-aos-duration="1000"
+        >
+          Featured Properties
+        </Heading>
+        <SubHeading
+          data-aos="slide-up"
+          data-aos-easing="linear"
+          data-aos-duration="1000"
+        >
+          Discover Exceptional Spaces Curated Just for You
+        </SubHeading>
+      </Brow>
+      <FeaturedScroll
+        data-aos="slide-up"
+        data-aos-easing="ease-in"
+        data-aos-duration="1000"
+      >
+        <FeaturedContent ref={featuredCard}>
+          {/* Horizontal Scroll Buttons */}
+          <HorizontalScrollBtnContainer>
+            <LeftArrowContainer name="fclickleft" onClick={handlePrevious}>
+              <LeftArrowIcon name="fclickleft" />
+            </LeftArrowContainer>
+            <RightArrowContainer name="fclickright" onClick={handleNext}>
+              <RightArrowIcon name="fclickright" />
+            </RightArrowContainer>
+          </HorizontalScrollBtnContainer>
+          <FeaturedInnerContainer>
+            {/* Featured Cards */}
+            {featuredProperties ? (
+              <>
                 {featuredProperties?.map((properties, property_id) => {
                   return (
                     <Card
@@ -186,22 +187,18 @@ const Featured = ({ featuredProperties, isMobile }) => {
                     />
                   );
                 })}
-              </FeaturedInnerContainer>
-            </FeaturedContent>
-          </FeaturedScroll>
-        </FeaturedContainer>
-      ) : (
-        <PulseLoader
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            alignSelf: "stretch",
-          }}
-          margin={5}
-        />
-      )}
-    </>
+              </>
+            ) : (
+              <>
+                {Array.from({ length: 8 }, (_, i) => (
+                  <LoadingCardState key={i} cardWith="373px" />
+                ))}
+              </>
+            )}
+          </FeaturedInnerContainer>
+        </FeaturedContent>
+      </FeaturedScroll>
+    </FeaturedContainer>
   );
 };
 

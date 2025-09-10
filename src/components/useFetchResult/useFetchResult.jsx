@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 export const useFetchResult = (
   currentPage,
   dispatch,
@@ -6,7 +6,6 @@ export const useFetchResult = (
   disPatchType,
   fetchUrl
 ) => {
-  const [isLoading, setIsLoading] = useState(true);
   // Get next page
   const url = fetchUrl
     ? fetchUrl
@@ -14,17 +13,16 @@ export const useFetchResult = (
   useEffect(() => {
     const fetchNextPage = async () => {
       try {
-        // setIsLoading();
+        dispatch({ type: "setIsLoading", payload: true });
         const response = await fetch(url);
         const data = await response.json();
         dispatch({ type: disPatchType, payload: data });
       } catch (error) {
         console.error("Error fetching property", error);
       } finally {
-        setIsLoading(false);
+        dispatch({ type: "setIsLoading", payload: false });
       }
     };
     fetchNextPage();
   }, [currentPage, url]);
-  return [isLoading];
 };
